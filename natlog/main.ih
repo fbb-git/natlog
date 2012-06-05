@@ -1,5 +1,11 @@
 #include <iostream>
+#include <unordered_map>
 #include <string>
+#include <bobcat/argconfig>
+#include <bobcat/stat>
+#include <bobcat/mstream>
+#include <bobcat/process>
+#include <bobcat/pattern>
 
 namespace Icmbuild
 {
@@ -8,6 +14,9 @@ namespace Icmbuild
     extern char author[];
 };
 
+extern char const g_config[];
+
 void usage(std::string const &progname);
 
 using namespace std;
+using namespace FBB;

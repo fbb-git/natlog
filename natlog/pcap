@@ -1,0 +1,14 @@
+#include <pcap/pcap.h>
+
+    char errbuf[PCAP_ERRBUF_SIZE] = "empty";
+
+    pcap_t *ptr = pcap_create("eth0", errbuf);
+    if (!ptr)
+        fmsg << "Failed to create pcap interface tun0: " << errbuf << endl;
+
+    if (pcap_activate(ptr))
+        fmsg << "Failed to activate the tun0 interface: " << 
+                                                pcap_geterr(ptr) << endl;
+
+fmsg << "End of program: " << errbuf << endl;
+

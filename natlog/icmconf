@@ -12,11 +12,11 @@
     // define the name of the program to create (don't use a path here, but
     // define the installation path at `BIN_INSTALL' below) and use
     // `icmbuild install' to install the binary.
-#define BINARY              "binary"
+#define BINARY              "natlog"
 
     // Uncomment to relink the binary, even when no sources were
     // changed (this is useful if, e.g., a library was rebuilt)
-//#define REFRESH
+#define REFRESH
 
     // Uncomment to install the binary in the provided path using 
     // `icmbuild install'
@@ -53,7 +53,7 @@
 
     // Uncomment to clear the screen just before starting the compilation
     // process 
-//#define CLS
+#define CLS
 
     // Uncomment to use the ALL facility and a class dependency setup in the
     // CLASSES file. When a directory contains a file ALL (optionally rename
@@ -62,7 +62,7 @@
     // Class dependencies are indicated by the class name (as the first
     // word on a line) optionally followed by additional class names, which
     // are the classes directly depending on the line's first class name.
-//#define USE_ALL             "a"
+#define USE_ALL             "a"
 
     // define the compiler to use. Options specified here will always be used
     // and cannot be overruled by COMPILER_OPTIONS or COPT settings
@@ -77,7 +77,7 @@
 #define SOURCES             "*.cc"
 
     // define the options used for linking:
-#define LINKER_OPTIONS      ""
+#define LINKER_OPTIONS      "-s"
 
     // By providing the following two #defines the contents of environment
     // variables named as specified will overrule, resp. COMPILER_OPTIONS 
@@ -88,7 +88,8 @@
 //#define LOPT "LDFLAGS"
 
     // define any additional libraries BINARY may need:
-#define ADD_LIBRARIES       ""
+//#define ADD_LIBRARIES       "bobcat pcap"
+#define ADD_LIBRARIES       "bobcat"
 
     // define any additional paths (other than the standard paths) the
     // additional libraries are located in:
