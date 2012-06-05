@@ -1,0 +1,96 @@
+#!/usr/bin/icmake -qt/tmp/natlog
+
+#include "INSTALL.im"
+
+#define BINARY              "natlog" 
+#define COMPILER            "g++ -Wall --std=c++0x "
+#define LIBRARY             "natlog"       // NO lib, NO .a
+#define LIBS                "-lbobcat"      // -l required
+#define MAIN                "main.cc"
+#define SOURCES             "*.cc"
+#define TMP_DIR             "tmp"
+
+list    g_classes;          // all class-directories
+int     g_nClasses;         // number of class-directories
+int     g_compiled;         // any source compiled (but main)?
+list    g_classLines;       // list of all lines in CLASSES
+list    g_inspected;        // list of classes whose dependencies have been 
+                            // inspected (used with USE_ALL)
+int     g_base;             // compile the sources in the base directory
+int     g_chdir;            // display chdirs to directories without sources
+                            // to compile
+string  g_compiler;
+string  g_cwd = chdir("");  // initial working directory
+
+#include "icmake/run"
+#include "icmake/md"
+#include "icmake/getenv"
+#include "icmake/special"
+#include "icmake/clean"
+#include "icmake/manpage"
+#include "icmake/library2"
+#include "icmake/program"
+#include "icmake/install"
+
+void main(int argc, list argv, list envp)
+{
+    string option;
+    string option2;
+    string strip;
+
+    g_env = envp;
+
+    setLocations();     // from INSTALL.im
+
+    my_getenv("DRYRUN");
+    g_dryrun = g_envvar;
+
+    option = element(1, argv);
+    option2 = element(2, argv);
+    
+    if (option2 == "strip")
+        strip = "-s";
+
+    if (option == "clean")
+        clean(0);
+
+    if (option == "distclean")
+        clean(1);
+
+    if (option == "install")
+        install(option2, 1);
+
+    if (option == "installprog")
+        install(option2, 0);
+
+    if (option == "man")
+        manpage();
+
+    if (option == "library")
+    {
+        build_library();
+        exit(0);
+    }
+
+    if (option == "program")
+        program(strip);
+
+    printf("Usage: build [-p] what\n"
+        "Where `what' is one of:\n"
+        "   clean              - clean up remnants of previous compilations\n"
+        "   distclean          - clean + fully remove tmp/\n"
+        "   library            - build natlog's library\n"
+        "   man                - build the man-page (requires Yodl)\n"
+        "   program [strip]    - build natlog (optionally strip the\n"
+        "                        executable)\n"
+        "   install <base>     - install the software in the locations "
+                                                            "defined\n"
+        "                        in the INSTALL.cf file, optionally "
+                                                            "below <base>\n"
+        "\n"
+        "If the environment variable DRYRUN is defined, no commands are\n"
+        "actually executed\n"
+        "\n"
+    );
+    exit(1);
+}

@@ -1,0 +1,49 @@
+void install(string where, int all)
+{
+    list pages;
+    string page;
+    string mandir;
+    int idx;
+
+    printf("  installing the executable\n");
+    md(where + BIN);
+    run("cp " + TMP_DIR "/bin/" BINARY + " " + where + BIN);
+
+    if (all)
+    {
+        md(where + DOC + "/man");
+
+        printf("  installing the manual pages\n");
+        chdir("tmp/man");
+        pages = makelist("*");
+        chdir("../..");
+
+        for (idx = sizeof(pages); idx--; )
+        {
+            page = pages[idx];
+
+            if (strfind(page, "1") != -1)
+                mandir = "/man1/";
+            else
+                mandir = "/man3/";
+
+            md(where + MAN + mandir);
+            run("gzip -9 < tmp/man/" + page + " > " + 
+                            where + MAN + mandir + page + ".gz");
+        }
+
+        printf("  installing the man pages in html format\n");
+        run("cp tmp/manhtml/* " + where + DOC + "/man");
+
+        printf("  installing the information directly in and under $DOC\n");
+        run("gzip -9 < changelog > " + where + DOC + "/changelog.gz");
+    }
+
+    printf("  Installation completed\n");
+
+    exit(0);
+}
+
+
+
+

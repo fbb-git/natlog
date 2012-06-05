@@ -1,0 +1,64 @@
+includefile(../../release.yo)
+
+htmlbodyopt(text)(#27408B)
+htmlbodyopt(bgcolor)(#FFFAF0)
+whenhtml(mailto(Frank B. Brokken: f.b.brokken@rug.nl))
+
+DEFINEMACRO(lsoption)(3)(\
+    bf(--ARG1)=tt(ARG3) (bf(-ARG2))\
+)
+DEFINEMACRO(laoption)(2)(\
+    bf(--ARG1)=tt(ARG2)\
+)
+DEFINEMACRO(loption)(1)(\
+    bf(--ARG1)\
+)
+DEFINEMACRO(soption)(1)(\
+    bf(-ARG1)\
+)
+
+DEFINEMACRO(itx)(0)()
+DEFINEMACRO(itemlist)(1)(ARG1)
+DEFINEMACRO(tr)(3)(\
+    row(cell(ARG1)cell()\
+        cell(ARG2)cell()\
+        cell(ARG3)))
+
+
+DELETEMACRO(tt)
+DEFINEMACRO(tt)(1)(em(ARG1))
+
+COMMENT( man-request, section, date, distribution file, general name)
+manpage(natlog)(1)(_CurYrs_)(natlog._CurVers_.tar.gz)
+        (natlog)
+
+COMMENT( man-request, larger title )
+manpagename(natlog)(Natlog etc.)
+
+COMMENT( all other: add after () )
+manpagesynopsis()
+       bf(natlog) [OPTIONS] tt(command)
+
+
+manpagesection(DESCRIPTION)
+
+manpagesection(OPTIONS)
+                    
+manpagesection(EXAMPLE)
+        
+manpagesection(FILES)
+    itemization(
+    it() bf(natlogbase.h): skeleton of the parser's base class;
+    )
+
+manpagesection(SEE ALSO)
+    bf(bison)(1), bf(bison++)(1), bf(bison.info) (using texinfo),
+    bf(flex++)(1)
+
+manpagesection(BUGS)
+
+    None reported
+
+manpageauthor()
+
+Frank B. Brokken (f.b.brokken@rug.nl).
