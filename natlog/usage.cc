@@ -12,10 +12,24 @@ void usage(std::string const &progname)
     "Where:\n"
     "   [options] - optional arguments (short options between parentheses):\n"
     "      --config (-c) path - path: pathname of the configuation file\n"
-    "                           (default: `" << g_config << "'\n"
-    "      --conntrack 'cmd'  - cmd: conntrack command to execute\n"
+    "                           (default: `~/" << 
+                                Options::defaultConfigFileName() << "')\n"
+    "      --conntrack path   - path: path to the `conntrack' program\n"
+    "                           (default `" << 
+                                Options::defaultConntrackPath() << "')\n"
     "      --daemon (-d)      - run " << progname << " in the background\n"
     "      --help (-h)        - provide this help\n"
+    "      --no-syslog        - do not write syslog messages\n"
+    "      --syslog-ident id  - id: identifier prefixed to syslog messages\n"
+    "                           (default `" << 
+                                Options::defaultSyslogIdent() << "')\n"
+    "      --syslog-facility fac  - fac: syslog facility to use\n"
+    "                           (default `" << 
+                                Options::defaultSyslogFacility() << "')\n"
+    "      --syslog-priority pri  - pri: syslog priority to use\n"
+    "                           (default `" << 
+                                Options::defaultSyslogPriority() << "')\n"
+    "      --verbose          - write additional information to stdout\n"
     "      --version (-v)     - show version information and terminate\n"
     "   command   - command to execute:\n"
     "       conntrack:  use `conntrack' to find the source-nat connections\n"

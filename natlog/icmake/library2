@@ -121,7 +121,10 @@ void setClasses()
             &&
             strfind(dir, "/") != 0      // omit lines starting in //
         )
+        {
+            g_classes += (list)dir;
             g_classLines += (list)class[0];
+        }
     }
 
     // classLines contains the full lines of the CLASSES file, and thus

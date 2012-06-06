@@ -15,5 +15,19 @@ Options::Options()
     if (Stat(config))
         d_arg.open(config);
 
-    d_verbose = d_arg.option(0, "verbose");
+    if (not (d_verbose = d_arg.option(0, "verbose")))
+        imsg.off();
+
+    if (not d_arg.option(&d_syslogIdent, "syslog-ident"))
+        d_syslogIdent = s_defaultSyslogIdent;
+
+    d_useSyslog = not d_arg.option(0, "no-syslog");
+    setSyslogFacility();
+    setSyslogPriority();
+
+    if (emsg.count())           // encountered errors? Then quit.
+        throw 1;
+    
+    if (not d_arg.option(&d_conntrackPath, "conntrack"))
+        d_conntrackPath = s_defaultConntrackPath;
 }

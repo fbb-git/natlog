@@ -1,9 +1,7 @@
-#include "conntrack.h"
-
-#include <bobcat/mstream>
-#include <bobcat/pattern>
+#include "natfork.h"
 
 #include "../options/options.h"
+#include "../conntrack/conntrack.h"
 
 using namespace std;
 using namespace FBB;
