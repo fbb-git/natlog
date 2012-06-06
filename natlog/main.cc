@@ -6,6 +6,7 @@ namespace   // the anonymous namespace can be used here
     Arg::LongOption longOptions[] =
     {
         Arg::LongOption("help", 'h'),
+        Arg::LongOption("verbose", Arg::None),
         Arg::LongOption("version", 'v'),
         Arg::LongOption("daemon", 'd'),
         Arg::LongOption("conntrack", Arg::Required),
@@ -26,14 +27,9 @@ try
     
     arg.versionHelp(usage, Icmbuild::version, 1);
 
-    string config = g_config;
-    arg.option(&config, 'c');
-
-    if (Stat(config))
-        arg.open(config);
-
-    if (string(arg[0]) != "conntrack")
+    if (string(d_arg[0]) != "conntrack")
         fmsg << "Currently only `conntrack' is available" << endl;
+
 
     string cmd;
     if (not arg.option(&cmd, "conntrack"))
