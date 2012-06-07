@@ -14,15 +14,6 @@ Conntrack::Conntrack()
     {
         cout << "Calling `" << d_options.conntrackPath() + 
                 " -p tcp -E -n -o timestamp -e NEW,DESTROY'\n";
-
-        if (not d_options.syslog())
-            cout << "No syslog messages\n";
-        else
-            cout <<
-                "Writing syslog messages using id `" << 
-                d_options.syslogTag() << "', "
-                "facility: " << d_options.facility() << ", "
-                "priority: " << d_options.priority() << '\n';
     }
 }
 

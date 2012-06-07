@@ -52,21 +52,22 @@ void Conntrack::run()
                     wmsg << "UNAVAILABLE: " << line << endl;
                 else
                 {
-                    ostringstream out;
-                    out << "From " << 
+                    ostringstream out1;
+                    out1 << "from " << 
                             ShowTime(iter->second.time1) << ':' << 
-                                                        iter->second.time2 << 
-                            " until " << 
+                                        iter->second.time2 << " until " << 
                             ShowTime(pat[1]) << ':' << pat[2] << 
-                                                        utcMarker << ":\n"
+                                                        utcMarker << ':';
 
-                        "    " << pat[4] << ':' << pat[6] << 
-                                    " (via: " << pat[8] << ':' << pat[9] << ") "
-
+                    ostringstream out2;
+                    out2 << ' ' << pat[4] << ':' << pat[6] << 
+                               " (via: " << pat[8] << ':' << pat[9] << ") "
                         "to " << pat[5] << ':' << pat[7];
 
-                    imsg << out.str() << endl;
-                    d_syslog << out.str() << endl;
+                    imsg << out1.str() << "\n"
+                            "   " << out2.str() << endl;
+
+                    d_syslog << out1.str() << out2.str() << endl;
 
                     record.erase(iter);         // erase the processed element
                 }

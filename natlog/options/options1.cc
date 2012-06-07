@@ -39,6 +39,19 @@ Options::Options()
     if (emsg.count())           // encountered errors? Then quit.
         throw 1;
 
+
+    if (d_verbose)
+    {
+        if (not d_useSyslog)
+            cout << "No syslog messages\n";
+        else
+            cout <<
+                "Writing syslog messages using syslog tag `" << 
+                d_syslogTag << "', " "facility: " << facility() << ", "
+                "priority: " << priority() << '\n';
+    }
+
     if (not d_arg.option(&d_conntrackPath, "conntrack"))
         d_conntrackPath = s_defaultConntrackPath;
 }
+
