@@ -67,6 +67,8 @@ void Conntrack::run()
 
                     imsg << out.str() << endl;
                     d_syslog << out.str() << endl;
+
+                    record.erase(iter);         // erase the processed element
                 }
             }
         }
