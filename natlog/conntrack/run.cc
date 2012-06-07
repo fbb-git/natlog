@@ -30,6 +30,10 @@ void Conntrack::run()
 
     d_conntrack.start();
 
+    string utcMarker;
+    if (d_options.time() == Options::UTC)
+        utcMarker = " (UTC)";
+
     string line;
     while (getline(d_conntrack, line))
     {
@@ -53,7 +57,8 @@ void Conntrack::run()
                             ShowTime(iter->second.time1) << ':' << 
                                                         iter->second.time2 << 
                             " until " << 
-                            ShowTime(pat[1]) << ':' << pat[2] << ":\n"
+                            ShowTime(pat[1]) << ':' << pat[2] << 
+                                                        utcMarker << ":\n"
 
                         "    " << pat[4] << ':' << pat[6] << 
                                     " (via: " << pat[8] << ':' << pat[9] << ") "
