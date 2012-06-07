@@ -1,10 +1,18 @@
 #include "options.ih"
 
-char const Options::s_defaultConfigFileName[]   = ".natlogrc";
+char const Options::s_defaultConfigPath[]       = "/etc/natlog.conf";
 char const Options::s_defaultConntrackPath[]    = "/usr/sbin/conntrack";
 char const Options::s_defaultSyslogIdent[]      = "NATLOG";
 char const Options::s_defaultSyslogFacility[]   = "DAEMON";
 char const Options::s_defaultSyslogPriority[]   = "NOTICE";
+
+unordered_map<string, Options::Time> const Options::s_time = 
+    {
+        {"raw",     RAW},
+        {"utc",     UTC},
+        {"local",   LT},
+    };
+
 
 unordered_map<string, Facility> const Options::s_syslogFacilities = 
     {
@@ -33,3 +41,4 @@ unordered_map<string, Priority> const Options::s_syslogPriorities =
     };
 
 Options *Options::s_options = 0;
+

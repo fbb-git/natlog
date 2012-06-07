@@ -28,10 +28,9 @@ void Conntrack::run()
 
     unordered_map<string, Record> record;
 
-    string line;
-
     d_conntrack.start();
 
+    string line;
     while (getline(d_conntrack, line))
     {
         imsg << "LINE: " << line << endl;
@@ -50,11 +49,15 @@ void Conntrack::run()
                 else
                 {
                     ostringstream out;
-                    out << "From " << iter->second.time1 << ':' << 
-                                                    iter->second.time2 << 
-                            " until " << pat[1] << ':' << pat[2] << ":\n"
+                    out << "From " << 
+                            ShowTime(iter->second.time1) << ':' << 
+                                                        iter->second.time2 << 
+                            " until " << 
+                            ShowTime(pat[1]) << ':' << pat[2] << ":\n"
+
                         "    " << pat[4] << ':' << pat[6] << 
                                     " (via: " << pat[8] << ':' << pat[9] << ") "
+
                         "to " << pat[5] << ':' << pat[7];
 
                     imsg << out.str() << endl;

@@ -100,18 +100,124 @@ appeared to have originated from tt(129.125.90.132) port tt(4467). The
 provided log message easily allows us to related this to the `real' host and
 port from which the connection originated: tt(192.168.19.72:4467).
 
+
+manpagesection(COMMANDS)
+
+    Currently only the tt(conntrack) command is supported. This command can
+only be used on platforms using bf(iptables)(1) on which bf(conntrack)(1) has
+also been installed.
+
 manpagesection(OPTIONS)
+
+    itemization(
+    it() lsoption(config)(c)(config-path)nl()
+       The argument tt(config-path) defines the path to the configuration file
+        to be used by tt(natlog). By default the configuration file is
+        expected in tt(/etc/natlog.conf). All configuration options have
+        defaults, which are used when no configuration file and no
+        command-line options are provided. Command-line options override
+        configuration file options.
+
+    it() laoption(conntrack)(conntrack-path)nl()
+       The path to the bf(conntrack)(1) program. By default this is
+        tt(/usr/sbin/conntrack). The tt(conntrack) program must be available
+        when requesting tt(natlog)'s tt(conntrack) command.
+
+    it() loption(no-daemon)nl()
+       By default, tt(natlog) runs in the background. tt(Natlog) runs as an
+        ordinary program (i.e., in the foreground when the option
+        tt(no-daemon) is provided).
+
+    it() loption(help) (soption(h))nl()
+       Write basic usage information to the standard output stream and
+        terminate.
+
+    it() loption(no-syslog)nl()
+       By default tt(natlog) writes syslog messages to the tt(DAEMON) facility
+        with priority tt(NOTICE). No messages are sent to the syslog daemon
+        when this option is provided.
+
+    it() laoption(syslog-tag)(tag)nl()
+       When syslog messages are generated they can be provided with a
+        em(tag), which can be used to filter tt(natlog)'s syslog messages from
+        the log-files. By default the tag tt(NATLOG) is used. See also section
+        tt(RSYSLOG FILTERING) below.
+
+    it() laoption(syslog-facility)(facility)nl()
+       The facility that is used to write the syslog messages to. By default
+        this is tt(DAEMON). For an overview of facilities and their meanings,
+        see, e.g., bf(syslog)(3). With tt(natlog) the facilities tt(DAEMON,
+        LOCAL0, LOCAL1, LOCAL2, LOCAL3, LOCAL4, LOCAL5, LOCAL6, LOCAL7), and
+        tt(USER) can be used.
+
+    it() laoption(syslog-priority)(priority)nl()
+       The priority that is used to write the syslog messages to. By default
+        this is tt(NOTICE). For an overview of priorities and their meanings,
+        see, e.g., bf(syslog)(3). With tt(natlog) all defined priorities can
+        be used. E.g., tt( EMERG, ALERT, CRIT, ERR, WARNING, NOTICE, INFO) and
+        tt(DEBUG).
+
+    it() lsoption(time)(t)(spec)nl()
+        By default time stamps written by tt(natlog) are in raw, numeric
+        form. E.g.,
+        verb(
+NATLOG: From 1338990672:55588 until 1338990747:807100
+        )
+       These time stamps indicate times in seconds:nanoseconds since the
+        beginning of the epoch, January 1, 1970, 0:00 UTC. This option can be
+        used to change the seconds part of the time stamps to more
+        conventional representations.nl()
+       Specify tt(raw) (the default) for the default representation in seconds
+        since the epoch; nl()
+       specify tt(utc) for a representation like tt(Jun 6 13:29:11), using
+        Universal Time Coordinated;nl()
+       specify tt(local) for a representation like tt(Jun 6 13:29:11), using
+        the local time zone defined by the computer running tt(natlog).
+
+    it() loption(verbose)nl() 
+       Write information to the standard output stream about tt(natlog)
+        itself, about information received by tt(natlog), as well as the
+        information that may also be written to the syslog daemon.
+
+    it() loption(version) (soption(v))nl() 
+       Write tt(natlog)'s version number to the standard output stream and
+        terminate.
+    )
                     
+manpagesection(RSYSLOG FILTERING)
+
+    When using bf(rsyslogd)(1) property based filters may be used to filter
+syslog messages and write them to a file of your choice. E.g., to filter
+messages starting with the syslog message tag (e.g., tt(NATLOG)) use
+        verb(
+:syslogtag, isequal, "NATLOG"   /var/log/natlog
+:syslogtag, isequal, "NATLOG"   ~
+        )
+    This causes all messages having the tt(NATLOG) tag to be written on
+tt(/var/log/natlog) after which they are discarded. More extensive filtering
+is also supported, see, e.g.,
+tt(http://www.rsyslog.com/doc/rsyslog_conf_filter.html) and 
+tt(http://www.rsyslog.com/doc/property_replacer.html)
+
 manpagesection(EXAMPLE)
+
+    Here is tt(natlog)'s default configuration file. Empty lines and lines
+starting with hash-marks (#) are ignored. Options adhere to the 
+    verb(
+option  value 
+    )
+    syntax. Option and value are separated by white space, Option values may
+consist of multiple words.
+    verbinclude(../../etc/natlog.conf)
         
 manpagesection(FILES)
     itemization(
-    it() bf(natlogbase.h): skeleton of the parser's base class;
+    it() tt(/etc/natlog.conf): default configuration file.
     )
 
 manpagesection(SEE ALSO)
-    bf(bison)(1), bf(bison++)(1), bf(bison.info) (using texinfo),
-    bf(flex++)(1)
+
+    bf(conntrack)(1), bf(iptables)(1), bf(rsyslogd)(1), bf(syslog)(3)
 
 manpagesection(BUGS)
 

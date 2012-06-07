@@ -12,6 +12,7 @@ void install(string where, int all)
     if (all)
     {
         md(where + DOC + "/man");
+        md(where + "/etc");
 
         printf("  installing the manual pages\n");
         chdir("tmp/man");
@@ -37,6 +38,9 @@ void install(string where, int all)
 
         printf("  installing the information directly in and under $DOC\n");
         run("gzip -9 < changelog > " + where + DOC + "/changelog.gz");
+
+        printf("  installing the configuration file in etc/\n");
+        run("cp etc/natlog.conf " + where + "/etc/");
     }
 
     printf("  Installation completed\n");

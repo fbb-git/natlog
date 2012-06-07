@@ -8,35 +8,46 @@
 #include <bobcat/syslogstream>
 #include <bobcat/argconfig>
 
-class Options
+struct Options
 {
-    FBB::ArgConfig &d_arg;
+    enum Time
+    {
+        RAW,
+        UTC,
+        LT
+    };
+    
+    private:
+        FBB::ArgConfig &d_arg;
+    
+        bool d_verbose;
+        bool d_useSyslog;
 
-    bool d_verbose;
-    bool d_useSyslog;
-
-    std::string d_conntrackPath;
-    std::string d_syslogIdent;
-
-    std::unordered_map<std::string, FBB::Facility>::const_iterator 
-                                                        d_syslogFacility;
-    std::unordered_map<std::string, FBB::Priority>::const_iterator 
-                                                        d_syslogPriority;
-
+        Time d_time;
+    
+        std::string d_conntrackPath;
+        std::string d_syslogTag;
+    
+        std::unordered_map<std::string, FBB::Facility>::const_iterator 
+                                                            d_syslogFacility;
+        std::unordered_map<std::string, FBB::Priority>::const_iterator 
+                                                            d_syslogPriority;
+    
             // default values:
 
-    static char const s_defaultConfigFileName[];
-    static char const s_defaultConntrackPath[];
-    static char const s_defaultSyslogIdent[];
-    static char const s_defaultSyslogFacility[];
-    static char const s_defaultSyslogPriority[];
-
-    static std::unordered_map<std::string, FBB::Facility> const 
+        static char const s_defaultConfigPath[];
+        static char const s_defaultConntrackPath[];
+        static char const s_defaultSyslogIdent[];
+        static char const s_defaultSyslogFacility[];
+        static char const s_defaultSyslogPriority[];
+    
+        static std::unordered_map<std:: string, Time> const s_time;
+        static std::unordered_map<std::string, FBB::Facility> const 
                                                            s_syslogFacilities;
-    static std::unordered_map<std::string, FBB::Priority> const 
+        static std::unordered_map<std::string, FBB::Priority> const 
                                                            s_syslogPriorities;
 
-    static Options *s_options;
+        static Options *s_options;
 
     public:
         static Options &instance();
@@ -47,8 +58,10 @@ class Options
         bool syslog() const;
         bool daemon();
 
+        Time time() const;
+
         std::string const &conntrackPath() const;
-        std::string const &syslogIdent() const;
+        std::string const &syslogTag() const;
 
         FBB::Priority syslogPriority() const;
         FBB::Facility syslogFacility() const;
@@ -56,7 +69,7 @@ class Options
         std::string const &priority() const;
         std::string const &facility() const;
 
-        static char const *defaultConfigFileName();
+        static char const *defaultConfigPath();
         static char const *defaultConntrackPath();
         static char const *defaultSyslogIdent();
         static char const *defaultSyslogFacility();
@@ -67,6 +80,7 @@ class Options
 
         void setSyslogFacility();
         void setSyslogPriority();
+        void setTime(std::string const &time);
 };
 
 inline bool Options::verbose() const
@@ -76,7 +90,7 @@ inline bool Options::verbose() const
 
 inline bool Options::daemon()
 {   
-    return d_arg.option('d');
+    return not d_arg.option(0, "no-daemon");
 }
 
 inline bool Options::syslog() const
@@ -84,14 +98,14 @@ inline bool Options::syslog() const
     return d_useSyslog;
 }
 
-inline std::string const &Options::conntrackPath() const
+inline Options::Time Options::time() const
 {   
-    return d_conntrackPath;
+    return d_time;
 }
 
-inline std::string const &Options::syslogIdent() const
+inline std::string const &Options::syslogTag() const
 {   
-    return d_syslogIdent;
+    return d_syslogTag;
 }
 
 inline FBB::Priority Options::syslogPriority() const
@@ -109,15 +123,21 @@ inline FBB::Facility Options::syslogFacility() const
     return d_syslogFacility->second;
 }
 
-inline char const *Options::defaultConfigFileName() 
+inline char const *Options::defaultConfigPath() 
 {
-    return s_defaultConfigFileName;
+    return s_defaultConfigPath;
 }
 
 inline std::string const &Options::facility() const
 {   
     return d_syslogFacility->first;
 }
+
+inline std::string const &Options::conntrackPath() const
+{
+    return d_conntrackPath;
+}
+
 
 inline char const *Options::defaultConntrackPath() 
 {

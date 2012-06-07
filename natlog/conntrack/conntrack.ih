@@ -4,6 +4,7 @@
 #include <bobcat/pattern>
 
 #include "../options/options.h"
+#include "../showtime/showtime.h"
 
 using namespace std;
 using namespace FBB;

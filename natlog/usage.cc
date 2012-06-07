@@ -12,15 +12,16 @@ void usage(std::string const &progname)
     "Where:\n"
     "   [options] - optional arguments (short options between parentheses):\n"
     "      --config (-c) path - path: pathname of the configuation file\n"
-    "                           (default: `~/" << 
-                                Options::defaultConfigFileName() << "')\n"
+    "                           (default: `" << 
+                                Options::defaultConfigPath() << "')\n"
     "      --conntrack path   - path: path to the `conntrack' program\n"
     "                           (default `" << 
                                 Options::defaultConntrackPath() << "')\n"
-    "      --daemon (-d)      - run " << progname << " in the background\n"
+    "      --no-daemon        - do not run " << progname << 
+                                                        " in the background\n"
     "      --help (-h)        - provide this help\n"
     "      --no-syslog        - do not write syslog messages\n"
-    "      --syslog-ident id  - id: identifier prefixed to syslog messages\n"
+    "      --syslog-tag id  - id: identifier prefixed to syslog messages\n"
     "                           (default `" << 
                                 Options::defaultSyslogIdent() << "')\n"
     "      --syslog-facility fac  - fac: syslog facility to use\n"
@@ -29,6 +30,10 @@ void usage(std::string const &progname)
     "      --syslog-priority pri  - pri: syslog priority to use\n"
     "                           (default `" << 
                                 Options::defaultSyslogPriority() << "')\n"
+    "      --time (-t) spec   - time specification:\n"
+                                "raw: (default) seconds since the epoch;\n"
+                                "utc: date and time in UTC\n"
+                                "local: local date and time\n"
     "      --verbose          - write additional information to stdout\n"
     "      --version (-v)     - show version information and terminate\n"
     "   command   - command to execute:\n"
