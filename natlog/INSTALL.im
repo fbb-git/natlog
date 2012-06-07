@@ -38,7 +38,7 @@ string DOC;
 void setLocations()
 {
     BASE  = "/usr/local";
-    BIN  = BASE + "/bin";
+    BIN  = BASE + "/sbin";
     SKEL = BASE + "/share/natlog";
     MAN  = BASE + "/share/man";
     DOC  = BASE + "/share/doc/natlog";
