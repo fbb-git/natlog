@@ -17,7 +17,7 @@ void link(string maino, string strip)
     chdir("");
 }
 
-void program(string strip)
+void program(int quit, string strip)
 {
     string maino = change_ext(MAIN, ".o");
     string lopt;
@@ -36,5 +36,6 @@ void program(string strip)
 
     link(maino, strip);
 
-    exit(0);
+    if (quit)
+        exit(0);
 }

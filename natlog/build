@@ -37,8 +37,7 @@ void main(int argc, list argv, list envp)
     string option;
     string option2;
     string strip;
-
-    g_env = envp;
+    string cdw;
 
     setLocations();     // from INSTALL.im
 
@@ -73,7 +72,22 @@ void main(int argc, list argv, list envp)
     }
 
     if (option == "program")
-        program(strip);
+        program(1, strip);
+
+    if (option == "xref")
+    {
+        program(0, strip);
+        run("oxref -fxs tmp/libnatlog.a > natlog.xref");
+        exit(0);
+    }
+
+
+    if (option == "sourceforge")
+    {
+        special();
+        exit(0);
+    }
+
 
     printf("Usage: build [-p] what\n"
         "Where `what' is one of:\n"
@@ -83,10 +97,14 @@ void main(int argc, list argv, list envp)
         "   man                - build the man-page (requires Yodl)\n"
         "   program [strip]    - build natlog (optionally strip the\n"
         "                        executable)\n"
+        "   xref [strip]    - same as 'program', also builds xref file using "
+                                                            "oxref\n"
         "   install <base>     - install the software in the locations "
                                                             "defined\n"
         "                        in the INSTALL.cf file, optionally "
                                                             "below <base>\n"
+        "   sourceforge     - Prepare .yo files for a sourceforge index "
+                                                                "update\n"
         "\n"
         "If the environment variable DRYRUN is defined, no commands are\n"
         "actually executed\n"

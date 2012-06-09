@@ -1,0 +1,165 @@
+oxref by Frank B. Brokken (f.b.brokken@rug.nl)
+oxref V0.90.04 2012
+
+CREATED Sat, 09 Jun 2012 14:35:43 +0000
+CROSS REFERENCE FOR: -fxs tmp/libnatlog.a 
+----------------------------------------------------------------------
+
+author
+  Full name: Icmbuild::author
+  Source:    version.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+
+childProcess()
+  Full name: NatFork::childProcess()
+  Source:    childprocess.cc 
+  Used By:
+    parentprocess.cc: NatFork::parentProcess()
+
+Conntrack()
+  Full name: Conntrack::Conntrack()
+  Source:    conntrack1.cc 
+  Used By:
+    childprocess.cc: NatFork::childProcess()
+
+instance()
+  Full name: Options::instance()
+  Source:    instance.cc 
+  Used By:
+    conntrack1.cc: Conntrack::Conntrack()
+    run.cc: NatFork::run()
+
+operator<<(std::ostream&, ShowTime const&)
+  Full name: operator<<(std::ostream&, ShowTime const&)
+  Source:    operatorinsert.cc 
+  Used By:
+    run.cc: Conntrack::run()
+
+Options()
+  Full name: Options::Options()
+  Source:    options1.cc 
+  Used By:
+    instance.cc: Options::instance()
+
+rawTime(std::ostream&, std::string const&)
+  Full name: ShowTime::rawTime(std::ostream&, std::string const&)
+  Source:    time.cc 
+  Used By:
+    conntrack1.cc: Conntrack::Conntrack()
+
+run()
+  Full name: Conntrack::run()
+  Source:    run.cc 
+  Used By:
+    childprocess.cc: NatFork::childProcess()
+
+s_defaultConfigPath
+  Full name: Options::s_defaultConfigPath
+  Source:    data.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+    options1.cc: Options::Options()
+
+s_defaultConntrackPath
+  Full name: Options::s_defaultConntrackPath
+  Source:    data.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+    options1.cc: Options::Options()
+
+s_defaultSyslogFacility
+  Full name: Options::s_defaultSyslogFacility
+  Source:    data.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+    setsyslogfacility.cc: Options::setSyslogFacility()
+
+s_defaultSyslogIdent
+  Full name: Options::s_defaultSyslogIdent
+  Source:    data.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+    options1.cc: Options::Options()
+
+s_defaultSyslogPriority
+  Full name: Options::s_defaultSyslogPriority
+  Source:    data.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+    setsyslogpriority.cc: Options::setSyslogPriority()
+
+s_options
+  Full name: Options::s_options
+  Source:    data.cc 
+  Used By:
+    instance.cc: Options::instance()
+
+s_show
+  Full name: ShowTime::s_show
+  Source:    data.cc 
+  Used By:
+    conntrack1.cc: Conntrack::Conntrack()
+    operatorinsert.cc: operator<<(std::ostream&, ShowTime const&)
+
+s_syslogFacilities
+  Full name: Options::s_syslogFacilities
+  Source:    data.cc 
+  Used By:
+    setsyslogfacility.cc: Options::setSyslogFacility()
+
+s_syslogPriorities
+  Full name: Options::s_syslogPriorities
+  Source:    data.cc 
+  Used By:
+    setsyslogpriority.cc: Options::setSyslogPriority()
+
+s_time
+  Full name: Options::s_time
+  Source:    data.cc 
+  Used By:
+    settime.cc: Options::setTime(std::string const&)
+
+setSyslogFacility()
+  Full name: Options::setSyslogFacility()
+  Source:    setsyslogfacility.cc 
+  Used By:
+    options1.cc: Options::Options()
+
+setSyslogPriority()
+  Full name: Options::setSyslogPriority()
+  Source:    setsyslogpriority.cc 
+  Used By:
+    options1.cc: Options::Options()
+
+setTime(std::string const&)
+  Full name: Options::setTime(std::string const&)
+  Source:    settime.cc 
+  Used By:
+    options1.cc: Options::Options()
+
+ShowTime(std::string const&)
+  Full name: ShowTime::ShowTime(std::string const&)
+  Source:    showtime1.cc 
+  Used By:
+    run.cc: Conntrack::run()
+
+utcTime(std::ostream&, std::string const&)
+  Full name: ShowTime::utcTime(std::ostream&, std::string const&)
+  Source:    time.cc 
+  Used By:
+    conntrack1.cc: Conntrack::Conntrack()
+
+version
+  Full name: Icmbuild::version
+  Source:    version.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+
+years
+  Full name: Icmbuild::years
+  Source:    version.cc 
+  Used By:
+    usage.cc: usage(std::string const&)
+
+

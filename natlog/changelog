@@ -1,3 +1,11 @@
+natlog (0.10.0)
+
+  * NATLOG now hosted at sourceforge (http://natlog.sourceforge.net/).
+
+  * Added maintenance files to handle uploads to sourceforge
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 09 Jun 2012 16:39:34 +0200
+
 natlog (0.03.0)
 
   * Syslog message and man-page cleanup
