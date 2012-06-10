@@ -1,11 +1,19 @@
 #include "pcap.ih"
 
 Pcap::Pcap(char const *device, bool promisc, size_t snapLen, size_t timeOutMs)
-:
-    d_errBuf(new char[PCAP_ERRBUF_SIZE]),
-    d_pcap(pcap_open_live(device, snapLen, promisc, timeOutMs, 
-                          d_errBuf.get()))
 {
+    char errBuf[PCAP_ERRBUF_SIZE];
+
+    d_pcap = pcap_open_live(device, snapLen, promisc, timeOutMs, errBuf);
+
     if (d_pcap == 0)
-        fmsg << d_errBuf.get() << endl;
+        fmsg << errBuf << endl;
+
+    bpf_u_int32 netMask;        // The netmask of our sniffing device
+
+    if (pcap_lookupnet(device, &d_IP, &netMask, errBuf) == -1) 
+    {
+        emsg << "Can't get netmask for device " << device << endl;
+        d_IP = 0;
+    }
 }

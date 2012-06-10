@@ -11,6 +11,15 @@ try
 
     Pcap pcap(argv[1]);
 
+    string filterExpr;
+    for (char **arg = argv + 2; *arg; ++arg)
+    {
+        filterExpr += *arg;
+        filterExpr += ' ';
+    }
+
+    pcap.filter(filterExpr);
+
 }
 catch (...)
 {
