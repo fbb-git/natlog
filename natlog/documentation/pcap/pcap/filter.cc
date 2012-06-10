@@ -17,5 +17,7 @@ bool Pcap::filter(string const &filterExpr, bool optimize)
 		 return false;
 	 }
 
+    cerr << "Filter expr: `" << filterExpr << "'\n";
+
     return true;
 }

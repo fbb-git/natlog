@@ -1,5 +1,7 @@
 #include "pcap.h"
 
+#include <iostream>
+
 #include <bobcat/mstream>
 
 using namespace std;

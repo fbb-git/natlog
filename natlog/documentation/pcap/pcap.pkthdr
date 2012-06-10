@@ -1,0 +1,157 @@
+	struct pcap_pkthdr {
+		struct timeval ts; /* time stamp */
+		bpf_u_int32 caplen; /* length of portion present */
+		bpf_u_int32 len; /* length this packet (off wire) */
+	};
+
+These values should be fairly self explanatory. The last argument is a pointer
+to a u_char, and it points to the first byte of a chunk of data containing the
+entire packet, as sniffed by pcap_loop().
+
+
+The following are the structure definitions that I use to describe a TCP/IP
+packet over Ethernet. 
+
+/* Ethernet addresses are 6 bytes */
+
+	/* Ethernet header */
+	struct sniff_ethernet {
+		u_char ether_dhost[6]; /* Destination host address */
+		u_char ether_shost[6]; /* Source host address */
+		u_short ether_type; /* IP? ARP? RARP? etc */
+	};
+
+
+	/* IP header */
+	struct sniff_ip {
+		u_char ip_vhl;		/* version << 4 | header length >> 2 */
+		u_char ip_tos;		/* type of service */
+		u_short ip_len;		/* total length */
+		u_short ip_id;		/* identification */
+		u_short ip_off;		/* fragment offset field */
+	#define IP_RF 0x8000		/* reserved fragment flag */
+	#define IP_DF 0x4000		/* dont fragment flag */
+	#define IP_MF 0x2000		/* more fragments flag */
+	#define IP_OFFMASK 0x1fff	/* mask for fragmenting bits */
+		u_char ip_ttl;		/* time to live */
+		u_char ip_p;		/* protocol */
+		u_short ip_sum;		/* checksum */
+		struct in_addr ip_src,ip_dst; /* source and dest address */
+	};
+	#define IP_HL(ip)		(((ip)->ip_vhl) & 0x0f)
+	#define IP_V(ip)		(((ip)->ip_vhl) >> 4)
+
+	/* TCP header */
+	struct sniff_tcp {
+		u_short th_sport;	/* source port */
+		u_short th_dport;	/* destination port */
+		tcp_seq th_seq;		/* sequence number */
+		tcp_seq th_ack;		/* acknowledgement number */
+
+		u_char th_offx2;	/* data offset, rsvd */
+	#define TH_OFF(th)	(((th)->th_offx2 & 0xf0) >> 4)
+		u_char th_flags;
+	#define TH_FIN 0x01
+	#define TH_SYN 0x02
+	#define TH_RST 0x04
+	#define TH_PUSH 0x08
+	#define TH_ACK 0x10
+	#define TH_URG 0x20
+	#define TH_ECE 0x40
+	#define TH_CWR 0x80
+	#define TH_FLAGS (TH_FIN|TH_SYN|TH_RST|TH_ACK|TH_URG|TH_ECE|TH_CWR)
+		u_short th_win;		/* window */
+		u_short th_sum;		/* checksum */
+		u_short th_urp;		/* urgent pointer */
+};
+
+
+
+we're going to assume that we are dealing with a TCP/IP packet over
+Ethernet. This same technique applies to any packet; the only difference is
+the structure types that you actually use. So let's begin by defining the
+variables and compile-time definitions we will need to deconstruct the packet
+data.
+
+/* ethernet headers are always exactly 14 bytes */
+#define SIZE_ETHERNET 14
+
+	const struct sniff_ethernet *ethernet; /* The ethernet header */
+	const struct sniff_ip *ip; /* The IP header */
+	const struct sniff_tcp *tcp; /* The TCP header */
+	const char *payload; /* Packet payload */
+
+	u_int size_ip;
+	u_int size_tcp;
+
+
+And now we do our magical typecasting:
+
+	ethernet = (struct sniff_ethernet*)(packet);
+
+	ip = (struct sniff_ip*)(packet + SIZE_ETHERNET);
+
+	size_ip = IP_HL(ip)*4;
+	if (size_ip < 20) {
+		printf("   * Invalid IP header length: %u bytes\n", size_ip);
+		return;
+	}
+
+	tcp = (struct sniff_tcp*)(packet + SIZE_ETHERNET + size_ip);
+
+	size_tcp = TH_OFF(tcp)*4;
+
+	if (size_tcp < 20) {
+		printf("   * Invalid TCP header length: %u bytes\n", size_tcp);
+		return;
+	}
+
+	payload = (u_char *)(packet + SIZE_ETHERNET + size_ip + size_tcp);
+
+
+For the sake of simplicity, we'll say that the address this pointer is set to
+is the value X. Well, if our three structures are just sitting in line, the
+first of them (sniff_ethernet) being located in memory at the address X, then
+we can easily find the address of the structure after it; that address is X
+plus the length of the Ethernet header, which is 14, or SIZE_ETHERNET. 
+
+Similarly if we have the address of that header, the address of the structure
+after it is the address of that header plus the length of that header. The IP
+header, unlike the Ethernet header, does not have a fixed length; its length
+is given, as a count of 4-byte words, by the header length field of the IP
+header. As it's a count of 4-byte words, it must be multiplied by 4 to give
+the size in bytes. The minimum length of that header is 20 bytes. 
+
+The TCP header also has a variable length; its length is given, as a number of
+4-byte words, by the "data offset" field of the TCP header, and its minimum
+length is also 20 bytes. 
+
+So let's make a chart:
+
+Variable        Location (in bytes)
+sniff_ethernet 	X
+sniff_ip        X + SIZE_ETHERNET
+sniff_tcp       X + SIZE_ETHERNET + {IP header length}
+payload         X + SIZE_ETHERNET + {IP header length} + {TCP header length}
+
+The sniff_ethernet structure, being the first in line, is simply at location
+X. 
+
+sniff_ip, who follows directly after sniff_ethernet, is at the location X,
+plus however much space the Ethernet header consumes (14 bytes, or
+SIZE_ETHERNET). sniff_tcp is after both sniff_ip and sniff_ethernet, so it is
+location at X plus the sizes of the Ethernet and IP headers (14 bytes, and 4
+times the IP header length, respectively). Lastly, the payload (which doesn't
+have a single structure corresponding to it, as its contents depends on the
+protocol being used atop TCP) is located after all of them. 
+
+
+
+
+
+
+
+
+
+
+

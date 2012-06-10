@@ -17,8 +17,10 @@ try
         filterExpr += *arg;
         filterExpr += ' ';
     }
+    filterExpr.resize(filterExpr.length() - 1);
 
     pcap.filter(filterExpr);
+    pcap.loop();
 
 }
 catch (...)
