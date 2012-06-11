@@ -15,5 +15,9 @@ Conntrack::Conntrack()
         cout << "Calling `" << d_options.conntrackPath() + 
                 " -p tcp -E -n -o timestamp -e NEW,DESTROY'\n";
     }
-}
 
+    if (d_options.time() == Options::UTC)
+        d_utcMarker = " (UTC)";
+
+    s_conntrack = &d_conntrack;
+}

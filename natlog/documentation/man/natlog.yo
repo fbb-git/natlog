@@ -85,7 +85,7 @@ characteristics of the connection using source natting. Here is an example:
     192.168.19.72:4467 (via: 129.125.90.132:4467) to 200.49.219.180:443
         )
     In this example the values tt(1338990672:55588) and tt(1338990747:807100)
-represent time stamps showing the begin- and end-times in seconds:nanoseconds
+represent time stamps showing the begin- and end-times in seconds:microseconds
 of the connection since Jan 1, 1970, 0:00 UTC. tt(Natlog) offers the
 tt(--datetime) option if time representations like tt(Nov 2 13:29:11) are
 preferred.
@@ -100,6 +100,11 @@ appeared to have originated from tt(129.125.90.132) port tt(4467). The
 provided log message easily allows us to related this to the `real' host and
 port from which the connection originated: tt(192.168.19.72:4467).
 
+    When tt(natlog) terminates tt(natlog) can no longer track connections that
+are still open. If tt(natlog) was terminated by a tt(SIGTERM) signal, then it
+sends a `terminating' line to syslog, followed by an overview of all still
+open connections. The end-microseconds values of connections that are no
+longer tracked are shown as tt(0000).
 
 manpagesection(COMMANDS)
 
@@ -163,7 +168,7 @@ manpagesection(OPTIONS)
         verb(
 NATLOG: From 1338990672:55588 until 1338990747:807100
         )
-       These time stamps indicate times in seconds:nanoseconds since the
+       These time stamps indicate times in seconds:microseconds since the
         beginning of the epoch, January 1, 1970, 0:00 UTC. This option can be
         used to change the seconds part of the time stamps to more
         conventional representations.nl()
@@ -182,6 +187,12 @@ NATLOG: From 1338990672:55588 until 1338990747:807100
     it() loption(version) (soption(v))nl() 
        Write tt(natlog)'s version number to the standard output stream and
         terminate.
+
+    it() loption(warn) (soption(w))nl() 
+       Warn about terminating connections not yet registered in tt(natlog)'s
+        database. This normally only happens during a short period after
+        starting tt(natlog), when existing connections haven't yet been
+        noticed. 
     )
                     
 manpagesection(RSYSLOG FILTERING)

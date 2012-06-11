@@ -31,12 +31,14 @@ void usage(std::string const &progname)
     "                           (default `" << 
                                 Options::defaultSyslogPriority() << "')\n"
     "      --time (-t) spec   - time specification:\n"
-                                "raw: (default) seconds since the epoch;\n"
-                                "utc: date and time in UTC\n"
-                                "local: local date and time\n"
+    "                            raw: (default) seconds since the epoch;\n"
+    "                            utc: date and time in UTC\n"
+    "                            local: local date and time\n"
     "      --verbose          - write additional information to stdout\n"
     "      --version (-v)     - show version information and terminate\n"
+    "      --warn (-w)        - warn about not-registered connections\n"
     "   command   - command to execute:\n"
     "       conntrack:  use `conntrack' to find the source-nat connections\n"
     "\n";
 }
+

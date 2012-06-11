@@ -1,7 +1,9 @@
 #include "conntrack.h"
 
+#include <signal.h>
+
 #include <bobcat/mstream>
-#include <bobcat/pattern>
+#include <bobcat/x2a>
 
 #include "../options/options.h"
 #include "../showtime/showtime.h"

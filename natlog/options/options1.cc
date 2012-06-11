@@ -23,6 +23,8 @@ Options::Options()
         d_arg.open(config);
     }
     
+    if (not d_arg.option('w'))
+        wmsg.off();
 
     if (not d_arg.option(&d_syslogTag, "syslog-tag"))
         d_syslogTag = s_defaultSyslogIdent;
