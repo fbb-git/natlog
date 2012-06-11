@@ -20,6 +20,10 @@ try
     filterExpr.resize(filterExpr.length() - 1);
 
     pcap.filter(filterExpr);
+
+    if (emsg.count() != 0)
+        return 1;
+
     pcap.loop();
 
 }
