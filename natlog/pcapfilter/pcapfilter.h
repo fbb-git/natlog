@@ -3,10 +3,12 @@
 
 #include <string>
 
+#include "../signal/signal.h"
+
 #include "../pcap/pcap.h"
 #include "../pcaprecord/pcaprecord.h"
 
-struct PcapFilter
+struct PcapFilter: public SignalHandler
 {
     enum Type
     {
@@ -30,12 +32,9 @@ struct PcapFilter
     private:
         static void callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                              u_char const *bytes);
+
+        virtual void signaled(size_t signum) override;
 };
-        
-inline void PcapFilter::stop()
-{
-    d_pcap.stop();
-}
 
 #endif
 

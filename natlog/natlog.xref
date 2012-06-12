@@ -1,9 +1,16 @@
 oxref by Frank B. Brokken (f.b.brokken@rug.nl)
 oxref V0.90.04 2012
 
-CREATED Sat, 09 Jun 2012 14:35:43 +0000
+CREATED Tue, 12 Jun 2012 17:15:18 +0000
 CROSS REFERENCE FOR: -fxs tmp/libnatlog.a 
 ----------------------------------------------------------------------
+
+add(unsigned int, SignalHandler&)
+  Full name: Signal::add(unsigned int, SignalHandler&)
+  Source:    add.cc 
+  Used By:
+    run.cc: Conntrack::run()
+    run.cc: Devices::run()
 
 author
   Full name: Icmbuild::author
@@ -11,30 +18,75 @@ author
   Used By:
     usage.cc: usage(std::string const&)
 
+callback(PcapFilter*, pcap_pkthdr const*, unsigned char const*)
+  Full name: PcapFilter::callback(PcapFilter*, pcap_pkthdr const*, unsigned char const*)
+  Source:    callback.cc 
+  Used By:
+    operatorfun.cc: PcapFilter::operator()()
+
 childProcess()
   Full name: NatFork::childProcess()
   Source:    childprocess.cc 
   Used By:
     parentprocess.cc: NatFork::parentProcess()
 
-Conntrack()
-  Full name: Conntrack::Conntrack()
+Conntrack(FBB::SyslogStream&)
+  Full name: Conntrack::Conntrack(FBB::SyslogStream&)
   Source:    conntrack1.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
+
+Devices(FBB::SyslogStream&)
+  Full name: Devices::Devices(FBB::SyslogStream&)
+  Source:    devices1.cc 
+  Used By:
+    childprocess.cc: NatFork::childProcess()
+
+filter(std::string const&, bool)
+  Full name: Pcap::filter(std::string const&, bool)
+  Source:    filter.cc 
+  Used By:
+    pcapfilter1.cc: PcapFilter::PcapFilter(char const*, PcapRecord&, PcapFilter::Type)
+
+handler(int)
+  Full name: Signal::handler(int)
+  Source:    handler.cc 
+  Used By:
+    add.cc: Signal::add(unsigned int, SignalHandler&)
+
+instance()
+  Full name: Signal::instance()
+  Source:    instance.cc 
+  Used By:
+    run.cc: Conntrack::run()
+    run.cc: Devices::run()
 
 instance()
   Full name: Options::instance()
   Source:    instance.cc 
   Used By:
-    conntrack1.cc: Conntrack::Conntrack()
+    childprocess.cc: NatFork::childProcess()
     run.cc: NatFork::run()
+    conntrack1.cc: Conntrack::Conntrack(FBB::SyslogStream&)
+    devices1.cc: Devices::Devices(FBB::SyslogStream&)
+
+loop(unsigned char*, void (*)(unsigned char*, pcap_pkthdr const*, unsigned char const*))
+  Full name: Pcap::loop(unsigned char*, void (*)(unsigned char*, pcap_pkthdr const*, unsigned char const*))
+  Source:    loop.cc 
+  Used By:
+    operatorfun.cc: PcapFilter::operator()()
+
+operator()()
+  Full name: PcapFilter::operator()()
+  Source:    operatorfun.cc 
+  Used By:
+    run.cc: GLOBALS run.cc 9run.o
 
 operator<<(std::ostream&, ShowTime const&)
   Full name: operator<<(std::ostream&, ShowTime const&)
   Source:    operatorinsert.cc 
   Used By:
-    run.cc: Conntrack::run()
+    out.cc: Conntrack::out(FBB::Pattern const&, std::string const&, std::string const&)
 
 Options()
   Full name: Options::Options()
@@ -42,11 +94,48 @@ Options()
   Used By:
     instance.cc: Options::instance()
 
+out(FBB::Pattern const&, std::string const&, std::string const&)
+  Full name: Conntrack::out(FBB::Pattern const&, std::string const&, std::string const&)
+  Source:    out.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
+    run.cc: Conntrack::run()
+
+Pcap(char const*, bool, unsigned int, unsigned int)
+  Full name: Pcap::Pcap(char const*, bool, unsigned int, unsigned int)
+  Source:    pcap1.cc 
+  Used By:
+    pcapfilter1.cc: PcapFilter::PcapFilter(char const*, PcapRecord&, PcapFilter::Type)
+
+PcapFilter(char const*, PcapRecord&, PcapFilter::Type)
+  Full name: PcapFilter::PcapFilter(char const*, PcapRecord&, PcapFilter::Type)
+  Source:    pcapfilter1.cc 
+  Used By:
+    run.cc: Devices::run()
+
+PcapPacket(pcap_pkthdr const&, unsigned char const*)
+  Full name: PcapPacket::PcapPacket(pcap_pkthdr const&, unsigned char const*)
+  Source:    pcappacket1.cc 
+  Used By:
+    callback.cc: PcapFilter::callback(PcapFilter*, pcap_pkthdr const*, unsigned char const*)
+
+PcapRecord()
+  Full name: PcapRecord::PcapRecord()
+  Source:    pcaprecord1.cc 
+  Used By:
+    devices1.cc: Devices::Devices(FBB::SyslogStream&)
+
 rawTime(std::ostream&, std::string const&)
   Full name: ShowTime::rawTime(std::ostream&, std::string const&)
   Source:    time.cc 
   Used By:
-    conntrack1.cc: Conntrack::Conntrack()
+    conntrack1.cc: Conntrack::Conntrack(FBB::SyslogStream&)
+
+run()
+  Full name: Devices::run()
+  Source:    run.cc 
+  Used By:
+    childprocess.cc: NatFork::childProcess()
 
 run()
   Full name: Conntrack::run()
@@ -89,6 +178,12 @@ s_defaultSyslogPriority
     usage.cc: usage(std::string const&)
     setsyslogpriority.cc: Options::setSyslogPriority()
 
+s_filterExpr
+  Full name: PcapFilter::s_filterExpr
+  Source:    data.cc 
+  Used By:
+    pcapfilter1.cc: PcapFilter::PcapFilter(char const*, PcapRecord&, PcapFilter::Type)
+
 s_options
   Full name: Options::s_options
   Source:    data.cc 
@@ -99,8 +194,14 @@ s_show
   Full name: ShowTime::s_show
   Source:    data.cc 
   Used By:
-    conntrack1.cc: Conntrack::Conntrack()
     operatorinsert.cc: operator<<(std::ostream&, ShowTime const&)
+    conntrack1.cc: Conntrack::Conntrack(FBB::SyslogStream&)
+
+s_signal
+  Full name: Signal::s_signal
+  Source:    instance.cc 
+  Used By:
+    handler.cc: Signal::handler(int)
 
 s_syslogFacilities
   Full name: Options::s_syslogFacilities
@@ -142,13 +243,39 @@ ShowTime(std::string const&)
   Full name: ShowTime::ShowTime(std::string const&)
   Source:    showtime1.cc 
   Used By:
-    run.cc: Conntrack::run()
+    out.cc: Conntrack::out(FBB::Pattern const&, std::string const&, std::string const&)
+
+Signal()
+  Full name: Signal::Signal()
+  Source:    signal1.cc 
+  Used By:
+    instance.cc: Signal::instance()
+
+signaled(unsigned int)
+  Full name: Conntrack::signaled(unsigned int)
+  Source:    signaled.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
+
+usage(std::string const&)
+  Full name: usage(std::string const&)
+  Source:    usage.cc 
+  Used By:
+    childprocess.cc: NatFork::childProcess()
 
 utcTime(std::ostream&, std::string const&)
   Full name: ShowTime::utcTime(std::ostream&, std::string const&)
   Source:    time.cc 
   Used By:
-    conntrack1.cc: Conntrack::Conntrack()
+    conntrack1.cc: Conntrack::Conntrack(FBB::SyslogStream&)
+
+verify(unsigned int, char const*)
+  Full name: Signal::verify(unsigned int, char const*)
+  Source:    verify.cc 
+  Used By:
+    add.cc: Signal::add(unsigned int, SignalHandler&)
+    ignore.cc: Signal::ignore(unsigned int)
+    reset.cc: Signal::reset(unsigned int)
 
 version
   Full name: Icmbuild::version
@@ -161,5 +288,21 @@ years
   Source:    version.cc 
   Used By:
     usage.cc: usage(std::string const&)
+
+~Conntrack()
+  Full name: Conntrack::~Conntrack()
+  Source:    destructor.cc 
+  Used By:
+    childprocess.cc: NatFork::childProcess()
+
+~SignalHandler()
+  Full name: SignalHandler::~SignalHandler()
+  Source:    destructor.cc 
+  Used By:
+    conntrack1.cc: Conntrack::Conntrack(FBB::SyslogStream&)
+    destructor.cc: Conntrack::~Conntrack()
+    pcapfilter1.cc: PcapFilter::PcapFilter(char const*, PcapRecord&, PcapFilter::Type)
+    signaled.cc: PcapFilter::signaled(unsigned int)
+    run.cc: GLOBALS run.cc 9run.o
 
 

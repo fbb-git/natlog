@@ -1,0 +1,9 @@
+#include "signal.h"
+
+#include <signal.h>
+
+#include <bobcat/errno>
+
+using namespace std;
+using namespace FBB;
+

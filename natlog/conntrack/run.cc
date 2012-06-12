@@ -5,14 +5,9 @@
 //      src=192.168.1.4 dst=129.125.14.80 sport=59783 dport=22  [UNREPLIED] 
 //      src=129.125.14.80 dst=129.125.100.246 sport=22 dport=59783
 
-void Conntrack::handler(int)
-{
-    s_conntrack->stop();
-}
-    
 void Conntrack::run()
 {
-    signal(SIGTERM, handler);
+    Signal::instance().add(SIGTERM, *this);
 
     Pattern pat(
     //     1        2      3

@@ -17,6 +17,4 @@ Conntrack::Conntrack(SyslogStream &syslog)
 
     if (d_options.time() == Options::UTC)
         d_utcMarker = " (UTC)";
-
-    s_conntrack = &d_conntrack;
 }

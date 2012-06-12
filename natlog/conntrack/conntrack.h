@@ -6,6 +6,8 @@
 #include <bobcat/process>
 #include <bobcat/pattern>
 
+#include "../signal/signal.h"
+
 class Options;
 
 namespace FBB
@@ -13,7 +15,7 @@ namespace FBB
     class SyslogStream;
 }
 
-class Conntrack
+class Conntrack: public SignalHandler
 {
     std::unordered_map<std::string, FBB::Pattern> d_record;
     typedef std::unordered_map<std::string, FBB::Pattern>::iterator Iterator;
@@ -22,8 +24,6 @@ class Conntrack
     FBB::Process d_conntrack;
     FBB::SyslogStream &d_syslog;
     std::string d_utcMarker;
-
-    static FBB::Process *s_conntrack;
 
     public:
         Conntrack(FBB::SyslogStream &syslog);
@@ -34,7 +34,7 @@ class Conntrack
         void out(FBB::Pattern const &pat, std::string const &endSeconds, 
                                           std::string const &endMicroSecs);
 
-        static void handler(int);
+        virtual void signaled(size_t signum) override;
 };
         
 #endif
