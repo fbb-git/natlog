@@ -4,6 +4,7 @@
 
 #include <bobcat/mstream>
 #include <bobcat/x2a>
+#include <bobcat/syslogstream>
 
 #include "../options/options.h"
 #include "../showtime/showtime.h"

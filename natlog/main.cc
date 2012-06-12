@@ -31,9 +31,6 @@ try
     
     arg.versionHelp(usage, Icmbuild::version, 1);
 
-    if (string(arg[0]) != "conntrack")
-        fmsg << "Currently only `conntrack' is available" << endl;
-
     NatFork fork;
 
     fork.run();

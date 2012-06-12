@@ -4,10 +4,14 @@
 #include <unordered_map>
 
 #include <bobcat/process>
-#include <bobcat/syslogstream>
 #include <bobcat/pattern>
 
 class Options;
+
+namespace FBB
+{
+    class SyslogStream;
+}
 
 class Conntrack
 {
@@ -16,13 +20,13 @@ class Conntrack
 
     Options &d_options;
     FBB::Process d_conntrack;
-    FBB::SyslogStream d_syslog;
+    FBB::SyslogStream &d_syslog;
     std::string d_utcMarker;
 
     static FBB::Process *s_conntrack;
 
     public:
-        Conntrack();
+        Conntrack(FBB::SyslogStream &syslog);
         ~Conntrack();
         void run();
 

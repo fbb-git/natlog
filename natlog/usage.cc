@@ -17,9 +17,9 @@ void usage(std::string const &progname)
     "      --conntrack path   - path: path to the `conntrack' program\n"
     "                           (default `" << 
                                 Options::defaultConntrackPath() << "')\n"
+    "      --help (-h)        - provide this help\n"
     "      --no-daemon        - do not run " << progname << 
                                                         " in the background\n"
-    "      --help (-h)        - provide this help\n"
     "      --no-syslog        - do not write syslog messages\n"
     "      --syslog-tag id  - id: identifier prefixed to syslog messages\n"
     "                           (default `" << 
@@ -39,6 +39,14 @@ void usage(std::string const &progname)
     "      --warn (-w)        - warn about not-registered connections\n"
     "   command   - command to execute:\n"
     "       conntrack:  use `conntrack' to find the source-nat connections\n"
+    "       in out:     in, out: names of network devices (e.g., eth0)\n"
+    "                   directly capture packets on the `in' and `out' "
+                                                                "devices\n"
+    "                   in: soource natting is applied to its source "
+                                                                "addresses\n"
+    "                   out: the device connecting to the destination\n"
+    "                        addresses\n"
+
+
     "\n";
 }
-

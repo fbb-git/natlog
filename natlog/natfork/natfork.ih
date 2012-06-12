@@ -1,7 +1,12 @@
 #include "natfork.h"
 
+#include <bobcat/syslogstream>
+
 #include "../options/options.h"
 #include "../conntrack/conntrack.h"
+#include "../devices/devices.h"
+
+void usage(std::string const &progname);
 
 using namespace std;
 using namespace FBB;

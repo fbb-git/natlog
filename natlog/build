@@ -5,7 +5,7 @@
 #define BINARY              "natlog" 
 #define COMPILER            "g++ -Wall --std=c++0x "
 #define LIBRARY             "natlog"       // NO lib, NO .a
-#define LIBS                "-lbobcat"      // -l required
+#define LIBS                "-lbobcat -lpcap"      // -l required
 #define MAIN                "main.cc"
 #define SOURCES             "*.cc"
 #define TMP_DIR             "tmp"

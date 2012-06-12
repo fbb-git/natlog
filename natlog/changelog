@@ -1,3 +1,9 @@
+ISN: natlog (0.30.0) 
+
+  * Implemented 'natlog in out', performing direct packet capturing on the
+    `in' and `out' devices.
+
+
 natlog (0.20.0)
 
   * NATLOG writes incomplete connections to syslog when terminated by a

@@ -57,11 +57,15 @@ class PcapPacket
         ETHER_OFFSET =  0,       
         IP_OFFSET =     ETHER_OFFSET + sizeof(Ethernet_Header),
         TCP_OFFSET =    IP_OFFSET + sizeof(IP_Header),
-        DATA_OFFSET =   TCP_OFFSET + sizeof(TCP_Header),
-        SIZEOF_TCP_HEADER = DATA_OFFSET
+        DATA_OFFSET =   TCP_OFFSET + sizeof(TCP_Header)
     };
 
     public:
+        enum SizeofTCPheader
+        {
+            SIZEOF_TCP_HEADER = DATA_OFFSET
+        };
+
         enum TCP_Flags
         {
             FIN  = 0x01,

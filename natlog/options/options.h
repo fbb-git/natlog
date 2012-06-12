@@ -69,6 +69,10 @@ struct Options
         std::string const &priority() const;
         std::string const &facility() const;
 
+        char const *operator[](size_t idx) const;   // forwards ArgConfig's
+        size_t nArgs() const;                       // values.
+        std::string const &basename() const;
+
         static char const *defaultConfigPath();
         static char const *defaultConntrackPath();
         static char const *defaultSyslogIdent();
@@ -138,6 +142,20 @@ inline std::string const &Options::conntrackPath() const
     return d_conntrackPath;
 }
 
+inline char const *Options::operator[](size_t idx) const
+{
+    return d_arg[idx];
+}
+
+inline size_t Options::nArgs() const
+{
+    return d_arg.nArgs();
+}
+
+inline std::string const &Options::basename() const
+{
+    return d_arg.basename();
+}
 
 inline char const *Options::defaultConntrackPath() 
 {

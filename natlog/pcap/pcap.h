@@ -15,11 +15,13 @@ class Pcap
              size_t timeOutMs = 1000);
 
         bool filter(std::string const &filterExpr, bool optimize = true);
-        void loop();
-        
-    private:
-        static void callback(u_char *user, struct pcap_pkthdr const *hdr,
-                             const u_char *bytes);
+        void loop(u_char *user, pcap_handler callback);
+        void stop();
 };
         
+inline void Pcap::stop()
+{
+    pcap_breakloop(d_pcap);
+}
+
 #endif
