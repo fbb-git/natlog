@@ -2,6 +2,7 @@
 #define INCLUDED_PCAPFILTER_
 
 #include <string>
+#include <mutex>
 
 #include "../signal/signal.h"
 
@@ -23,6 +24,7 @@ struct PcapFilter: public SignalHandler
         Pcap d_pcap;
 
         static char s_filterExpr[];
+        static std::mutex s_recordMutex;
 
     public:
         PcapFilter(char const *device, PcapRecord &record, Type type);
@@ -30,6 +32,11 @@ struct PcapFilter: public SignalHandler
         void stop();
         
     private:
+        void inDevice(PcapPacket const &packet);
+        void outDevice(PcapPacket const &packet);
+
+        void saveAdd(PcapPacket const &packet);
+
         static void callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                              u_char const *bytes);
 
@@ -37,6 +44,7 @@ struct PcapFilter: public SignalHandler
 };
 
 #endif
+
 
 
 

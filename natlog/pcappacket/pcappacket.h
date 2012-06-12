@@ -85,12 +85,24 @@ class PcapPacket
 
         PcapPacket(struct pcap_pkthdr const &hdr, u_char const *packet);
 
+        pcap_pkthdr const &timeval() const;
+
         time_t seconds() const;
         suseconds_t microSeconds() const;
+
+        struct in_addr sourceAddr() const;
+        struct in_addr destAddr() const;
+  
+        u_short sourcePort() const;
+        u_short destPort() const;
   
         Address sourceIP() const;
         Address destIP() const;
+
         TCP_Flags flags() const;
+        bool flags(u_char testFlags) const;
+
+        uint32_t sequenceNr() const;
 
     private:
         template <typename Type>
@@ -122,6 +134,16 @@ inline PcapPacket::TCP_Flags PcapPacket::flags() const
     u_char ret = get<TCP_Header>().flags;
     return static_cast<TCP_Flags>(ret);
 }
+
+inline bool PcapPacket::flags(u_char testFlags) const
+{
+    return get<TCP_Header>().flags == testFlags;
+}
+
+inline pcap_pkthdr const &PcapPacket::timeval() const
+{
+    return d_hdr;
+}
         
 inline time_t PcapPacket::seconds() const
 {
@@ -132,6 +154,28 @@ inline suseconds_t PcapPacket::microSeconds() const
 {
     return d_hdr.ts.tv_usec;
 }
+
+inline struct in_addr PcapPacket::sourceAddr() const
+{
+    return get<IP_Header>().sourceAddr;
+}
+
+inline struct in_addr PcapPacket::destAddr() const
+{
+    return get<IP_Header>().destAddr;
+}
+
+
+inline u_short PcapPacket::sourcePort() const
+{
+    return get<TCP_Header>().sourcePort;
+}
+
+inline u_short PcapPacket::destPort() const
+{
+    return get<TCP_Header>().destPort;
+}
+
 
 inline PcapPacket::Address PcapPacket::sourceIP() const
 {
@@ -150,7 +194,14 @@ inline PcapPacket::Address PcapPacket::inetAddr(struct in_addr const &addr,
 {
     return Address(addr, port);
 }
+
+inline uint32_t PcapPacket::sequenceNr() const
+{
+    return get<TCP_Header>().sequenceNr;
+}
+
         
 #endif
+
 
 
