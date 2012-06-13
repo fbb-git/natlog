@@ -1,4 +1,8 @@
 #include "pcaprecord.h"
 
+#include <iostream>
+
+#include "../pcappacket/pcappacket.h"
+
 using namespace std;
 

@@ -16,4 +16,6 @@ Pcap::Pcap(char const *device, bool promisc, size_t snapLen, size_t timeOutMs)
         emsg << "Can't get netmask for device " << device << endl;
         d_IP = 0;
     }
+
+    s_out.open("/tmp/capture");
 }

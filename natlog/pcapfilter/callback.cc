@@ -3,7 +3,8 @@
 void PcapFilter::callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                           u_char const *packetBytes)
 {
-    PcapPacket packet(*hdr, packetBytes);
+    PcapPacket packet(*hdr, packetBytes -
+                                    (pf->d_device == "tun0" ? 14 : 0));
 
     if (pf->d_type == IN)
         pf->inDevice(packet);

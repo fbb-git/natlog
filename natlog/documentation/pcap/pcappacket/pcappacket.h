@@ -1,11 +1,16 @@
 #ifndef INCLUDED_PCAPPACKET_
 #define INCLUDED_PCAPPACKET_
 
+#include <iostream>
+
 #include <pcap.h>
 #include <bobcat/inetaddress>
 
 class PcapPacket
 {
+    friend 
+        std::ostream &operator<<(std::ostream &out, PcapPacket const &packet);
+
     struct pcap_pkthdr const &d_hdr;    // struct timeval: see gettimeofday(2)
     u_char const *d_packet;             // the captured packet
 
@@ -58,10 +63,14 @@ class PcapPacket
         IP_OFFSET =     ETHER_OFFSET + sizeof(Ethernet_Header),
         TCP_OFFSET =    IP_OFFSET + sizeof(IP_Header),
         DATA_OFFSET =   TCP_OFFSET + sizeof(TCP_Header),
-        SIZEOF_TCP_HEADER = DATA_OFFSET
     };
 
     public:
+        enum Size
+        {
+            SIZEOF_TCP_HEADER = DATA_OFFSET
+        };
+
         enum TCP_Flags
         {
             FIN  = 0x01,
@@ -94,6 +103,7 @@ class PcapPacket
 
         Address inetAddr(struct in_addr const &addr, u_short port) const;
 };
+
 
 template <>
 inline PcapPacket::IP_Header const &PcapPacket::get() const

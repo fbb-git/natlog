@@ -9,7 +9,7 @@ try
         return 1;
     }
 
-    Pcap pcap(argv[1]);
+    Pcap pcap(argv[1], true);
 
     string filterExpr;
     for (char **arg = argv + 2; *arg; ++arg)

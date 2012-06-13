@@ -33,9 +33,11 @@ struct PcapFilter: public SignalHandler
         
     private:
         void inDevice(PcapPacket const &packet);
-        void outDevice(PcapPacket const &packet);
-
         void saveAdd(PcapPacket const &packet);
+
+        void outDevice(PcapPacket const &packet);
+        void saveUpdate(PcapPacket const &packet);
+
 
         static void callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                              u_char const *bytes);

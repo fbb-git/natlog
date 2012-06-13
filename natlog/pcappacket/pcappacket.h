@@ -123,17 +123,15 @@ inline PcapPacket::TCP_Header const &PcapPacket::get() const
     return *reinterpret_cast<TCP_Header const *>(d_packet + TCP_OFFSET);
 }
 
+inline PcapPacket::TCP_Flags PcapPacket::flags() const
+{
+    return static_cast<TCP_Flags>(get<TCP_Header>().flags);
+}
 
 inline PcapPacket::Address::Address(struct in_addr const &addr, u_short port)
 :
     FBB::InetAddress( sockaddr_in{0, port, addr} )
 {}
-
-inline PcapPacket::TCP_Flags PcapPacket::flags() const
-{
-    u_char ret = get<TCP_Header>().flags;
-    return static_cast<TCP_Flags>(ret);
-}
 
 inline bool PcapPacket::flags(u_char testFlags) const
 {
