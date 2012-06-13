@@ -16,12 +16,23 @@ class Pcap
 
         bool filter(std::string const &filterExpr, bool optimize = true);
         void loop(u_char *user, pcap_handler callback);
+        bpf_u_int32 ipAddr() const;
         void stop();
 };
         
+inline bpf_u_int32 Pcap::ipAddr() const
+{
+    return d_IP;
+}
+
 inline void Pcap::stop()
 {
     pcap_breakloop(d_pcap);
 }
 
 #endif
+
+
+
+
+

@@ -15,3 +15,32 @@ SYN,ACK van 10.4.0.6:22 naar 129.125.3.162
 12:00:58.731052 IP 129.125.3.162.56301 > 10.4.0.6.22: Flags [F.], 
 12:00:58.744042 IP 10.4.0.6.22 > 129.125.3.162.56301: Flags [F.], 
 12:00:58.744056 IP 129.125.100.246.222 > 129.125.3.162.56301: Flags [F.], 
+
+-------------------------------------------------------------------------------------------------------
+Establishing a connection:
+
+OUT interface:
+
+tcpdump -n -i eth0 host 129.125.3.162 and '( tcp[13] == 18 or tcp[13] = 17 )'
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on eth0, link-type EN10MB (Ethernet), capture size 65535 bytes
+
+                    dest                via
+21:52:22.009069 IP 129.125.3.162.22 > 129.125.100.246.49752: Flags [S.], seq 1993746849, ack 683350435, win 14480, options [mss 1460,sackOK,TS val 487201561 ecr 763943,nop,wscale 4], length 0
+
+21:52:24.950714 IP 129.125.3.162.22 > 129.125.100.246.49752: Flags [F.], seq 2921, ack 3353, win 1700, options [nop,nop,TS val 487202296 ecr 764680], length 0
+21:52:24.956044 IP 129.125.100.246.49752 > 129.125.3.162.22: Flags [F.], seq 3353, ack 2921, win 1536, options [nop,nop,TS val 764680 ecr 487202254], length 0
+
+IN interface:
+
+tcpdump -n -i tun0 host 129.125.3.162 and '( tcp[13] == 18 or tcp[13] = 17 )'
+tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
+listening on tun0, link-type RAW (Raw IP), capture size 65535 bytes
+
+                    dest                from
+21:52:22.009091 IP 129.125.3.162.22 > 192.168.17.7.49752: Flags [S.], seq 1993746849, ack 683350435, win 14480, options [mss 1460,sackOK,TS val 487201561 ecr 763943,nop,wscale 4], length 0
+
+21:52:24.950728 IP 129.125.3.162.22 > 192.168.17.7.49752: Flags [F.], seq 2921, ack 3353, win 1700, options [nop,nop,TS val 487202296 ecr 764680], length 0
+21:52:24.956018 IP 192.168.17.7.49752 > 129.125.3.162.22: Flags [F.], seq 3353, ack 2921, win 1536, options [nop,nop,TS val 764680 ecr 487202254], length 0
+
+

@@ -11,6 +11,12 @@ class PcapPacket;
 
 struct PcapRecord
 {
+    enum Type
+    {
+        IN,
+        OUT
+    };
+
     struct AddrPort
     {
         struct in_addr addr;
@@ -35,7 +41,7 @@ struct PcapRecord
         };
 
         PcapRecord();
-        void add(PcapPacket const &packet);
+        void add(PcapPacket const &packet, Type type);
         void update(PcapPacket const &packet);  // add 'via' address 
         
         time_t seconds(Record const &record) const;        

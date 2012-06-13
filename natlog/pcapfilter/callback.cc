@@ -10,6 +10,7 @@ void PcapFilter::callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
         pf->inDevice(packet);
     else 
         pf->outDevice(packet);
+}
 
 //    PcapPacket::TCP_Flags flags = packet.flags();
 //
@@ -19,7 +20,6 @@ void PcapFilter::callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
 //                src.dottedDecimalAddress() << " (" << src.port() << "), " <<
 //                dst.dottedDecimalAddress() << " (" << dst.port() << "): " <<
 //                (open ? "OPEN" : "CLOSE") << '\n';
-}
 
 //    PcapPacket::Address &&src = packet.sourceIP();
 //    PcapPacket::Address &&dst = packet.destIP();

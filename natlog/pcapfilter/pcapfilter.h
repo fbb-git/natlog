@@ -11,11 +11,7 @@
 
 struct PcapFilter: public SignalHandler
 {
-    enum Type
-    {
-        IN,
-        OUT
-    };
+    typedef PcapRecord::Type Type;
 
     private:
         std::string d_device;
