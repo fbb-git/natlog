@@ -15,7 +15,7 @@ void PcapRecord::remove(PcapPacket const &packet)
                     sizeof(struct in_addr)) == 0
         )
         {
-            cout << "Remove #" << idx << ":    ";
+            cout << "Rem #" << idx << ": ";
             display(element);
             delete element;
             element = 0;

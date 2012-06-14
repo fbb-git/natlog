@@ -18,7 +18,7 @@ void PcapRecord::addIn(PcapPacket const &packet)
                             // then assign the record's source IP/port:
         record->source = {packet.destAddr(), packet.destPort()};
         record->status = ESTABLISHED;
-        cout << "Add #" << idx << " (IN):  ";
+        cout << "Add #" << idx << ": ";
         
         display(record);
     }

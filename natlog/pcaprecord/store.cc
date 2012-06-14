@@ -10,8 +10,6 @@ void PcapRecord::store(Record *record)
         if (element == 0)               // empty element
         {
             element = record;           // store the record in the empty spot
-
-            cout << "At free #" << idx << endl;
             return;
         }
                                         // delete old, incomplete records

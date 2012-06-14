@@ -1,8 +1,9 @@
-ISN: natlog (0.30.0) 
+natlog (0.30.0) 
 
-  * Implemented 'natlog in out', performing direct packet capturing on the
-    `in' and `out' devices.
+  * Initial implementation of 'natlog in out', performing direct packet
+    capturing on the `in' and `out' devices.
 
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 14 Jun 2012 14:37:42 +0200
 
 natlog (0.20.0)
 
