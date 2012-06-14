@@ -90,9 +90,9 @@ class PcapPacket
         time_t seconds() const;
         suseconds_t microSeconds() const;
 
-        struct in_addr sourceAddr() const;
-        struct in_addr destAddr() const;
-  
+        struct in_addr const &sourceAddr() const;
+        struct in_addr const &destAddr() const;
+
         u_short sourcePort() const;
         u_short destPort() const;
   
@@ -153,12 +153,12 @@ inline suseconds_t PcapPacket::microSeconds() const
     return d_hdr.ts.tv_usec;
 }
 
-inline struct in_addr PcapPacket::sourceAddr() const
+inline struct in_addr const &PcapPacket::sourceAddr() const
 {
     return get<IP_Header>().sourceAddr;
 }
 
-inline struct in_addr PcapPacket::destAddr() const
+inline struct in_addr const &PcapPacket::destAddr() const
 {
     return get<IP_Header>().destAddr;
 }

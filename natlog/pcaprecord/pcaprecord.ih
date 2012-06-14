@@ -1,6 +1,8 @@
 #include "pcaprecord.h"
 
 #include <iostream>
+#include <cstring>
+#include <limits>
 
 #include "../pcappacket/pcappacket.h"
 

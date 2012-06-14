@@ -3,7 +3,7 @@
 bool Pcap::filter(string const &filterExpr, bool optimize)
 {
     if (pcap_compile(d_pcap, &d_pcapFilter, 
-                     filterExpr.c_str(), optimize, d_IP) == -1) 
+                     filterExpr.c_str(), optimize, d_net) == -1) 
     {
         emsg << "Pcap compilation of `" << filterExpr << "' failed: " <<
                 pcap_geterr(d_pcap) << endl;

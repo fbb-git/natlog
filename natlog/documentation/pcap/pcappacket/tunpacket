@@ -1,0 +1,20 @@
+                    version     69   
+                    tos         0   
+                    length      0 112   
+                    ident       0   0  
+                    fragoff     64   0  
+                    ttl         64  
+                    protocol    17 
+                    chksum      171  84  
+                    src         10   4   0   6 
+                    dest        129 125   3 162 
+                    srcport     188 118   
+                    destport    2   2   
+                    sequence    0  92 251 207  
+                    ack         60  54  62  74 
+                    dataoff     117 
+                    flags       110  
+                    window      32  49  
+                    chksum      51  32
+                    urgptr      49  51  
+58  52  55  58  50  48  32 115 116 121 120  32 107 101

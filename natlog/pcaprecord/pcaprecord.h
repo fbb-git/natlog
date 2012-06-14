@@ -9,30 +9,42 @@
 
 class PcapPacket;
 
-struct PcapRecord
+class PcapRecord
 {
-    enum Type
+    enum
     {
-        IN,
-        OUT
+        TTL = 10            // INCOMPLETE records may live for 10 secs.
+    };
+    enum Status
+    {
+        INCOMPLETE,
+        ESTABLISHED,
+        FINISHED
     };
 
-    struct AddrPort
-    {
-        struct in_addr addr;
-        u_short port;
-    };
-    struct Record
-    {
-        struct pcap_pkthdr  beginTime;
-        AddrPort            source;
-        AddrPort            via;
-        AddrPort            dest;
-        uint32_t            sequenceNr;
-    };
+    public:
+        enum Type
+        {
+            IN,
+            OUT
+        };
+        struct AddrPort
+        {
+            struct in_addr addr;
+            u_short port;
+        };
+        struct Record
+        {
+            Status              status;
+            struct pcap_pkthdr  beginTime;
+            AddrPort            source;
+            AddrPort            via;
+            AddrPort            dest;
+            uint32_t            sequenceNr;
+        };
 
     private:
-        std::vector<Record> d_connections;
+        std::vector<Record *> d_connections;
 
     public:
         struct Address: public FBB::InetAddress
@@ -42,7 +54,8 @@ struct PcapRecord
 
         PcapRecord();
         void add(PcapPacket const &packet, Type type);
-        void update(PcapPacket const &packet);  // add 'via' address 
+
+        void remove(PcapPacket const &packet);
         
         time_t seconds(Record const &record) const;        
         suseconds_t microSeconds(Record const &record) const;
@@ -52,8 +65,14 @@ struct PcapRecord
         Address destIP(Record const &record) const;
 
     private:
-        Record *find(uint32_t sequenceNr);
-      
+        void addIn(PcapPacket const &packet);
+        void addOut(PcapPacket const &packet);
+
+        size_t find(uint32_t sequenceNr);   // numlim<siz_t>::max if not
+
+        void store(Record *);
+        void display(Record const *record) const;
+
         Address inetAddr(struct in_addr const &addr, u_short port) const;
 };
 

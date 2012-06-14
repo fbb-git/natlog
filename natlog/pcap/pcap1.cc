@@ -11,9 +11,6 @@ Pcap::Pcap(char const *device, bool promisc, size_t snapLen, size_t timeOutMs)
 
     bpf_u_int32 netMask;        // The netmask of our sniffing device
 
-    if (pcap_lookupnet(device, &d_IP, &netMask, errBuf) == -1) 
-    {
-        emsg << "Can't get netmask for device " << device << endl;
-        d_IP = 0;
-    }
+    if (pcap_lookupnet(device, &d_net, &netMask, errBuf) == -1) 
+        fmsg << "Can't get network address of device " << device << endl;
 }
