@@ -1,0 +1,5 @@
+#include "syslogger.ih"
+
+Syslogger::
+{
+}

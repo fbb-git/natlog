@@ -1,9 +1,10 @@
-#include "showtime.h"
+#include "showseconds.h"
 
 #include <ostream>
 #include <string>
 
 #include <bobcat/a2x>
+#include <bobcat/x2a>
 #include <bobcat/datetime>
 
 using namespace std;

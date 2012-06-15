@@ -19,8 +19,8 @@ void PcapRecord::addOut(PcapPacket const &packet)
                             // then assign the record's `via' IP/port:
         record->via = {packet.destAddr(), packet.destPort()};
         record->status = ESTABLISHED;
-        cout << "Add OUT #" << idx << ": ";
-        display(record);
+        imsg << "Add OUT #" << idx << endl;
+        display(imsg, record) << FBB::endl;
     }
     else                    // else store a new record.
         store(

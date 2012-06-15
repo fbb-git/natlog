@@ -1,13 +1,16 @@
 #ifndef INCLUDED_PCAPRECORD_
 #define INCLUDED_PCAPRECORD_
 
+#include <iosfwd>
 #include <vector>
+
 #include <pcap/pcap.h>
 #include <netinet/in.h>
 
 #include <bobcat/inetaddress>
 
 class PcapPacket;
+class Options;
 
 class PcapRecord
 {
@@ -45,6 +48,8 @@ class PcapRecord
 
     private:
         std::vector<Record *> d_connections;
+        std::ostream &d_syslog;
+        Options &d_options;
 
     public:
         struct Address: public FBB::InetAddress
@@ -52,7 +57,9 @@ class PcapRecord
             Address(struct in_addr const &addr, u_short port);
         };
 
-        PcapRecord();
+        PcapRecord(std::ostream &syslog);
+        ~PcapRecord();
+
         void add(PcapPacket const &packet, Type type);
 
         void remove(PcapPacket const &packet);
@@ -71,7 +78,9 @@ class PcapRecord
         size_t find(uint32_t sequenceNr);   // numlim<siz_t>::max if not
 
         void store(Record *);
-        void display(Record const *record) const;
+        std::ostream &display(std::ostream &out, Record const *record) const;
+        void log(Record const *record, time_t seconds, 
+                                       suseconds_t musecs) const;
 
         Address inetAddr(struct in_addr const &addr, u_short port) const;
 };

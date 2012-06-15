@@ -1,8 +1,8 @@
 #include "devices.ih"
 
-Devices::Devices(SyslogStream &syslog)
+Devices::Devices(ostream &syslog)
 :
-    d_options(Options::instance()),
-    d_syslog(syslog)
+    d_record(syslog),
+    d_options(Options::instance())
 {
 }

@@ -241,7 +241,7 @@ setTime(std::string const&)
 
 ShowTime(std::string const&)
   Full name: ShowTime::ShowTime(std::string const&)
-  Source:    showtime1.cc 
+  Source:    showseconds1.cc 
   Used By:
     out.cc: Conntrack::out(FBB::Pattern const&, std::string const&, std::string const&)
 

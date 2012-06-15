@@ -11,7 +11,7 @@ void Conntrack::run()
 
     Pattern pat(
     //     1        2      3
-    "\\[(\\d+)\\.(\\d+).*(NEW|DESTROY).*"          // time: [1338899277.41469 ]
+    "\\[(\\d+)\\.(\\d+).*(NEW|DESTROY).*"   // time: [1338899277.41469 ]
     //      4             5
     "src=(\\S+)\\s+dst=(\\S+)\\s+"          // source to nat,  dest
     //        6               7
@@ -34,16 +34,16 @@ void Conntrack::run()
             string key(pat[8] + pat[9]);
 
             if (pat[3] == "NEW")
-                d_record[key] = pat;
+                d_connections.add(key, pat);
             else 
             {
-                auto iter = d_record.find(key);
-                if (iter == d_record.end())
+                size_t idx = d_connections.find(key);
+                if (idx == numeric_limits<size_t>::max())
                     wmsg << "UNAVAILABLE: " << line << endl;
                 else
                 {
-                    out(iter->second, pat[1], pat[2]);
-                    d_record.erase(iter);         // erase the processed element
+                    log(*d_connections[idx], pat[1], pat[2]);
+                    d_connections.erase(idx);  // erase the processed element
                 }
             }
         }

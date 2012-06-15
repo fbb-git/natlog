@@ -1,38 +1,32 @@
 #ifndef INCLUDED_CONNTRACK_
 #define INCLUDED_CONNTRACK_
 
-#include <unordered_map>
+#include <iosfwd>
 
 #include <bobcat/process>
 #include <bobcat/pattern>
 
 #include "../signal/signal.h"
+#include "../conntrackrecord/conntrackrecord.h"
 
 class Options;
 
-namespace FBB
-{
-    class SyslogStream;
-}
-
 class Conntrack: public SignalHandler
 {
-    std::unordered_map<std::string, FBB::Pattern> d_record;
-    typedef std::unordered_map<std::string, FBB::Pattern>::iterator Iterator;
-
+    ConntrackRecord d_connections;
     Options &d_options;
     FBB::Process d_conntrack;
-    FBB::SyslogStream &d_syslog;
-    std::string d_utcMarker;
+    std::ostream &d_syslog;
 
     public:
-        Conntrack(FBB::SyslogStream &syslog);
+        Conntrack(std::ostream &syslog);
         ~Conntrack();
         void run();
 
     private:
-        void out(FBB::Pattern const &pat, std::string const &endSeconds, 
-                                          std::string const &endMicroSecs);
+        void log(ConntrackRecord::Record const &record, 
+                    std::string const &endSeconds, 
+                    std::string endMicroSecs);
 
         virtual void signaled(size_t signum) override;
 };

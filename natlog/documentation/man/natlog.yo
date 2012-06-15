@@ -108,9 +108,18 @@ longer tracked are shown as tt(0000).
 
 manpagesection(COMMANDS)
 
-    Currently only the tt(conntrack) command is supported. This command can
-only be used on platforms using bf(iptables)(1) on which bf(conntrack)(1) has
-also been installed.
+    itemization(
+    it() tt(conntrack): this command can only be used on platforms using
+bf(iptables)(1) on which bf(conntrack)(1) has also been installed. Information
+about source-natted connections is obtained from bf(conntrack)(1)'s output.
+    
+    it() tt(indevice outdevice): tt(indevice) is the name of the device behind
+the firewall. Addresses living behind the tt(indevice) are source-natted to
+the firewall's IP address when passed on to the tt(outdevice); tt(outdevice)
+is the name of the device to which source-natted packets are forwarded,
+c.q. from where replies for source-natted hosts living behind the tt(indevice)
+are received 
+    )
 
 manpagesection(OPTIONS)
 
@@ -141,6 +150,10 @@ manpagesection(OPTIONS)
        By default tt(natlog) writes syslog messages to the tt(DAEMON) facility
         with priority tt(NOTICE). No messages are sent to the syslog daemon
         when this option is provided.
+
+    it() loption(stdout) (soption(s))nl() 
+       Syslog-equivalent messages are sent to the standard output.
+        This option is implied by tt(--verbose).
 
     it() laoption(syslog-tag)(tag)nl()
        When syslog messages are generated they can be provided with a
@@ -214,6 +227,24 @@ tt(http://www.rsyslog.com/doc/rsyslog_conf_filter.html) and
 tt(http://www.rsyslog.com/doc/property_replacer.html)
 
 manpagesection(EXAMPLE)
+
+    Examples of tt(natlog) activations:
+    itemiztion(
+    it() tt(natlog --no-daemon --no-syslog -s tun0 eth0)nl()
+        tt(Natlog) remains active as a foreground process, no syslog messages
+are written, syslog-equivalent message are written to the standard
+output. tt(Natlog) uses the pcap library to capture packets from the tt(tun0)
+device (e.g., an bf(openvpn)(1) device), which is active behind the firewall,
+and to capture packets from the tt(eth0) device, which is the device to where
+source-natted packages are sent.
+
+    it() tt(natlog conntrack)nl()
+        Depending on the options specified in tt(/etc/natlog.conf) (or, if not
+available, tt(natlog)'s default options) source-natted connections are
+obtained from bf(conntrack)(1). By default tt(natlog) continues as a daemon
+process, generating syslog messages using syslog tags tt(NATLOG:), and
+containing information about source-natted connections.
+    )
 
     Here is tt(natlog)'s default configuration file. Empty lines and lines
 starting with hash-marks (#) are ignored. Options adhere to the 

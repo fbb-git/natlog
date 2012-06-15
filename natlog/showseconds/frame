@@ -1,0 +1,5 @@
+#include "showseconds.ih"
+
+ShowSeconds::
+{
+}

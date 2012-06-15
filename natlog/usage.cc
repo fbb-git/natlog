@@ -30,6 +30,9 @@ void usage(std::string const &progname)
     "      --syslog-priority pri  - pri: syslog priority to use\n"
     "                           (default `" << 
                                 Options::defaultSyslogPriority() << "')\n"
+    "      --stdout (-s)      - write syslog-equivalent messages to the std "
+                                                                "output\n"
+    "                            (implied by --verbose)\n"
     "      --time (-t) spec   - time specification:\n"
     "                            raw: (default) seconds since the epoch;\n"
     "                            utc: date and time in UTC\n"

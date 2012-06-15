@@ -15,9 +15,7 @@ void PcapRecord::store(Record *record)
                                         // delete old, incomplete records
         if (element->status == INCOMPLETE && seconds(*element) + TTL < now)
         {
-            cout << "Replace incomplete #" << idx << ": ";
-            display(element);
-
+            imsg << "Replacing incomplete #" << idx << endl;
             delete element;
             element = record;
             return;
@@ -25,7 +23,7 @@ void PcapRecord::store(Record *record)
         ++idx;
     }
     d_connections.push_back(record);    // add the record at the end
-    cout << "Enlarged size = " << d_connections.size() << endl;
+    imsg << "New index #" << (d_connections.size() - 1) << endl;
 }
 
 

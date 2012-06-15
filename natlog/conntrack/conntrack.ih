@@ -1,13 +1,13 @@
 #include "conntrack.h"
 
 #include <signal.h>
+#include <ostream>
 
 #include <bobcat/mstream>
 #include <bobcat/x2a>
-#include <bobcat/syslogstream>
 
 #include "../options/options.h"
-#include "../showtime/showtime.h"
+#include "../showseconds/showseconds.h"
 
 using namespace std;
 using namespace FBB;

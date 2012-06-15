@@ -6,6 +6,9 @@ Conntrack::~Conntrack()
 
     d_syslog << "terminating" << endl;
 
-    for (auto rec: d_record)
-        out(rec.second, endSeconds, "0000");
+    for (auto &rec: d_connections)
+    {
+        if (rec)
+            log(*rec, endSeconds, "0");
+    }
 }

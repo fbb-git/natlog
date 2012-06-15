@@ -1,7 +1,15 @@
-ISN natlog (0.40.0) 
+ISN natlog (0.80.0) 
 
   * Added auto-detection of devices without Ethernet packet headers
 
+  * Natlog's pcap mode now writes syslog messages
+
+  * Added option --stdout (-s) writing syslog-equivalent messages to the
+    standard ouput
+
+  * General code cleanup and reorganization
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 15 Jun 2012 17:01:08 +0200
 
 natlog (0.30.0) 
 

@@ -22,6 +22,7 @@ struct Options
     
         bool d_verbose;
         bool d_useSyslog;
+        bool d_stdout;
 
         Time d_time;
     
@@ -56,6 +57,7 @@ struct Options
 
         bool verbose() const;
         bool syslog() const;
+        bool stdout() const;
         bool daemon();
 
         Time time() const;
@@ -86,6 +88,11 @@ struct Options
         void setSyslogPriority();
         void setTime(std::string const &time);
 };
+
+inline bool Options::stdout() const
+{   
+    return d_stdout;
+}
 
 inline bool Options::verbose() const
 {   

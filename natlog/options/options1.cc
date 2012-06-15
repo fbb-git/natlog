@@ -15,6 +15,8 @@ Options::Options()
     if (not (d_verbose = d_arg.option(0, "verbose")))
         imsg.off();
 
+    d_stdout = d_verbose || d_arg.option('s');
+
     if (not Stat(config))
         wmsg << "Configuration file `" << config << "' not found" << endl;
     else

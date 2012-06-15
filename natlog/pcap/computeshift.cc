@@ -11,6 +11,9 @@ void Pcap::computeShift(char const *device)
     string address;
     d_shift = (mac >> address) ? 0 : PcapPacket::SIZEOF_ETHERNET_HEADER;
 
-    // cout << "MAC address: `" << address << "'\n";
-    // cout << "SHIFT = " << d_shift << endl;
+    if (d_shift == 0)
+        imsg << "Device " << device << " has MAC address " << address << endl;
+    else
+        imsg << "Device " << device << " has no MAC address: packets lack "
+                                    "Ethernet headers" << endl;
 }

@@ -1,10 +1,10 @@
 #include "natfork.h"
 
-#include <bobcat/syslogstream>
-
 #include "../options/options.h"
+#include "../syslogger/syslogger.h"
 #include "../conntrack/conntrack.h"
 #include "../devices/devices.h"
+#include "../showseconds/showseconds.h"
 
 void usage(std::string const &progname);
 

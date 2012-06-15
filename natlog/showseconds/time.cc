@@ -1,4 +1,4 @@
-#include "showtime.ih"
+#include "showseconds.ih"
 
 namespace
 {
@@ -15,17 +15,19 @@ namespace
     }
 }
 
-void ShowTime::rawTime(ostream &out, string const &seconds)
+void ShowSeconds::rawTime(ostream &out, string const &seconds)
 {
     out << seconds;
 }
 
-void ShowTime::utcTime(ostream &out, string const &seconds)
+void ShowSeconds::utcTime(ostream &out, string const &seconds)
 {
     insertTime(DateTime::UTC, out, seconds);
 }
 
-void ShowTime::localTime(ostream &out, string const &seconds)
+void ShowSeconds::localTime(ostream &out, string const &seconds)
 {
     insertTime(DateTime::LOCALTIME, out, seconds);
 }
+
+

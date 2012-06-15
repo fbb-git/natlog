@@ -4,8 +4,9 @@ void NatFork::childProcess()
 {
     Options &options(Options::instance());
 
-    SyslogStream syslog(options.syslogTag().c_str(), options.syslogPriority(), 
-                        options.syslogFacility());
+    ShowSeconds::setFormat(options.time());
+
+    Syslogger syslog(options);
 
     if (string(options[0]) == "conntrack")
     {
