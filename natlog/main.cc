@@ -8,7 +8,6 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("config", 'c'),
         Arg::LongOption("conntrack", Arg::Required),
         Arg::LongOption("no-daemon", Arg::None),
-        Arg::LongOption("no-ethernet", Arg::Required),
         Arg::LongOption("help", 'h'),
         Arg::LongOption("no-syslog", Arg::None),
         Arg::LongOption("syslog-tag", Arg::Required),

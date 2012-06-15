@@ -4,6 +4,7 @@
 #include <bobcat/mstream>
 
 #include "pcap/pcap.h"
+#include "pcappacket/pcappacket.h"
 
 void usage(std::string const &progname);
 

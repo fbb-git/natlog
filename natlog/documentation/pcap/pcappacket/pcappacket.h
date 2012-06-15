@@ -68,6 +68,7 @@ class PcapPacket
     public:
         enum Size
         {
+            SIZEOF_ETHERNET_HEADER = IP_OFFSET,
             SIZEOF_TCP_HEADER = DATA_OFFSET
         };
 

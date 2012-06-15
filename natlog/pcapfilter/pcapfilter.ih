@@ -6,3 +6,7 @@
 
 using namespace std;
 
+inline int PcapFilter::shift() const
+{
+    return d_pcap.shift();
+}

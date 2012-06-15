@@ -1,3 +1,8 @@
+ISN natlog (0.40.0) 
+
+  * Added auto-detection of devices without Ethernet packet headers
+
+
 natlog (0.30.0) 
 
   * Initial implementation of 'natlog in out', performing direct packet

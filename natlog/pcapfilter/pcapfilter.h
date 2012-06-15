@@ -37,6 +37,7 @@ struct PcapFilter: public SignalHandler
 
         static void callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                              u_char const *bytes);
+        int shift() const;
 
         virtual void signaled(size_t signum) override;
 };

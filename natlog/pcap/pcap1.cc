@@ -2,6 +2,8 @@
 
 Pcap::Pcap(char const *device, bool promisc, size_t snapLen, size_t timeOutMs)
 {
+    computeShift(device);
+
     char errBuf[PCAP_ERRBUF_SIZE];
 
     d_pcap = pcap_open_live(device, snapLen, promisc, timeOutMs, errBuf);
