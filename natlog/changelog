@@ -1,4 +1,10 @@
-ISN natlog (0.80.0) 
+natlog (0.81.0) 
+
+  * Updated sourceforge's `excluded' file.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 15 Jun 2012 21:30:42 +0200
+
+natlog (0.80.0) 
 
   * Added auto-detection of devices without Ethernet packet headers
 
