@@ -28,6 +28,7 @@ struct Options
     
         std::string d_conntrackPath;
         std::string d_syslogTag;
+        std::string d_PIDfile;
     
         std::unordered_map<std::string, FBB::Facility>::const_iterator 
                                                             d_syslogFacility;
@@ -41,6 +42,7 @@ struct Options
         static char const s_defaultSyslogIdent[];
         static char const s_defaultSyslogFacility[];
         static char const s_defaultSyslogPriority[];
+        static char const s_defaultPIDfile[];
     
         static std::unordered_map<std:: string, Time> const s_time;
         static std::unordered_map<std::string, FBB::Facility> const 
@@ -62,6 +64,7 @@ struct Options
 
         Time time() const;
 
+        std::string const &pidFile() const;
         std::string const &conntrackPath() const;
         std::string const &syslogTag() const;
 
@@ -80,6 +83,7 @@ struct Options
         static char const *defaultSyslogIdent();
         static char const *defaultSyslogFacility();
         static char const *defaultSyslogPriority();
+        static char const *defaultPIDfile();
 
     private:
         Options();
@@ -119,6 +123,11 @@ inline std::string const &Options::syslogTag() const
     return d_syslogTag;
 }
 
+inline std::string const &Options::pidFile() const
+{   
+    return d_PIDfile;
+}
+
 inline FBB::Priority Options::syslogPriority() const
 {   
     return d_syslogPriority->second;
@@ -132,6 +141,11 @@ inline std::string const &Options::priority() const
 inline FBB::Facility Options::syslogFacility() const
 {   
     return d_syslogFacility->second;
+}
+
+inline char const *Options::defaultPIDfile() 
+{
+    return s_defaultPIDfile;
 }
 
 inline char const *Options::defaultConfigPath() 

@@ -5,6 +5,7 @@ char const Options::s_defaultConntrackPath[]    = "/usr/sbin/conntrack";
 char const Options::s_defaultSyslogIdent[]      = "NATLOG";
 char const Options::s_defaultSyslogFacility[]   = "DAEMON";
 char const Options::s_defaultSyslogPriority[]   = "NOTICE";
+char const Options::s_defaultPIDfile[]          = "/var/run/natlog.pid";
 
 unordered_map<string, Options::Time> const Options::s_time = 
     {

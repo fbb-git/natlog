@@ -1,5 +1,10 @@
 #include "natfork.h"
 
+#include <sys/types.h>
+#include <unistd.h>
+
+#include <fstream>
+
 #include "../options/options.h"
 #include "../syslogger/syslogger.h"
 #include "../conntrack/conntrack.h"

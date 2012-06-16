@@ -21,6 +21,10 @@ void usage(std::string const &progname)
     "      --no-daemon        - do not run " << progname << 
                                                         " in the background\n"
     "      --no-syslog        - do not write syslog messages\n"
+    "      --pid-file (-p) path - `path' is the name of the file holding "
+                                                                    "the\n"
+    "                           daemon's PID (default `\n" <<
+                                Options::defaultPIDfile() << "')\n"
     "      --syslog-tag id  - id: identifier prefixed to syslog messages\n"
     "                           (default `" << 
                                 Options::defaultSyslogIdent() << "')\n"

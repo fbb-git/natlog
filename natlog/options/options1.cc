@@ -17,6 +17,9 @@ Options::Options()
 
     d_stdout = d_verbose || d_arg.option('s');
 
+    if (not d_arg.option(&d_PIDfile, 'p'))
+        d_PIDfile = s_defaultPIDfile;
+
     if (not Stat(config))
         wmsg << "Configuration file `" << config << "' not found" << endl;
     else

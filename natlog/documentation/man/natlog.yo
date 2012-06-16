@@ -151,6 +151,11 @@ manpagesection(OPTIONS)
         with priority tt(NOTICE). No messages are sent to the syslog daemon
         when this option is provided.
 
+    it() lsoption(pid-file)(p)(path)nl()
+       When tt(natlog) runs in the background, then tt(path) is the name of
+        the path of the file holding the daemon's process-id. By default this
+        is tt(/var/run/natlog.pid).
+        
     it() loption(stdout) (soption(s))nl() 
        Syslog-equivalent messages are sent to the standard output.
         This option is implied by tt(--verbose).

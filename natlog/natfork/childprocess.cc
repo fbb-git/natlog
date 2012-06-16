@@ -24,5 +24,13 @@ void NatFork::childProcess()
         throw 1;
     }
 
+    ifstream pidFile(options.pidFile());
+    size_t pid;
+    if (pidFile >> pid && pid == getpid())
+    {
+        pidFile.close();
+        unlink(options.pidFile().c_str());
+    }
+
     throw 0;                    // ends the program or the child process
 }

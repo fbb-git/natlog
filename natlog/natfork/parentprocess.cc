@@ -4,5 +4,8 @@
     // the main program.
 void NatFork::parentProcess()
 {
+    ofstream pidFile(Options::instance().pidFile());
+    pidFile << pid() << endl;
+
     throw 0;
 }

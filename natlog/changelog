@@ -1,8 +1,11 @@
-natlog (0.81.0) 
+natlog (0.90.0) 
 
   * Updated sourceforge's `excluded' file.
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 15 Jun 2012 21:30:42 +0200
+  * Added the --pid-file option defining the location of a file holding 
+    the daemon's PID. By default the pid-file is /var/run/natlog.pid. 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 16 Jun 2012 12:03:01 +0200
 
 natlog (0.80.0) 
 
