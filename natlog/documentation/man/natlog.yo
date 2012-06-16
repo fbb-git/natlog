@@ -231,10 +231,10 @@ filtering is also supported, see, e.g.,
 tt(http://www.rsyslog.com/doc/rsyslog_conf_filter.html) and
 tt(http://www.rsyslog.com/doc/property_replacer.html)
 
-manpagesection(EXAMPLE)
+manpagesection(EXAMPLES)
 
     Examples of tt(natlog) activations:
-    itemiztion(
+    itemization(
     it() tt(natlog --no-daemon --no-syslog -s tun0 eth0)nl()
         tt(Natlog) remains active as a foreground process, no syslog messages
 are written, syslog-equivalent message are written to the standard
