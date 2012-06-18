@@ -25,7 +25,7 @@ void NatFork::childProcess()
     }
 
     ifstream pidFile(options.pidFile());
-    size_t pid;
+    pid_t pid;
     if (pidFile >> pid && pid == getpid())
     {
         pidFile.close();
