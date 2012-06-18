@@ -1,9 +1,11 @@
-ISN natlog (0.90.1) 
+natlog (0.91.0) 
 
   * Changed variable type of `pid' in natfork/childprocess.cc
 
+  * Normal end of program (e.g., the starting daemon or ending
+    natfork/childprocess) now returns 0
 
-
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 18 Jun 2012 18:21:42 +0200
 
 natlog (0.90.0) 
 

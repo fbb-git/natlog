@@ -42,6 +42,10 @@ catch (Errno const &err)
     cout << err.why() << '\n';
     return 1;
 }
+catch (int x)
+{
+    return x;
+}
 catch (...)
 {
     return 1;
