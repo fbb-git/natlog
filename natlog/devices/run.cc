@@ -8,6 +8,9 @@ void Devices::run()
     Signal::instance().add(SIGTERM, in);
     Signal::instance().add(SIGTERM, out);
 
+    d_syslog << "starting to capture `" << d_options[0] << 
+                              "' and `" << d_options[1] << '\'' << endl;
+
     thread inThread(in);
     thread outThread(out);
 

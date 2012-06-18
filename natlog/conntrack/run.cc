@@ -22,6 +22,7 @@ void Conntrack::run()
     "dport=(\\d+)");                        // natted sport
 
 
+    d_syslog << "starting " << d_options.conntrackPath() << endl;
     d_conntrack.start();
 
     string line;
@@ -43,7 +44,7 @@ void Conntrack::run()
                 else
                 {
                     log(*d_connections[idx], pat[1], pat[2]);
-                    d_connections.erase(idx);  // erase the processed element
+                    d_connections.erase(idx);  // erase processed element
                 }
             }
         }
