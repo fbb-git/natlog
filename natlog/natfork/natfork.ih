@@ -8,9 +8,9 @@
 #include <bobcat/ofdstream>
 #include <bobcat/mstream>
 #include <bobcat/selector>
+#include <bobcat/syslogstream>
 
 #include "../options/options.h"
-#include "../syslogger/syslogger.h"
 #include "../showseconds/showseconds.h"
 #include "../conntrack/conntrack.h"
 #include "../devices/devices.h"

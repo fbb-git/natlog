@@ -2,35 +2,19 @@
 
 void NatFork::run()
 {
-    Options &options = Options::instance();
+    configureMsb();
 
-    Syslogger syslog(options);
-
-    if (options.syslog())
-        d_msb.insert(syslog);
-    if (options.stdout())
-        d_msb.insert(cout);
-
-    if (string(options[0]) == "conntrack")
-    {
-        char const *conntrack = options.conntrackPath().c_str();
-
-        if (access(conntrack, R_OK | X_OK) != 0)
-        {
-            d_out << "[Fatal] Can't execute " << conntrack << endl;
-            throw 1;
-        }
-        d_mode = CONNTRACK;
-    }
-    else if (options.nArgs() == 2)
+    if (string(d_options[0]) == "conntrack")
+        conntrackMode();
+    else if (d_options.nArgs() == 2)
         d_mode = PCAP;
     else
     {
-        usage(options.basename());
+        usage(d_options.basename());
         throw 1;
     }
 
-    if (Options::instance().daemon())
+    if (d_options.daemon())
         fork();
     else
         childProcess();

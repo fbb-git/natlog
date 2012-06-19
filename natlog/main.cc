@@ -44,12 +44,5 @@ catch (Errno const &err)
 }
 catch (int x)
 {
-    if (x != 0)
-        cerr << "End of Program\n";
     return x;
-}
-catch (...)
-{
-    cerr << "Unexpected End of Program\n";
-    return 1;
 }

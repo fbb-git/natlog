@@ -3,8 +3,7 @@
 
 #include <iosfwd>
 #include <ctime>
-
-#include "../options/options.h"
+#include <string>
 
 class ShowSeconds
 {
@@ -21,7 +20,7 @@ class ShowSeconds
         ShowSeconds(std::string const &seconds);
         ShowSeconds(time_t seconds);
 
-        static void setFormat(Options::Time time);
+        static void setFormat();
         static std::string const &utcMarker();
 
     private:

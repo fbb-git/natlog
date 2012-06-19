@@ -15,11 +15,11 @@ class Pcap
         Pcap(char const *device, bool promisc = false, size_t snapLen = 1500, 
              size_t timeOutMs = 1000);
 
-        bool filter(std::string const &filterExpr, bool optimize = true);
+        void filter(std::string const &filterExpr, bool optimize = true);
         void loop(u_char *user, pcap_handler callback);
         void stop();
 
-        int shift() const;
+        int shiftPacketBegin() const;
 
     private:
         void computeShift(char const *device);  // from Pcap(): sets d_shift
@@ -30,7 +30,7 @@ inline void Pcap::stop()
     pcap_breakloop(d_pcap);
 }
 
-inline int Pcap::shift() const
+inline int Pcap::shiftPacketBegin() const
 {
     return d_shift;
 }

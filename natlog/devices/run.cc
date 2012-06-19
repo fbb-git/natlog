@@ -8,7 +8,7 @@ void Devices::run(ostream &parent)
     Signal::instance().add(SIGTERM, in);
     Signal::instance().add(SIGTERM, out);
 
-    d_out << "capturing " << d_options[0] << 
+    d_out << "starting: capturing " << d_options[0] << 
                               " and " << d_options[1] << endl;
 
     thread inThread(in);

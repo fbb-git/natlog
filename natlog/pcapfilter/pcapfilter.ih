@@ -6,7 +6,7 @@
 
 using namespace std;
 
-inline int PcapFilter::shift() const
+inline int PcapFilter::shiftPacketBegin() const
 {
-    return d_pcap.shift();
+    return d_pcap.shiftPacketBegin();
 }

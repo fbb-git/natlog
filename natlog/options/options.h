@@ -36,7 +36,7 @@ struct Options
                                                             d_syslogFacility;
         std::unordered_map<std::string, FBB::Priority>::const_iterator 
                                                             d_syslogPriority;
-    
+
             // default values:
 
         static char const s_defaultConfigPath[];
@@ -92,7 +92,7 @@ struct Options
         Options();
 
         void openConfig();
-        void openSyslog();
+        void setSyslogParams();
         void setBoolMembers();
         void setSyslogFacility();
         void setSyslogPriority();

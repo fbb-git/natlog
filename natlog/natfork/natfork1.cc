@@ -2,6 +2,6 @@
 
 NatFork::NatFork()
 :
+    d_options(Options::instance()),
     d_out(&d_msb)
-    // d_mode set in run()
 {}

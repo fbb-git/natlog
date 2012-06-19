@@ -1,5 +1,8 @@
 #include "options.ih"
 
+// at this time we're not running as a daemon, and all messages are sent to
+// cout
+
 Options::Options()
 :
     d_arg(ArgConfig::instance())
@@ -9,7 +12,7 @@ Options::Options()
     if (not d_arg.option(&d_conntrackPath, "conntrack-path"))
         d_conntrackPath = s_defaultConntrackPath;
 
-    openSyslog();
+    setSyslogParams();
 
     setBoolMembers();
 
@@ -19,6 +22,8 @@ Options::Options()
     else 
         setTime(time);
 
+    if (emsg.count())           // encountered errors? Then quit.
+        throw 1;
 }
 
 

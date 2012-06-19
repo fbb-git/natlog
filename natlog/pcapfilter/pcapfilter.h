@@ -25,7 +25,6 @@ struct PcapFilter: public SignalHandler
     public:
         PcapFilter(char const *device, PcapRecord &record, Type type);
         void operator()();
-        void stop();
         
     private:
         void inDevice(PcapPacket const &packet);
@@ -37,7 +36,7 @@ struct PcapFilter: public SignalHandler
 
         static void callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                              u_char const *bytes);
-        int shift() const;
+        int shiftPacketBegin() const;
 
         virtual void signaled(size_t signum) override;
 };

@@ -132,15 +132,17 @@ manpagesection(OPTIONS)
         command-line options are provided. Command-line options override
         configuration file options.
 
-    it() laoption(conntrack)(conntrack-path)nl()
+    it() laoption(conntrack-path)(path)nl()
        The path to the bf(conntrack)(1) program. By default this is
         tt(/usr/sbin/conntrack). The tt(conntrack) program must be available
         when requesting tt(natlog)'s tt(conntrack) command.
 
     it() loption(no-daemon)nl()
-       By default, tt(natlog) runs in the background. tt(Natlog) runs as an
-        ordinary program (i.e., in the foreground when the option
-        tt(no-daemon) is provided).
+       By default, tt(natlog) runs in the background (a daemon). tt(Natlog)
+        runs as an ordinary program (i.e., in the foreground when the option
+        tt(no-daemon) is provided). When running as a daemon, tt(--stdout)
+        (see below) is suppressed, and tt(--verbose) messages (see below) are
+        sent to the sylog daemon, unless tt(--no-syslog) was specified.
 
     it() loption(help) (soption(h))nl()
        Write basic usage information to the standard output stream and
@@ -149,7 +151,7 @@ manpagesection(OPTIONS)
     it() loption(no-syslog)nl()
        By default tt(natlog) writes syslog messages to the tt(DAEMON) facility
         with priority tt(NOTICE). No messages are sent to the syslog daemon
-        when this option is provided.
+        when this option is specified.
 
     it() lsoption(pid-file)(p)(path)nl()
        When tt(natlog) runs in the background, then tt(path) is the name of
@@ -158,7 +160,8 @@ manpagesection(OPTIONS)
         
     it() loption(stdout) (soption(s))nl() 
        Syslog-equivalent messages are sent to the standard output.
-        This option is implied by tt(--verbose).
+        This option is implied by tt(--verbose), but is suppressed when
+        tt(natlog) runs as a daemon..
 
     it() laoption(syslog-tag)(tag)nl()
        When syslog messages are generated they can be provided with a
@@ -198,9 +201,10 @@ NATLOG: From 1338990672:55588 until 1338990747:807100
         the local time zone defined by the computer running tt(natlog).
 
     it() loption(verbose)nl() 
-       Write information to the standard output stream about tt(natlog)
-        itself, about information received by tt(natlog), as well as the
-        information that may also be written to the syslog daemon.
+       Additional messages about tt(natlog)'s mode of operation are sent to
+        the standard output stream. When tt(natlog) runs as a daemon these
+        messages are sent to the syslog daemon, unless tt(--no-syslog) was
+        specified. 
 
     it() loption(version) (soption(v))nl() 
        Write tt(natlog)'s version number to the standard output stream and

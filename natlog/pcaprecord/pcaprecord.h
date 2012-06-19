@@ -57,7 +57,7 @@ class PcapRecord
             Address(struct in_addr const &addr, u_short port);
         };
 
-        PcapRecord(std::ostream &syslog);
+        PcapRecord(std::ostream &out);
         ~PcapRecord();
 
         void add(PcapPacket const &packet, Type type);

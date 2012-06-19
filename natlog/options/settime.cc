@@ -5,7 +5,8 @@ void Options::setTime(string const &spec)
     auto iter = s_time.find(spec);
     if (iter != s_time.end())
     {
-        imsg << "Time specification: " << spec << '\n';
+        if (d_verbose)
+            cout << "Time specification: " << spec << endl;
         d_time = iter->second;
     }
     else

@@ -1,6 +1,6 @@
 #include "options.ih"
 
-void Options::openSyslog()
+void Options::setSyslogParams()
 {
     d_useSyslog = not d_arg.option(0, "no-syslog");
 
@@ -11,8 +11,5 @@ void Options::openSyslog()
     
         setSyslogFacility();
         setSyslogPriority();
-    
-        if (emsg.count())           // encountered errors? Then quit.
-            throw 1;
     }
 }

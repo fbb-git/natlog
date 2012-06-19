@@ -22,7 +22,7 @@ void Conntrack::run(ostream &parent)
     "dport=(\\d+)");                        // natted sport
 
 
-    d_out << "starting " << d_options.conntrackPath() << endl;
+    d_out << "starting: using " << d_options.conntrackPath() << endl;
     d_conntrack.start();
 
     string line;
@@ -61,11 +61,4 @@ void Conntrack::run(ostream &parent)
         parent << line << endl;
     }
 }
-
-
-
-
-
-
-
 
