@@ -1,8 +1,9 @@
 #include "options.h"
 
+#include <unistd.h>
+
 #include <bobcat/mstream>
 #include <bobcat/user>
-#include <bobcat/stat>
 
 using namespace std;
 using namespace FBB;

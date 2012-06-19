@@ -48,7 +48,7 @@ class PcapRecord
 
     private:
         std::vector<Record *> d_connections;
-        std::ostream &d_syslog;
+        std::ostream &d_out;
         Options &d_options;
 
     public:

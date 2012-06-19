@@ -1,7 +1,7 @@
 #include "pcaprecord.ih"
 
-PcapRecord::PcapRecord(std::ostream &syslog)
+PcapRecord::PcapRecord(std::ostream &out)
 :
-    d_syslog(syslog),
+    d_out(out),
     d_options(Options::instance())
 {}

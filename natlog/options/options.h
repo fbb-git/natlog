@@ -20,9 +20,11 @@ struct Options
     private:
         FBB::ArgConfig &d_arg;
     
-        bool d_verbose;
-        bool d_useSyslog;
+        bool d_daemon;
         bool d_stdout;
+        bool d_useSyslog;
+        bool d_verbose;
+        bool d_warnings;
 
         Time d_time;
     
@@ -57,10 +59,11 @@ struct Options
 
         Options(Options const &other) = delete;
 
-        bool verbose() const;
-        bool syslog() const;
+        bool daemon() const;
         bool stdout() const;
-        bool daemon();
+        bool syslog() const;
+        bool verbose() const;
+        bool warnings() const;
 
         Time time() const;
 
@@ -88,6 +91,9 @@ struct Options
     private:
         Options();
 
+        void openConfig();
+        void openSyslog();
+        void setBoolMembers();
         void setSyslogFacility();
         void setSyslogPriority();
         void setTime(std::string const &time);
@@ -103,9 +109,14 @@ inline bool Options::verbose() const
     return d_verbose;
 }
 
-inline bool Options::daemon()
+inline bool Options::daemon() const
 {   
-    return not d_arg.option(0, "no-daemon");
+    return d_daemon;
+}
+
+inline bool Options::warnings() const
+{   
+    return d_warnings;
 }
 
 inline bool Options::syslog() const

@@ -2,7 +2,6 @@
 
 #include <signal.h>
 #include <ostream>
-#include <unistd.h>
 
 #include <bobcat/mstream>
 #include <bobcat/x2a>

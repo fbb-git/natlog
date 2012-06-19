@@ -6,21 +6,12 @@ void Conntrack::log(ConntrackRecord::Record const &record,
 {
     endMicroSecs.insert(0, 6 - endMicroSecs.length(), '0');
 
-    ostringstream out1;
-    out1 << "from " << 
+    d_out << "from " << 
                 ShowSeconds(record.seconds) << ':' << record.musecs << 
             " until " << 
                 ShowSeconds(endSeconds) << ':' << endMicroSecs << 
-                                        ShowSeconds::utcMarker() << ':';
-
-    ostringstream out2;
-    out2 << ' ' << record.sourceIP << ':' << record.sourcePort << 
+                                        ShowSeconds::utcMarker() << ": " <<
+            record.sourceIP << ':' << record.sourcePort << 
                " (via: " << record.viaIP << ':' << record.viaPort << ") "
-        "to " << record.destIP << ':' << record.destPort;
-
-    if (d_options.stdout())
-        cout << out1.str() << "\n"
-                "   " << out2.str() << endl;
-
-    d_syslog << out1.str() << out2.str() << endl;
+        "to " << record.destIP << ':' << record.destPort << endl;
 }

@@ -5,7 +5,7 @@
 //      src=192.168.1.4 dst=129.125.14.80 sport=59783 dport=22  [UNREPLIED] 
 //      src=129.125.14.80 dst=129.125.100.246 sport=22 dport=59783
 
-void Conntrack::run()
+void Conntrack::run(ostream &parent)
 {
     Signal::instance().add(SIGTERM, *this);
 
@@ -22,12 +22,16 @@ void Conntrack::run()
     "dport=(\\d+)");                        // natted sport
 
 
-    d_syslog << "starting " << d_options.conntrackPath() << endl;
+    d_out << "starting " << d_options.conntrackPath() << endl;
     d_conntrack.start();
 
     string line;
+    bool lines = false;
+
     while (getline(d_conntrack, line))
     {
+        lines = true;
+
         imsg << "LINE: " << line << endl;
 
         if (pat << line)
@@ -49,6 +53,19 @@ void Conntrack::run()
             }
         }
     }
+
+    if (not lines && (d_conntrack.available() & Process::CHILD_CERR))
+    {
+        string line;
+        getline(d_conntrack.cerr(), line);
+        parent << line << endl;
+    }
 }
+
+
+
+
+
+
 
 

@@ -16,12 +16,12 @@ class Conntrack: public SignalHandler
     ConntrackRecord d_connections;
     Options &d_options;
     FBB::Process d_conntrack;
-    std::ostream &d_syslog;
+    std::ostream &d_out;
 
     public:
-        Conntrack(std::ostream &syslog);
+        Conntrack(std::ostream &out);
         ~Conntrack();
-        void run();
+        void run(std::ostream &parent);
 
     private:
         void log(ConntrackRecord::Record const &record, 

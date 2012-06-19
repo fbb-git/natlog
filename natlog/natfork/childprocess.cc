@@ -6,22 +6,26 @@ void NatFork::childProcess()
 
     ShowSeconds::setFormat(options.time());
 
-    Syslogger syslog(options);
+    if (options.daemon())
+        prepareDaemon();
 
-    if (string(options[0]) == "conntrack")
+    OFdStream out(d_pipe.writeFd());
+    try
     {
-        Conntrack conntrack(syslog);
-        conntrack.run();
+        if (d_mode == CONNTRACK)
+        {
+            Conntrack conntrack(d_out);
+            conntrack.run(out);
+        }
+        else 
+        {
+            Devices devices(d_out);
+            devices.run(out);
+        }
     }
-    else if (options.nArgs() == 2)
+    catch (Errno const &err)
     {
-        Devices devices(syslog);
-        devices.run();
-    }
-    else
-    {
-        usage(options.basename());
-        throw 1;
+        out << err.why() << endl;
     }
 
     ifstream pidFile(options.pidFile());
@@ -34,3 +38,10 @@ void NatFork::childProcess()
 
     throw 0;                    // ends the program or the child process
 }
+
+
+
+
+
+
+

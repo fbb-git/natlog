@@ -6,7 +6,7 @@ namespace   // the anonymous namespace can be used here
     Arg::LongOption longOptions[] =
     {
         Arg::LongOption("config", 'c'),
-        Arg::LongOption("conntrack", Arg::Required),
+        Arg::LongOption("conntrack-path", Arg::Required),
         Arg::LongOption("no-daemon", Arg::None),
         Arg::LongOption("help", 'h'),
         Arg::LongOption("no-syslog", Arg::None),
@@ -44,9 +44,12 @@ catch (Errno const &err)
 }
 catch (int x)
 {
+    if (x != 0)
+        cerr << "End of Program\n";
     return x;
 }
 catch (...)
 {
+    cerr << "Unexpected End of Program\n";
     return 1;
 }
