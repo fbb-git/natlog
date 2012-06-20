@@ -2,15 +2,14 @@
 
 void NatFork::run()
 {
-    configureMsb();
-
     if (string(d_options[0]) == "conntrack")
         conntrackMode();
     else if (d_options.nArgs() == 2)
         d_mode = PCAP;
     else
     {
-        usage(d_options.basename());
+        imsg << "invalid argument(s) specified. First was: `" << 
+                d_options[0] << '\'' << endl;
         throw 1;
     }
 
