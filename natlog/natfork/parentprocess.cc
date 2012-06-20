@@ -11,7 +11,7 @@ void NatFork::parentProcess()
         // could not continue, and the parent returns 1.
     Selector selector;
     selector.addReadFd(STDIN_FILENO);
-    selector.setAlarm(0, 500000);           // wait for max. 1/2 second
+    selector.setAlarm(0, d_options.delayMusecs());  // max. wait time
 
     selector.wait();
     if (selector.nReady())

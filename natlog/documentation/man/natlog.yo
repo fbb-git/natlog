@@ -137,6 +137,22 @@ manpagesection(OPTIONS)
         tt(/usr/sbin/conntrack). The tt(conntrack) program must be available
         when requesting tt(natlog)'s tt(conntrack) command.
 
+    it() laoption(delay-musecs)(musecs)nl()
+       When tt(natlog) must run as a daemon, starting the daemon process may
+        fail for various reasons. E.g., there may be an error in specifying
+        the tt(conntrack) path, or the user may not have permissions to access
+        the information made available by tt(contrack) or by the
+        pcap-library. As tt(natlog)'s return value should indicate whether or
+        not the daemon has successfully started, the daemon process must
+        inform its parent tt(natlog) process about any irregularities that
+        might have been encountered. Usually this information is immediately
+        available, but it takes a moment before the daemon process can deduct
+        that tt(natlog)'s conntrack mode runs OK. The amount of micro seconds
+        the parent process will wait for the daemon to report an error
+        condition can be configured with the tt(delay-musecs) option. Its
+        default value is 500.000, boiling down to a maximum delay of half a
+        second. Normally, there is no need to modify this value.
+
     it() loption(no-daemon)nl()
        By default, tt(natlog) runs in the background (a daemon). tt(Natlog)
         runs as an ordinary program (i.e., in the foreground when the option

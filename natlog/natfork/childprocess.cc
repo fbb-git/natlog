@@ -30,7 +30,8 @@ void NatFork::childProcess()
     {
         out << err.why() << endl;           // If the daemon can't start,
                                             // write a message.
-        // the failure message must be sent within 0.5 seconds. I cannot
+
+        // the failure message must be sent within Options::delaySe0.5 seconds. I cannot
         // otherwise determine whether conntrack runs. If it runs it writes a
         // message to the std error stream, but that's only known once
         // Conntrack run's getline fails. But if it doesn't fail, there's no

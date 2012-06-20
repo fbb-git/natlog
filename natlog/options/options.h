@@ -26,6 +26,8 @@ struct Options
         bool d_verbose;
         bool d_warnings;
 
+        size_t d_delay;
+
         Time d_time;
     
         std::string d_conntrackPath;
@@ -38,6 +40,8 @@ struct Options
                                                             d_syslogPriority;
 
             // default values:
+
+        static size_t const s_defaultDelay = 500000;        // 1/2 second
 
         static char const s_defaultConfigPath[];
         static char const s_defaultConntrackPath[];
@@ -65,6 +69,8 @@ struct Options
         bool verbose() const;
         bool warnings() const;
 
+        size_t delayMusecs() const;
+
         Time time() const;
 
         std::string const &pidFile() const;
@@ -80,6 +86,8 @@ struct Options
         char const *operator[](size_t idx) const;   // forwards ArgConfig's
         size_t nArgs() const;                       // values.
         std::string const &basename() const;
+
+        static size_t defaultDelayMusecs() const;
 
         static char const *defaultConfigPath();
         static char const *defaultConntrackPath();
@@ -122,6 +130,11 @@ inline bool Options::warnings() const
 inline bool Options::syslog() const
 {   
     return d_useSyslog;
+}
+
+inline size_t Options::delayMusecs() const
+{   
+    return d_delayMusecs;
 }
 
 inline Options::Time Options::time() const
@@ -208,6 +221,12 @@ inline char const *Options::defaultSyslogPriority()
 {
     return s_defaultSyslogPriority;
 }
+
+inline size_t Options::defaultDelayMusecs() const
+{   
+    return s_defaultDelayMusecs;
+}
+
 
 #endif
 

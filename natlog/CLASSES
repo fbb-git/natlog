@@ -1,26 +1,13 @@
 signal
-
 options
-
 showseconds     options
-
-# syslogger       options 
-
 conntrackrecord
-
 conntrack       signal  showseconds   conntrackrecord
-
 pcappacket
-
 pcaprecord      pcappacket
 pcap            pcappacket
-
-    #   handles the incoming packets via callback(),
-    #   currently hard-codes missing Ethernet header for tun0 in callback()
 pcapfilter      signal      pcap        pcaprecord
-
 devices         showseconds pcapfilter
-
 natfork         conntrack   devices
 
 

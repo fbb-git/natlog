@@ -12,18 +12,24 @@ Options::Options()
     if (not d_arg.option(&d_conntrackPath, "conntrack-path"))
         d_conntrackPath = s_defaultConntrackPath;
 
+    
     setSyslogParams();
 
     setBoolMembers();
 
-    string time;
-    if (not d_arg.option(&time, 't'))
+    string value;
+    if (not d_arg.option(&value, 't'))
         d_time = RAW;
     else 
-        setTime(time);
+        setTime(value);
 
     if (emsg.count())           // encountered errors? Then quit.
         throw 1;
+
+    d_delayMusecs = d_arg.option(&value, "delay-musecs") ?
+                        A2x(value)
+                    :
+                        s_defaultDelayMusecs;
 }
 
 
