@@ -20,7 +20,7 @@ void usage(std::string const &progname)
     "      --delay-musecs musecs - number of microseconds natlog waits for\n"
     "                           the daemon to start. See the man-page for "
                                                             "details\n"
-    "                           (default " << Options::defaultMusecs() << 
+    "                           (default " << Options::defaultDelayMusecs() << 
                                                                         ")\n"
     "      --help (-h)        - provide this help\n"
     "      --no-daemon        - do not run " << progname << 

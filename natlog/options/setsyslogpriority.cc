@@ -7,9 +7,15 @@ void Options::setSyslogPriority()
         d_syslogPriority = s_syslogPriorities.find(s_defaultSyslogPriority);
     else
     {
-        d_syslogPriority = s_syslogPriorities.find(option);
-        if (d_syslogPriority == s_syslogPriorities.end())
-            emsg << "Syslog priority `" << option << "' not supported. "
-                    "(see the man-page)" << endl;
+        std::unordered_map<std::string, FBB::Priority>::const_iterator 
+            priority = s_syslogPriorities.find(option);
+
+        if (priority != s_syslogPriorities.end())
+            d_syslogPriority = priority;
+        else
+            d_syslogPriorityError = option;
     }            
 }
+
+// "Syslog priority `" << option << "' not supported. "
+//                    "(see the man-page)" << endl;

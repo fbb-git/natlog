@@ -23,15 +23,15 @@ Options::Options()
     else 
         setTime(value);
 
-    if (emsg.count())           // encountered errors? Then quit.
-        throw 1;
-
     d_delayMusecs = d_arg.option(&value, "delay-musecs") ?
                         A2x(value)
                     :
                         s_defaultDelayMusecs;
 }
 
+
+//    if (emsg.count())           // encountered errors? Then quit.
+//        throw 1;
 
 
 

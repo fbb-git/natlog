@@ -1,12 +1,11 @@
 #ifndef INCLUDED_OPTIONS_
 #define INCLUDED_OPTIONS_
 
-#include <iostream>
 #include <string>
 #include <unordered_map>
 
-#include <bobcat/syslogstream>
 #include <bobcat/argconfig>
+#include <bobcat/syslogstream>      // for the enums
 
 struct Options
 {
@@ -26,13 +25,16 @@ struct Options
         bool d_verbose;
         bool d_warnings;
 
-        size_t d_delay;
+        size_t d_delayMusecs;
 
         Time d_time;
     
         std::string d_conntrackPath;
         std::string d_syslogTag;
         std::string d_PIDfile;
+        std::string d_timeSpec;
+        std::string d_syslogPriorityError;
+        std::string d_syslogFacilityError;
     
         std::unordered_map<std::string, FBB::Facility>::const_iterator 
                                                             d_syslogFacility;
@@ -41,7 +43,7 @@ struct Options
 
             // default values:
 
-        static size_t const s_defaultDelay = 500000;        // 1/2 second
+        static size_t const s_defaultDelayMusecs = 500000;  // 1/2 second
 
         static char const s_defaultConfigPath[];
         static char const s_defaultConntrackPath[];
@@ -73,6 +75,7 @@ struct Options
 
         Time time() const;
 
+        std::string const &timeSpec() const;
         std::string const &pidFile() const;
         std::string const &conntrackPath() const;
         std::string const &syslogTag() const;
@@ -87,8 +90,7 @@ struct Options
         size_t nArgs() const;                       // values.
         std::string const &basename() const;
 
-        static size_t defaultDelayMusecs() const;
-
+        static size_t defaultDelayMusecs();
         static char const *defaultConfigPath();
         static char const *defaultConntrackPath();
         static char const *defaultSyslogIdent();
@@ -150,6 +152,11 @@ inline std::string const &Options::syslogTag() const
 inline std::string const &Options::pidFile() const
 {   
     return d_PIDfile;
+}
+
+inline std::string const &Options::timeSpec() const
+{   
+    return d_timeSpec;
 }
 
 inline FBB::Priority Options::syslogPriority() const
@@ -222,7 +229,7 @@ inline char const *Options::defaultSyslogPriority()
     return s_defaultSyslogPriority;
 }
 
-inline size_t Options::defaultDelayMusecs() const
+inline size_t Options::defaultDelayMusecs()
 {   
     return s_defaultDelayMusecs;
 }

@@ -13,12 +13,13 @@ void Options::openConfig()
     if (not d_arg.option(&d_PIDfile, 'p'))
         d_PIDfile = s_defaultPIDfile;
 
-    if (access(config.c_str(), R_OK) != 0)
-        wmsg << "Configuration file `" << config << "' not found" << endl;
-    else
-    {
-        if (d_verbose)
-            cout << "Using configuration file: `" << config << '\'' << endl;
+    if (access(config.c_str(), R_OK) == 0)
         d_arg.open(config);
-    }
 }
+
+//        wmsg << "Configuration file `" << config << "' not found" << endl;
+//    else
+//
+//    {
+//        if (d_verbose)
+//            cout << "Using configuration file: `" << config << '\'' << endl;

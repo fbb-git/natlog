@@ -7,9 +7,18 @@ void Options::setSyslogFacility()
         d_syslogFacility = s_syslogFacilities.find(s_defaultSyslogFacility);
     else
     {
-        d_syslogFacility = s_syslogFacilities.find(option);
-        if (d_syslogFacility == s_syslogFacilities.end())
-            emsg << "Syslog facility `" << option << "' not supported. "
-                    "(see the man-page)" << endl;
+        std::unordered_map<std::string, FBB::Facility>::const_iterator 
+            facility = s_syslogFacilities.find(option);
+
+        if (facility != s_syslogFacilities.end())
+            d_syslogFacility == facility;
+        else
+            d_syslogFacilityError = option;
     }            
 }
+
+
+//        d_syslogFacility = s_syslogFacilities.find(option);
+//        if (d_syslogFacility == s_syslogFacilities.end())
+//            emsg << "Syslog facility `" << option << "' not supported. "
+//                    "(see the man-page)" << endl;
