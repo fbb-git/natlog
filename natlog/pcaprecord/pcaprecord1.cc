@@ -1,7 +1,7 @@
 #include "pcaprecord.ih"
 
-PcapRecord::PcapRecord(std::ostream &out)
+PcapRecord::PcapRecord(std::ostream &stdMsg)
 :
-    d_out(out),
+    d_stdMsg(stdMsg),
     d_options(Options::instance())
 {}

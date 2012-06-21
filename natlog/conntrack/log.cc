@@ -6,7 +6,7 @@ void Conntrack::log(ConntrackRecord::Record const &record,
 {
     endMicroSecs.insert(0, 6 - endMicroSecs.length(), '0');
 
-    d_out << "from " << 
+    d_stdMsg << "from " << 
                 ShowSeconds(record.seconds) << ':' << record.musecs << 
             " until " << 
                 ShowSeconds(endSeconds) << ':' << endMicroSecs << 

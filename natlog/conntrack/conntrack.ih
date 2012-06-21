@@ -1,6 +1,8 @@
 #include "conntrack.h"
 
 #include <signal.h>
+#include <unistd.h>
+
 #include <ostream>
 
 #include <bobcat/mstream>

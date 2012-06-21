@@ -1,12 +1,12 @@
 #include "pcaprecord.ih"
 
-ostream &PcapRecord::display(ostream &out, Record const *record) const
+ostream &PcapRecord::display(ostream &stdMsg, Record const *record) const
 {
     Address &&src = sourceIP(*record);
     Address &&via = viaIP(*record);
     Address &&dst = destIP(*record);
 
-    return out << ' ' << 
+    return stdMsg << ' ' << 
                 src.dottedDecimalAddress() << ':' << src.port() << 
            " (via: " << 
                 via.dottedDecimalAddress() << ':' << via.port() << ") "

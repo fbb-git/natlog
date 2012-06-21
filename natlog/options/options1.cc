@@ -22,16 +22,8 @@ Options::Options()
         d_time = RAW;
     else 
         setTime(value);
-
-    d_delayMusecs = d_arg.option(&value, "delay-musecs") ?
-                        A2x(value)
-                    :
-                        s_defaultDelayMusecs;
 }
 
-
-//    if (emsg.count())           // encountered errors? Then quit.
-//        throw 1;
 
 
 

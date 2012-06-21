@@ -22,16 +22,14 @@ void Conntrack::run(ostream &parent)
     "dport=(\\d+)");                        // natted sport
 
 
-    d_out << "starting: using " << d_options.conntrackPath() << endl;
+    parent << 0 << endl;                    // all OK
+
+    d_stdMsg << "starting: using " << d_options.conntrackPath() << endl;
     d_conntrack.start();
 
     string line;
-    bool lines = false;
-
     while (getline(d_conntrack, line))
     {
-        lines = true;
-
         imsg << "LINE: " << line << endl;
 
         if (pat << line)
@@ -53,12 +51,8 @@ void Conntrack::run(ostream &parent)
             }
         }
     }
-
-    if (not lines && (d_conntrack.available() & Process::CHILD_CERR))
-    {
-        string line;
-        getline(d_conntrack.cerr(), line);
-        parent << line << endl;
-    }
 }
+
+
+
 

@@ -4,41 +4,32 @@ void NatFork::childProcess()
 {
     ShowSeconds::setFormat();
 
-    if (d_options.daemon())
-        prepareDaemon();
+//    if (d_options.daemon())
+//        prepareDaemon();
 
     OFdStream out(d_pipe.writeFd());        // the message to the parent
-                                            // (if any)
-
-    if (not d_options.warnings())
-        wmsg.off();
 
     try
     {
         if (d_mode == CONNTRACK)
         {
-            Conntrack conntrack(d_out);
+            Conntrack conntrack(d_stdMsg);
             conntrack.run(out);
         }
         else 
         {
-            Devices devices(d_out);
+            Devices devices(d_stdMsg);
             devices.run(out);
         }
     }
     catch (Errno const &err)
     {
-        out << err.why() << endl;           // If the daemon can't start,
-                                            // write a message.
+        if (not d_options.daemon())
+            throw;
 
-        // the failure message must be sent within Options::delaySe0.5 seconds. I cannot
-        // otherwise determine whether conntrack runs. If it runs it writes a
-        // message to the std error stream, but that's only known once
-        // Conntrack run's getline fails. But if it doesn't fail, there's no
-        // telling how much time it takes before getline returns, and I don't
-        // want the parent to have to wait that long. Therefore, if no message
-        // has been received within 0.5 seconds then the child apparently is
-        // OK 
+        d_stdMsg << err.why() << endl;
+        out << 1 << endl;               // The daemon can't start:
+                                        // inform via the pipe
     }
 
         // when the child process ends it throws away its own pid file:

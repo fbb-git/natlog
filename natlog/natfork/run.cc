@@ -7,11 +7,8 @@ void NatFork::run()
     else if (d_options.nArgs() == 2)
         d_mode = PCAP;
     else
-    {
-        imsg << "invalid argument(s) specified. First was: `" << 
-                d_options[0] << '\'' << endl;
-        throw 1;
-    }
+        fmsg << "invalid argument(s) specified. First was: `" << 
+                d_options[0] << '\'' << flush;
 
     if (d_options.daemon())
         fork();

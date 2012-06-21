@@ -16,9 +16,3 @@ void Options::setSyslogFacility()
             d_syslogFacilityError = option;
     }            
 }
-
-
-//        d_syslogFacility = s_syslogFacilities.find(option);
-//        if (d_syslogFacility == s_syslogFacilities.end())
-//            emsg << "Syslog facility `" << option << "' not supported. "
-//                    "(see the man-page)" << endl;

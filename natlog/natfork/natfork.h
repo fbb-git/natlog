@@ -28,8 +28,8 @@ class NatFork: public FBB::Fork
 
     std::unique_ptr<FBB::SyslogStream> d_syslog;
 
-    FBB::MultiStreambuf d_msb;
-    std::ostream d_out;
+    FBB::MultiStreambuf d_multiStreambuf;
+    std::ostream d_stdMsg;
 
     Mode d_mode;
     FBB::Pipe d_pipe;
@@ -40,7 +40,13 @@ class NatFork: public FBB::Fork
         void run();
 
     private:
-        void configureMsb();
+        void setupStdMsg();
+        void checkSyslogParam(char const *label, std::string const &actual, 
+                                                 std::string const &err);
+        void setupDaemonMsg();
+        void setupNonDaemonMsg();
+
+        void handleChildStatus();
         void conntrackMode();
 
         virtual void parentProcess() override;

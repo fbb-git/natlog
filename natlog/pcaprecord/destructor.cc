@@ -4,7 +4,7 @@ PcapRecord::~PcapRecord()
 {
     size_t endSeconds = time(0);
 
-    d_out << "terminating" << endl;
+    d_stdMsg << "terminating" << endl;
 
     for (auto &rec: d_connections)
     {

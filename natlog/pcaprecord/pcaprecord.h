@@ -48,7 +48,7 @@ class PcapRecord
 
     private:
         std::vector<Record *> d_connections;
-        std::ostream &d_out;
+        std::ostream &d_stdMsg;
         Options &d_options;
 
     public:
@@ -57,7 +57,7 @@ class PcapRecord
             Address(struct in_addr const &addr, u_short port);
         };
 
-        PcapRecord(std::ostream &out);
+        PcapRecord(std::ostream &stdMsg);
         ~PcapRecord();
 
         void add(PcapPacket const &packet, Type type);
@@ -78,7 +78,7 @@ class PcapRecord
         size_t find(uint32_t sequenceNr);   // numlim<siz_t>::max if not
 
         void store(Record *);
-        std::ostream &display(std::ostream &out, Record const *record) const;
+        std::ostream &display(std::ostream &stdMsg, Record const *record) const;
         void log(Record const *record, time_t seconds, 
                                        suseconds_t musecs) const;
 

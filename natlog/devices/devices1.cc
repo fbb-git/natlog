@@ -1,9 +1,9 @@
 #include "devices.ih"
 
-Devices::Devices(ostream &out)
+Devices::Devices(ostream &stdMsg)
 :
-    d_record(out),
+    d_record(stdMsg),
     d_options(Options::instance()),
-    d_out(out)
+    d_stdMsg(stdMsg)
 {
 }

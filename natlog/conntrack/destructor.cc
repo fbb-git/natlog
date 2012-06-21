@@ -4,7 +4,7 @@ Conntrack::~Conntrack()
 {
     string endSeconds = X2a(time(0));
 
-    d_out << "terminating" << endl;
+    d_stdMsg << "terminating" << endl;
 
     for (auto &rec: d_connections)
     {

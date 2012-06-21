@@ -80,6 +80,9 @@ struct Options
         std::string const &priority() const;
         std::string const &facility() const;
 
+        std::string syslogPriorityError() const;
+        std::string syslogFacilityError() const;
+
         char const *operator[](size_t idx) const;   // forwards ArgConfig's
         size_t nArgs() const;                       // values.
         std::string const &basename() const;
@@ -157,9 +160,19 @@ inline std::string const &Options::priority() const
     return d_syslogPriority->first;
 }
 
+inline std::string Options::syslogPriorityError() const
+{   
+    return d_syslogPriorityError;
+}
+
 inline FBB::Facility Options::syslogFacility() const
 {   
     return d_syslogFacility->second;
+}
+
+inline std::string Options::syslogFacilityError() const
+{   
+    return d_syslogFacilityError;
 }
 
 inline char const *Options::defaultPIDfile() 

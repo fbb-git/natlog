@@ -39,7 +39,7 @@ try
 }
 catch (Errno const &err)
 {
-    cout << err.why() << '\n';
+    cout << err.why() << endl;
     return 1;
 }
 catch (int x)
