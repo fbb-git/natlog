@@ -7,7 +7,6 @@ namespace   // the anonymous namespace can be used here
     {
         Arg::LongOption("config", 'c'),
         Arg::LongOption("conntrack-path", Arg::Required),
-        Arg::LongOption("delay-musecs", Arg::Required),
         Arg::LongOption("no-daemon", Arg::None),
         Arg::LongOption("help", 'h'),
         Arg::LongOption("no-syslog", Arg::None),
