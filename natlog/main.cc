@@ -42,7 +42,7 @@ catch (Errno const &err)
     cout << err.why() << endl;
     return 1;
 }
-catch (int x)
+catch (Options::ExitStatus status)
 {
-    return x;
+    return status;
 }

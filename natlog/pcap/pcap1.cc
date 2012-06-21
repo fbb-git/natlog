@@ -9,10 +9,11 @@ Pcap::Pcap(char const *device, bool promisc, size_t snapLen, size_t timeOutMs)
     d_pcap = pcap_open_live(device, snapLen, promisc, timeOutMs, errBuf);
 
     if (d_pcap == 0)
-        throw Errno(1) << errBuf;
+        throw Errno(1, "[Fatal] ") << errBuf;
 
     bpf_u_int32 netMask;        // The netmask of our sniffing device
 
     if (pcap_lookupnet(device, &d_net, &netMask, errBuf) == -1) 
-        throw Errno(1) << "Can't get network address of device " << device;
+        throw Errno(1, "[Fatal] ") << 
+                        "Can't get network address of device " << device;
 }

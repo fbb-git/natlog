@@ -2,17 +2,10 @@
 
 void Options::setTime(string const &spec)
 {
-    auto iter = s_time.find(spec);
-    if (iter != s_time.end())
-        d_time = iter->second;
-    else
-        d_timeSpec = spec;
+    d_time = s_time.find(spec);
+    if (d_time == s_time.end())
+    {
+        d_time = s_time.find("raw");
+        d_timeSpecError = spec;
+    }
 }
-
-//    {
-//        if (d_verbose)
-//            cout << "Time specification: " << spec << endl;
-//    }
-//    else
-//        emsg << "Time specification `" << spec << "' not supported. "
-//                "(see the man-page)" << endl;

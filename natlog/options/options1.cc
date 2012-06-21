@@ -19,11 +19,7 @@ Options::Options()
 
     string value;
     if (not d_arg.option(&value, 't'))
-        d_time = RAW;
+        d_time = s_time.find("raw");
     else 
         setTime(value);
 }
-
-
-
-

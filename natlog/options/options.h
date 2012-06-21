@@ -15,6 +15,12 @@ struct Options
         UTC,
         LT
     };
+
+    enum ExitStatus
+    {
+        OK,
+        FAILED
+    };
     
     private:
         FBB::ArgConfig &d_arg;
@@ -25,12 +31,12 @@ struct Options
         bool d_verbose;
         bool d_warnings;
 
-        Time d_time;
+        std::unordered_map<std::string, Time>::const_iterator d_time;
     
         std::string d_conntrackPath;
         std::string d_syslogTag;
         std::string d_PIDfile;
-        std::string d_timeSpec;
+        std::string d_timeSpecError;
         std::string d_syslogPriorityError;
         std::string d_syslogFacilityError;
     
@@ -68,8 +74,9 @@ struct Options
         bool warnings() const;
 
         Time time() const;
+        std::string const &timeTxt() const;
 
-        std::string const &timeSpec() const;
+        std::string const &timeSpecError() const;
         std::string const &pidFile() const;
         std::string const &conntrackPath() const;
         std::string const &syslogTag() const;
@@ -132,7 +139,12 @@ inline bool Options::syslog() const
 
 inline Options::Time Options::time() const
 {   
-    return d_time;
+    return d_time->second;
+}
+
+inline std::string const &Options::timeTxt() const
+{   
+    return d_time->first;
 }
 
 inline std::string const &Options::syslogTag() const
@@ -145,9 +157,9 @@ inline std::string const &Options::pidFile() const
     return d_PIDfile;
 }
 
-inline std::string const &Options::timeSpec() const
+inline std::string const &Options::timeSpecError() const
 {   
-    return d_timeSpec;
+    return d_timeSpecError;
 }
 
 inline FBB::Priority Options::syslogPriority() const
