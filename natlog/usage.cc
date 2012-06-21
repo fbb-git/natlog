@@ -17,11 +17,6 @@ void usage(std::string const &progname)
     "      --conntrack-path path - path: path to the `conntrack' program\n"
     "                           (default `" << 
                                 Options::defaultConntrackPath() << "')\n"
-    "      --delay-musecs musecs - number of microseconds natlog waits for\n"
-    "                           the daemon to start. See the man-page for "
-                                                            "details\n"
-    "                           (default " << Options::defaultDelayMusecs() << 
-                                                                        ")\n"
     "      --help (-h)        - provide this help\n"
     "      --no-daemon        - do not run " << progname << 
                                                         " in the background\n"
