@@ -21,6 +21,3 @@ void NatFork::run()
     else
         childProcess();
 }
-
-
-

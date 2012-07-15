@@ -1,54 +1,24 @@
-#!/usr/bin/icmake -qt/tmp/natlog
+#!/usr/bin/icmake -qt/tmp/bisonc++
 
-#include "INSTALL.im"
+#include "icmconf"
 
-#define BINARY              "natlog" 
-#define COMPILER            "g++ -Wall --std=c++0x "
-#define LIBRARY             "natlog"       // NO lib, NO .a
-#define LIBS                "-lbobcat -lpcap"      // -l required
-#define MAIN                "main.cc"
-#define SOURCES             "*.cc"
-#define TMP_DIR             "tmp"
-
-list    g_classes;          // all class-directories
-int     g_nClasses;         // number of class-directories
-int     g_compiled;         // any source compiled (but main)?
-list    g_classLines;       // list of all lines in CLASSES
-list    g_inspected;        // list of classes whose dependencies have been 
-                            // inspected (used with USE_ALL)
-int     g_base;             // compile the sources in the base directory
-int     g_chdir;            // display chdirs to directories without sources
-                            // to compile
-string  g_compiler;
-string  g_cwd = chdir("");  // initial working directory
-
+#include "icmake/setopt"
 #include "icmake/run"
 #include "icmake/md"
-#include "icmake/getenv"
 #include "icmake/special"
+
 #include "icmake/clean"
 #include "icmake/manpage"
-#include "icmake/library2"
-#include "icmake/program"
 #include "icmake/install"
 
-void main(int argc, list argv, list envp)
+string  g_cwd = chdir("");  // initial working directory
+
+void main(int argc, list argv)
 {
     string option;
-    string option2;
     string strip;
-    string cdw;
 
-    setLocations();     // from INSTALL.im
-
-    my_getenv("DRYRUN");
-    g_dryrun = g_envvar;
-
-    option = element(1, argv);
-    option2 = element(2, argv);
-    
-    if (option2 == "strip")
-        strip = "-s";
+    option = argv[1];
 
     if (option == "clean")
         clean(0);
@@ -57,54 +27,57 @@ void main(int argc, list argv, list envp)
         clean(1);
 
     if (option == "install")
-        install(option2, 1);
+        install(argv[2], argv[3]);
 
-    if (option == "installprog")
-        install(option2, 0);
+    if (option != "")
+        special();
+
+    if (option == "sourceforge")
+        exit(0);
 
     if (option == "man")
         manpage();
 
     if (option == "library")
     {
-        build_library();
+        system("icmbuild library");
         exit(0);
     }
 
+    if (argv[2] == "strip")
+        strip = "strip";
+    
     if (option == "program")
-        program(1, strip);
-
-    if (option == "xref")
     {
-        program(0, strip);
-        run("oxref -fxs tmp/libnatlog.a > natlog.xref");
+        system("icmbuild program " + strip);
         exit(0);
     }
 
-
-    if (option == "sourceforge")
+    if (option == "oxref")
     {
-        special();
+        system("icmbuild program " + strip);
+        run("oxref -fxs tmp/lib" LIBRARY ".a > " PROGRAM ".xref");
         exit(0);
     }
-
 
     printf("Usage: build [-p] what\n"
         "Where `what' is one of:\n"
-        "   clean              - clean up remnants of previous compilations\n"
-        "   distclean          - clean + fully remove tmp/\n"
-        "   library            - build natlog's library\n"
-        "   man                - build the man-page (requires Yodl)\n"
-        "   program [strip]    - build natlog (optionally strip the\n"
-        "                        executable)\n"
-        "   xref [strip]    - same as 'program', also builds xref file using "
-                                                            "oxref\n"
-        "   install <base>     - install the software in the locations "
-                                                            "defined\n"
-        "                        in the INSTALL.cf file, optionally "
-                                                            "below <base>\n"
-        "   sourceforge     - Prepare .yo files for a sourceforge index "
-                                                                "update\n"
+        "   clean                - clean up remnants of previous "
+                                                            "compilations\n"
+        "   distclean            - clean + fully remove tmp/\n"
+        "   library              - build " PROGRAM "'s library\n"
+        "   man                  - build the man-page (requires Yodl)\n"
+        "   program [strip]      - build " PROGRAM " (optionally strip the\n"
+        "                          executable)\n"
+        "   oxref [strip]        - same a `program', also builds xref file\n"
+        "                          using oxref\n"
+        "   install program [path] - install the program at `path'\n"
+        "                          (by default below `" PROGRAM "')\n"
+        "   install man [base]   - install the man pages below `base'\n"
+        "                          (by default below `" MAN "')\n"
+        "   install std [base]   - install standard docs below `base'\n"
+        "                          (by default below `" STD "')\n"
+        "   sourceforge          - prepare sourceforge's index update\n"
         "\n"
         "If the environment variable DRYRUN is defined, no commands are\n"
         "actually executed\n"

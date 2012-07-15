@@ -1,3 +1,11 @@
+natlog (0.91.1) 
+
+  * >>>>>>> ISN until icmake is at version >= 7.19.00 <<<<<<<
+
+  * build script recognizes CXX, CXXFLAGS, LDFLAGS environment variables
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 15 Jul 2012 14:40:11 +0200
+
 natlog (0.91.0) 
 
   * Normal end of program (e.g., the starting daemon or ending

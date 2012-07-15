@@ -12,6 +12,7 @@ NatFork::NatFork()
     else
         setupNonDaemonMsg();
 
+
     if (d_options.timeSpecError().length() == 0)
         imsg << "Using time type `" << d_options.timeTxt() << '\'' << endl;
     else

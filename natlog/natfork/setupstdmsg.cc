@@ -13,11 +13,16 @@ void NatFork::setupStdMsg()
                 d_options.syslogFacility()
             )
         );
+
         d_multiStreambuf.insert(*d_syslog);
     }
 
     checkSyslogParam("facility", d_options.facility(), 
                                  d_options.syslogFacilityError());
+
     checkSyslogParam("priority", d_options.priority(), 
                                  d_options.syslogPriorityError());
 }
+
+
+

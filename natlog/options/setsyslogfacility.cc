@@ -2,10 +2,10 @@
 
 void Options::setSyslogFacility()
 {
+    d_syslogFacility = s_syslogFacilities.find(s_defaultSyslogFacility);
+
     string option;
-    if (not d_arg.option(&option, "syslog-facility"))
-        d_syslogFacility = s_syslogFacilities.find(s_defaultSyslogFacility);
-    else
+    if (d_arg.option(&option, "syslog-facility"))
     {
         std::unordered_map<std::string, FBB::Facility>::const_iterator 
             facility = s_syslogFacilities.find(option);
