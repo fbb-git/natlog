@@ -15,14 +15,6 @@
 #define LDFLAGS             ""
     // flags passed to the linker
 
-#define SKEL    "/usr/share/bisonc++"
-    // the directory where the skeleton files are installed
-    // Recompile options/data.cc if the skeleton location changes
-
-
-// =========================================================================
-// The following locations are overruled by `build' arguments
-
 #define BINARY     "/usr/bin/"${PROGRAM}
     // the full path of the final program
 
