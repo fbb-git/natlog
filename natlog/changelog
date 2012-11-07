@@ -1,3 +1,10 @@
+natlog (0.91.2) 
+
+  
+  * Added build-depends file and INSTALL files.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 07 Nov 2012 12:03:53 +0100
+
 natlog (0.91.1) 
 
   * build script recognizes CXX, CXXFLAGS, LDFLAGS environment variables

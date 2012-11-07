@@ -1,0 +1,6 @@
+Build-Depends: 
+               g++-4.7.1,
+               icmake (>= 7.19.00),
+               libbobcat-dev (>= 3.01.00),
+               libpcap-dev,
+               yodl (>= 3.00.0)

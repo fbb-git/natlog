@@ -1,0 +1,43 @@
+To Install natlog by hand instead of using the binary distribution perform
+the following steps:
+
+    0. natlog and its construction depends, in addition to the normally
+        standard available system software on specific software and versions 
+        documented in the file `build-depends'.
+
+       (If you compile the bobcat library yourself, note that natlog does not
+        use the SSL, Milter and Xpointer classes; they may --as far as natlog
+        is concerned-- be left out of the library)
+
+    1. It is expected you use icmake for the package construction. For this a
+        top-level script (build) and support scripts in the ./icmake/
+        directory are available. Icmake is available on a great many
+        architectures. See also the file INSTALL.im for additional details.
+
+    1. Inspect the values of the variables in the file INSTALL.im Modify these
+       when necessary to suit your own local situation. In particular, check
+       the skeletons (SKEL) and program (BINARY) specifications.
+
+    4. Run 
+            ./build program [strip]
+        to compile natlog. The argument `strip' is optional and will strip
+        symbolic information from the final executable.
+
+    5. To install the program, run (probably as root):
+            ./build install program       
+        
+        If you also installed Yodl you can also do:
+            ./build man
+        followed by
+            ./build install man
+        to install natlog's man-page.
+
+        Additionally, 
+            ./build install std
+        installs some additional documentation
+
+        Just run ./build to see the actual locations that will be used.
+        
+    Following the installation nothing below ./tmp is required
+    for the proper functioning of natlog, so consider removing it.
+
