@@ -1,5 +1,13 @@
-natlog (0.91.2) 
+natlog (0.91.3) 
+  
+  * Natlog returns 0 for options --help and --version
 
+  * Catching Errno exceptions is replaced by catching std::exception
+    exceptions 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 25 Jan 2013 08:58:07 +0100
+
+natlog (0.91.2) 
   
   * Added build-depends file and INSTALL files.
 

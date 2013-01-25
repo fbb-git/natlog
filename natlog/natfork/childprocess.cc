@@ -22,12 +22,12 @@ void NatFork::childProcess()
             devices.run(out);
         }
     }
-    catch (Errno const &err)            // any errors at Conntrack or Devices
-    {                                   // are thrown as Errno exceptions
+    catch (exception const &err)        // errors at Conntrack or Devices
+    {
         if (not d_options.daemon())
             throw;                      // rethrow the exception
 
-        d_stdMsg << err.why() << endl;
+        d_stdMsg << err.what() << endl;
         out << 1 << endl;               // The daemon can't start:
                                         // inform via the pipe
     }
