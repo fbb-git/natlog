@@ -4,12 +4,12 @@
 #include <string>
 #include <mutex>
 
-#include "../signal/signal.h"
+#include <bobcat/signal>
 
 #include "../pcap/pcap.h"
 #include "../pcaprecord/pcaprecord.h"
 
-struct PcapFilter: public SignalHandler
+struct PcapFilter: public FBB::SignalHandler
 {
     typedef PcapRecord::Type Type;
 
@@ -38,7 +38,7 @@ struct PcapFilter: public SignalHandler
                              u_char const *bytes);
         int shiftPacketBegin() const;
 
-        virtual void signaled(size_t signum) override;
+        virtual void signalHandler(size_t signum) override;
 };
 
 #endif

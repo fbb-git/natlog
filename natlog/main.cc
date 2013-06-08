@@ -24,7 +24,6 @@ namespace   // the anonymous namespace can be used here
     auto longEnd = longOptions + sizeof(longOptions) / sizeof(longOptions[0]);
 }
 
-
 int main(int argc, char **argv)
 try
 {
@@ -37,9 +36,9 @@ try
 
     fork.run();
 }
-catch (Errno const &err)
+catch (exception const &err)
 {
-    cout << err.why() << endl;
+    cout << err.what() << endl;
     return 1;
 }
 catch (Options::ExitStatus status)

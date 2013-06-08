@@ -2,7 +2,7 @@
 
 Conntrack::~Conntrack()
 {
-    string endSeconds = X2a(time(0));
+    string endSeconds = to_string(time(0));
 
     d_stdMsg << "terminating" << endl;
 

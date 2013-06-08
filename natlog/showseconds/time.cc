@@ -6,7 +6,7 @@ namespace
                     std::ostream &out, std::string const &seconds)
     {
         
-        DateTime dt(static_cast<time_t>(A2x(seconds)), type);
+        DateTime dt(static_cast<time_t>(stoul(seconds)), type);
         ostringstream os;
         os << dt;
             // E.g., 'Sun Nov 2 13:29:11 2008'

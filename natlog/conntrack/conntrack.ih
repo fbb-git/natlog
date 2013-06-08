@@ -5,8 +5,8 @@
 
 #include <ostream>
 
+#include <bobcat/errno>
 #include <bobcat/mstream>
-#include <bobcat/x2a>
 
 #include "../options/options.h"
 #include "../showseconds/showseconds.h"

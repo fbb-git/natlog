@@ -1,5 +1,17 @@
-natlog (0.91.2) 
+natlog (1.00.1) 
 
+  * Natlog's version bumped to 1.00.1, after 1 year of active use.
+
+  * Removed the class Signal from natlog's classes as it's available in
+    Bobcat. 
+
+  * Explicitly including previously implicitly included  bobcat/errno
+
+  * Cleanup of icmconf file
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 08 Jun 2013 10:57:34 +0200
+
+natlog (0.91.2) 
   
   * Added build-depends file and INSTALL files.
 
