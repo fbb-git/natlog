@@ -2,5 +2,5 @@
 
 ShowSeconds::ShowSeconds(time_t seconds)
 :
-    d_seconds(X2a(seconds))
+    d_seconds(to_string(seconds))
 {}

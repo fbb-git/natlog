@@ -1,12 +1,11 @@
-signal
 options
 showseconds     options
 conntrackrecord
-conntrack       signal  showseconds   conntrackrecord
+conntrack       showseconds   conntrackrecord
 pcappacket
 pcaprecord      pcappacket
 pcap            pcappacket
-pcapfilter      signal      pcap        pcaprecord
+pcapfilter      pcap        pcaprecord
 devices         showseconds pcapfilter
 natfork         conntrack   devices
 

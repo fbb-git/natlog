@@ -1,6 +1,6 @@
 #include "pcapfilter.ih"
 
-void PcapFilter::signaled(size_t signum)
+void PcapFilter::signalHandler(size_t signum)
 {
     d_pcap.stop();
 }

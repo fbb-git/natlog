@@ -2,7 +2,6 @@
 #include <unordered_map>
 #include <string>
 #include <bobcat/argconfig>
-#include <bobcat/mstream>
 
 #include "natfork/natfork.h"
 #include "options/options.h"

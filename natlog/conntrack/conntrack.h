@@ -5,13 +5,13 @@
 
 #include <bobcat/process>
 #include <bobcat/pattern>
+#include <bobcat/signal>
 
-#include "../signal/signal.h"
 #include "../conntrackrecord/conntrackrecord.h"
 
 class Options;
 
-class Conntrack: public SignalHandler
+class Conntrack: public FBB::SignalHandler
 {
     ConntrackRecord d_connections;
     Options &d_options;
@@ -28,7 +28,7 @@ class Conntrack: public SignalHandler
                     std::string const &endSeconds, 
                     std::string endMicroSecs);
 
-        virtual void signaled(size_t signum) override;
+        virtual void signalHandler(size_t signum) override;
 };
         
 #endif
