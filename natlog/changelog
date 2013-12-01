@@ -1,3 +1,10 @@
+natlog (1.00.2) 
+
+  * Added a missing #include <sstream> to the showseconds.ih header, required
+    by g++ 8.4.2. 
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 01 Dec 2013 18:15:46 +0100
+
 natlog (1.00.1) 
 
   * Natlog's version bumped to 1.00.1, after 1 year of active use.
