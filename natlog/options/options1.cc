@@ -9,9 +9,12 @@ Options::Options()
 {
     openConfig();
 
-    if (not d_arg.option(&d_conntrackPath, "conntrack-path"))
-        d_conntrackPath = s_defaultConntrackPath;
+    if (d_arg.option(0, "conntrack-path"))
+        throw Exception() << "Option 'conntrack-path' discontinued. "
+                    "Use 'conntrack-command' instead";
 
+    if (not d_arg.option(&d_conntrackCommand, "conntrack-command"))
+        d_conntrackCommand = s_defaultConntrackCommand;
     
     setSyslogParams();
 

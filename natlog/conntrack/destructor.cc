@@ -7,8 +7,15 @@ Conntrack::~Conntrack()
     d_stdMsg << "terminating" << endl;
 
     for (auto &rec: d_connections)
-    {
-        if (rec)
-            log(*rec, endSeconds, "0");
+    {                                       // rec is a *, 0 for terminated
+        if (rec)                            // connections
+            (this->*
+                (
+                    rec->protocol == "icmp" ? 
+                        &Conntrack::logIcmp
+                    :
+                        &Conntrack::logTcpudp
+                )
+            )(*rec, endSeconds, "0"); 
     }
 }

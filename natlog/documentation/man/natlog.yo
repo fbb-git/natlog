@@ -1,3 +1,5 @@
+NOUSERMACRO(natlog)
+
 includefile(../../release.yo)
 
 htmlbodyopt(text)(#27408B)
@@ -73,22 +75,22 @@ report) sent by the systems administrator maintaining tt(IPdst) to tt(IPfw)'s
 systems administrator will refer to tt(IPfw:fwport), rather than to
 tt(IPsrc::sport).
 
-    Using the standard log facilities provided by tt(iptables) do not easily
-allow us to relate tt(IPfw:fwport) to tt(IPsrc:sport), and tt(natlog) was
-developed to fill in that particular niche.
+    The standard log facilities provided by tt(iptables) do not easily allow
+us to relate tt(IPfw:fwport) to tt(IPsrc:sport), and tt(natlog) was developed
+to fill in that particular niche.
 
     When running tt(natlog), messages are sent to the syslog daemon (e.g.,
 bf(rsyslogd)(1)) and/or the standard output stream showing the essential
 characteristics of the connection using source natting. Here is an example:
         verb(
-    NATLOG: From 1338990672:55588 until 1338990747:807100:     
+    NATLOG: (TCP) From 1338990672:55588 until 1338990747:807100:     
     192.168.19.72:4467 (via: 129.125.90.132:4467) to 200.49.219.180:443
         )
     In this example the values tt(1338990672:55588) and tt(1338990747:807100)
 represent time stamps showing the begin- and end-times in seconds:microseconds
-of the connection since Jan 1, 1970, 0:00 UTC. tt(Natlog) offers the
-tt(--datetime) option if time representations like tt(Nov 2 13:29:11) are
-preferred.
+of a TCP connection since Jan 1, 1970, 0:00 UTC. tt(Natlog) offers the
+tt(--datetime) option, resulting in time representations like tt(Nov 2
+13:29:11) rather than time representations using seconds and micro seconds.
 
     The next value (tt(192.168.19.72:4467)) represents tt(IPsrc::sport). This
 is followed by tt(129.125.90.132:4467), representing tt(IPfw:fwport). The
@@ -111,14 +113,17 @@ manpagesection(COMMANDS)
     itemization(
     it() tt(conntrack): this command can only be used on platforms using
 bf(iptables)(1) on which bf(conntrack)(1) has also been installed. Information
-about source-natted connections is obtained from bf(conntrack)(1)'s output.
+about source-natted connections is obtained from bf(conntrack)(1)'s
+output. With this command by default the tcp, udp, and icmp layer four
+protocols are monitored. See also the tt(conntrack-command) option.
     
     it() tt(indevice outdevice): tt(indevice) is the name of the device behind
 the firewall. Addresses living behind the tt(indevice) are source-natted to
 the firewall's IP address when passed on to the tt(outdevice); tt(outdevice)
 is the name of the device to which source-natted packets are forwarded,
 c.q. from where replies for source-natted hosts living behind the tt(indevice)
-are received 
+are received. Currently, this command is only available for tracking TCP
+connections. 
     )
 
 manpagesection(OPTIONS)
@@ -132,10 +137,26 @@ manpagesection(OPTIONS)
         command-line options are provided. Command-line options override
         configuration file options.
 
+    it() laoption(conntrack-command)(path [options])nl()
+       The path and options to the bf(conntrack)(1) program. By default this
+        is tt(/usr/sbin/conntrack -E -n -o timestamp -e NEW,DESTROY),
+        resulting in:nl()
+
+       - Monitoring the tcp, udp and icmp layer four protocols;nl()
+       - Displaying real-time event logs (tt(-E));nl()
+       - Displaying time stamps (tt(-o timestamp));nl()
+       - Logging all new and destroyed (ended) events (tt(-e
+            NEW,DESTROY));nl()
+
+       The tt(conntrack) program must be available when requesting
+        tt(natlog)'s tt(conntrack) command. Layer four protocols other than
+        tcp, udp and icmp are currently not supported. A subset of the
+        supported protocols may be requested using tt(conntrack's -p tcp, -p
+        udp) or tt(-p icmp) options.
+
     it() laoption(conntrack-path)(path)nl()
-       The path to the bf(conntrack)(1) program. By default this is
-        tt(/usr/sbin/conntrack). The tt(conntrack) program must be available
-        when requesting tt(natlog)'s tt(conntrack) command.
+       This option is replaced by tt(conntrack-command), and should not be
+        used anymore. Use tt(conntrack-command) instead of tt(conntrack-path).
 
     it() loption(no-daemon)nl()
        By default, tt(natlog) runs in the background (a daemon). tt(Natlog)
@@ -275,7 +296,11 @@ manpagesection(SEE ALSO)
 
 manpagesection(BUGS)
 
-    None reported
+    The tt(conntrack) command currently only supports the tcp, udp and icmp
+layer four protocols.
+
+    The tt(indevice outdevice) command currently only supports the tcp
+protocol.
 
 manpageauthor()
 

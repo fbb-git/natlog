@@ -33,7 +33,7 @@ struct Options
 
         std::unordered_map<std::string, Time>::const_iterator d_time;
     
-        std::string d_conntrackPath;
+        std::string d_conntrackCommand;
         std::string d_syslogTag;
         std::string d_PIDfile;
         std::string d_timeSpecError;
@@ -48,7 +48,7 @@ struct Options
             // default values:
 
         static char const s_defaultConfigPath[];
-        static char const s_defaultConntrackPath[];
+        static char const s_defaultConntrackCommand[];
         static char const s_defaultSyslogIdent[];
         static char const s_defaultSyslogFacility[];
         static char const s_defaultSyslogPriority[];
@@ -78,7 +78,7 @@ struct Options
 
         std::string const &timeSpecError() const;
         std::string const &pidFile() const;
-        std::string const &conntrackPath() const;
+        std::string const &conntrackCommand() const;
         std::string const &syslogTag() const;
 
         FBB::Priority syslogPriority() const;
@@ -95,7 +95,7 @@ struct Options
         std::string const &basename() const;
 
         static char const *defaultConfigPath();
-        static char const *defaultConntrackPath();
+        static char const *defaultConntrackCommand();
         static char const *defaultSyslogIdent();
         static char const *defaultSyslogFacility();
         static char const *defaultSyslogPriority();
@@ -202,9 +202,9 @@ inline std::string const &Options::facility() const
     return d_syslogFacility->first;
 }
 
-inline std::string const &Options::conntrackPath() const
+inline std::string const &Options::conntrackCommand() const
 {
-    return d_conntrackPath;
+    return d_conntrackCommand;
 }
 
 inline char const *Options::operator[](size_t idx) const
@@ -222,9 +222,9 @@ inline std::string const &Options::basename() const
     return d_arg.basename();
 }
 
-inline char const *Options::defaultConntrackPath() 
+inline char const *Options::defaultConntrackCommand() 
 {
-    return s_defaultConntrackPath;
+    return s_defaultConntrackCommand;
 }
 
 inline char const *Options::defaultSyslogIdent() 

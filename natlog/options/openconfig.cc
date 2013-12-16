@@ -17,9 +17,5 @@ void Options::openConfig()
         d_arg.open(config);
 }
 
-//        wmsg << "Configuration file `" << config << "' not found" << endl;
-//    else
-//
-//    {
-//        if (d_verbose)
-//            cout << "Using configuration file: `" << config << '\'' << endl;
+
+

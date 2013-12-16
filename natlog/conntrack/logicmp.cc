@@ -1,6 +1,6 @@
 #include "conntrack.ih"
 
-void Conntrack::log(ConntrackRecord::Record const &record, 
+void Conntrack::logIcmp(ConntrackRecord::Record const &record, 
                         string const &endSeconds, 
                         string endMicroSecs)
 {
@@ -10,8 +10,7 @@ void Conntrack::log(ConntrackRecord::Record const &record,
                 ShowSeconds(record.seconds) << ':' << record.musecs << 
             " until " << 
                 ShowSeconds(endSeconds) << ':' << endMicroSecs << 
-                                        ShowSeconds::utcMarker() << ": " <<
-            record.sourceIP << ':' << record.sourcePort << 
-               " (via: " << record.viaIP << ':' << record.viaPort << ") "
-        "to " << record.destIP << ':' << record.destPort << endl;
+                                    ShowSeconds::utcMarker() << ": icmp " <<
+            record.sourceIP << " (via: " << record.viaIP  << ") "
+        "to " << record.destIP << endl;
 }

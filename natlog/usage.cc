@@ -14,17 +14,18 @@ void usage(std::string const &progname)
     "      --config (-c) path - path: pathname of the configuation file\n"
     "                           (default: `" << 
                                 Options::defaultConfigPath() << "')\n"
-    "      --conntrack-path path - path: path to the `conntrack' program\n"
+    "      --conntrack-command cmd - cmd: `conntrack' command specification\n"
     "                           (default `" << 
-                                Options::defaultConntrackPath() << "')\n"
+                                Options::defaultConntrackCommand() << "')\n"
     "      --help (-h)        - provide this help\n"
     "      --no-daemon        - do not run " << progname << 
                                                         " in the background\n"
     "      --no-syslog        - do not write syslog messages\n"
     "      --pid-file (-p) path - `path' is the name of the file holding "
                                                                     "the\n"
-    "                           daemon's PID (default `\n" <<
-                                Options::defaultPIDfile() << "')\n"
+    "                           daemon's PID\n"
+    "                           (default `" <<
+                                        Options::defaultPIDfile() << "')\n"
     "      --syslog-tag id  - id: identifier prefixed to syslog messages\n"
     "                           (default `" << 
                                 Options::defaultSyslogIdent() << "')\n"

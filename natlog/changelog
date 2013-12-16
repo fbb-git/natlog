@@ -1,3 +1,11 @@
+natlog (1.01.0) 
+
+  * Added configuration option 'conntrack-command'. With the `conntrack' 
+    command all layer four protocols are monitored. This is also the default
+    for natlog's `conntrack' command.
+
+  * Replaced FBB::Errno calls by FBB::Exception
+
 natlog (1.00.2) 
 
   * Added a missing #include <sstream> to the showseconds.ih header, required

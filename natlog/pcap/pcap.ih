@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 
-#include <bobcat/errno>
+#include <bobcat/exception>
 #include <bobcat/mstream>
 
 #include "../pcappacket/pcappacket.h"

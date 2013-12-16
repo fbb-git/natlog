@@ -17,6 +17,7 @@ struct ConntrackRecord
 
         std::string seconds;
         std::string musecs;
+        std::string protocol;
         std::string sourceIP;
         std::string destIP;
         std::string sourcePort;
@@ -32,7 +33,8 @@ struct ConntrackRecord
         ~ConntrackRecord();
 
         size_t find(std::string const &key) const;
-        void add(std::string const &key, FBB::Pattern const &pat);
+        void addTcpudp(std::string const &key, FBB::Pattern const &pat);
+        void addIcmp(std::string const &key, FBB::Pattern const &pat);
         void erase(size_t idx);
         Record const *operator[](size_t idx);
         size_t size() const;
@@ -55,7 +57,6 @@ inline ConntrackRecord::Record const *ConntrackRecord::operator[](size_t idx)
     return d_connections[idx];
 }
 
-
 inline std::vector<ConntrackRecord::Record *>::const_iterator 
                                             ConntrackRecord::begin() const
 {
@@ -69,6 +70,7 @@ inline std::vector<ConntrackRecord::Record *>::const_iterator
 }
 
 #endif
+
 
 
 

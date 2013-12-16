@@ -1,7 +1,10 @@
 #include "options.ih"
 
 char const Options::s_defaultConfigPath[]       = "/etc/natlog.conf";
-char const Options::s_defaultConntrackPath[]    = "/usr/sbin/conntrack";
+
+char const Options::s_defaultConntrackCommand[]    = 
+            "/usr/sbin/conntrack -E -n -o timestamp -e NEW,DESTROY";
+
 char const Options::s_defaultSyslogIdent[]      = "NATLOG";
 char const Options::s_defaultSyslogFacility[]   = "DAEMON";
 char const Options::s_defaultSyslogPriority[]   = "NOTICE";

@@ -24,11 +24,17 @@ class Conntrack: public FBB::SignalHandler
         void run(std::ostream &parent);
 
     private:
-        void log(ConntrackRecord::Record const &record, 
+        bool tcpudpConnection(FBB::Pattern const &tcpudp);
+        bool icmpConnection(FBB::Pattern const &tcpudp);
+
+        void logTcpudp(ConntrackRecord::Record const &record, 
+                    std::string const &endSeconds, 
+                    std::string endMicroSecs);
+        void logIcmp(ConntrackRecord::Record const &record, 
                     std::string const &endSeconds, 
                     std::string endMicroSecs);
 
-        virtual void signalHandler(size_t signum) override;
+        void signalHandler(size_t signum) override;
 };
         
 #endif
