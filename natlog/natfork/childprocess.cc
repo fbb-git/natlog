@@ -13,13 +13,13 @@ void NatFork::childProcess()
     {
         if (d_mode == CONNTRACK)
         {
-            Conntrack conntrack(d_stdMsg);
-            conntrack.run(out);
+            Conntrack conntrack(d_stdMsg, out);
+            conntrack.run();
         }
         else 
         {
-            Devices devices(d_stdMsg);
-            devices.run(out);
+            Devices devices(d_stdMsg, out);
+            devices.run();
         }
     }
     catch (exception const &err)        // errors at Conntrack or Devices

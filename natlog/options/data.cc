@@ -2,8 +2,9 @@
 
 char const Options::s_defaultConfigPath[]       = "/etc/natlog.conf";
 
-char const Options::s_defaultConntrackCommand[]    = 
-            "/usr/sbin/conntrack -E -n -o timestamp -e NEW,DESTROY";
+char const Options::s_defaultConntrackCommand[]    = "/usr/sbin/conntrack";
+char const Options::s_defaultConntrackArgs[]    = 
+                                        " -E -n -o timestamp -e NEW,DESTROY";
 
 char const Options::s_defaultSyslogIdent[]      = "NATLOG";
 char const Options::s_defaultSyslogFacility[]   = "DAEMON";

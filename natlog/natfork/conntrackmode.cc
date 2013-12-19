@@ -3,6 +3,9 @@
 void NatFork::conntrackMode()
 {
     string conntrack = d_options.conntrackCommand();
+
+    d_stdMsg << "CONNTR: " << conntrack << endl;
+
     size_t pos = conntrack.find_first_of(" \t");
     if (pos != string::npos)
         conntrack.resize(pos);

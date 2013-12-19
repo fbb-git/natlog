@@ -13,6 +13,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("no-syslog", Arg::None),
         Arg::LongOption("stdout", 's'),
         Arg::LongOption("pid-file", 'p'),
+        Arg::LongOption("protocol", Arg::Required),
         Arg::LongOption("syslog-tag", Arg::Required),
         Arg::LongOption("syslog-facility", Arg::Required),
         Arg::LongOption("syslog-priority", Arg::Required),

@@ -14,8 +14,9 @@ Options::Options()
                     "Use 'conntrack-command' instead";
 
     if (not d_arg.option(&d_conntrackCommand, "conntrack-command"))
-        d_conntrackCommand = s_defaultConntrackCommand;
-    
+        d_conntrackCommand = s_defaultConntrackCommand + setProtocol() +
+                             s_defaultConntrackArgs;
+
     setSyslogParams();
 
     setBoolMembers();

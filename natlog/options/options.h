@@ -49,6 +49,7 @@ struct Options
 
         static char const s_defaultConfigPath[];
         static char const s_defaultConntrackCommand[];
+        static char const s_defaultConntrackArgs[];
         static char const s_defaultSyslogIdent[];
         static char const s_defaultSyslogFacility[];
         static char const s_defaultSyslogPriority[];
@@ -96,6 +97,7 @@ struct Options
 
         static char const *defaultConfigPath();
         static char const *defaultConntrackCommand();
+        static char const *defaultConntrackArgs();
         static char const *defaultSyslogIdent();
         static char const *defaultSyslogFacility();
         static char const *defaultSyslogPriority();
@@ -110,6 +112,12 @@ struct Options
         void setSyslogFacility();
         void setSyslogPriority();
         void setTime(std::string const &time);
+
+        static std::string protocol(std::string const &available, 
+                                    std::string &spec);
+
+        std::string setProtocol();
+
 };
 
 inline bool Options::stdout() const

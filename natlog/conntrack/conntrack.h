@@ -3,25 +3,28 @@
 
 #include <iosfwd>
 
-#include <bobcat/process>
 #include <bobcat/pattern>
 #include <bobcat/signal>
+#include <bobcat/fork>
+#include <bobcat/pipe>
 
 #include "../conntrackrecord/conntrackrecord.h"
 
 class Options;
 
-class Conntrack: public FBB::SignalHandler
+class Conntrack: public FBB::Fork, public FBB::SignalHandler
 {
+    FBB::Pipe d_pipe;
     ConntrackRecord d_connections;
     Options &d_options;
-    FBB::Process d_conntrack;
     std::ostream &d_stdMsg;
+    std::ostream &d_parent;
+    bool d_stop = false;
 
     public:
-        Conntrack(std::ostream &stdMsg);
+        Conntrack(std::ostream &stdMsg, std::ostream &parent);
         ~Conntrack();
-        void run(std::ostream &parent);
+        void run();
 
     private:
         bool tcpudpConnection(FBB::Pattern const &tcpudp);
@@ -35,6 +38,12 @@ class Conntrack: public FBB::SignalHandler
                     std::string endMicroSecs);
 
         void signalHandler(size_t signum) override;
+
+        void parentProcess() override;
+        void childProcess() override;
+        void childRedirections() override;
+        void parentRedirections() override;
+
 };
         
 #endif

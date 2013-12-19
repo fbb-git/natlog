@@ -1,10 +1,10 @@
 #include "conntrack.ih"
 
-Conntrack::Conntrack(ostream &stdMsg)
+Conntrack::Conntrack(ostream &stdMsg, ostream &parent)
 :
     d_options(Options::instance()),
-    d_conntrack(Process::COUT | Process::CERR, d_options.conntrackCommand()),
-    d_stdMsg(stdMsg)
+    d_stdMsg(stdMsg),
+    d_parent(parent)
 {
     if (access("/proc/net/ip_conntrack", R_OK) != 0)
         throw Exception() << "Cannot read /proc/net/ip_conntrack";
