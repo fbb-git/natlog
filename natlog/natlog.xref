@@ -1,7 +1,7 @@
 oxref by Frank B. Brokken (f.b.brokken@rug.nl)
-oxref V0.90.10 2012
+oxref V0.91.00 2012-2013
 
-CREATED Wed, 07 Nov 2012 11:07:25 +0000
+CREATED Thu, 19 Dec 2013 13:31:26 +0000
 CROSS REFERENCE FOR: -fxs tmp/libmodules.a 
 ----------------------------------------------------------------------
 
@@ -11,18 +11,11 @@ add(PcapPacket const&, PcapRecord::Type)
   Used By:
     saveadd.cc: PcapFilter::saveAdd(PcapPacket const&)
 
-add(std::string const&, FBB::Pattern const&)
-  Full name: ConntrackRecord::add(std::string const&, FBB::Pattern const&)
-  Source:    add.cc 
+addIcmp(std::string const&, FBB::Pattern const&)
+  Full name: ConntrackRecord::addIcmp(std::string const&, FBB::Pattern const&)
+  Source:    addicmp.cc 
   Used By:
-    run.cc: Conntrack::run(std::ostream&)
-
-add(unsigned int, SignalHandler&)
-  Full name: Signal::add(unsigned int, SignalHandler&)
-  Source:    add.cc 
-  Used By:
-    run.cc: Devices::run(std::ostream&)
-    run.cc: Conntrack::run(std::ostream&)
+    icmpconnection.cc: Conntrack::icmpConnection(FBB::Pattern const&)
 
 addIn(PcapPacket const&)
   Full name: PcapRecord::addIn(PcapPacket const&)
@@ -35,6 +28,12 @@ addOut(PcapPacket const&)
   Source:    addout.cc 
   Used By:
     add.cc: PcapRecord::add(PcapPacket const&, PcapRecord::Type)
+
+addTcpudp(std::string const&, FBB::Pattern const&)
+  Full name: ConntrackRecord::addTcpudp(std::string const&, FBB::Pattern const&)
+  Source:    addtcpudp.cc 
+  Used By:
+    tcpudpconnection.cc: Conntrack::tcpudpConnection(FBB::Pattern const&)
 
 author
   Full name: Icmbuild::author
@@ -60,14 +59,26 @@ childProcess()
   Used By:
     parentprocess.cc: NatFork::parentProcess()
 
+childProcess()
+  Full name: Conntrack::childProcess()
+  Source:    childprocess.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
+
+childRedirections()
+  Full name: Conntrack::childRedirections()
+  Source:    childredirections.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
+
 computeShift(char const*)
   Full name: Pcap::computeShift(char const*)
   Source:    computeshift.cc 
   Used By:
     pcap1.cc: Pcap::Pcap(char const*, bool, unsigned int, unsigned int)
 
-Conntrack(std::ostream&)
-  Full name: Conntrack::Conntrack(std::ostream&)
+Conntrack(std::ostream&, std::ostream&)
+  Full name: Conntrack::Conntrack(std::ostream&, std::ostream&)
   Source:    conntrack1.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
@@ -78,8 +89,8 @@ conntrackMode()
   Used By:
     run.cc: NatFork::run()
 
-Devices(std::ostream&)
-  Full name: Devices::Devices(std::ostream&)
+Devices(std::ostream&, std::ostream&)
+  Full name: Devices::Devices(std::ostream&, std::ostream&)
   Source:    devices1.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
@@ -96,7 +107,8 @@ erase(unsigned int)
   Full name: ConntrackRecord::erase(unsigned int)
   Source:    erase.cc 
   Used By:
-    run.cc: Conntrack::run(std::ostream&)
+    icmpconnection.cc: Conntrack::icmpConnection(FBB::Pattern const&)
+    tcpudpconnection.cc: Conntrack::tcpudpConnection(FBB::Pattern const&)
 
 filter(std::string const&, bool)
   Full name: Pcap::filter(std::string const&, bool)
@@ -108,7 +120,8 @@ find(std::string const&) const
   Full name: ConntrackRecord::find(std::string const&) const
   Source:    find.cc 
   Used By:
-    run.cc: Conntrack::run(std::ostream&)
+    icmpconnection.cc: Conntrack::icmpConnection(FBB::Pattern const&)
+    tcpudpconnection.cc: Conntrack::tcpudpConnection(FBB::Pattern const&)
 
 find(unsigned int)
   Full name: PcapRecord::find(unsigned int)
@@ -121,7 +134,8 @@ firstFree()
   Full name: ConntrackRecord::firstFree()
   Source:    firstfree.cc 
   Used By:
-    add.cc: ConntrackRecord::add(std::string const&, FBB::Pattern const&)
+    addicmp.cc: ConntrackRecord::addIcmp(std::string const&, FBB::Pattern const&)
+    addtcpudp.cc: ConntrackRecord::addTcpudp(std::string const&, FBB::Pattern const&)
 
 handleChildStatus()
   Full name: NatFork::handleChildStatus()
@@ -129,11 +143,11 @@ handleChildStatus()
   Used By:
     parentprocess.cc: NatFork::parentProcess()
 
-handler(int)
-  Full name: Signal::handler(int)
-  Source:    handler.cc 
+icmpConnection(FBB::Pattern const&)
+  Full name: Conntrack::icmpConnection(FBB::Pattern const&)
+  Source:    icmpconnection.cc 
   Used By:
-    add.cc: Signal::add(unsigned int, SignalHandler&)
+    parentprocess.cc: Conntrack::parentProcess()
 
 inDevice(PcapPacket const&)
   Full name: PcapFilter::inDevice(PcapPacket const&)
@@ -142,30 +156,15 @@ inDevice(PcapPacket const&)
     callback.cc: PcapFilter::callback(PcapFilter*, pcap_pkthdr const*, unsigned char const*)
 
 instance()
-  Full name: Signal::instance()
-  Source:    instance.cc 
-  Used By:
-    run.cc: Devices::run(std::ostream&)
-    run.cc: Conntrack::run(std::ostream&)
-
-instance()
   Full name: Options::instance()
   Source:    instance.cc 
   Used By:
-    devices1.cc: Devices::Devices(std::ostream&)
-    conntrackmode.cc: NatFork::conntrackMode()
     natfork1.cc: NatFork::NatFork()
     parentprocess.cc: NatFork::parentProcess()
     setformat.cc: ShowSeconds::setFormat()
-    conntrack1.cc: Conntrack::Conntrack(std::ostream&)
+    conntrack1.cc: Conntrack::Conntrack(std::ostream&, std::ostream&)
     pcaprecord1.cc: PcapRecord::PcapRecord(std::ostream&)
-
-log(ConntrackRecord::Record const&, std::string const&, std::string)
-  Full name: Conntrack::log(ConntrackRecord::Record const&, std::string const&, std::string)
-  Source:    log.cc 
-  Used By:
-    destructor.cc: Conntrack::~Conntrack()
-    run.cc: Conntrack::run(std::ostream&)
+    devices1.cc: Devices::Devices(std::ostream&, std::ostream&)
 
 log(PcapRecord::Record const*, long, long) const
   Full name: PcapRecord::log(PcapRecord::Record const*, long, long) const
@@ -173,6 +172,20 @@ log(PcapRecord::Record const*, long, long) const
   Used By:
     destructor.cc: PcapRecord::~PcapRecord()
     remove.cc: PcapRecord::remove(PcapPacket const&)
+
+logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
+  Full name: Conntrack::logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
+  Source:    logicmp.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
+    icmpconnection.cc: Conntrack::icmpConnection(FBB::Pattern const&)
+
+logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
+  Full name: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
+  Source:    logtcpudp.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
+    tcpudpconnection.cc: Conntrack::tcpudpConnection(FBB::Pattern const&)
 
 loop(unsigned char*, void (*)(unsigned char*, pcap_pkthdr const*, unsigned char const*))
   Full name: Pcap::loop(unsigned char*, void (*)(unsigned char*, pcap_pkthdr const*, unsigned char const*))
@@ -190,13 +203,14 @@ operator()()
   Full name: PcapFilter::operator()()
   Source:    operatorfun.cc 
   Used By:
-    run.cc: GLOBALS run.cc 10run.o
+    run.cc: GLOBALS run.cc 9run.o
 
 operator<<(std::ostream&, ShowSeconds const&)
   Full name: operator<<(std::ostream&, ShowSeconds const&)
   Source:    operatorinsert.cc 
   Used By:
-    log.cc: Conntrack::log(ConntrackRecord::Record const&, std::string const&, std::string)
+    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
+    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
     log.cc: PcapRecord::log(PcapRecord::Record const*, long, long) const
 
 Options()
@@ -211,6 +225,18 @@ outDevice(PcapPacket const&)
   Used By:
     callback.cc: PcapFilter::callback(PcapFilter*, pcap_pkthdr const*, unsigned char const*)
 
+parentProcess()
+  Full name: Conntrack::parentProcess()
+  Source:    parentprocess.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
+
+parentRedirections()
+  Full name: Conntrack::parentRedirections()
+  Source:    parentredirections.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
+
 Pcap(char const*, bool, unsigned int, unsigned int)
   Full name: Pcap::Pcap(char const*, bool, unsigned int, unsigned int)
   Source:    pcap1.cc 
@@ -221,7 +247,7 @@ PcapFilter(char const*, PcapRecord&, PcapRecord::Type)
   Full name: PcapFilter::PcapFilter(char const*, PcapRecord&, PcapRecord::Type)
   Source:    pcapfilter1.cc 
   Used By:
-    run.cc: Devices::run(std::ostream&)
+    run.cc: Devices::run()
 
 PcapPacket(pcap_pkthdr const&, unsigned char const*)
   Full name: PcapPacket::PcapPacket(pcap_pkthdr const&, unsigned char const*)
@@ -233,13 +259,19 @@ PcapRecord(std::ostream&)
   Full name: PcapRecord::PcapRecord(std::ostream&)
   Source:    pcaprecord1.cc 
   Used By:
-    devices1.cc: Devices::Devices(std::ostream&)
+    devices1.cc: Devices::Devices(std::ostream&, std::ostream&)
+
+protocol(std::string const&, std::string&)
+  Full name: Options::protocol(std::string const&, std::string&)
+  Source:    protocol.cc 
+  Used By:
+    setprotocol.cc: Options::setProtocol()
 
 rawTime(std::ostream&, std::string const&)
   Full name: ShowSeconds::rawTime(std::ostream&, std::string const&)
   Source:    time.cc 
   Used By:
-    data.cc: GLOBALS data.cc 3data.o
+    data.cc: GLOBALS data.cc 2data.o
     setformat.cc: ShowSeconds::setFormat()
 
 remove(PcapPacket const&)
@@ -248,14 +280,14 @@ remove(PcapPacket const&)
   Used By:
     saveremove.cc: PcapFilter::saveRemove(PcapPacket const&)
 
-run(std::ostream&)
-  Full name: Conntrack::run(std::ostream&)
+run()
+  Full name: Devices::run()
   Source:    run.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
 
-run(std::ostream&)
-  Full name: Devices::run(std::ostream&)
+run()
+  Full name: Conntrack::run()
   Source:    run.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
@@ -267,8 +299,14 @@ s_defaultConfigPath
     usage.cc: usage(std::string const&)
     openconfig.cc: Options::openConfig()
 
-s_defaultConntrackPath
-  Full name: Options::s_defaultConntrackPath
+s_defaultConntrackArgs
+  Full name: Options::s_defaultConntrackArgs
+  Source:    data.cc 
+  Used By:
+    options1.cc: Options::Options()
+
+s_defaultConntrackCommand
+  Full name: Options::s_defaultConntrackCommand
   Source:    data.cc 
   Used By:
     usage.cc: usage(std::string const&)
@@ -328,12 +366,6 @@ s_show
     operatorinsert.cc: operator<<(std::ostream&, ShowSeconds const&)
     setformat.cc: ShowSeconds::setFormat()
 
-s_signal
-  Full name: Signal::s_signal
-  Source:    instance.cc 
-  Used By:
-    handler.cc: Signal::handler(int)
-
 s_syslogFacilities
   Full name: Options::s_syslogFacilities
   Source:    data.cc 
@@ -358,7 +390,8 @@ s_utcMarker
   Source:    data.cc 
   Used By:
     setformat.cc: ShowSeconds::setFormat()
-    log.cc: Conntrack::log(ConntrackRecord::Record const&, std::string const&, std::string)
+    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
+    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
     log.cc: PcapRecord::log(PcapRecord::Record const*, long, long) const
 
 saveAdd(PcapPacket const&)
@@ -385,6 +418,12 @@ setFormat()
   Source:    setformat.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
+
+setProtocol()
+  Full name: Options::setProtocol()
+  Source:    setprotocol.cc 
+  Used By:
+    options1.cc: Options::Options()
 
 setSyslogFacility()
   Full name: Options::setSyslogFacility()
@@ -438,17 +477,12 @@ ShowSeconds(std::string const&)
   Full name: ShowSeconds::ShowSeconds(std::string const&)
   Source:    showseconds1.cc 
   Used By:
-    log.cc: Conntrack::log(ConntrackRecord::Record const&, std::string const&, std::string)
+    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
+    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
 
-Signal()
-  Full name: Signal::Signal()
-  Source:    signal1.cc 
-  Used By:
-    instance.cc: Signal::instance()
-
-signaled(unsigned int)
-  Full name: Conntrack::signaled(unsigned int)
-  Source:    signaled.cc 
+signalHandler(unsigned int)
+  Full name: Conntrack::signalHandler(unsigned int)
+  Source:    signalhandler.cc 
   Used By:
     destructor.cc: Conntrack::~Conntrack()
 
@@ -459,19 +493,17 @@ store(PcapRecord::Record*)
     addin.cc: PcapRecord::addIn(PcapPacket const&)
     addout.cc: PcapRecord::addOut(PcapPacket const&)
 
+tcpudpConnection(FBB::Pattern const&)
+  Full name: Conntrack::tcpudpConnection(FBB::Pattern const&)
+  Source:    tcpudpconnection.cc 
+  Used By:
+    parentprocess.cc: Conntrack::parentProcess()
+
 utcTime(std::ostream&, std::string const&)
   Full name: ShowSeconds::utcTime(std::ostream&, std::string const&)
   Source:    time.cc 
   Used By:
     setformat.cc: ShowSeconds::setFormat()
-
-verify(unsigned int, char const*)
-  Full name: Signal::verify(unsigned int, char const*)
-  Source:    verify.cc 
-  Used By:
-    add.cc: Signal::add(unsigned int, SignalHandler&)
-    ignore.cc: Signal::ignore(unsigned int)
-    reset.cc: Signal::reset(unsigned int)
 
 version
   Full name: Icmbuild::version
@@ -495,24 +527,14 @@ years
   Full name: ConntrackRecord::~ConntrackRecord()
   Source:    destructor.cc 
   Used By:
-    conntrack1.cc: Conntrack::Conntrack(std::ostream&)
+    conntrack1.cc: Conntrack::Conntrack(std::ostream&, std::ostream&)
     destructor.cc: Conntrack::~Conntrack()
 
 ~PcapRecord()
   Full name: PcapRecord::~PcapRecord()
   Source:    destructor.cc 
   Used By:
-    devices1.cc: Devices::Devices(std::ostream&)
     childprocess.cc: NatFork::childProcess()
-
-~SignalHandler()
-  Full name: SignalHandler::~SignalHandler()
-  Source:    destructor.cc 
-  Used By:
-    run.cc: GLOBALS run.cc 10run.o
-    conntrack1.cc: Conntrack::Conntrack(std::ostream&)
-    destructor.cc: Conntrack::~Conntrack()
-    pcapfilter1.cc: PcapFilter::PcapFilter(char const*, PcapRecord&, PcapRecord::Type)
-    signaled.cc: PcapFilter::signaled(unsigned int)
+    devices1.cc: Devices::Devices(std::ostream&, std::ostream&)
 
 
