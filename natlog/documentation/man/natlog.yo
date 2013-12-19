@@ -193,7 +193,10 @@ manpagesection(OPTIONS)
     it() lsoption(pid-file)(p)(path)nl()
        When tt(natlog) runs in the background, then tt(path) is the name of
         the path of the file holding the daemon's process-id. By default this
-        is tt(/run/natlog.pid).
+        is tt(/run/natlog.pid). To end the daemon, send a SIGTERM signal to
+        the process id mentioned in the tt(pid-file). tt(Natlog) ignores
+        tt(SIGHUP) signals (but writes a log message if a tt(SIGHUP) interrupt
+        is received).
         
     it() laoption(protocol)(specification)nl()
        The protocols to monitor by bf(conntrack)(1). By default
