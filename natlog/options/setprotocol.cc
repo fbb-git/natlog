@@ -7,7 +7,9 @@ string Options::setProtocol()
     string spec;
     if (not d_arg.option(&spec, "protocol"))
         ret = " -p tcp";
-    else if (spec != "all")
+    else if (spec == "all")
+        ret = " -p tcp -p udp -p icmp";
+    else
     {
         ret = protocol("icmp", spec);
         ret += protocol("tcp", spec);
@@ -19,3 +21,4 @@ string Options::setProtocol()
     }
     return ret;
 }
+

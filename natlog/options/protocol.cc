@@ -3,12 +3,20 @@
 string Options::protocol(string const &available, string &spec)
 {
     string ret;
+    bool specified = false;
 
-    size_t pos = spec.find(available);
-    if (pos != string::npos)
+    while (true)
     {
+        size_t pos = spec.find(available);
+        if (pos == string::npos)
+            break;
+
         spec.erase(pos, available.length() + 1);    // + 1 to remove the :
-        ret = " -p " + available;
+        specified = true;
     }
+
+    if (specified)
+        ret = " -p " + available;
+
     return ret;
 }

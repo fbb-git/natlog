@@ -1,10 +1,20 @@
 natlog (1.01.0) 
 
-  * Added configuration option 'conntrack-command'. With the `conntrack' 
-    command all layer four protocols are monitored. This is also the default
-    for natlog's `conntrack' command.
+  * Added configuration option `conntrack-command'. With the `conntrack'
+    command the icmp, udp and tcp layer four protocols are monitored. By
+    default natlog's `conntrack' command monitors the tcp protocol.
+
+  * The configuration option `conntrack-path' is discontinued, and
+    `conntrack-command' should be used instead. See the man-page for details.
+
+  * Added configuration option `protocol', to specify which layer four
+    protocols to monitor with the `conntrack' command.
+
+  * The default pid file path is set to `/run/natlog.pid'.
 
   * Replaced FBB::Errno calls by FBB::Exception
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 19 Dec 2013 14:21:36 +0100
 
 natlog (1.00.2) 
 

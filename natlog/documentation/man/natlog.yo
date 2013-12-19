@@ -114,8 +114,9 @@ manpagesection(COMMANDS)
     it() tt(conntrack): this command can only be used on platforms using
 bf(iptables)(1) on which bf(conntrack)(1) has also been installed. Information
 about source-natted connections is obtained from bf(conntrack)(1)'s
-output. With this command by default the tcp, udp, and icmp layer four
-protocols are monitored. See also the tt(conntrack-command) option.
+output. With this command the TCP, UDP, and ICMP layer four protocols can be
+monitored (by default the TCP protocol is monitored). See also the
+tt(conntrack-command) option.
     
     it() tt(indevice outdevice): tt(indevice) is the name of the device behind
 the firewall. Addresses living behind the tt(indevice) are source-natted to
@@ -134,29 +135,48 @@ manpagesection(OPTIONS)
         to be used by tt(natlog). By default the configuration file is
         expected in tt(/etc/natlog.conf). All configuration options have
         defaults, which are used when no configuration file and no
-        command-line options are provided. Command-line options override
-        configuration file options.
+        command-line options are provided. 
+
+       All options, except for tt(config, help) and tt(verbose) can also be
+        specified in the configuration file. The configuration file ignores
+        empty lines and all information on lines beginning with a hash-mark
+        (tt(#)). In the configuration file option names do not use initial
+        hyphens, and may immediately be followed by a colon. Multi-word
+        arguments should not be surrounded by quotes. Examples: 
+            verb(
+    stdout
+    syslog-facility: LOCAL0
+            )
+       Command-line options override configuration file options.
 
     it() laoption(conntrack-command)(path [options])nl()
        The path and options to the bf(conntrack)(1) program. By default this
-        is tt(/usr/sbin/conntrack -E -n -o timestamp -e NEW,DESTROY),
+        is tt(/usr/sbin/conntrack -p tcp -E -n -o timestamp -e NEW,DESTROY),
         resulting in:nl()
 
-       - Monitoring the tcp, udp and icmp layer four protocols;nl()
+       - Monitoring the TCP layer four protocol;nl()
        - Displaying real-time event logs (tt(-E));nl()
        - Displaying time stamps (tt(-o timestamp));nl()
        - Logging all new and destroyed (ended) events (tt(-e
             NEW,DESTROY));nl()
 
+       The protocols to monitor can separately be configured using the
+        tt(--protocol) option.
+
        The tt(conntrack) program must be available when requesting
         tt(natlog)'s tt(conntrack) command. Layer four protocols other than
-        tcp, udp and icmp are currently not supported. A subset of the
+        TCP, UDP and ICMP are currently not supported. A subset of the
         supported protocols may be requested using tt(conntrack's -p tcp, -p
         udp) or tt(-p icmp) options.
 
     it() laoption(conntrack-path)(path)nl()
-       This option is replaced by tt(conntrack-command), and should not be
-        used anymore. Use tt(conntrack-command) instead of tt(conntrack-path).
+       Option discontinued: this option is replaced by
+        tt(conntrack-command). When tt(conntrack-path) is used, the program
+        ends after displaying an informative message.
+
+    it() loption(help) (soption(h))nl()
+       Write basic usage information to the standard output stream and
+        terminate.
 
     it() loption(no-daemon)nl()
        By default, tt(natlog) runs in the background (a daemon). tt(Natlog)
@@ -164,10 +184,6 @@ manpagesection(OPTIONS)
         tt(no-daemon) is provided). When running as a daemon, tt(--stdout)
         (see below) is suppressed, and tt(--verbose) messages (see below) are
         sent to the sylog daemon, unless tt(--no-syslog) was specified.
-
-    it() loption(help) (soption(h))nl()
-       Write basic usage information to the standard output stream and
-        terminate.
 
     it() loption(no-syslog)nl()
        By default tt(natlog) writes syslog messages to the tt(DAEMON) facility
@@ -177,18 +193,25 @@ manpagesection(OPTIONS)
     it() lsoption(pid-file)(p)(path)nl()
        When tt(natlog) runs in the background, then tt(path) is the name of
         the path of the file holding the daemon's process-id. By default this
-        is tt(/var/run/natlog.pid).
+        is tt(/run/natlog.pid).
         
+    it() laoption(protocol)(specification)nl()
+       The protocols to monitor by bf(conntrack)(1). By default
+        tt(conntrack-command) monitors the TCP layer four protocol. Currently
+        tt(natlog's conntrack) command can monitor the TCP, UDP, and ICMP
+        layer four protocols.  Using the tt(protocol) option (note: singular!)
+        any subset of these protocols can be selected by specifying a
+        colon-separated subset of TCP, UDP, and ICMP (e.g., tt(--protocol
+        udp:tcp)). The specification tt(all) can be used to monitor the TCP,
+        UDP, and ICMP protocols.
+
+       If the tt(conntrack-command) option is specified, the tt(protocol)
+        option is ignored.
+
     it() loption(stdout) (soption(s))nl() 
        Syslog-equivalent messages are sent to the standard output.
         This option is implied by tt(--verbose), but is suppressed when
         tt(natlog) runs as a daemon..
-
-    it() laoption(syslog-tag)(tag)nl()
-       When syslog messages are generated they can be provided with a
-        em(tag), which can be used to filter tt(natlog)'s syslog messages from
-        the log-files. By default the tag tt(NATLOG) is used. See also section
-        tt(RSYSLOG FILTERING) below.
 
     it() laoption(syslog-facility)(facility)nl()
        The facility that is used to write the syslog messages to. By default
@@ -203,6 +226,12 @@ manpagesection(OPTIONS)
         see, e.g., bf(syslog)(3). With tt(natlog) all defined priorities can
         be used. E.g., tt( EMERG, ALERT, CRIT, ERR, WARNING, NOTICE, INFO) and
         tt(DEBUG).
+
+    it() laoption(syslog-tag)(tag)nl()
+       When syslog messages are generated they can be provided with a
+        em(tag), which can be used to filter tt(natlog)'s syslog messages from
+        the log-files. By default the tag tt(NATLOG) is used. See also section
+        tt(RSYSLOG FILTERING) below.
 
     it() lsoption(time)(t)(spec)nl()
         By default time stamps written by tt(natlog) are in raw, numeric
@@ -277,12 +306,13 @@ containing information about source-natted connections.
     )
 
     Here is tt(natlog)'s default configuration file. Empty lines and lines
-starting with hash-marks (#) are ignored. Options adhere to the 
+starting with hash-marks (#) are ignored. Options adhere to the following
+syntax: 
     verb(
 option  value 
     )
-    syntax. Option and value are separated by white space, Option values may
-consist of multiple words.
+    Option and value are separated by white space, a colon may be appended to
+option names, and option values may consist of multiple words.
     verbinclude(../../etc/natlog.conf)
         
 manpagesection(FILES)
@@ -296,10 +326,10 @@ manpagesection(SEE ALSO)
 
 manpagesection(BUGS)
 
-    The tt(conntrack) command currently only supports the tcp, udp and icmp
+    The tt(conntrack) command currently only supports the TCP, UDP and ICMP
 layer four protocols.
 
-    The tt(indevice outdevice) command currently only supports the tcp
+    The tt(indevice outdevice) command currently only supports the TCP
 protocol.
 
 manpageauthor()

@@ -75,18 +75,10 @@ void Conntrack::parentProcess()
 
 
     string line;
-
-    Selector selector;
-    selector.addReadFd(STDIN_FILENO);
-
     while (true)
     {
-        try
+        while (getline(cin, line))
         {
-            selector.wait();
-
-            getline(cin, line);
-
             imsg << "LINE: " << line << endl;
     
             bool processed = true;
@@ -99,11 +91,12 @@ void Conntrack::parentProcess()
             if (not processed)
                 wmsg << "UNAVAILABLE: " << line << endl;
         }
-        catch (...)
-        {
-            if (d_stop)
-                break;
-        }
+
+        if (d_stop)
+            break;
+
+        d_stdMsg << "conntrack: getline failed w/o stop request." << endl;
     }
+
     waitForChild();
 }

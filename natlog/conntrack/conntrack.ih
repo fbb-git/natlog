@@ -9,7 +9,6 @@
 #include <bobcat/exception>
 #include <bobcat/mstream>
 #include <bobcat/string>
-#include <bobcat/selector>
 
 #include "../options/options.h"
 #include "../showseconds/showseconds.h"
