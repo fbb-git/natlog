@@ -4,7 +4,7 @@ PcapRecord::~PcapRecord()
 {
     size_t endSeconds = time(0);
 
-    d_stdMsg << "terminating" << endl;
+    d_stdMsg << "monitoring devices through pcap ends" << endl;
 
     for (auto &rec: d_connections)
     {

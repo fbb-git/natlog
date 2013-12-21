@@ -6,8 +6,6 @@
 
 #include <bobcat/fork>
 #include <bobcat/multistreambuf>
-#include <bobcat/pipe>
-
 
 namespace FBB
 {
@@ -32,7 +30,6 @@ class NatFork: public FBB::Fork
     std::ostream d_stdMsg;
 
     Mode d_mode;
-    FBB::Pipe d_pipe;
 
     public:
         NatFork();

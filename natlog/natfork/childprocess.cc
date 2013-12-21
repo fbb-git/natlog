@@ -7,18 +7,16 @@ void NatFork::childProcess()
     if (d_options.daemon())
         prepareDaemon();
 
-    OFdStream out(d_pipe.writeFd());        // the message to the parent
-
     try
     {
         if (d_mode == CONNTRACK)
         {
-            Conntrack conntrack(d_stdMsg, out);
+            Conntrack conntrack(d_stdMsg);
             conntrack.run();
         }
         else 
         {
-            Devices devices(d_stdMsg, out);
+            Devices devices(d_stdMsg);
             devices.run();
         }
     }
@@ -28,7 +26,7 @@ void NatFork::childProcess()
             throw;                      // rethrow the exception
 
         d_stdMsg << err.what() << endl;
-        out << 1 << endl;               // The daemon can't start:
+//        out << 1 << endl;               // The daemon can't start:
                                         // inform via the pipe
     }
 

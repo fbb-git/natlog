@@ -4,7 +4,7 @@ Conntrack::~Conntrack()
 {
     string endSeconds = to_string(time(0));
 
-    d_stdMsg << "terminating" << endl;
+    d_stdMsg << "monitoring conntrack ends" << endl;
 
     for (auto &rec: d_connections)
     {                                       // rec is a *, 0 for terminated

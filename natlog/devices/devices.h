@@ -12,10 +12,9 @@ class Devices
     PcapRecord d_record;
     Options &d_options;
     std::ostream &d_stdMsg;
-    std::ostream &d_parent;
 
     public:
-        Devices(std::ostream &stdMsg, std::ostream &parent);
+        Devices(std::ostream &stdMsg);
         void run();
 };
         

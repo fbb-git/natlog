@@ -5,9 +5,7 @@
 
 void NatFork::parentProcess()
 {
-    handleChildStatus();
-
-        // the daemon started OK, now write its pid-file:
+        // write the daemon's pid-file:
     ofstream pidFile(Options::instance().pidFile());
     pidFile << pid() << endl;
 

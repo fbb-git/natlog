@@ -4,6 +4,9 @@ natlog (1.01.0)
     command the icmp, udp and tcp layer four protocols are monitored. By
     default natlog's `conntrack' command monitors the tcp protocol.
 
+  * Added configuration option `conntrack-restart, to specify how often
+    conntrack may be restarted if its process prematurely ends.
+
   * The configuration option `conntrack-path' is discontinued, and
     `conntrack-command' should be used instead. See the man-page for details.
 

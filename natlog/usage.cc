@@ -17,6 +17,9 @@ void usage(std::string const &progname)
     "      --conntrack-command cmd - cmd: `conntrack' command specification\n"
     "                           (default `" << 
                                 Options::defaultConntrackCommand() << "')\n"
+    "      --conntrack-restart max - max number of times `conntrack' is\n"
+    "                           restarted if prematurely ended\n"
+    "                           (default 10 restarts)\n"
     "      --help (-h)        - provide this help\n"
     "      --no-daemon        - do not run " << progname << 
                                                         " in the background\n"
@@ -26,7 +29,11 @@ void usage(std::string const &progname)
     "                           daemon's PID\n"
     "                           (default `" <<
                                         Options::defaultPIDfile() << "')\n"
-    "      --syslog-tag id  - id: identifier prefixed to syslog messages\n"
+    "      --protocol spec    - spec: protocols handled with the `conntrack'\n"
+    "                           comand. Use colon separated combinations of\n"
+    "                           tcp, udp and icmp, or use `all' "
+                                                            "(default: tcp)\n"
+    "      --syslog-tag id    - id: identifier prefixed to syslog messages\n"
     "                           (default `" << 
                                 Options::defaultSyslogIdent() << "')\n"
     "      --syslog-facility fac  - fac: syslog facility to use\n"

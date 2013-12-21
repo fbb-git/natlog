@@ -26,7 +26,12 @@ Options::Options()
         d_time = s_time.find("raw");
     else 
         setTime(value);
+
+    if (d_arg.option(&value, "conntrack-restart"))
+        d_conntrackRestart = stoul(value);
 }
+
+
 
 
 

@@ -19,7 +19,8 @@ struct Options
     enum ExitStatus
     {
         OK,
-        FAILED
+        FAILED,
+        CONNTRACK_ENDED,
     };
     
     private:
@@ -30,6 +31,8 @@ struct Options
         bool d_useSyslog;
         bool d_verbose;
         bool d_warnings;
+
+        size_t d_conntrackRestart = 10;
 
         std::unordered_map<std::string, Time>::const_iterator d_time;
     
@@ -94,6 +97,8 @@ struct Options
         char const *operator[](size_t idx) const;   // forwards ArgConfig's
         size_t nArgs() const;                       // values.
         std::string const &basename() const;
+
+        size_t  conntrackRestart() const;
 
         static char const *defaultConfigPath();
         static char const *defaultConntrackCommand();
@@ -248,6 +253,11 @@ inline char const *Options::defaultSyslogFacility()
 inline char const *Options::defaultSyslogPriority() 
 {
     return s_defaultSyslogPriority;
+}
+
+inline size_t Options::conntrackRestart() const
+{
+    return d_conntrackRestart;
 }
 
 #endif

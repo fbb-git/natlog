@@ -16,8 +16,17 @@ void NatFork::run()
         throw Options::FAILED;
     }
 
+    
     if (d_options.daemon())
         fork();
     else
         childProcess();
 }
+
+
+
+
+
+
+
+

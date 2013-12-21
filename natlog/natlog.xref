@@ -1,7 +1,7 @@
 oxref by Frank B. Brokken (f.b.brokken@rug.nl)
 oxref V0.91.00 2012-2013
 
-CREATED Thu, 19 Dec 2013 13:31:26 +0000
+CREATED Sat, 21 Dec 2013 09:17:12 +0000
 CROSS REFERENCE FOR: -fxs tmp/libmodules.a 
 ----------------------------------------------------------------------
 
@@ -77,8 +77,8 @@ computeShift(char const*)
   Used By:
     pcap1.cc: Pcap::Pcap(char const*, bool, unsigned int, unsigned int)
 
-Conntrack(std::ostream&, std::ostream&)
-  Full name: Conntrack::Conntrack(std::ostream&, std::ostream&)
+Conntrack(std::ostream&)
+  Full name: Conntrack::Conntrack(std::ostream&)
   Source:    conntrack1.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
@@ -89,8 +89,8 @@ conntrackMode()
   Used By:
     run.cc: NatFork::run()
 
-Devices(std::ostream&, std::ostream&)
-  Full name: Devices::Devices(std::ostream&, std::ostream&)
+Devices(std::ostream&)
+  Full name: Devices::Devices(std::ostream&)
   Source:    devices1.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
@@ -137,12 +137,6 @@ firstFree()
     addicmp.cc: ConntrackRecord::addIcmp(std::string const&, FBB::Pattern const&)
     addtcpudp.cc: ConntrackRecord::addTcpudp(std::string const&, FBB::Pattern const&)
 
-handleChildStatus()
-  Full name: NatFork::handleChildStatus()
-  Source:    handlechildstatus.cc 
-  Used By:
-    parentprocess.cc: NatFork::parentProcess()
-
 icmpConnection(FBB::Pattern const&)
   Full name: Conntrack::icmpConnection(FBB::Pattern const&)
   Source:    icmpconnection.cc 
@@ -162,9 +156,9 @@ instance()
     natfork1.cc: NatFork::NatFork()
     parentprocess.cc: NatFork::parentProcess()
     setformat.cc: ShowSeconds::setFormat()
-    conntrack1.cc: Conntrack::Conntrack(std::ostream&, std::ostream&)
+    conntrack1.cc: Conntrack::Conntrack(std::ostream&)
     pcaprecord1.cc: PcapRecord::PcapRecord(std::ostream&)
-    devices1.cc: Devices::Devices(std::ostream&, std::ostream&)
+    devices1.cc: Devices::Devices(std::ostream&)
 
 log(PcapRecord::Record const*, long, long) const
   Full name: PcapRecord::log(PcapRecord::Record const*, long, long) const
@@ -259,7 +253,7 @@ PcapRecord(std::ostream&)
   Full name: PcapRecord::PcapRecord(std::ostream&)
   Source:    pcaprecord1.cc 
   Used By:
-    devices1.cc: Devices::Devices(std::ostream&, std::ostream&)
+    devices1.cc: Devices::Devices(std::ostream&)
 
 protocol(std::string const&, std::string&)
   Full name: Options::protocol(std::string const&, std::string&)
@@ -527,7 +521,7 @@ years
   Full name: ConntrackRecord::~ConntrackRecord()
   Source:    destructor.cc 
   Used By:
-    conntrack1.cc: Conntrack::Conntrack(std::ostream&, std::ostream&)
+    conntrack1.cc: Conntrack::Conntrack(std::ostream&)
     destructor.cc: Conntrack::~Conntrack()
 
 ~PcapRecord()
@@ -535,6 +529,6 @@ years
   Source:    destructor.cc 
   Used By:
     childprocess.cc: NatFork::childProcess()
-    devices1.cc: Devices::Devices(std::ostream&, std::ostream&)
+    devices1.cc: Devices::Devices(std::ostream&)
 
 

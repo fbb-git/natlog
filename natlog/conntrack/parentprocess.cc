@@ -75,28 +75,31 @@ void Conntrack::parentProcess()
 
 
     string line;
-    while (true)
+    while (getline(cin, line))
     {
-        while (getline(cin, line))
-        {
-            imsg << "LINE: " << line << endl;
-    
-            bool processed = true;
-    
-            if (tcpudp << line)
-                processed = tcpudpConnection(tcpudp);
-            else if (icmp << line)
-                processed = icmpConnection(icmp);
-    
-            if (not processed)
-                wmsg << "UNAVAILABLE: " << line << endl;
-        }
+        imsg << "LINE: " << line << endl;
 
-        if (d_stop)
-            break;
+        bool processed = true;
 
-        d_stdMsg << "conntrack: getline failed w/o stop request." << endl;
+        if (tcpudp << line)
+            processed = tcpudpConnection(tcpudp);
+        else if (icmp << line)
+            processed = icmpConnection(icmp);
+
+        if (not processed)
+            wmsg << "UNAVAILABLE: " << line << endl;
     }
 
     waitForChild();
+
+    if (not d_stop)
+    {
+        cin.clear();
+        throw Options::CONNTRACK_ENDED;
+    }
 }
+
+
+
+
+

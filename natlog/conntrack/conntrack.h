@@ -18,11 +18,10 @@ class Conntrack: public FBB::Fork, public FBB::SignalHandler
     ConntrackRecord d_connections;
     Options &d_options;
     std::ostream &d_stdMsg;
-    std::ostream &d_parent;
     bool d_stop = false;
 
     public:
-        Conntrack(std::ostream &stdMsg, std::ostream &parent);
+        Conntrack(std::ostream &stdMsg);
         ~Conntrack();
         void run();
 
