@@ -30,10 +30,3 @@ Options::Options()
     if (d_arg.option(&value, "conntrack-restart"))
         d_conntrackRestart = stoul(value);
 }
-
-
-
-
-
-
-
