@@ -17,7 +17,7 @@ natlog (1.01.0)
 
   * Replaced FBB::Errno calls by FBB::Exception
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 19 Dec 2013 14:21:36 +0100
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 10 Feb 2014 20:21:27 +0100
 
 natlog (1.00.2) 
 
