@@ -2,7 +2,7 @@
 
 void Options::setBoolMembers()
 {
-    // d_useSyslog is set in `openSyslog'
+    // d_useSyslog is set in `setSyslogParams'
 
     d_daemon = not d_arg.option(0, "no-daemon");
     d_verbose = d_arg.option(0, "verbose");
