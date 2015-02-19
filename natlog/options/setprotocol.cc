@@ -6,14 +6,20 @@ string Options::setProtocol()
 
     string spec;
     if (not d_arg.option(&spec, "protocol"))
+    {
         ret = " -p tcp";
+        d_conntrackProtocol = "tcp";
+    }
     else if (spec == "all")
-        ret = " -p tcp -p udp -p icmp";
+        d_conntrackProtocol = "tcp udp icmp";
     else
     {
         ret = protocol("icmp", spec);
         ret += protocol("tcp", spec);
         ret += protocol("udp", spec);
+
+        if (d_conntrackProtocol.length() > 4)
+            ret.erase();
 
         if (not spec.empty())
             wmsg << "Protocol specification `" << spec << "' not supported" <<
@@ -21,4 +27,10 @@ string Options::setProtocol()
     }
     return ret;
 }
+
+
+
+
+
+
 

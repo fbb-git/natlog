@@ -7,7 +7,7 @@ void Options::setSyslogFacility()
     string option;
     if (d_arg.option(&option, "syslog-facility"))
     {
-        std::unordered_map<std::string, FBB::Facility>::const_iterator 
+        FBB::LinearMap<std::string, FBB::Facility>::const_iterator 
             facility = s_syslogFacilities.find(option);
 
         if (facility != s_syslogFacilities.end())

@@ -16,3 +16,7 @@
 using namespace std;
 using namespace FBB;
 
+inline bool Conntrack::accept(string const &protocol) const
+{
+    return d_accept.find(protocol) != string::npos;
+}

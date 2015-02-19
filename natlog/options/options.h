@@ -2,10 +2,10 @@
 #define INCLUDED_OPTIONS_
 
 #include <string>
-#include <unordered_map>
 
 #include <bobcat/argconfig>
 #include <bobcat/syslogstream>      // for the enums
+#include <bobcat/linearmap>
 
 struct Options
 {
@@ -34,7 +34,7 @@ struct Options
 
         size_t d_conntrackRestart = 10;
 
-        std::unordered_map<std::string, Time>::const_iterator d_time;
+        FBB::LinearMap<std::string, Time>::const_iterator d_time;
     
         std::string d_conntrackCommand;
         std::string d_syslogTag;
@@ -42,10 +42,11 @@ struct Options
         std::string d_timeSpecError;
         std::string d_syslogPriorityError;
         std::string d_syslogFacilityError;
+        std::string d_conntrackProtocol;
     
-        std::unordered_map<std::string, FBB::Facility>::const_iterator 
+        FBB::LinearMap<std::string, FBB::Facility>::const_iterator 
                                                             d_syslogFacility;
-        std::unordered_map<std::string, FBB::Priority>::const_iterator 
+        FBB::LinearMap<std::string, FBB::Priority>::const_iterator 
                                                             d_syslogPriority;
 
             // default values:
@@ -58,10 +59,10 @@ struct Options
         static char const s_defaultSyslogPriority[];
         static char const s_defaultPIDfile[];
     
-        static std::unordered_map<std:: string, Time> const s_time;
-        static std::unordered_map<std::string, FBB::Facility> const 
+        static FBB::LinearMap<std:: string, Time> const s_time;
+        static FBB::LinearMap<std::string, FBB::Facility> const 
                                                            s_syslogFacilities;
-        static std::unordered_map<std::string, FBB::Priority> const 
+        static FBB::LinearMap<std::string, FBB::Priority> const 
                                                            s_syslogPriorities;
 
         static Options *s_options;
@@ -82,6 +83,7 @@ struct Options
 
         std::string const &timeSpecError() const;
         std::string const &pidFile() const;
+        std::string const &protocols() const;
         std::string const &conntrackCommand() const;
         std::string const &syslogTag() const;
 
@@ -118,11 +120,8 @@ struct Options
         void setSyslogPriority();
         void setTime(std::string const &time);
 
-        static std::string protocol(std::string const &available, 
-                                    std::string &spec);
-
+        std::string protocol(std::string const &available, std::string &spec);
         std::string setProtocol();
-
 };
 
 inline bool Options::stdout() const
@@ -258,6 +257,11 @@ inline char const *Options::defaultSyslogPriority()
 inline size_t Options::conntrackRestart() const
 {
     return d_conntrackRestart;
+}
+
+inline std::string const &Options::protocols() const
+{
+    return d_conntrackProtocol;
 }
 
 #endif

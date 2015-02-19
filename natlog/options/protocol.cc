@@ -16,7 +16,10 @@ string Options::protocol(string const &available, string &spec)
     }
 
     if (specified)
+    {
+        d_conntrackProtocol += available;
         ret = " -p " + available;
+    }
 
     return ret;
 }

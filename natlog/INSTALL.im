@@ -7,25 +7,22 @@
     // variables. 
 
 #define CXX                 "g++"
+//#define CXX                 "g++-5"
     // the compiler to use. 
 
-#define CXXFLAGS            "--std=c++0x -Wall -O2 -g"
+#define CXXFLAGS            "--std=c++14 -Wall -O2 -pthread"
     // the compiler options to use.
 
 #define LDFLAGS             ""
     // flags passed to the linker
 
-#define BINARY     "/usr/bin/"${PROGRAM}
+#define BINARY              "/usr/bin/"${PROGRAM}
     // the full path of the final program
 
-#define MAN     "/usr/share/man/man1"
+#define MAN                 "/usr/share/man/man1"
     // the directory whre the manual page is stored
 
-#define STD     "/usr/share/doc/"${PROGRAM}
+#define STD                 "/usr/share/doc/"${PROGRAM}
     // the directory where the standard documentation is stored 
-
-
-
-
 
 

@@ -19,6 +19,7 @@ class Conntrack: public FBB::Fork, public FBB::SignalHandler
     Options &d_options;
     std::ostream &d_stdMsg;
     bool d_stop = false;
+    std::string d_accept;
 
     public:
         Conntrack(std::ostream &stdMsg);
@@ -43,7 +44,14 @@ class Conntrack: public FBB::Fork, public FBB::SignalHandler
         void childRedirections() override;
         void parentRedirections() override;
 
+        bool accept(std::string const &protocol) const;
 };
         
 #endif
+
+
+
+
+
+
 

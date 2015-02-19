@@ -82,9 +82,17 @@ void Conntrack::parentProcess()
         bool processed = true;
 
         if (tcpudp << line)
+        {
+            if (not accept(tcpudp[4]))      // observed protocol must
+                continue;                   // match accepted protocol
             processed = tcpudpConnection(tcpudp);
+        }
         else if (icmp << line)
+        {
+            if (not accept(tcpudp[4]))
+                continue;
             processed = icmpConnection(icmp);
+        }
 
         if (not processed)
             wmsg << "UNAVAILABLE: " << line << endl;

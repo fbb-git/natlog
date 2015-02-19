@@ -11,7 +11,7 @@ char const Options::s_defaultSyslogFacility[]   = "DAEMON";
 char const Options::s_defaultSyslogPriority[]   = "NOTICE";
 char const Options::s_defaultPIDfile[]          = "/run/natlog.pid";
 
-unordered_map<string, Options::Time> const Options::s_time = 
+LinearMap<string, Options::Time> const Options::s_time = 
     {
         {"raw",     RAW},
         {"utc",     UTC},
@@ -19,7 +19,7 @@ unordered_map<string, Options::Time> const Options::s_time =
     };
 
 
-unordered_map<string, Facility> const Options::s_syslogFacilities = 
+LinearMap<string, Facility> const Options::s_syslogFacilities = 
     {
         {"DAEMON", Facility::DAEMON}, 
         {"LOCAL0", Facility::LOCAL0},
@@ -33,7 +33,7 @@ unordered_map<string, Facility> const Options::s_syslogFacilities =
         {"USER",   Facility::USER}
     };
 
-unordered_map<string, Priority> const Options::s_syslogPriorities = 
+LinearMap<string, Priority> const Options::s_syslogPriorities = 
     {
        {"EMERG",    Priority::EMERG},
        {"ALERT",    Priority::ALERT},
