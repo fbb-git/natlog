@@ -9,13 +9,13 @@ void NatFork::childProcess()
 
     try
     {
-        if (d_mode == CONNTRACK)
+        if (d_mode == CONNTRACK)            // either use Conntrack
         {
             Conntrack conntrack(d_stdMsg);
             conntrack.run();
         }
-        else 
-        {
+        else                                // or use explicitly mentioned 
+        {                                   // devices
             Devices devices(d_stdMsg);
             devices.run();
         }

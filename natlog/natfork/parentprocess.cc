@@ -9,7 +9,7 @@ void NatFork::parentProcess()
     ofstream pidFile(Options::instance().pidFile());
     pidFile << pid() << endl;
 
-    throw Options::OK;
+    throw Options::OK;                  // ends the parent program
 }
 
 

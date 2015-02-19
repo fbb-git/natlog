@@ -38,7 +38,7 @@ struct PcapFilter: public FBB::SignalHandler
                              u_char const *bytes);
         int shiftPacketBegin() const;
 
-        virtual void signalHandler(size_t signum) override;
+        void signalHandler(size_t signum) override;
 };
 
 #endif

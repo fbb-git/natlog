@@ -16,7 +16,7 @@ class Options;
 
 class NatFork: public FBB::Fork
 {
-    enum Mode
+    enum Mode                       // working mode: use conntrack or pcap
     {
         CONNTRACK,
         PCAP
@@ -46,8 +46,8 @@ class NatFork: public FBB::Fork
         void handleChildStatus();
         void conntrackMode();
 
-        virtual void parentProcess() override;
-        virtual void childProcess() override;
+        void parentProcess() override;
+        void childProcess() override;
 };
         
 #endif
