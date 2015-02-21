@@ -10,6 +10,10 @@ natlog (1.02.00)
  * The man-page shows `:syslogtag, isequal, "NATLOG:" stop' rather than
     (the now deprecated) `:syslogtag, isequal, "NATLOG:"   ~'.
 
+ * The previously discontinued option conntrack-path is no longer recognized.
+
+ * The --protocol option can also be specified as -P.
+
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 18 Feb 2015 19:35:17 +0100
 
 natlog (1.01.0) 

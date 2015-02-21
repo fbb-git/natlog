@@ -9,13 +9,12 @@ namespace   // the anonymous namespace can be used here
 
         Arg::LongOption("conntrack-command", Arg::Required),
 
-        Arg::LongOption("conntrack-path", Arg::Required),
         Arg::LongOption("conntrack-restart", Arg::Required),
         Arg::LongOption("help", 'h'),
         Arg::LongOption("no-daemon", Arg::None),
         Arg::LongOption("no-syslog", Arg::None),
         Arg::LongOption("pid-file", 'p'),
-        Arg::LongOption("protocol", Arg::Required),
+        Arg::LongOption("protocol", 'P'),
         Arg::LongOption("stdout", 's'),
         Arg::LongOption("syslog-facility", Arg::Required),
         Arg::LongOption("syslog-priority", Arg::Required),
@@ -32,7 +31,7 @@ namespace   // the anonymous namespace can be used here
 int main(int argc, char **argv)
 try
 {
-    ArgConfig &arg = ArgConfig::initialize("c:hp:st:vw", 
+    ArgConfig &arg = ArgConfig::initialize("c:hp:P:st:vw", 
                         longOptions, longEnd, argc, argv);
     
     arg.versionHelp(usage, Icmbuild::version, 1);

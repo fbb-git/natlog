@@ -169,11 +169,6 @@ manpagesection(OPTIONS)
         supported protocols may be requested using tt(conntrack's -p tcp, -p
         udp) or tt(-p icmp) options.
 
-    it() laoption(conntrack-path)(path)nl()
-       Option discontinued: this option is replaced by
-        tt(conntrack-command). When tt(conntrack-path) is used, the program
-        ends after displaying an informative message.
-
     it() laoption(conntrack-restart)(max)nl()
        If the conntrack process prematurely ends it is restarted at most
         tt(max) times (these are pure em(restarts): conntrack's initial
@@ -204,15 +199,15 @@ manpagesection(OPTIONS)
         tt(SIGHUP) signals (but writes a log message if a tt(SIGHUP) interrupt
         is received).
         
-    it() laoption(protocol)(specification)nl()
+    it() lsoption(protocol)(P)(specification)nl()
        The protocols to monitor by bf(conntrack)(1). By default
         tt(conntrack-command) monitors the TCP layer four protocol. Currently
         tt(natlog's conntrack) command can monitor the TCP, UDP, and ICMP
         layer four protocols.  Using the tt(protocol) option (note: singular!)
         any subset of these protocols can be selected by specifying a
         colon-separated subset of TCP, UDP, and ICMP (e.g., tt(--protocol
-        udp:tcp)). The specification tt(all) can be used to monitor the TCP,
-        UDP, and ICMP protocols.
+        udp:tcp)). The specification tt(all) can be used to monitor all three
+        protocols: TCP, UDP, and ICMP.
 
        If the tt(conntrack-command) option is specified, the tt(protocol)
         option is ignored.
@@ -283,7 +278,7 @@ syslog messages and write them to a file of your choice. E.g., to filter
 messages starting with the syslog message tag (e.g., tt(NATLOG)) use
         verb(
 :syslogtag, isequal, "NATLOG:"   /var/log/natlog.log
-:syslogtag, isequal, "NATLOG:"   ~
+:syslogtag, isequal, "NATLOG:"   stop
         )
     Note that the colon is part of the tag, but is not specified with the 
 tt(syslog-tag) option.
@@ -344,3 +339,4 @@ protocol.
 manpageauthor()
 
 Frank B. Brokken (f.b.brokken@rug.nl).
+
