@@ -14,7 +14,10 @@ natlog (1.02.00)
 
  * The --protocol option can also be specified as -P.
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Wed, 18 Feb 2015 19:35:17 +0100
+  * Added the file 'required' to the source distribution summarizing the
+    required software for building natlog.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Mon, 23 Feb 2015 11:05:53 +0100
 
 natlog (1.01.0) 
 
