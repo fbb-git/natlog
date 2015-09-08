@@ -1,3 +1,16 @@
+natlog (1.02.01)    NOT YET TAGGED
+
+  * Added 'build uninstall'. This command only works if, when calling 'build
+    install' and when calling 'build uninstall' the environment variable
+    NATLOG contains the (preferably absolute) filename of a file on which
+    installed files and directories are logged.  Note that 'build (dist)clean'
+    does not remove the file pointed at by the NATLOG environment variable,
+    unless that file happpens to be in a directory removed by 'build
+    (dist)clean'. See also the file INSTALL.  Defining the NATLOG environment
+    variable as ~/.natlog usually works well.
+
+
+
 natlog (1.02.00) 
 
   * Conntrack(8) has two modes: when -p <proto> is specified conntrack shows
