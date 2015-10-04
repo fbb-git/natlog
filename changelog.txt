@@ -1,3 +1,9 @@
+natlog (1.02.01)
+
+  * Standardized the (de)installation procedures. See INSTALL for details.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 04 Oct 2015 16:09:21 +0200
+
 natlog (1.02.00) 
 
   * Conntrack(8) has two modes: when -p <proto> is specified conntrack shows
