@@ -1,7 +1,7 @@
 oxref by Frank B. Brokken (f.b.brokken@rug.nl)
-oxref V1.00.02 2012-2015
+oxref V1.00.03 2012-2015
 
-CREATED Wed, 18 Feb 2015 19:12:10 +0000
+CREATED Sun, 04 Oct 2015 14:05:51 +0000
 CROSS REFERENCE FOR: -fxs tmp/libmodules.a 
 ----------------------------------------------------------------------
 
@@ -11,8 +11,8 @@ add(PcapPacket const&, PcapRecord::Type)
   Used By:
     saveadd.cc: PcapFilter::saveAdd(PcapPacket const&)
 
-addIcmp(std::string const&, FBB::Pattern const&)
-  Full name: ConntrackRecord::addIcmp(std::string const&, FBB::Pattern const&)
+addIcmp(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, FBB::Pattern const&)
+  Full name: ConntrackRecord::addIcmp(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, FBB::Pattern const&)
   Source:    addicmp.cc 
   Used By:
     icmpconnection.cc: Conntrack::icmpConnection(FBB::Pattern const&)
@@ -29,8 +29,8 @@ addOut(PcapPacket const&)
   Used By:
     add.cc: PcapRecord::add(PcapPacket const&, PcapRecord::Type)
 
-addTcpudp(std::string const&, FBB::Pattern const&)
-  Full name: ConntrackRecord::addTcpudp(std::string const&, FBB::Pattern const&)
+addTcpudp(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, FBB::Pattern const&)
+  Full name: ConntrackRecord::addTcpudp(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, FBB::Pattern const&)
   Source:    addtcpudp.cc 
   Used By:
     tcpudpconnection.cc: Conntrack::tcpudpConnection(FBB::Pattern const&)
@@ -39,7 +39,7 @@ author
   Full name: Icmbuild::author
   Source:    version.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
 
 callback(PcapFilter*, pcap_pkthdr const*, unsigned char const*)
   Full name: PcapFilter::callback(PcapFilter*, pcap_pkthdr const*, unsigned char const*)
@@ -47,23 +47,23 @@ callback(PcapFilter*, pcap_pkthdr const*, unsigned char const*)
   Used By:
     operatorfun.cc: PcapFilter::operator()()
 
-checkSyslogParam(char const*, std::string const&, std::string const&)
-  Full name: NatFork::checkSyslogParam(char const*, std::string const&, std::string const&)
+checkSyslogParam(char const*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  Full name: NatFork::checkSyslogParam(char const*, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Source:    checksyslogparam.cc 
   Used By:
     setupstdmsg.cc: NatFork::setupStdMsg()
-
-childProcess()
-  Full name: Conntrack::childProcess()
-  Source:    childprocess.cc 
-  Used By:
-    destructor.cc: Conntrack::~Conntrack()
 
 childProcess()
   Full name: NatFork::childProcess()
   Source:    childprocess.cc 
   Used By:
     parentprocess.cc: NatFork::parentProcess()
+
+childProcess()
+  Full name: Conntrack::childProcess()
+  Source:    childprocess.cc 
+  Used By:
+    destructor.cc: Conntrack::~Conntrack()
 
 childRedirections()
   Full name: Conntrack::childRedirections()
@@ -89,6 +89,47 @@ conntrackMode()
   Used By:
     run.cc: NatFork::run()
 
+cxx11]
+  Full name: ShowSeconds::s_utcMarker[abi:cxx11]
+  Source:    data.cc 
+  Used By:
+    setformat.cc: ShowSeconds::setFormat()
+    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+    log.cc: PcapRecord::log(PcapRecord::Record const*, long, long) const
+
+cxx11]
+  Full name: Options::s_time[abi:cxx11]
+  Source:    data.cc 
+  Used By:
+    options1.cc: Options::Options()
+    settime.cc: Options::setTime(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+
+cxx11]
+  Full name: Options::s_syslogPriorities[abi:cxx11]
+  Source:    data.cc 
+  Used By:
+    setsyslogpriority.cc: Options::setSyslogPriority()
+
+cxx11]
+  Full name: Options::s_syslogFacilities[abi:cxx11]
+  Source:    data.cc 
+  Used By:
+    setsyslogfacility.cc: Options::setSyslogFacility()
+
+cxx11]
+  Full name: ShowSeconds::s_show[abi:cxx11]
+  Source:    data.cc 
+  Used By:
+    operatorinsert.cc: operator<<(std::ostream&, ShowSeconds const&)
+    setformat.cc: ShowSeconds::setFormat()
+
+cxx11]()
+  Full name: Options::setProtocol[abi:cxx11]()
+  Source:    setprotocol.cc 
+  Used By:
+    options1.cc: Options::Options()
+
 Devices(std::ostream&)
   Full name: Devices::Devices(std::ostream&)
   Source:    devices1.cc 
@@ -110,14 +151,14 @@ erase(unsigned int)
     icmpconnection.cc: Conntrack::icmpConnection(FBB::Pattern const&)
     tcpudpconnection.cc: Conntrack::tcpudpConnection(FBB::Pattern const&)
 
-filter(std::string const&, bool)
-  Full name: Pcap::filter(std::string const&, bool)
+filter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)
+  Full name: Pcap::filter(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)
   Source:    filter.cc 
   Used By:
     pcapfilter1.cc: PcapFilter::PcapFilter(char const*, PcapRecord&, PcapRecord::Type)
 
-find(std::string const&) const
-  Full name: ConntrackRecord::find(std::string const&) const
+find(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
+  Full name: ConntrackRecord::find(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) const
   Source:    find.cc 
   Used By:
     icmpconnection.cc: Conntrack::icmpConnection(FBB::Pattern const&)
@@ -134,8 +175,8 @@ firstFree()
   Full name: ConntrackRecord::firstFree()
   Source:    firstfree.cc 
   Used By:
-    addicmp.cc: ConntrackRecord::addIcmp(std::string const&, FBB::Pattern const&)
-    addtcpudp.cc: ConntrackRecord::addTcpudp(std::string const&, FBB::Pattern const&)
+    addicmp.cc: ConntrackRecord::addIcmp(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, FBB::Pattern const&)
+    addtcpudp.cc: ConntrackRecord::addTcpudp(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, FBB::Pattern const&)
 
 icmpConnection(FBB::Pattern const&)
   Full name: Conntrack::icmpConnection(FBB::Pattern const&)
@@ -167,15 +208,15 @@ log(PcapRecord::Record const*, long, long) const
     destructor.cc: PcapRecord::~PcapRecord()
     remove.cc: PcapRecord::remove(PcapPacket const&)
 
-logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
-  Full name: Conntrack::logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
+logIcmp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+  Full name: Conntrack::logIcmp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
   Source:    logicmp.cc 
   Used By:
     destructor.cc: Conntrack::~Conntrack()
     icmpconnection.cc: Conntrack::icmpConnection(FBB::Pattern const&)
 
-logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
-  Full name: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
+logTcpudp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+  Full name: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
   Source:    logtcpudp.cc 
   Used By:
     destructor.cc: Conntrack::~Conntrack()
@@ -203,8 +244,8 @@ operator<<(std::ostream&, ShowSeconds const&)
   Full name: operator<<(std::ostream&, ShowSeconds const&)
   Source:    operatorinsert.cc 
   Used By:
-    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
-    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
+    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
     log.cc: PcapRecord::log(PcapRecord::Record const*, long, long) const
 
 Options()
@@ -255,14 +296,14 @@ PcapRecord(std::ostream&)
   Used By:
     devices1.cc: Devices::Devices(std::ostream&)
 
-protocol(std::string const&, std::string&)
-  Full name: Options::protocol(std::string const&, std::string&)
+protocol(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
+  Full name: Options::protocol(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >&)
   Source:    protocol.cc 
   Used By:
-    setprotocol.cc: Options::setProtocol()
+    setprotocol.cc: Options::setProtocol[abi:cxx11]()
 
-rawTime(std::ostream&, std::string const&)
-  Full name: ShowSeconds::rawTime(std::ostream&, std::string const&)
+rawTime(std::ostream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  Full name: ShowSeconds::rawTime(std::ostream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Source:    time.cc 
   Used By:
     data.cc: GLOBALS data.cc 2data.o
@@ -290,7 +331,7 @@ s_defaultConfigPath
   Full name: Options::s_defaultConfigPath
   Source:    data.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
     openconfig.cc: Options::openConfig()
 
 s_defaultConntrackArgs
@@ -303,35 +344,35 @@ s_defaultConntrackCommand
   Full name: Options::s_defaultConntrackCommand
   Source:    data.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
     options1.cc: Options::Options()
 
 s_defaultPIDfile
   Full name: Options::s_defaultPIDfile
   Source:    data.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
     openconfig.cc: Options::openConfig()
 
 s_defaultSyslogFacility
   Full name: Options::s_defaultSyslogFacility
   Source:    data.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
     setsyslogfacility.cc: Options::setSyslogFacility()
 
 s_defaultSyslogIdent
   Full name: Options::s_defaultSyslogIdent
   Source:    data.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
     setsyslogparams.cc: Options::setSyslogParams()
 
 s_defaultSyslogPriority
   Full name: Options::s_defaultSyslogPriority
   Source:    data.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
     setsyslogpriority.cc: Options::setSyslogPriority()
 
 s_filterExpr
@@ -352,41 +393,6 @@ s_recordMutex
   Used By:
     saveadd.cc: PcapFilter::saveAdd(PcapPacket const&)
     saveremove.cc: PcapFilter::saveRemove(PcapPacket const&)
-
-s_show
-  Full name: ShowSeconds::s_show
-  Source:    data.cc 
-  Used By:
-    operatorinsert.cc: operator<<(std::ostream&, ShowSeconds const&)
-    setformat.cc: ShowSeconds::setFormat()
-
-s_syslogFacilities
-  Full name: Options::s_syslogFacilities
-  Source:    data.cc 
-  Used By:
-    setsyslogfacility.cc: Options::setSyslogFacility()
-
-s_syslogPriorities
-  Full name: Options::s_syslogPriorities
-  Source:    data.cc 
-  Used By:
-    setsyslogpriority.cc: Options::setSyslogPriority()
-
-s_time
-  Full name: Options::s_time
-  Source:    data.cc 
-  Used By:
-    options1.cc: Options::Options()
-    settime.cc: Options::setTime(std::string const&)
-
-s_utcMarker
-  Full name: ShowSeconds::s_utcMarker
-  Source:    data.cc 
-  Used By:
-    setformat.cc: ShowSeconds::setFormat()
-    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
-    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
-    log.cc: PcapRecord::log(PcapRecord::Record const*, long, long) const
 
 saveAdd(PcapPacket const&)
   Full name: PcapFilter::saveAdd(PcapPacket const&)
@@ -413,12 +419,6 @@ setFormat()
   Used By:
     childprocess.cc: NatFork::childProcess()
 
-setProtocol()
-  Full name: Options::setProtocol()
-  Source:    setprotocol.cc 
-  Used By:
-    options1.cc: Options::Options()
-
 setSyslogFacility()
   Full name: Options::setSyslogFacility()
   Source:    setsyslogfacility.cc 
@@ -437,8 +437,8 @@ setSyslogPriority()
   Used By:
     setsyslogparams.cc: Options::setSyslogParams()
 
-setTime(std::string const&)
-  Full name: Options::setTime(std::string const&)
+setTime(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  Full name: Options::setTime(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Source:    settime.cc 
   Used By:
     options1.cc: Options::Options()
@@ -467,12 +467,12 @@ ShowSeconds(long)
   Used By:
     log.cc: PcapRecord::log(PcapRecord::Record const*, long, long) const
 
-ShowSeconds(std::string const&)
-  Full name: ShowSeconds::ShowSeconds(std::string const&)
+ShowSeconds(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  Full name: ShowSeconds::ShowSeconds(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Source:    showseconds1.cc 
   Used By:
-    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::string const&, std::string)
-    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::string const&, std::string)
+    logicmp.cc: Conntrack::logIcmp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
+    logtcpudp.cc: Conntrack::logTcpudp(ConntrackRecord::Record const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >)
 
 signalHandler(unsigned int)
   Full name: Conntrack::signalHandler(unsigned int)
@@ -493,8 +493,8 @@ tcpudpConnection(FBB::Pattern const&)
   Used By:
     parentprocess.cc: Conntrack::parentProcess()
 
-utcTime(std::ostream&, std::string const&)
-  Full name: ShowSeconds::utcTime(std::ostream&, std::string const&)
+utcTime(std::ostream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
+  Full name: ShowSeconds::utcTime(std::ostream&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
   Source:    time.cc 
   Used By:
     setformat.cc: ShowSeconds::setFormat()
@@ -503,13 +503,13 @@ version
   Full name: Icmbuild::version
   Source:    version.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
 
 years
   Full name: Icmbuild::years
   Source:    version.cc 
   Used By:
-    usage.cc: usage(std::string const&)
+    usage.cc: usage(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)
 
 ~Conntrack()
   Full name: Conntrack::~Conntrack()

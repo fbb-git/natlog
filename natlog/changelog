@@ -1,15 +1,8 @@
-natlog (1.02.01)    NOT YET TAGGED
+natlog (1.02.01)
 
-  * Added 'build uninstall'. This command only works if, when calling 'build
-    install' and when calling 'build uninstall' the environment variable
-    NATLOG contains the (preferably absolute) filename of a file on which
-    installed files and directories are logged.  Note that 'build (dist)clean'
-    does not remove the file pointed at by the NATLOG environment variable,
-    unless that file happpens to be in a directory removed by 'build
-    (dist)clean'. See also the file INSTALL.  Defining the NATLOG environment
-    variable as ~/.natlog usually works well.
+  * Standardized the (de)installation procedures. See INSTALL for details.
 
-
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sun, 04 Oct 2015 16:09:21 +0200
 
 natlog (1.02.00) 
 
