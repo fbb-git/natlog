@@ -38,6 +38,9 @@ release page):
         itemization(
         it() url(1.02.02)
                 (https://github.com/fbb-git/_project_/releases/tag/1.02.02)
+Dec 13, 2015;
+        it() url(1.02.02)
+                (https://github.com/fbb-git/_project_/releases/tag/1.02.02)
 Oct  6, 2015;
         it() url(1.02.01)
                 (https://github.com/fbb-git/_project_/releases/tag/1.02.01)
@@ -47,10 +50,7 @@ Oct  4, 2015;
 Feb 23, 2015;
         it() url(1.01.00)
                 (https://github.com/fbb-git/_project_/releases/tag/1.01.00)
-Feb 10, 2014;
-        it() url(1.00.02)
-                (https://github.com/fbb-git/_project_/releases/tag/1.00.02)
-Dec 2, 2013.
+Feb 10, 2014.
         )
     COMMENT(NOTE: LAST ITEM SHOULD END IN . )
 

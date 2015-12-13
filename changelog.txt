@@ -1,3 +1,9 @@
+natlog (1.02.03)
+
+  * Adapted  natlog's build scripts to icmake >= 8.00.03
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 11 Dec 2015 17:17:43 +0100
+
 natlog (1.02.02)
 
   * Kevin Brodsky observed that the installation scripts used 'chdir' rather
