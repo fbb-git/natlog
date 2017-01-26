@@ -1,3 +1,15 @@
+natlog (1.03.00)
+
+  * Fixed bug when setting syslog-facility in options/setSyslogFacility:
+    instead of using the assignment operator (=) to set the facility
+    the comparison operator (==) was written... :-(
+
+  * The --verbose option can be abbreviated to -V. When specified twice, the
+    actual configuration parameters are shown. When specified more often,
+    natlog ends after showing the configuration parameters.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 26 Jan 2017 12:27:40 +0100
+
 natlog (1.02.03)
 
   * Adapted  natlog's build scripts to icmake >= 8.00.03
