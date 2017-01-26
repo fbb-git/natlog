@@ -30,7 +30,7 @@ void usage(std::string const &progname)
     "                           (default `" <<
                                         Options::defaultPIDfile() << "')\n"
     "      --protocol spec    - spec: protocols handled with the `conntrack'\n"
-    "                           comand. Use colon separated combinations of\n"
+    "                           command. Use colon separated combinations of\n"
     "                           tcp, udp and icmp, or use `all' "
                                                             "(default: tcp)\n"
     "      --syslog-tag id    - id: identifier prefixed to syslog messages\n"
