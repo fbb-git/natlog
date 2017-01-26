@@ -15,6 +15,8 @@ Options::Options()
 
     setSyslogParams();
 
+    d_verbose = d_arg.option('V');
+
     setBoolMembers();
 
     string value;

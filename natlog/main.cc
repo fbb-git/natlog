@@ -20,7 +20,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("syslog-priority", Arg::Required),
         Arg::LongOption("syslog-tag", Arg::Required),
         Arg::LongOption("time", 't'),
-        Arg::LongOption("verbose", Arg::None),
+        Arg::LongOption("verbose", 'V'),
         Arg::LongOption("version", 'v'),
         Arg::LongOption("warn", 'w'),
     };
@@ -31,7 +31,7 @@ namespace   // the anonymous namespace can be used here
 int main(int argc, char **argv)
 try
 {
-    ArgConfig &arg = ArgConfig::initialize("c:hp:P:st:vw", 
+    ArgConfig &arg = ArgConfig::initialize("c:hp:P:st:vVw", 
                         longOptions, longEnd, argc, argv);
     
     arg.versionHelp(usage, Icmbuild::version, 1);

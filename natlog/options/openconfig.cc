@@ -6,15 +6,14 @@ void Options::openConfig()
         //      - where specified at 'c',   or:
         //      - ~/.natlogrc
 
-    string config;
-    if (not d_arg.option(&config, 'c'))
-        config = s_defaultConfigPath;
+    if (not d_arg.option(&d_configPath, 'c'))
+        d_configPath = s_defaultConfigPath;
 
     if (not d_arg.option(&d_PIDfile, 'p'))
         d_PIDfile = s_defaultPIDfile;
 
-    if (access(config.c_str(), R_OK) == 0)
-        d_arg.open(config);
+    if (access(d_configPath.c_str(), R_OK) == 0)
+        d_arg.open(d_configPath);
 }
 
 

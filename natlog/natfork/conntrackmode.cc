@@ -13,5 +13,4 @@ void NatFork::conntrackMode()
         d_stdMsg << "[Fatal] can't execute " << conntrack << endl;
         throw Options::FAILED;
     }
-    d_mode = CONNTRACK;
 }

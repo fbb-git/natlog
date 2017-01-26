@@ -6,7 +6,10 @@ htmlbodyopt(text)(#27408B)
 htmlbodyopt(bgcolor)(#FFFAF0)
 whenhtml(mailto(Frank B. Brokken: f.b.brokken@rug.nl))
 
-DEFINEMACRO(lsoption)(3)(\
+DEFINEMACRO(lsoption)(2)(\
+    bf(--ARG1) (bf(-ARG2))\
+)
+DEFINEMACRO(lsaoption)(3)(\
     bf(--ARG1)=tt(ARG3) (bf(-ARG2))\
 )
 DEFINEMACRO(laoption)(2)(\
@@ -130,7 +133,7 @@ connections.
 manpagesection(OPTIONS)
 
     itemization(
-    it() lsoption(config)(c)(config-path)nl()
+    it() lsaoption(config)(c)(config-path)nl()
        The argument tt(config-path) defines the path to the configuration file
         to be used by tt(natlog). By default the configuration file is
         expected in tt(/etc/natlog.conf). All configuration options have
@@ -191,7 +194,7 @@ manpagesection(OPTIONS)
         with priority tt(NOTICE). No messages are sent to the syslog daemon
         when this option is specified.
 
-    it() lsoption(pid-file)(p)(path)nl()
+    it() lsaoption(pid-file)(p)(path)nl()
        When tt(natlog) runs in the background, then tt(path) is the name of
         the path of the file holding the daemon's process-id. By default this
         is tt(/run/natlog.pid). To end the daemon, send a SIGTERM signal to
@@ -199,7 +202,7 @@ manpagesection(OPTIONS)
         tt(SIGHUP) signals (but writes a log message if a tt(SIGHUP) interrupt
         is received).
         
-    it() lsoption(protocol)(P)(specification)nl()
+    it() lsaoption(protocol)(P)(specification)nl()
        The protocols to monitor by bf(conntrack)(1). By default
         tt(conntrack-command) monitors the TCP layer four protocol. Currently
         tt(natlog's conntrack) command can monitor the TCP, UDP, and ICMP
@@ -237,7 +240,7 @@ manpagesection(OPTIONS)
         the log-files. By default the tag tt(NATLOG) is used. See also section
         tt(RSYSLOG FILTERING) below.
 
-    it() lsoption(time)(t)(spec)nl()
+    it() lsaoption(time)(t)(spec)nl()
         By default time stamps written by tt(natlog) are in raw, numeric
         form. E.g.,
         verb(
@@ -254,11 +257,17 @@ NATLOG: From 1338990672:55588 until 1338990747:807100
        specify tt(local) for a representation like tt(Jun 6 13:29:11), using
         the local time zone defined by the computer running tt(natlog).
 
-    it() loption(verbose)nl() 
+    it() lsoption(verbose)(V)nl() 
        Additional messages about tt(natlog)'s mode of operation are sent to
         the standard output stream. When tt(natlog) runs as a daemon these
         messages are sent to the syslog daemon, unless tt(--no-syslog) was
         specified. 
+
+        When tt(--verbose) is specified twice then all actual configuration
+        parameters are shown just before tt(natlog) starts.
+
+        When tt(--verbose) is specified more often then tt(natlog) ends after
+        reporting the configuration parameters.
 
     it() loption(version) (soption(v))nl() 
        Write tt(natlog)'s version number to the standard output stream and

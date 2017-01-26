@@ -12,11 +12,9 @@ NatFork::NatFork()
     else
         setupNonDaemonMsg();
 
+    d_mode = string(d_options[0]) == "conntrack" ? CONNTRACK :
+             d_options.nArgs() == 2              ? PCAP      :
+                                                   ERROR;
 
-    if (d_options.timeSpecError().length() == 0)
-        imsg << "Using time type `" << d_options.timeTxt() << '\'' << endl;
-    else
-        wmsg << "Time specifcation `" << d_options.timeSpecError() <<
-                "' not supported. Using `" << d_options.timeTxt() << 
-                "' instead" << endl;
+    specifications();
 }

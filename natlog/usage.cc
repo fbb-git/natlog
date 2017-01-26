@@ -50,7 +50,7 @@ void usage(std::string const &progname)
     "                            raw: (default) seconds since the epoch;\n"
     "                            utc: date and time in UTC\n"
     "                            local: local date and time\n"
-    "      --verbose          - write additional information:\n"
+    "      --verbose (-V)     - write additional information:\n"
     "                               with --no-daemon: to stdout;\n"
     "                               with daemons and --no-syslog not "
                                                                 "specified:\n"

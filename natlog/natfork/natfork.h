@@ -18,6 +18,7 @@ class NatFork: public FBB::Fork
 {
     enum Mode                       // working mode: use conntrack or pcap
     {
+        ERROR,
         CONNTRACK,
         PCAP
     };
@@ -37,6 +38,8 @@ class NatFork: public FBB::Fork
         void run();
 
     private:
+        void specifications();
+
         void setupStdMsg();
         void checkSyslogParam(char const *label, std::string const &actual, 
                                                  std::string const &err);

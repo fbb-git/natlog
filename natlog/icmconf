@@ -14,15 +14,6 @@
 #define OBJ_EXT             ".o"
 #define USE_VERSION
 #define USE_ALL             "a"
-#define SCANNER_DIR         ""  
-#define SCANGEN             ""
-#define SCANFLAGS           ""
-#define SCANSPEC            ""
-#define SCANOUT             ""
-#define PARSER_DIR          ""
-#define PARSGEN             ""
-#define PARSFLAGS           ""
-#define PARSSPEC            ""
-#define PARSFILES           ""
-#define PARSOUT             ""
-
+#define IH                  ".ih"
+#define PRECOMP             "-x c++-header"
+#define DEFCOM              "program"

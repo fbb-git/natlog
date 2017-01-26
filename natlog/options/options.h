@@ -29,14 +29,15 @@ struct Options
         bool d_daemon;
         bool d_stdout;
         bool d_useSyslog;
-        bool d_verbose;
         bool d_warnings;
 
+        size_t d_verbose;
         size_t d_conntrackRestart = 10;
 
         FBB::LinearMap<std::string, Time>::const_iterator d_time;
     
         std::string d_conntrackCommand;
+        std::string d_configPath;
         std::string d_syslogTag;
         std::string d_PIDfile;
         std::string d_timeSpecError;
@@ -75,12 +76,14 @@ struct Options
         bool daemon() const;
         bool stdout() const;
         bool syslog() const;
-        bool verbose() const;
         bool warnings() const;
+
+        size_t verbose() const;
 
         Time time() const;
         std::string const &timeTxt() const;
 
+        std::string const &configPath() const;
         std::string const &timeSpecError() const;
         std::string const &pidFile() const;
         std::string const &protocols() const;
@@ -129,7 +132,7 @@ inline bool Options::stdout() const
     return d_stdout;
 }
 
-inline bool Options::verbose() const
+inline size_t Options::verbose() const
 {   
     return d_verbose;
 }
@@ -157,6 +160,11 @@ inline Options::Time Options::time() const
 inline std::string const &Options::timeTxt() const
 {   
     return d_time->first;
+}
+
+inline std::string const &Options::configPath() const
+{   
+    return d_configPath;
 }
 
 inline std::string const &Options::syslogTag() const

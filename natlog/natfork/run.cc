@@ -2,17 +2,21 @@
 
 void NatFork::run()
 {
-    if (string(d_options[0]) == "conntrack")
-        conntrackMode();
-    else if (d_options.nArgs() == 2)
-        d_mode = PCAP;
-    else
+    switch (d_mode)
     {
-        d_stdMsg << "[Fatal] invalid argument(s): `";
-        for (size_t idx = 0, end = d_options.nArgs(); idx != end; ++idx)
-            d_stdMsg << d_options[idx] << (idx + 1 == end ? '\'' : ' ');
-        d_stdMsg << endl;
+        case CONNTRACK:
+            conntrackMode();
+        // FALLING THROUGH
+        case PCAP:
+        break;
 
+        case ERROR:
+        {
+            d_stdMsg << "[Fatal] invalid argument(s): `";
+            for (size_t idx = 0, end = d_options.nArgs(); idx != end; ++idx)
+                d_stdMsg << d_options[idx] << (idx + 1 == end ? '\'' : ' ');
+            d_stdMsg << endl;
+        }    
         throw Options::FAILED;
     }
 
