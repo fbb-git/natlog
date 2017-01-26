@@ -11,7 +11,7 @@ void Options::setSyslogFacility()
             facility = s_syslogFacilities.find(option);
 
         if (facility != s_syslogFacilities.end())
-            d_syslogFacility == facility;
+            d_syslogFacility = facility;
         else
             d_syslogFacilityError = option;
     }            

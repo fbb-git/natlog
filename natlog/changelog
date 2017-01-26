@@ -1,3 +1,10 @@
+natlog (1.03.00)
+
+  * Fixed bug when setting syslog-facility in options/setSyslogFacility:
+    instead of using the assignment operator (=) to set the facility
+    the comparison operator (==) was written... :-(
+
+
 natlog (1.02.03)
 
   * Adapted  natlog's build scripts to icmake >= 8.00.03
