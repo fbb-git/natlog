@@ -1,3 +1,14 @@
+natlog (1.04.00)    (WIP)
+
+  * Added option --contrack-device, by default set to /proc/net/nf_conntrack.
+    Older systems may still use /proc/net/ip_conntrack, which may be selected
+    using this option.
+
+  *  To activate byte-accounting:
+    /bin/echo "1" > /proc/sys/net/netfilter/nf_conntrack_acct
+
+
+
 natlog (1.03.00)
 
   * Fixed bug when setting syslog-facility in options/setSyslogFacility:

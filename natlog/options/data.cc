@@ -2,7 +2,8 @@
 
 char const Options::s_defaultConfigPath[]       = "/etc/natlog.conf";
 
-char const Options::s_defaultConntrackCommand[]    = "/usr/sbin/conntrack";
+char const Options::s_defaultConntrackCommand[] = "/usr/sbin/conntrack";
+char const Options::s_defaultConntrackDevice[]  = "/proc/net/nf_conntrack";
 char const Options::s_defaultConntrackArgs[]    = 
                                         " -E -n -o timestamp -e NEW,DESTROY";
 

@@ -8,7 +8,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("config", 'c'),
 
         Arg::LongOption("conntrack-command", Arg::Required),
-
+        Arg::LongOption("conntrack-device", Arg::Required),
         Arg::LongOption("conntrack-restart", Arg::Required),
         Arg::LongOption("help", 'h'),
         Arg::LongOption("no-daemon", Arg::None),

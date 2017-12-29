@@ -37,6 +37,7 @@ struct Options
         FBB::LinearMap<std::string, Time>::const_iterator d_time;
     
         std::string d_conntrackCommand;
+        std::string d_conntrackDevice;
         std::string d_configPath;
         std::string d_syslogTag;
         std::string d_PIDfile;
@@ -54,6 +55,7 @@ struct Options
 
         static char const s_defaultConfigPath[];
         static char const s_defaultConntrackCommand[];
+        static char const s_defaultConntrackDevice[];
         static char const s_defaultConntrackArgs[];
         static char const s_defaultSyslogIdent[];
         static char const s_defaultSyslogFacility[];
@@ -88,6 +90,7 @@ struct Options
         std::string const &pidFile() const;
         std::string const &protocols() const;
         std::string const &conntrackCommand() const;
+        char const *conntrackDevice() const;
         std::string const &syslogTag() const;
 
         FBB::Priority syslogPriority() const;
@@ -225,6 +228,11 @@ inline std::string const &Options::facility() const
 inline std::string const &Options::conntrackCommand() const
 {
     return d_conntrackCommand;
+}
+
+inline char const *Options::conntrackDevice() const
+{
+    return d_conntrackDevice.c_str();
 }
 
 inline char const *Options::operator[](size_t idx) const
