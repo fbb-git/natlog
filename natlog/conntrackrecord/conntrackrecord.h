@@ -30,6 +30,24 @@ enum class CTtcpudp
     RECVDBYTES,
 };
     
+    // Indices when matching conntrack entries with Pattern for tcp/udp
+enum class CTicmp
+{
+    TIME1   =   1,
+    TIME2,              
+    TYPE,       // NEW, DESTROY
+    SRC,
+    DST,
+    ID,
+    SENTPACKETTEXT,
+    SENTPACKETS,
+    SENTBYTES,
+    NATTEDSRC
+    RECVDPACKETTEXT,
+    RECVDPACKETS,
+    RECVDBYTES,
+};
+    
 
 struct ConntrackRecord
 {
