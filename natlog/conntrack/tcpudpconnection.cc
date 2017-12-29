@@ -17,9 +17,9 @@
 
 bool Conntrack::tcpudpConnection(Pattern const &tcpudp)
 {
-    string key(tcpudp[9] + tcpudp[10]);
+    string key(tcpudp[CTtcpudp::NATTEDSRC] + tcpudp[CTtcpudp::NATTEDDPORT]]);
 
-    if (tcpudp[3] == "NEW")
+    if (tcpudp[CTtcpudp::TYPE] == "NEW")
         d_connections.addTcpudp(key, tcpudp);
     else 
     {
@@ -27,7 +27,9 @@ bool Conntrack::tcpudpConnection(Pattern const &tcpudp)
         if (idx == numeric_limits<size_t>::max())
             return false;
 
-        logTcpudp(*d_connections[idx], tcpudp[1], tcpudp[2]);
+        logTcpudp(*d_connections[idx], tcpudp[CTtcpudp::TIME1],
+                                       tcpudp[CTtcpudp::TIME2]); 
+
         d_connections.erase(idx);  // erase processed element
     }
     return true;

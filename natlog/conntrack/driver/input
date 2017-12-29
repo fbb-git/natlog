@@ -1,0 +1,3 @@
+[1514557026.011291]       [DESTROY] udp      17 src=192.168.17.22 dst=5.45.62.25 sport=64407 dport=53 packets=1 bytes=138 src=5.45.62.25 dst=192.168.8.17 sport=53 dport=64407 packets=1 bytes=524
+[1514557030.811279]       [DESTROY] tcp      6 src=192.168.17.22 dst=23.56.184.45 sport=55787 dport=80 packets=7 bytes=450 src=23.56.184.45 dst=192.168.8.17 sport=80 dport=55787 packets=5 bytes=1679 [ASSURED]
+[1514557030.811279]       [DESTROY] tcp      6 src=192.168.17.22 dst=23.56.184.45 sport=55787 dport=80 src=23.56.184.45 dst=192.168.8.17 sport=80 dport=55787 [ASSURED]

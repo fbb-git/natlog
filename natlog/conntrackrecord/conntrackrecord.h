@@ -9,6 +9,28 @@ namespace FBB
     class Pattern;
 }
 
+    // Indices when matching conntrack entries with Pattern for tcp/udp
+enum class CTtcpudp
+{
+    TIME1   =   1,
+    TIME2,              
+    TYPE,       // NEW, DESTROY
+    PROTOCOL,   // tcp/udp
+    SRC,
+    DST,
+    SPORT,
+    DPORT,
+    SENTPACKETTEXT,
+    SENTPACKETS,
+    SENTBYTES,
+    NATTEDSRC
+    NATTEDDPORT,
+    RECVDPACKETTEXT,
+    RECVDPACKETS,
+    RECVDBYTES,
+};
+    
+
 struct ConntrackRecord
 {
     struct Record
@@ -24,6 +46,9 @@ struct ConntrackRecord
         std::string destPort;
         std::string viaIP;
         std::string viaPort;
+
+        size_t inBytes;
+        size_t outBytes;
     };
 
     private:
