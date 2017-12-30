@@ -131,7 +131,6 @@ void Conntrack::parentProcess()
         }
         else if (icmp << line)
         {
-//            if (not accept(tcpudp[4]))
             if (not accept("icmp"))
                 continue;
             processed = icmpConnection(icmp);
