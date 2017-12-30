@@ -27,8 +27,8 @@ struct PcapFilter: public FBB::SignalHandler
         void operator()();
         
     private:
-        void inDevice(PcapPacket const &packet);
-        void outDevice(PcapPacket const &packet);
+        void inDevice(PcapPacket const &packet);        // device before NAT
+        void outDevice(PcapPacket const &packet);       // device after NAT
 
         void saveAdd(PcapPacket const &packet);
         void saveRemove(PcapPacket const &packet);

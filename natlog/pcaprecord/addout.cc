@@ -21,7 +21,7 @@ void PcapRecord::addOut(PcapPacket const &packet)
         record->status = ESTABLISHED;
         record->outBytes += packet.length();    // add #bytes for this conn.
 
-        imsg << "Add OUT #" << idx << endl;
+        imsg << "Add OUT #" << idx << ", sent: " << packet.length() << endl;
         display(imsg, record) << FBB::endl;
     }
     else                    // else store a new record.

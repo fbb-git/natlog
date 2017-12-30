@@ -23,7 +23,9 @@ void PcapRecord::store(Record *record)
         ++idx;
     }
     d_connections.push_back(record);    // add the record at the end
-    imsg << "New index #" << (d_connections.size() - 1) << endl;
+    imsg << "New index #" << (d_connections.size() - 1) << ", "
+                "sent: " << record->inBytes << ", "
+                "received: " << record->outBytes << endl;
 }
 
 

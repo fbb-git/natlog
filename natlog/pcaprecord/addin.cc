@@ -20,7 +20,7 @@ void PcapRecord::addIn(PcapPacket const &packet)
         record->status = ESTABLISHED;
         record->inBytes += packet.length();     // add #bytes for this conn.
 
-        imsg << "Add #" << idx << endl;
+        imsg << "Add #" << idx << ", received: " << packet.length() << endl;
         display(imsg, record) << FBB::endl;
     }
     else                    // else store a new record.

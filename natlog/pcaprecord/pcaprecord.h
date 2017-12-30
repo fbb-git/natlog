@@ -44,8 +44,8 @@ class PcapRecord
             AddrPort            via;
             AddrPort            dest;
             uint32_t            sequenceNr;
-            size_t              inBytes = 0;
-            size_t              outBytes = 0;
+            size_t              inBytes;
+            size_t              outBytes;
         };
 
     private:
