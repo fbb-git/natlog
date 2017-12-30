@@ -32,10 +32,14 @@ class Conntrack: public FBB::Fork, public FBB::SignalHandler
 
         void logTcpudp(ConntrackRecord::Record const &record, 
                     std::string const &endSeconds, 
-                    std::string endMicroSecs);
+                    std::string endMicroSecs,
+                    std::string const &sentBytes,
+                    std::string const &recvdBytes);
         void logIcmp(ConntrackRecord::Record const &record, 
                     std::string const &endSeconds, 
-                    std::string endMicroSecs);
+                    std::string endMicroSecs,
+                    std::string const &sentBytes,
+                    std::string const &recvdBytes);
 
         void signalHandler(size_t signum) override;
 

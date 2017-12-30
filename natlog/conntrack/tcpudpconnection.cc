@@ -18,8 +18,10 @@ bool Conntrack::tcpudpConnection(Pattern const &tcpudp)
             return false;
 
         logTcpudp(
-            *d_connections[findIdx], tcpudp[ idx(CTtcpudp::TIME1) ],
-                                 tcpudp[ idx(CTtcpudp::TIME2) ]
+            *d_connections[findIdx], 
+            tcpudp[ idx(CTtcpudp::TIME1) ], tcpudp[ idx(CTtcpudp::TIME2) ],
+            tcpudp[ idx(CTtcpudp::SENTBYTES) ], 
+            tcpudp[ idx(CTtcpudp::RECVDBYTES) ]
         ); 
 
         d_connections.erase(findIdx);  // erase processed element

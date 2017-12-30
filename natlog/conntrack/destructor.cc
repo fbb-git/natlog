@@ -2,7 +2,7 @@
 
 Conntrack::~Conntrack()
 {
-    string endSeconds = to_string(time(0));
+    string endSeconds = to_string(time(0));     // pseudo end-seconds
 
     d_stdMsg << "monitoring conntrack ends" << endl;
 
@@ -16,6 +16,6 @@ Conntrack::~Conntrack()
                     :
                         &Conntrack::logTcpudp
                 )
-            )(*rec, endSeconds, "0"); 
+            )(*rec, endSeconds, "0", "0", "0"); 
     }
 }

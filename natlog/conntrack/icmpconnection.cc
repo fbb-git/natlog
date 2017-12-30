@@ -14,8 +14,9 @@ bool Conntrack::icmpConnection(Pattern const &icmp)
             return false;
 
         logIcmp(
-            *d_connections[findIdx], icmp[ idx(CTicmp::TIME1) ], 
-                                     icmp[ idx(CTicmp::TIME2) ]
+            *d_connections[findIdx], 
+            icmp[ idx(CTicmp::TIME1) ], icmp[ idx(CTicmp::TIME2) ],
+            icmp[ idx(CTicmp::SENTBYTES) ], icmp[ idx(CTicmp::RECVDBYTES) ]
         );
 
         d_connections.erase(findIdx);  // erase processed element
