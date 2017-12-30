@@ -69,7 +69,8 @@ void Conntrack::parentProcess()
     R"(dport=(\d+))"                            // natted dport  (key)
       //14          15            16
     R"((\s+packets=(\d+)\s+bytes=(\d+))?)",     // maybe recv'd packets/bytes
-        true, 17};
+
+    true, idx(CTtcpudp::nFields) };
 
     //  If packets/bytes are not provided then #14 t/m #16 are not available,
     //  and end() returns 14, otherwise 17.
@@ -108,7 +109,7 @@ void Conntrack::parentProcess()
     R"((\s+packets=(\d+)\s+bytes=(\d+))?)",     // maybe rev'd packets/bytes
     //  11          12            13
 
-        true, 14 };
+        true, idx(CTicmp::nFields) };
 
 
     //  If packets/bytes are not provided then #7 t/m #9 are not available,

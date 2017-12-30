@@ -17,6 +17,9 @@ void usage(std::string const &progname)
     "      --conntrack-command cmd - cmd: `conntrack' command specification\n"
     "                           (default `" << 
                                 Options::defaultConntrackCommand() << "')\n"
+    "      --conntrack-device dev - dev: `conntrack' data device\n"
+    "                           (default `" << 
+                                Options::defaultConntrackDevice() << "')\n"
     "      --conntrack-restart max - max number of times `conntrack' is\n"
     "                           restarted if prematurely ended\n"
     "                           (default 10 restarts)\n"

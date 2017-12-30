@@ -12,5 +12,7 @@ void Conntrack::logIcmp(ConntrackRecord::Record const &record,
                 ShowSeconds(endSeconds) << ':' << endMicroSecs << 
                                     ShowSeconds::utcMarker() << ": icmp " <<
             record.sourceIP << " (via: " << record.viaIP  << ") "
-        "to " << record.destIP << endl;
+        "to " << record.destIP << ". "
+        "Sent: " << record.outBytes << ", "
+        "received: " << record.inBytes << endl;
 }

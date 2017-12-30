@@ -1,12 +1,12 @@
-SYN van 129.125.3.162 naar 129.125.100.246: 
+SYN from 129.125.3.162 to 129.125.100.246: 
                                             12:00:52.783685 IP 129.125.3.162.56301 > 129.125.100.246.222: Flags [S], 
-SYN SRC NAT naar 10.4.0.6:
+SYN SRC NAT to 10.4.0.6:
                                             12:00:52.783715 IP 129.125.3.162.56301 > 10.4.0.6.22: Flags [S], 
-                                                               =================== Identical, maar dat hoeft niet: IP FW regel stelt: source nat 222 naar 10.4.0.6:22:
+                                                               =================== Identical, but not necessarily: IP FW line states: source nat 222 to 10.4.0.6:22:
                                                                                    iptables -t nat -A PREROUTING -s $suffix -d $vpn --dport 222 -j DNAT --to-destination $styxIP:22
-                                                                                   Dus: 129.125.3.162.56301 -> 129.125.100.246.222 => 129.125.3.162.56301 -> 10.4.0.6.22
+                                                                                   So: 129.125.3.162.56301 -> 129.125.100.246.222 => 129.125.3.162.56301 -> 10.4.0.6.22
 
-SYN,ACK van 10.4.0.6:22 naar 129.125.3.162
+SYN,ACK from 10.4.0.6:22 to 129.125.3.162
                                             12:00:52.790015 IP 10.4.0.6.22 > 129.125.3.162.56301: Flags [S.], 
                                             12:00:52.790038 IP 129.125.100.246.222 > 129.125.3.162.56301: Flags [S.], 
 
@@ -24,6 +24,8 @@ IN interface:
 tcpdump -n -i tun0 host 129.125.3.162 and '( tcp[13] == 18 or tcp[13] = 17 )'
 tcpdump: verbose output suppressed, use -v or -vv for full protocol decode
 listening on tun0, link-type RAW (Raw IP), capture size 65535 bytes
+
+length items contain #bytes that are transferred.
 
                     dest                from
 21:52:22.009091 IP 129.125.3.162.22 > 192.168.17.7.49752: Flags [S.], seq 1993746849, ack 683350435, win 14480, options [mss 1460,sackOK,TS val 487201561 ecr 763943,nop,wscale 4], length 0

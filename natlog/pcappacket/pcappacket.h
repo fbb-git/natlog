@@ -105,6 +105,8 @@ class PcapPacket
 
         uint32_t sequenceNr() const;
 
+        size_t length() const;
+
     private:
         template <typename Type>
         Type const &get() const;
@@ -152,6 +154,11 @@ inline time_t PcapPacket::seconds() const
 inline suseconds_t PcapPacket::microSeconds() const
 {
     return d_hdr.ts.tv_usec;
+}
+
+inline size_t PcapPacket::length() const
+{
+    return get<IP_Header>().length;
 }
 
 inline struct in_addr const &PcapPacket::sourceAddr() const

@@ -110,6 +110,7 @@ struct Options
 
         static char const *defaultConfigPath();
         static char const *defaultConntrackCommand();
+        static char const *defaultConntrackDevice();
         static char const *defaultConntrackArgs();
         static char const *defaultSyslogIdent();
         static char const *defaultSyslogFacility();
@@ -253,6 +254,11 @@ inline std::string const &Options::basename() const
 inline char const *Options::defaultConntrackCommand() 
 {
     return s_defaultConntrackCommand;
+}
+
+inline char const *Options::defaultConntrackDevice() 
+{
+    return s_defaultConntrackDevice;
 }
 
 inline char const *Options::defaultSyslogIdent() 

@@ -11,5 +11,7 @@ ostream &PcapRecord::display(ostream &stdMsg, Record const *record) const
            " (via: " << 
                 via.dottedDecimalAddress() << ':' << via.port() << ") "
             "to " << 
-                dst.dottedDecimalAddress() << ':' << dst.port();
+                dst.dottedDecimalAddress() << ':' << dst.port() << ". "
+            "Sent: " << record->outBytes << ", "
+            "received: " << record->inBytes;
 }

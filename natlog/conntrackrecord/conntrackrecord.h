@@ -23,11 +23,12 @@ enum class CTtcpudp
     SENTPACKETTEXT,
     SENTPACKETS,
     SENTBYTES,
-    NATTEDSRC
-    NATTEDDPORT,
+    NATSRC,
+    NATPORT,
     RECVDPACKETTEXT,
     RECVDPACKETS,
     RECVDBYTES,
+    nFields,
 };
     
     // Indices when matching conntrack entries with Pattern for tcp/udp
@@ -42,12 +43,18 @@ enum class CTicmp
     SENTPACKETTEXT,
     SENTPACKETS,
     SENTBYTES,
-    NATTEDSRC
+    NATSRC,
     RECVDPACKETTEXT,
     RECVDPACKETS,
     RECVDBYTES,
+    nFields,
 };
     
+template <typename Type>
+inline size_t constexpr idx(Type type)
+{
+    return static_cast<size_t>(type);
+}
 
 struct ConntrackRecord
 {

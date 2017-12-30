@@ -19,20 +19,24 @@ void PcapRecord::addOut(PcapPacket const &packet)
                             // then assign the record's `via' IP/port:
         record->via = {packet.destAddr(), packet.destPort()};
         record->status = ESTABLISHED;
+        record->outBytes += packet.length();    // add #bytes for this conn.
+
         imsg << "Add OUT #" << idx << endl;
         display(imsg, record) << FBB::endl;
     }
     else                    // else store a new record.
         store(
-                new Record
-                {
-                    INCOMPLETE,
-                    packet.timeval(), 
-                    {{0}, 0},
-                    {packet.destAddr(), packet.destPort()},
-                    {packet.sourceAddr(), packet.sourcePort()},
-                    packet.sequenceNr()
-                }
+            new Record
+            {
+                INCOMPLETE,
+                packet.timeval(), 
+                {{0}, 0},
+                {packet.destAddr(), packet.destPort()},
+                {packet.sourceAddr(), packet.sourcePort()},
+                packet.sequenceNr(),
+                0,                      // inBytes
+                packet.length()         // outBytes
+            }
         );
 }
 

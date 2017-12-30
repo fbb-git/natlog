@@ -1,0 +1,3 @@
+[1514579834.661363]	    [NEW] icmp     1 30 src=192.168.17.6 dst=129.125.3.162 type=8 code=0 id=3302 [UNREPLIED] src=129.125.3.162 dst=192.168.8.17 type=0 code=0 id=3302
+[1514579848.686573]	    [NEW] icmp     1 30 src=192.168.17.6 dst=129.125.14.80 type=8 code=0 id=3330 [UNREPLIED] src=129.125.14.80 dst=192.168.8.17 type=0 code=0 id=3330
+[1514579857.235298]	[DESTROY] icmp     1 src=192.168.17.6 dst=129.125.3.162 type=8 code=0 id=3269 packets=4 bytes=336 src=129.125.3.162 dst=192.168.8.17 type=0 code=0 id=3269 packets=4 bytes=336

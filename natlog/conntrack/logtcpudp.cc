@@ -14,5 +14,7 @@ void Conntrack::logTcpudp(ConntrackRecord::Record const &record,
             record.protocol << ' ' <<
             record.sourceIP << ':' << record.sourcePort << 
                " (via: " << record.viaIP << ':' << record.viaPort << ") "
-        "to " << record.destIP << ':' << record.destPort << endl;
+        "to " << record.destIP << ':' << record.destPort << ". "
+        "Sent: " << record.outBytes << ", "
+        "received: " << record.inBytes << endl;
 }

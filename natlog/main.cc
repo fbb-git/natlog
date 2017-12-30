@@ -25,7 +25,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("warn", 'w'),
     };
 
-    auto longEnd = longOptions + sizeof(longOptions) / sizeof(longOptions[0]);
+    auto longEnd = longOptions + size(longOptions);
 }
 
 int main(int argc, char **argv)
