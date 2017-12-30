@@ -21,4 +21,9 @@ void ConntrackRecord::addIcmp(std::string const &key, Pattern const &pat)
             sizes ? 
                 stoul(pat[ idx(CTicmp::RECVDBYTES) ]) : 0,
         };
+
+    imsg << "       icmp: sizes: " << sizes << ", pat.end(): " << pat.end() << 
+        ", full size: " << idx(CTicmp::nFields) <<
+        ", sent: " << pat[ idx(CTicmp::SENTBYTES) ] <<
+        ", rcvd: " << pat[ idx(CTicmp::RECVDBYTES) ] << endl;
 }

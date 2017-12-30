@@ -123,14 +123,16 @@ void Conntrack::parentProcess()
         bool processed = true;
 
         if (tcpudp << line)
-        {
-            if (not accept(tcpudp[4]))      // observed protocol must
+        {                                   // observed protocol must
+            if (not accept(tcpudp[ idx(CTtcpudp::PROTOCOL) ]))      
                 continue;                   // match accepted protocol
+
             processed = tcpudpConnection(tcpudp);
         }
         else if (icmp << line)
         {
-            if (not accept(tcpudp[4]))
+//            if (not accept(tcpudp[4]))
+            if (not accept("icmp"))
                 continue;
             processed = icmpConnection(icmp);
         }

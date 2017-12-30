@@ -21,4 +21,9 @@ void ConntrackRecord::addTcpudp(std::string const &key, Pattern const &pat)
                         sizes ? 
                             stoul(pat[ idx(CTtcpudp::RECVDBYTES) ]) : 0,
                     };
+
+    imsg << "       tcp: sizes: " << sizes << ", pat.end(): " << pat.end() << 
+        ", full size: " << idx(CTtcpudp::nFields) <<
+        ", sent: " << pat[ idx(CTtcpudp::SENTBYTES) ] <<
+        ", rcvd: " << pat[ idx(CTtcpudp::RECVDBYTES) ] << endl;
 }
