@@ -172,11 +172,6 @@ inline suseconds_t PcapPacket::microSeconds() const
     return d_hdr.ts.tv_usec;
 }
 
-inline size_t PcapPacket::ipLength() const
-{
-    return get<IP_Header>().length;
-}
-
 inline size_t PcapPacket::hdrLength() const
 {
     return get<IP_Header>().protocol == TCP ? 
