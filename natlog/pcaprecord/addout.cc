@@ -19,9 +19,14 @@ void PcapRecord::addOut(PcapPacket const &packet)
                             // then assign the record's `via' IP/port:
         record->via = {packet.destAddr(), packet.destPort()};
         record->status = ESTABLISHED;
-        record->outBytes += packet.length();    // add #bytes for this conn.
+//        record->outBytes += packet.length();    // add #bytes for this conn.
 
-        imsg << "Add OUT #" << idx << ", sent: " << packet.length() << endl;
+        imsg << "Add OUT #" << idx <<           // sent
+            "protocol: " << packet.protocol() << ", "
+            "IP length: "  << packet.ipLength() << ", "
+            "HDR length: "  << packet.hdrLength() << ", "
+            "Payload length: "  << packet.payloadLength() << endl;
+
         display(imsg, record) << FBB::endl;
     }
     else                    // else store a new record.
@@ -35,7 +40,7 @@ void PcapRecord::addOut(PcapPacket const &packet)
                 {packet.sourceAddr(), packet.sourcePort()},
                 packet.sequenceNr(),
                 0,                      // inBytes
-                packet.length()         // outBytes
+                0
             }
         );
 }

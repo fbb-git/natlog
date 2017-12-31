@@ -67,6 +67,13 @@ class PcapPacket
             SIZEOF_TCP_HEADER = DATA_OFFSET
         };
 
+        enum Protocol
+        {
+            ICMP = 1,
+            TCP = 6,
+            UDP = 17
+        };
+
         enum TCP_Flags
         {
             FIN  = 0x01,
@@ -105,7 +112,11 @@ class PcapPacket
 
         uint32_t sequenceNr() const;
 
-        size_t length() const;
+        size_t ipLength() const;
+        size_t hdrLength() const;
+        size_t payloadLength() const;
+
+        size_t protocol() const;
 
     private:
         template <typename Type>
@@ -136,6 +147,11 @@ inline PcapPacket::Address::Address(struct in_addr const &addr, u_short port)
     FBB::InetAddress( sockaddr_in{0, port, addr} )
 {}
 
+inline size_t PcapPacket::protocol() const
+{
+    return get<IP_Header>().protocol;
+}
+
 inline bool PcapPacket::flags(u_char testFlags) const
 {
     return get<TCP_Header>().flags == testFlags;
@@ -156,9 +172,17 @@ inline suseconds_t PcapPacket::microSeconds() const
     return d_hdr.ts.tv_usec;
 }
 
-inline size_t PcapPacket::length() const
+inline size_t PcapPacket::ipLength() const
 {
     return get<IP_Header>().length;
+}
+
+inline size_t PcapPacket::hdrLength() const
+{
+    return get<IP_Header>().protocol == TCP ? 
+                get<TCP_Header>().dataOffset
+            :
+                8;
 }
 
 inline struct in_addr const &PcapPacket::sourceAddr() const
