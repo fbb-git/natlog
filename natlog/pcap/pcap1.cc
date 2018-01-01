@@ -2,9 +2,9 @@
 
 Pcap::Pcap(char const *device, bool promisc, size_t snapLen, size_t timeOutMs)
 {
-    computeShift(device);
+    computeShift(device);               // determine device's MAC address
 
-    char errBuf[PCAP_ERRBUF_SIZE];
+    char errBuf[PCAP_ERRBUF_SIZE];      // pcap-predefined constant
 
     d_pcap = pcap_open_live(device, snapLen, promisc, timeOutMs, errBuf);
 

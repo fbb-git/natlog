@@ -23,7 +23,6 @@ void PcapRecord::addIn(PcapPacket const &packet)
         imsg << "Add #" << idx << ", "              // received
             "protocol: " << packet.protocol() << ", "
             "IP length: "  << packet.ipLength() << ", "
-            "HDR length: "  << packet.hdrLength() << ", "
             "Payload length: "  << packet.payloadLength() << endl;
 
         display(imsg, record) << FBB::endl;

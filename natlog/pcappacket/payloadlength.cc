@@ -2,5 +2,5 @@
 
 size_t PcapPacket::payloadLength() const
 {
-    return ipLength() - 20 - hdrLength();
+    return ipLength() - headerLength() - dataOffset();
 }

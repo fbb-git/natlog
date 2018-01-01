@@ -2,6 +2,8 @@
 #define INCLUDED_PCAPPACKET_
 
 #include <pcap.h>
+
+#include <arpa/inet.h>
 #include <bobcat/inetaddress>
 
 class PcapPacket
@@ -25,7 +27,8 @@ class PcapPacket
     };
     struct IP_Header 
     {
-        u_char versionHdrLength;    // version << 4 | header length >> 2 
+        u_char  hdrLength:4,        // in 4-byte words
+                version:4;
         u_char tos;                 // type of service
         u_short length;             // total length 
         u_short identification;
@@ -52,19 +55,26 @@ class PcapPacket
         u_short urgentPtr;
     };
 
+    struct UDP_Header               // udp header length: 8 bytes
+    {
+         u_short sourcePort;
+         u_short destPort;
+         u_short length;
+         u_short checkSum;
+    };                              
+
     enum Offsets                // offsets to the various headers
     {                           // the Ethernet header starts at `d_packet'
         ETHER_OFFSET =  0,       
         IP_OFFSET =     ETHER_OFFSET + sizeof(Ethernet_Header),
         TCP_OFFSET =    IP_OFFSET + sizeof(IP_Header),
-        DATA_OFFSET =   TCP_OFFSET + sizeof(TCP_Header)
+        UDP_OFFSET =    TCP_OFFSET,
     };
 
     public:
         enum SizeofTCPheader
         {
             SIZEOF_ETHERNET_HEADER = IP_OFFSET,
-            SIZEOF_TCP_HEADER = DATA_OFFSET
         };
 
         enum Protocol
@@ -113,8 +123,10 @@ class PcapPacket
         uint32_t sequenceNr() const;
 
         size_t ipLength() const;
-        size_t hdrLength() const;
         size_t payloadLength() const;
+        size_t dataOffset() const;
+        size_t headerLength() const;
+        size_t udpLength() const;
 
         size_t protocol() const;
 
@@ -135,6 +147,12 @@ template <>
 inline PcapPacket::TCP_Header const &PcapPacket::get() const
 {
     return *reinterpret_cast<TCP_Header const *>(d_packet + TCP_OFFSET);
+}
+
+template <>
+inline PcapPacket::UDP_Header const &PcapPacket::get() const
+{
+    return *reinterpret_cast<UDP_Header const *>(d_packet + UDP_OFFSET);
 }
 
 inline PcapPacket::TCP_Flags PcapPacket::flags() const
@@ -172,14 +190,6 @@ inline suseconds_t PcapPacket::microSeconds() const
     return d_hdr.ts.tv_usec;
 }
 
-inline size_t PcapPacket::hdrLength() const
-{
-    return get<IP_Header>().protocol == TCP ? 
-                get<TCP_Header>().dataOffset
-            :
-                8;
-}
-
 inline struct in_addr const &PcapPacket::sourceAddr() const
 {
     return get<IP_Header>().sourceAddr;
@@ -190,13 +200,12 @@ inline struct in_addr const &PcapPacket::destAddr() const
     return get<IP_Header>().destAddr;
 }
 
-
-inline u_short PcapPacket::sourcePort() const
+inline u_short PcapPacket::sourcePort() const       // also works for UDP
 {
     return get<TCP_Header>().sourcePort;
 }
 
-inline u_short PcapPacket::destPort() const
+inline u_short PcapPacket::destPort() const         // also works for UDP
 {
     return get<TCP_Header>().destPort;
 }
@@ -222,11 +231,25 @@ inline PcapPacket::Address PcapPacket::inetAddr(struct in_addr const &addr,
 
 inline uint32_t PcapPacket::sequenceNr() const
 {
-    return get<TCP_Header>().sequenceNr;
+    return ntohl(get<TCP_Header>().sequenceNr);
 }
 
+inline size_t PcapPacket::dataOffset() const
+{
+            // 4 most significant bits: # 32 bit words
+            // so: shr 4 to het the # 32 bit words, and 
+            // << 2 to multiply by 4 to get the #bytes before the data
+    return get<TCP_Header>().dataOffset >> 4 << 2;
+}
+
+inline size_t PcapPacket::headerLength() const
+{
+    return get<IP_Header>().hdrLength << 2;
+}
+        
+inline size_t PcapPacket::udpLength() const
+{
+    return ntohs(get<UDP_Header>().length) - sizeof(UDP_Header); 
+}
         
 #endif
-
-
-

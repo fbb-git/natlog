@@ -1,6 +1,4 @@
 #include "pcappacket.h"
 
-#include <arpa/inet.h>
-
 using namespace std;
 
