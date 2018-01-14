@@ -1,0 +1,8 @@
+#include "storage.h"
+
+//TMP
+#include <iostream>
+#define CERR cerr << __FILE__": "
+
+using namespace std;
+

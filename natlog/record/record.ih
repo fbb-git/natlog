@@ -1,0 +1,20 @@
+#include "record.h"
+
+#include <ctime>
+
+#include <sstream>
+#include <iomanip>
+#include <unordered_map>
+
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
+#include "../showseconds/showseconds.h"
+
+using namespace std;
+
+// static
+inline size_t Record::ports2key(size_t lowPort, size_t highPort)
+{
+    return (highPort << sizeof(u_short) * 8) | lowPort;
+}

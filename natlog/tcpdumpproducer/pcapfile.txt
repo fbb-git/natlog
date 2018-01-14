@@ -1,0 +1,185 @@
+http://www.kroosec.com/2012/10/a-look-at-pcap-file-format.html
+
+
+Hani's blog
+
+Software/Security Engineering, Linux, Open Source and /dev/random
+Saturday, October 13, 2012
+
+A look at the pcap file format
+
+ A couple of days ago, someone came on #Nmap IRC channel asking about pcap
+file format. He was writing a parser in Haskell but had some issues,
+especially with extracting the timestamp values of the each packet. As I
+walked him through the file format, I decided to write this blog post as a
+quick reference, a reminder, or a clearer explanation depending on who is
+reading it.  While detailing the file format, we will have a closer look at
+this capture file.
+
+A pcap file is structured in this way:
+Global Header | Header1 | Data1 | Header2 | Data2 | ... | HeaderN | DataN
+
+The parts in blue are added by libpcap/capture software, while the parts in
+red are the actual data captured on the wire.  The first part of the file is
+the global header, which is inserted only once in the file, at the start. 
+
+The global header has a fixed size of 24 bytes.
+
+kroosec@dojo:~$ hexdump -n 24 -C connection\ termination.cap | cut -c 11-59
+d4 c3 b2 a1 02 00 04 00  00 00 00 00 00 00 00 00
+ff ff 00 00 01 00 00 00
+
+    The first 4 bytes d4 c3 b2 a1 constitute the magic number which is used to
+identify pcap files.
+
+    The next 4 bytes 02 00 04 00 are the Major version (2
+bytes) and Minor Version (2 bytes), in our case 2.4. Why is 2 written on 2
+bytes as 0x0200 and not 0x0002 ? This is called little endianess in which, the
+least significant byte is stored in the least significant position: This means
+that 2 would be written on 2 bytes as 02 00. How do we know that we are not
+using Big Endianness instead ? The magic number is also used to distinguish
+between Little and Big Endianness. The "real" value is 0xa1b2c3d4, if we read
+it as as a1 b2 c3 d4, it means Big E. Otherwise (0xd4c3b2a1), it means Little
+E.
+
+    Following are the GMT timezone offset minus the timezone used in the
+headers in seconds (4 bytes) and the accuracy of the timestamps in the capture
+(4 bytes). These are set to 0 most of the time which gives us the 00 00 00 00
+00 00 00 00.
+
+    Next is the Snapshot Length field (4 bytes) which indicates the maximum
+length of the captured packets (dataX) in bytes. In our file it is set to ff
+ff 00 00 which equals to 65535 (0xffff), the default value for tcpdump and
+wireshark. 
+
+    The last 4 bytes in the global header specify the Link-Layer Header
+Type. Our file has the value of 0x1 ( 01 00 00 00 ), which indicates that the
+link-layer protocol is Ethernet. There are many other types such as PPPoE,
+USB, Frame Relay etc,. The complete list is available here.
+
+After the Global header, we have a certain number of packet header / data
+pairs.
+
+Taking a closer look at the first packet header:
+
+kroosec@dojo:~$ hexdump -C connection\ termination.cap -s 24 -n 16 | cut -c
+11-59 
+c2 ba cd 4f b6 35 0f 00  36 00 00 00 36 00 00 00 
+
+The first 4 bytes are the timestamp in Seconds. This is the number of seconds
+since the start of 1970, also known as Unix Epoch. The value of this field in
+our pcap file is 0x4fcdbac2. An easy way to convert it to a human readable
+format: 
+
+kroosec@dojo:~$ calc 0x4fcdbac2
+    1338882754
+kroosec@dojo:~$ date --date='1970-01-01 1338882754 sec GMT'
+Tue Jun  5 08:52:34 CET 2012
+
+FBB:    Note that the time stamps are already in host by order.
+
+
+The second field (4 Bytes) is the microseconds part of the time at which the
+packet was captured. In our case it equals to b6 35 0f 00 or 996790
+microseconds. 
+
+FBB:: Note that size(pcap_pkthdr) is/can be 24. struct timeval holds at least 
+    time_t         tv_sec      seconds
+    suseconds_t    tv_usec     microseconds
+
+    where time_t is a signed int, 32 or 64 bits long,
+    and suseconds_t probably of the same type.
+
+Also, the values written to the binary file are in host byte order.
+
+The third field is 4 bytes long and contains the size of the saved packet data
+in our file in bytes (the part in red following the header). 
+
+The Fourth field is 4 bytes long too and contains the length of the packet as
+it was captured on the wire. Both fields' value is 36 00 00 00 (54 Bytes) in
+our file but these may have different values in cases where we set the maximum
+packet length (whose value is 65535 in the global header of our file) to a
+smaller size.
+
+After the packet header comes the data! 
+
+Starting from the lower layer we see the Ethernet destination address
+00:12:cf:e5:54:a0 followed by the source address 00:1f:3c:23:db:d3. 
+
+To sum it up here is our file.
+kroosec@dojo:~$ hexdump -C connection\ termination.cap | cut -c 11-59
+
+global header:      d4 c3 b2 a1 02 00 04 00  00 00 00 00 00 00 00 00
+                    ff ff 00 00 01 00 00 00  
+packet hdr:                                  c2 ba cd 4f b6 35 0f 00
+                    36 00 00 00 36 00 00 00  
+                                            |<--------- 0x36 bytes beyond 
+                                                    the next packet starts
+data:
+
+  Ethernet_Header:
+    destmac:                                 00 12 cf e5 54 a0 
+    srcmac:                                                    00 1f
+                    3c 23 db d3 
+    ethertype:                  08 00 
+
+    IP_Header:
+        hdrLength,version:            45 
+        tos                              00 |<--------- 0x10
+        length:                              00 28 
+                                             0x28 bytes beyond the IP header's
+                                                  begin the next packet starts
+
+        ident:                                     4a a6 
+        fragmentOffset:                                  40 00 
+        TTL:                                                   40 
+        protocol:                                                 06 (TCP)
+        checksum:   58 eb 
+        sourceaddr:       c0 a8 0a e2 
+                                     |<-- 0x10 (wrt IP_Header)
+        destaddr:                     c0 a8  0b 0c 
+                                            |<--------- 0x20
+
+    TCP_Header:
+        src port:                                  4c fb 
+        dst port:                                        00 17 
+        sequence:                                              e7 ca
+                    f8 58 
+        ackNr:            26 13 45 de 
+                                     |<-- 0x20 (wrt IP_Header)
+        data offset                   50 
+        flags:                           11  
+                                            |<--------- 0x30
+        window:                              40 c7 
+        checksum:                                  3e a6 
+        urgentPtr:                                       00 00 
+
+packet hdr:                                                    c3 ba
+                    cd 4f 60 04 00 00 3c 00  00 00 3c 00 00 00 00 
+data:                                                             1f
+                    3c 23 db d3 00 12 cf e5  54 a0 08 00 45 00 00 28
+                    8a f7 00 00 40 06 58 9a  c0 a8 0b 0c c0 a8 0a e2
+                    00 17 4c fb 26 13 45 de  e7 ca f8 59 50 10 01 df
+                    7d 8e 00 00 00 00 00 00  00 00 
+packet hdr:                                        c3 ba cd 4f 70 2f
+                    00 00 3c 00 00 00 3c 00  00 00 
+data:                                              00 1f 3c 23 db d3
+                    00 12 cf e5 54 a0 08 00  45 00 00 28 26 f9 00 00
+                    40 06 bc 98 c0 a8 0b 0c  c0 a8 0a e2 00 17 4c fb
+                    26 13 45 de e7 ca f8 59  50 11 01 df 7d 8d 00 00
+                    00 00 00 00 00 00 
+packet hdr:                           c3 ba  cd 4f db 2f 00 00 36 00
+                    00 00 36 00 00 00 
+data:                                 00 12  cf e5 54 a0 00 1f 3c 23
+                    db d3 08 00 45 00 00 28  4a a7 40 00 40 06 58 ea
+                    c0 a8 0a e2 c0 a8 0b 0c  4c fb 00 17 e7 ca f8 59
+                    26 13 45 df 50 10 40 c7  3e a5 00 00
+
+
+And here is what the file utility thinks of it
+kroosec@dojo:~$ type file
+file is /usr/bin/file
+kroosec@dojo:~$ file connection\ termination.cap
+connection termination.cap: tcpdump capture file (little-endian) - version 2.4 (Ethernet, capture length 65535)
+
+

@@ -1,0 +1,18 @@
+#define CLS
+#define MAIN                "main.cc"
+#define SOURCES             "*.cc"
+#define OBJ_EXT             ".o"
+#define TMP_DIR             "tmp"
+#define USE_ECHO              ON
+#define CXX                 "g++-7"
+#define CXXFLAGS            " --std=c++17 -Wall -O2" \
+                            " -fdiagnostics-color=never "
+#define IH                  ".ih"
+#define REFRESH
+#define LDFLAGS             "-s"
+#define ADD_LIBRARIES       "modules bobcat"
+#define ADD_LIBRARY_PATHS   "../natlib"
+#define USE_ALL             "a"
+
+
+#define DEFCOM     "program"
