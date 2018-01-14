@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if [ $# -eq 0 ] ; then
+    echo "provide (colon separated) protocol specs, or 'all'"
+    echo "followed by 'in' 'out' device spec. or 'conntrac'"
+    exit 0
+fi
+
+tmp/bin/binary -t utc --no-daemon -s --no-syslog --protocol $*

@@ -1,6 +1,5 @@
 #include "main.ih"
 
-// Room for Args initialization
 namespace   // the anonymous namespace can be used here
 {
     Arg::LongOption longOptions[] =
@@ -20,25 +19,26 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("syslog-priority", Arg::Required),
         Arg::LongOption("syslog-tag", Arg::Required),
         Arg::LongOption("time", 't'),
+        Arg::LongOption("ttl", 'T'),
         Arg::LongOption("verbose", 'V'),
         Arg::LongOption("version", 'v'),
         Arg::LongOption("warn", 'w'),
     };
 
-    auto longEnd = longOptions + sizeof(longOptions) / sizeof(longOptions[0]);
+    auto longEnd = longOptions + size(longOptions);
 }
 
 int main(int argc, char **argv)
 try
 {
-    ArgConfig &arg = ArgConfig::initialize("c:hp:P:st:vVw", 
+    ArgConfig &arg = ArgConfig::initialize("c:hp:P:st:T:vVw", 
                         longOptions, longEnd, argc, argv);
     
     arg.versionHelp(usage, Icmbuild::version, 1);
 
-    NatFork fork;
+    NatFork natfork;
 
-    fork.run();
+    natfork.run();
 }
 catch (exception const &err)
 {

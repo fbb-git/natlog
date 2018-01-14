@@ -1,0 +1,252 @@
+
+An example of TCP communication as processed by Pcap (DevicesProducer and TcpdumpProducer)
+
+
+Note: usually cport and nport are identical, but that's not necessarily so, 
+so cport and nport cannot be used to identify the nathost and nat-port (nport)
+
+Here is an example of the TCP communication:
+    
+    SYN: 
+    ====
+    start connection at the  client computer:
+09:42:20.615902 br0  (IN)  client.cport > remote.22: Flags [S], seq 442193845, 
+                                                                                win 29200, options [mss 1460,sackOK,TS 
+                                                                                val 918415591 ecr 0,nop,wscale 7], length 0
+
+    NAT: nathost is the natting host on the outbound interface
+09:42:20.616029 eth1 (OUT) nathost.nport > remote.22: Flags [S], seq 442193845, 
+                                                                                win 29200, options [mss 1460,sackOK,TS 
+                                                                                val 918415591 ecr 0,nop,wscale 7], length 0
+
+Initially, on the IN and OUT devices the seq. nrs are identical, 
+and are used to match the two SYN records. This is only required once:
+to determine the nathost's address and port.
+-----------------------------------------------------------
+
+
+    SYN ACK:
+    ========
+    reply from remote -> nathost
+
+09:42:20.665832 eth1 (OUT) remote.22 > nathost.nport: Flags [S.], 
+                                                                        seq 3499515712, ack 442193846, win 65535, 
+                                                                        options [mss 1409,nop,wscale 7,sackOK,TS 
+                                                                        val 1600635341 ecr 918415591], length 0
+
+    remote reply forwarded by nathost to client
+
+09:42:20.665882 br0  (IN)  remote.22 > client.cport: Flags [S.], 
+                                                                        seq 3499515712, ack 442193846, win 65535, 
+                                                                        options [mss 1409,nop,wscale 7,sackOK,TS 
+                                                                        val 1600635341 ecr 918415591], length 0
+
+These SYN ACK records do not contain useful information (for us). E.g., no length
+-----------------------------------------------------------
+
+    ACK:
+    ====
+    client sends ACK to remote
+09:42:20.666158 br0  (IN)  client.cport > remote.22: Flags [.], ack 1, win 229, options [nop,nop,TS val 918415641 ecr 1600635341], length 0
+
+    nathost forwards ACK to remote:
+09:42:20.666202 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 1, win 229, options [nop,nop,TS val 918415641 ecr 1600635341], length 0
+
+Same
+-----------------------------------------------------------
+
+    Data:
+    =====
+    client sends data packet:
+09:42:20.666543 br0  (IN)  client.cport > remote.22: Flags [P.], seq 1:33, ack 1, win 229, 
+                                                                        options [nop,nop,TS val 918415642 ecr 1600635341], 
+                                                                        length 32
+
+Using cport|22 as key, the #sent bytes is updated 
+if the record's source port is equal to the record[key]'s source port
+-----------------------------------------------------------
+
+    nathost forwards data to remote:
+09:42:20.666583 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 1:33, ack 1, win 229, 
+                                                                        options [nop,nop,TS val 918415642 ecr 1600635341], 
+                                                                        length 32
+
+Since this is mere forwarding, no administration is required.
+-----------------------------------------------------------
+
+
+    remote: data to nathost
+09:42:20.695657 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 1:33, ack 33, win 1023, 
+                                                                        options [nop,nop,TS val 1600635344 ecr 918415642], 
+                                                                        length 32
+
+Incoming data, which can also be ignored, since it'll arrive at the client
+-----------------------------------------------------------
+
+
+    nathost forwards to client:
+09:42:20.695704 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 1:33, ack 33, win 1023, 
+                                                                        options [nop,nop,TS val 1600635344 ecr 918415642], 
+                                                                        length 32
+
+Data arriving at the client: using cport|22 as key, the #received bytes is updated
+if the record's dest port is equal to the record[key]'s source port
+-----------------------------------------------------------
+
+
+    client sends ACK to remote 
+09:42:20.695976 br0  (IN)  client.cport > remote.22: Flags [.], ack 33, win 229, options [nop,nop,TS val 918415671 ecr 1600635344], length 0
+
+    nathost forwards ACK to remote
+09:42:20.696019 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 33, win 229, options [nop,nop,TS val 918415671 ecr 1600635344], length 0
+
+09:42:20.696687 br0  (IN)  client.cport > remote.22: Flags [P.], seq 33:1393, ack 33, win 229, options [nop,nop,TS val 918415672 ecr 1600635344], length 1360
+09:42:20.696730 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 33:1393, ack 33, win 229, options [nop,nop,TS val 918415672 ecr 1600635344], length 1360
+09:42:20.699595 eth1 (OUT) remote.22 > nathost.nport: Flags [.], ack 33, win 1024, options [nop,nop,TS val 1600635344 ecr 918415642], length 0
+09:42:20.699634 br0  (IN)  remote.22 > client.cport: Flags [.], ack 33, win 1024, options [nop,nop,TS val 1600635344 ecr 918415642], length 0
+
+09:42:20.704898 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 33:929, ack 33, win 1024, options [nop,nop,TS val 1600635345 ecr 918415642], length 896
+09:42:20.704939 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 33:929, ack 33, win 1024, options [nop,nop,TS val 1600635345 ecr 918415642], length 896
+09:42:20.737513 eth1 (OUT) remote.22 > nathost.nport: Flags [.], ack 1393, win 1024, options [nop,nop,TS val 1600635348 ecr 918415672], length 0
+09:42:20.737555 br0  (IN)  remote.22 > client.cport: Flags [.], ack 1393, win 1024, options [nop,nop,TS val 1600635348 ecr 918415672], length 0
+
+09:42:20.737821 br0  (IN)  client.cport > remote.22: Flags [P.], seq 1393:1441, ack 929, win 251, options [nop,nop,TS val 918415713 ecr 1600635345], length 48
+09:42:20.737864 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 1393:1441, ack 929, win 251, options [nop,nop,TS val 918415713 ecr 1600635345], length 48
+09:42:20.783898 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 929:1469, ack 1441, win 1024, options [nop,nop,TS val 1600635353 ecr 918415713], length 540
+09:42:20.783988 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 929:1469, ack 1441, win 1024, options [nop,nop,TS val 1600635353 ecr 918415713], length 540
+
+09:42:20.790159 br0  (IN)  client.cport > remote.22: Flags [P.], seq 1441:1457, ack 1469, win 265, options [nop,nop,TS val 918415765 ecr 1600635353], length 16
+09:42:20.790211 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 1441:1457, ack 1469, win 265, options [nop,nop,TS val 918415765 ecr 1600635353], length 16
+09:42:20.928624 eth1 (OUT) remote.22 > nathost.nport: Flags [.], ack 1457, win 1024, options [nop,nop,TS val 1600635367 ecr 918415765], length 0
+09:42:20.928715 br0  (IN)  remote.22 > client.cport: Flags [.], ack 1457, win 1024, options [nop,nop,TS val 1600635367 ecr 918415765], length 0
+
+etc. etc.
+
+09:42:20.928949 br0  (IN)  client.cport > remote.22: Flags [P.], seq 1457:1501, ack 1469, win 265, options [nop,nop,TS val 918415904 ecr 1600635367], length 44
+09:42:20.929001 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 1457:1501, ack 1469, win 265, options [nop,nop,TS val 918415904 ecr 1600635367], length 44
+09:42:20.965643 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 1469:1513, ack 1501, win 1024, options [nop,nop,TS val 1600635371 ecr 918415904], length 44
+09:42:20.965696 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 1469:1513, ack 1501, win 1024, options [nop,nop,TS val 1600635371 ecr 918415904], length 44
+
+09:42:20.966059 br0  (IN)  client.cport > remote.22: Flags [P.], seq 1501:1561, ack 1513, win 265, options [nop,nop,TS val 918415941 ecr 1600635371], length 60
+09:42:20.966083 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 1501:1561, ack 1513, win 265, options [nop,nop,TS val 918415941 ecr 1600635371], length 60
+09:42:21.008693 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 1513:1589, ack 1561, win 1024, options [nop,nop,TS val 1600635375 ecr 918415941], length 76
+09:42:21.008722 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 1513:1589, ack 1561, win 1024, options [nop,nop,TS val 1600635375 ecr 918415941], length 76
+
+09:42:21.009433 br0  (IN)  client.cport > remote.22: Flags [P.], seq 1561:1925, ack 1589, win 265, options [nop,nop,TS val 918415984 ecr 1600635375], length 364
+09:42:21.009457 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 1561:1925, ack 1589, win 265, options [nop,nop,TS val 918415984 ecr 1600635375], length 364
+09:42:21.051808 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 1589:1905, ack 1925, win 1024, options [nop,nop,TS val 1600635379 ecr 918415984], length 316
+09:42:21.051839 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 1589:1905, ack 1925, win 1024, options [nop,nop,TS val 1600635379 ecr 918415984], length 316
+
+09:42:21.057729 br0  (IN)  client.cport > remote.22: Flags [P.], seq 1925:2561, ack 1905, win 279, options [nop,nop,TS val 918416033 ecr 1600635379], length 636
+09:42:21.057753 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 1925:2561, ack 1905, win 279, options [nop,nop,TS val 918416033 ecr 1600635379], length 636
+09:42:21.102581 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 1905:1933, ack 2561, win 1024, options [nop,nop,TS val 1600635385 ecr 918416033], length 28
+09:42:21.102606 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 1905:1933, ack 2561, win 1024, options [nop,nop,TS val 1600635385 ecr 918416033], length 28
+
+09:42:21.103151 br0  (IN)  client.cport > remote.22: Flags [P.], seq 2561:2665, ack 1933, win 279, options [nop,nop,TS val 918416078 ecr 1600635385], length 104
+09:42:21.103173 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 2561:2665, ack 1933, win 279, options [nop,nop,TS val 918416078 ecr 1600635385], length 104
+09:42:21.130577 eth1 (OUT) remote.22 > nathost.nport: Flags [.], ack 2665, win 1024, options [nop,nop,TS val 1600635387 ecr 918416078], length 0
+09:42:21.130596 br0  (IN)  remote.22 > client.cport: Flags [.], ack 2665, win 1024, options [nop,nop,TS val 1600635387 ecr 918416078], length 0
+
+    remote sends data to client:
+09:42:21.138829 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 1933:2585, ack 2665, win 1024, options [nop,nop,TS val 1600635388 ecr 918416078], length 652
+09:42:21.138857 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 1933:2585, ack 2665, win 1024, options [nop,nop,TS val 1600635388 ecr 918416078], length 652
+
+    remote sends data to nathost:
+09:42:21.146627 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 2585:2629, ack 2665, win 1024, options [nop,nop,TS val 1600635389 ecr 918416078], length 44
+09:42:21.146647 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 2585:2629, ack 2665, win 1024, options [nop,nop,TS val 1600635389 ecr 918416078], length 44
+09:42:21.146951 br0  (IN)  client.cport > remote.22: Flags [.], ack 2629, win 293, options [nop,nop,TS val 918416122 ecr 1600635388], length 0
+09:42:21.146974 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 2629, win 293, options [nop,nop,TS val 918416122 ecr 1600635388], length 0
+
+    client sends data to remote (via nathost)
+09:42:21.151816 br0  (IN)  client.cport > remote.22: Flags [P.], seq 2665:2773, ack 2629, win 293, options [nop,nop,TS val 918416127 ecr 1600635388], length 108
+09:42:21.151837 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 2665:2773, ack 2629, win 293, options [nop,nop,TS val 918416127 ecr 1600635388], length 108
+
+09:42:21.151997 br0  (IN)  client.cport > remote.22: Flags [P.], seq 2773:3209, ack 2629, win 293, options [nop,nop,TS val 918416127 ecr 1600635388], length 436
+09:42:21.152019 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 2773:3209, ack 2629, win 293, options [nop,nop,TS val 918416127 ecr 1600635388], length 436
+
+09:42:21.192828 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 2629:2741, ack 3209, win 1024, options [nop,nop,TS val 1600635394 ecr 918416127], length 112
+09:42:21.192886 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 2629:2741, ack 3209, win 1024, options [nop,nop,TS val 1600635394 ecr 918416127], length 112
+
+09:42:21.192918 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 2741:2945, ack 3209, win 1024, options [nop,nop,TS val 1600635394 ecr 918416127], length 204
+09:42:21.192956 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 2741:2945, ack 3209, win 1024, options [nop,nop,TS val 1600635394 ecr 918416127], length 204
+09:42:21.193401 br0  (IN)  client.cport > remote.22: Flags [.], ack 2945, win 307, options [nop,nop,TS val 918416169 ecr 1600635394], length 0
+09:42:21.193446 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 2945, win 307, options [nop,nop,TS val 918416169 ecr 1600635394], length 0
+
+09:42:21.237611 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 2945:3005, ack 3209, win 1024, options [nop,nop,TS val 1600635398 ecr 918416169], length 60
+09:42:21.237654 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 2945:3005, ack 3209, win 1024, options [nop,nop,TS val 1600635398 ecr 918416169], length 60
+
+09:42:21.238632 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 3005:3065, ack 3209, win 1024, options [nop,nop,TS val 1600635398 ecr 918416169], length 60
+09:42:21.238670 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 3005:3065, ack 3209, win 1024, options [nop,nop,TS val 1600635398 ecr 918416169], length 60
+
+09:42:21.239154 br0  (IN)  client.cport > remote.22: Flags [.], ack 3065, win 307, options [nop,nop,TS val 918416214 ecr 1600635398], length 0
+09:42:21.239198 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 3065, win 307, options [nop,nop,TS val 918416214 ecr 1600635398], length 0
+09:42:21.247777 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 3065:3109, ack 3209, win 1024, options [nop,nop,TS val 1600635399 ecr 918416169], length 44
+09:42:21.247816 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 3065:3109, ack 3209, win 1024, options [nop,nop,TS val 1600635399 ecr 918416169], length 44
+
+09:42:21.247848 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 3109:3201, ack 3209, win 1024, options [nop,nop,TS val 1600635399 ecr 918416169], length 92
+09:42:21.247885 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 3109:3201, ack 3209, win 1024, options [nop,nop,TS val 1600635399 ecr 918416169], length 92
+
+09:42:21.248158 br0  (IN)  client.cport > remote.22: Flags [.], ack 3201, win 307, options [nop,nop,TS val 918416223 ecr 1600635399], length 0
+09:42:21.248199 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 3201, win 307, options [nop,nop,TS val 918416223 ecr 1600635399], length 0
+
+09:43:22.683338 br0  (IN)  client.cport > remote.22: Flags [P.], seq 3209:3237, ack 3201, win 307, options [nop,nop,TS val 918477658 ecr 1600635399], length 28
+09:43:22.683443 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 3209:3237, ack 3201, win 307, options [nop,nop,TS val 918477658 ecr 1600635399], length 28
+09:43:22.726840 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 3201:3245, ack 3237, win 8184, options [nop,nop,TS val 1600641547 ecr 918477658], length 44
+09:43:22.726897 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 3201:3245, ack 3237, win 8184, options [nop,nop,TS val 1600641547 ecr 918477658], length 44
+
+09:43:22.728709 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 3245:3353, ack 3237, win 8184, options [nop,nop,TS val 1600641547 ecr 918477658], length 108
+09:43:22.728749 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 3245:3353, ack 3237, win 8184, options [nop,nop,TS val 1600641547 ecr 918477658], length 108
+09:43:22.729249 br0  (IN)  client.cport > remote.22: Flags [.], ack 3353, win 307, options [nop,nop,TS val 918477704 ecr 1600641547], length 0
+09:43:22.729293 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 3353, win 307, options [nop,nop,TS val 918477704 ecr 1600641547], length 0
+
+09:43:22.729653 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 3353:3397, ack 3237, win 8184, options [nop,nop,TS val 1600641547 ecr 918477658], length 44
+09:43:22.729692 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 3353:3397, ack 3237, win 8184, options [nop,nop,TS val 1600641547 ecr 918477658], length 44
+
+09:43:22.730874 eth1 (OUT) remote.22 > nathost.nport: Flags [P.], seq 3397:3541, ack 3237, win 8184, options [nop,nop,TS val 1600641547 ecr 918477658], length 144
+09:43:22.730912 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 3397:3541, ack 3237, win 8184, options [nop,nop,TS val 1600641547 ecr 918477658], length 144
+09:43:22.731374 br0  (IN)  client.cport > remote.22: Flags [.], ack 3541, win 321, options [nop,nop,TS val 918477707 ecr 1600641547], length 0
+09:43:22.731417 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 3541, win 321, options [nop,nop,TS val 918477707 ecr 1600641547], length 0
+
+09:43:22.731492 br0  (IN)  client.cport > remote.22: Flags [P.], seq 3237:3265, ack 3541, win 321, options [nop,nop,TS val 918477707 ecr 1600641547], length 28
+09:43:22.731532 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 3237:3265, ack 3541, win 321, options [nop,nop,TS val 918477707 ecr 1600641547], length 28
+
+09:43:22.731553 br0  (IN)  client.cport > remote.22: Flags [P.], seq 3265:3325, ack 3541, win 321, options [nop,nop,TS val 918477707 ecr 1600641547], length 60
+09:43:22.731591 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 3265:3325, ack 3541, win 321, options [nop,nop,TS val 918477707 ecr 1600641547], length 60
+
+-------------------------------------------------------------------------
+
+    FIN:
+    client sends FIN+ACK to remote
+09:43:22.731605 br0  (IN)  client.cport > remote.22: Flags [F.], seq 3325, ack 3541, win 321, options [nop,nop,TS val 918477707 ecr 1600641547], length 0
+
+once FIN is received, no further useful information arrives for this connection
+and the tcp-record entry is logged and erased.
+
+Any further info arriving for cport|22 is now ignored since the record matching
+the key no longer exists: see below for examples of additionally arriving
+packets:
+-------------------------------------------------------------------------------
+
+
+    nathost forwards FIN+ACK to remote
+09:43:22.731645 eth1 (OUT) nathost.nport > remote.22: Flags [F.], seq 3325, ack 3541, win 321, options [nop,nop,TS val 918477707 ecr 1600641547], length 0
+
+    remote replies by sending ACK to nathost
+09:43:22.759772 eth1 (OUT) remote.22 > nathost.nport: Flags [.], ack 3265, win 8184, options [nop,nop,TS val 1600641550 ecr 918477707], length 0
+
+    nathost forwards remote ACK to cient
+09:43:22.759813 br0  (IN)  remote.22 > client.cport: Flags [.], ack 3265, win 8184, options [nop,nop,TS val 1600641550 ecr 918477707], length 0
+
+    remote sends another ACL to nathost
+09:43:22.763745 eth1 (OUT) remote.22 > nathost.nport: Flags [.], ack 3265, win 8184, options [nop,nop,TS val 1600641550 ecr 918477707,sack 1 {3325:3325},eol], length 0
+
+    nathorst forwards another ACK to client
+09:43:22.763784 br0  (IN)  remote.22 > client.cport: Flags [.], ack 3265, win 8184, options [nop,nop,TS val 1600641550 ecr 918477707,sack 1 {3325:3325},eol], length 0
+
+    remote sends another ACK to nathost
+09:43:22.763809 eth1 (OUT) remote.22 > nathost.nport: Flags [.], ack 3325, win 8183, options [nop,nop,TS val 1600641550 ec
+
+    nathost forwards ACK to client
+09:43:22.763857 br0  (IN)  remote.22 > client.cport: Flags [.], ack 3325, win 8183, options [nop,nop,TS val 1600641550 ec
+
+

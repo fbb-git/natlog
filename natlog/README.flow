@@ -1,0 +1,88 @@
+main -> natfork.run
+
+natfork::run daemonizes or merely calls childprocess if no daemon is
+        requested. Daemonizing is not available when TcpdumpProducer is used.
+    
+natfork::childprocess: 
+        defines the Storage: a queue filled by the producer, and emptied by
+            the consumer (ConnectionsConsumer object)
+
+        defines the appropriate Producer (connection handling object);
+
+        defines the ConnectionsConsumer consumer;
+        
+        starts the Producer thread Producer::run to start producing Records
+
+        calls ConnectionsConsumer::run to processing Records obtained 
+            from the Storage 
+
+        (and finally waits for the producer thread to end)
+
+
+
+Producers:
+=========
+
+    The class Producer is an abstract base class. Its member run is purely
+    virtual. Its (no actions) destructor is defined in its only source file.
+
+    Producer::run is overriden by Producers:
+            DevicesProducer:    producing Records from incoming and outgoing 
+                                    (natted) devices
+            ConntrackProducer:  producing Records using info received from 
+                                    the conntrack program
+            TcpdumpProducer:    produces Records from captured tcpdump files
+
+
+DevicesProducer:
+================
+    
+    DevicesProducer::run (single (private) member):
+        * defines PcapFilter objects for the IN and OUT devices.
+        * starts PcapFilter threads (on the IN devices, calling
+          its operator() function, then calls the OUT device's operator().
+            
+        The important function is PcapFilter::callback (see below)
+    
+    
+    PcapFilter::PcapFilter defines Pcap d_pcap, wrapping calls to pcap_
+                           functions 
+        Pcap::Pcap:
+            opens the pcap device, obtains the IPv4 address (pcap_lookupnet)
+            and defines the appropriate filtering (filterProtocols ->
+            pcap_setfilter): the info is available in its d_pcap data member.
+    
+            pcap::computeshift obtains the device's MAC address.
+    
+            pcap::loop: see next:
+    
+    PcapFilter::operator() merely calls pcap::loop, passing itself and its
+            callback function as arguments.
+    
+        Pcap::loop: merely calls pcap_loop: 
+            * 1st argument is its d_pcap data member contains filtering info 
+                for the captured device.
+            * 2nd arg is -1: continue until the program ends
+            * 3rd arg. is the handler, which is PcapFilter::callback
+            * 4th arg. is extra (user) data, passed to callback: points to the
+                PcapFilter object.
+    
+    PcapFilter::callback:
+    ---------------------
+        Implements a producer: when data appear at the device callback is
+                               called. 
+
+        the data is prepared for handling by PcapRecord (derived from Record), 
+        and is stored in the storage.
+    
+        The PcapFilter object is received by callback as a pointer, allowing 
+        callback to access the storage.
+
+
+TcpdumpProducer:
+================    
+
+
+
+
+

@@ -1,0 +1,17 @@
+Tcpdump file format:
+====================
+
+    tcpdumpproducer/pcapfile.txt    -   Hani's blog describing the file 
+                                        organization
+
+    tcpdumpproducer/br0.hex         -   Hexdump output of a captured file
+
+Pcap file format:
+=================
+
+    pcapfilter/pcap.pkthdr          -   Description of the pcap packet
+                                        organization as obtained by pcap_loop
+                                        (arriving in pcapfilter/callback)
+
+    iptypes/iptypes.h               -   Struct and enum definitions
+
