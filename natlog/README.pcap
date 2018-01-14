@@ -1,0 +1,33 @@
+Devices::run starts PcapFilter in and PcapFilter out to filter the in and out
+devices. 
+
+Using threads, the threads call PcapFilter::operator()(), which calls
+(Pcap d_pcap).loop 
+
+---------------------------------------------------------------------------
+PcapFilter:
+
+inDevice saves SYN,ACK calling PcapFilter::saveAdd
+     and removes FIN,ACK packets calling PcapFilter::saveRemove.
+
+outDevice merely saves SYN::ACK calling PcapFilter::saveAdd
+
+When saving (PcapRecord d_record).add is called. When removing d_record.remove
+is called.
+
+---------------------------------------------------------------------------
+Pcap:
+
+The types of protocols that are handled are determined in pcap/filterprotocols
+
+The function `loop' passes control to PcapFilter::callback, calling either
+(PcapFilter::in).inDevice or (PcapFilter::out).outDevice to process the packet
+(received/available as packetBytes)
+
+---------------------------------------------------------------------
+PcapRecord:
+
+add either calls addIn or addOut, depending on being called from inDevice or
+outDevice.
+
+addIn:
