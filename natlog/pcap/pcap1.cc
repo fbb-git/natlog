@@ -16,4 +16,6 @@ Pcap::Pcap(char const *device, bool promisc, size_t snapLen, size_t timeOutMs)
     if (pcap_lookupnet(device, &d_net, &netMask, errBuf) == -1) 
         throw Exception() << 
                 "Can't get network address of device " << device;
+
+    filterProtocols();              // filter interesting protocols
 }

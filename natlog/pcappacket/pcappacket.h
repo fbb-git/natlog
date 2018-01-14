@@ -121,6 +121,7 @@ class PcapPacket
         bool flags(u_char testFlags) const;
 
         uint32_t sequenceNr() const;
+        size_t id() const;
 
         size_t ipLength() const;
         size_t payloadLength() const;
@@ -221,6 +222,11 @@ inline PcapPacket::Address PcapPacket::destIP() const
 {
     return 
         inetAddr(get<IP_Header>().destAddr, get<TCP_Header>().destPort);
+}
+
+inline size_t PcapPacket::id() const
+{
+    return get<IP_Header>().identification;
 }
 
 inline PcapPacket::Address PcapPacket::inetAddr(struct in_addr const &addr, 

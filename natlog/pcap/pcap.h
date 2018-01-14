@@ -2,7 +2,7 @@
 #define INCLUDED_PCAP_
 
 #include <iosfwd>
-#include <pcap/pcap.h>
+#include <pcap.h>
 
 class Pcap
 {
@@ -15,14 +15,16 @@ class Pcap
         Pcap(char const *device, bool promisc = false, size_t snapLen = 1500, 
              size_t timeOutMs = 1000);
 
-        void filter(std::string const &filterExpr, bool optimize = true);
-        void loop(u_char *user, pcap_handler callback);
+        void loop(u_char *pcapFilterPtr, pcap_handler callback);
         void stop();
 
         int shiftPacketBegin() const;
 
     private:
+        void filterProtocols();                 // filter interesting prot's.
         void computeShift(char const *device);  // from Pcap(): sets d_shift
+
+        static std::string pcapFilterExpr();    // (or-separated) protocols
 };
 
 inline void Pcap::stop()

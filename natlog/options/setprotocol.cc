@@ -8,17 +8,17 @@ string Options::setProtocol()
     if (not d_arg.option(&spec, "protocol"))
     {
         ret = " -p tcp";
-        d_conntrackProtocol = "tcp";
+        d_protocol = "tcp";
     }
     else if (spec == "all")
-        d_conntrackProtocol = "tcp udp icmp";
+        d_protocol = "tcp udp icmp";
     else
     {
         ret = protocol("icmp", spec);
         ret += protocol("tcp", spec);
         ret += protocol("udp", spec);
 
-        if (d_conntrackProtocol.length() > 4)
+        if (d_protocol.length() > 4)
             ret.erase();
 
         if (not spec.empty())

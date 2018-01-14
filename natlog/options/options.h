@@ -44,7 +44,7 @@ struct Options
         std::string d_timeSpecError;
         std::string d_syslogPriorityError;
         std::string d_syslogFacilityError;
-        std::string d_conntrackProtocol;
+        std::string d_protocol;
     
         FBB::LinearMap<std::string, FBB::Facility>::const_iterator 
                                                             d_syslogFacility;
@@ -283,7 +283,7 @@ inline size_t Options::conntrackRestart() const
 
 inline std::string const &Options::protocols() const
 {
-    return d_conntrackProtocol;
+    return d_protocol;
 }
 
 #endif

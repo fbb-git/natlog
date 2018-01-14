@@ -84,7 +84,9 @@ struct ConntrackRecord
 
         size_t find(std::string const &key) const;
         void addTcpudp(std::string const &key, FBB::Pattern const &pat);
+
         void addIcmp(std::string const &key, FBB::Pattern const &pat);
+
         void erase(size_t idx);
         Record const *operator[](size_t idx);
         size_t size() const;

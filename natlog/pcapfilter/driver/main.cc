@@ -29,7 +29,7 @@ using namespace FBB;
 //                                          length 48
 
 
-size_t port;
+size_t g_port;
 
 string nl{ "\n      " };
 
@@ -49,13 +49,14 @@ void tcpPacket(PcapPacket const &packet,
             flags == PcapPacket::ACK ?                     "ACK"    :
                                                            "DATA";
 
-    if (port == 0 || src.port() == port || dst.port() == port)
+    if (g_port == 0 || src.port() == g_port || dst.port() == g_port)
         cout << "TCP:  " <<
             packet.seconds() << ':' << packet.microSeconds() << ' ' <<
             src.dottedDecimalAddress() << " (" << src.port() << "), " <<
-            dst.dottedDecimalAddress() << " (" << dst.port() << "): " <<
+            dst.dottedDecimalAddress() << " (" << dst.port() << "): " << nl <<
+            "ID: " << packet.id() << ", "
             "Flags: " << hex << "0x" << packet.flags() << dec << " (" <<
-                                                        what << ')' << nl <<
+                                                        what << "), " << 
             "Seq nr: " << packet.sequenceNr() << nl <<
             "IP Length: " << packet.ipLength() << ", "  
             "Data Length: " << packet.payloadLength() << nl <<
@@ -63,7 +64,7 @@ void tcpPacket(PcapPacket const &packet,
         "\n";
 }
 
-void callback(u_char *user, struct pcap_pkthdr const *hdr,
+void callback([[maybe_unused]] u_char *user, struct pcap_pkthdr const *hdr,
               u_char const *bytes)
 {
     PcapPacket packet(*hdr, bytes);
@@ -78,8 +79,9 @@ void callback(u_char *user, struct pcap_pkthdr const *hdr,
                 packet.seconds() << ':' << packet.microSeconds() << ' ' <<
                 src.dottedDecimalAddress() << ", " <<
                 dst.dottedDecimalAddress() << "): " << nl <<
+                "ID: " << packet.id() << ", "
                 "IP Length: " << packet.ipLength() << ", "
-                        "hdr length: " << packet.headerLength() << 
+                        "hdr length: " << packet.headerLength() << ", "
                         "payload length: " << packet.payloadLength() << "\n"  
             "\n";
         break;
@@ -94,6 +96,7 @@ void callback(u_char *user, struct pcap_pkthdr const *hdr,
                 src.dottedDecimalAddress() << " (" << src.port() << "), " <<
                 dst.dottedDecimalAddress() << " (" << dst.port() << ')' << 
                                                                         nl <<
+                "ID: " << packet.id() << ", "
                 "IP Length: " << packet.ipLength() << ", "
                                 "udp length: " << packet.udpLength() << "\n"  
             "\n";
@@ -113,11 +116,12 @@ try
 
     if (argc == 1)
         throw Exception() << "1st argument: device to inspect\n" 
-                            "2nd argument (optional): tcp port to inspect";
+                            "2nd argument: tcp, icmp, udp or all\n"
+                            "3nd argument (optional): tcp port to inspect";
 
     char const *device = argv[1];
-    if (argc > 2)
-        port = stoul(argv[2]);
+    if (argc > 3)
+        g_port = stoul(argv[3]);
 
     char errBuf[PCAP_ERRBUF_SIZE];      // pcap-predefined constant
 
@@ -135,25 +139,18 @@ try
         throw Exception() << 
                 "Can't get network address of device " << device;
 
-// compile the filter expression
+// compile the filter expression, see pcapfilter/pcapfilter1.cc and
+//                                    pcap/pcap1.cc 
 // =============================
 
     struct bpf_program d_pcapFilter;    
 
-//    char filterExpr[] = "icmp or udp";
-//    char filterExpr[] = "tcp";
-
-    char filterExpr[] = "tcp or udp or icmp";
-
-//        // "(tcp[13] & 0x10) != 0";
-//        "( tcp[13] == 0x12"           // SYN,ACK
-//        " or "
-//        "tcp[13] == 0x11"             // FIN,ACK
-//        " or "
-//        "tcp[13] == 0x10 )";          // ACK
+    string filterExpr{ argv[2] };
+    if (filterExpr == "all")
+        filterExpr = "icmp or udp or tcp";
 
     if (pcap_compile(d_pcap, &d_pcapFilter, 
-                     filterExpr, true, //optimize 
+                     filterExpr.c_str(), true, //optimize 
                      d_net) == -1) 
         throw Exception() << "Pcap compilation of `" << filterExpr << 
                             "' failed: " << pcap_geterr(d_pcap);
@@ -162,12 +159,10 @@ try
          throw Exception() << "Couldn't install filter `" << 
                 filterExpr << ": " << pcap_geterr(d_pcap);
 
-// retrieve packets
-// ================
+// receive and handle packets
+// ==========================
 
-    u_char user[] = "";
-
-    pcap_loop(d_pcap, -1, callback, user);
+    pcap_loop(d_pcap, -1, callback, 0);
 }
 catch (exception const &exc)
 {

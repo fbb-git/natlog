@@ -2,7 +2,19 @@
 
 void PcapFilter::outDevice(PcapPacket const &packet)
 {
-    if (packet.flags(PcapPacket::SYN | PcapPacket::ACK))
-        saveAdd(packet);       // via and dest are available
+    switch (packet.protocol())
+    {
+        case PcapRecord::ICMP:
+            outICMP(packet);
+        break;
+
+        default:
+        break;
+
+    }
 }
+
+//    if (packet.flags(PcapPacket::SYN | PcapPacket::ACK))
+//        saveAdd(packet);       // via and dest are available
+
 

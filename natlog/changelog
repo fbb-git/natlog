@@ -1,4 +1,4 @@
-natlog (1.04.00)    (WIP)
+natlog (2.00.00)    (WIP)
 
   * Added option --contrack-device, by default set to /proc/net/nf_conntrack.
     Older systems may still use /proc/net/ip_conntrack, which may be selected
@@ -7,7 +7,7 @@ natlog (1.04.00)    (WIP)
   *  To activate byte-accounting:
     /bin/echo "1" > /proc/sys/net/netfilter/nf_conntrack_acct
 
-
+  * Pcap record handling now also processes ICMP and UDP records.
 
 natlog (1.03.00)
 

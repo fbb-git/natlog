@@ -6,6 +6,7 @@
 #include <bobcat/exception>
 #include <bobcat/mstream>
 
+#include "../options/options.h"
 #include "../pcappacket/pcappacket.h"
 
 using namespace std;

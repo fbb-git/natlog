@@ -32,7 +32,8 @@ void usage(std::string const &progname)
     "                           daemon's PID\n"
     "                           (default `" <<
                                         Options::defaultPIDfile() << "')\n"
-    "      --protocol spec    - spec: protocols handled with the `conntrack'\n"
+    "      --protocol spec    - spec: protocols handled by " << 
+                                                            progname << "\n"
     "                           command. Use colon separated combinations of\n"
     "                           tcp, udp and icmp, or use `all' "
                                                             "(default: tcp)\n"

@@ -4,6 +4,8 @@
 #include <string>
 #include <mutex>
 
+#include <vector>
+
 #include <bobcat/signal>
 
 #include "../pcap/pcap.h"
@@ -19,8 +21,9 @@ struct PcapFilter: public FBB::SignalHandler
         Type d_type;
         Pcap d_pcap;
 
-        static char s_filterExpr[];
         static std::mutex s_recordMutex;
+
+        std::vector<PcapRecord *> d_connections;
 
     public:
         PcapFilter(char const *device, PcapRecord &record, Type type);
