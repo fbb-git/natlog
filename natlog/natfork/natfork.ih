@@ -3,6 +3,8 @@
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <thread>
+#include <iostream>
 #include <fstream>
 
 #include <bobcat/ofdstream>
@@ -10,10 +12,14 @@
 #include <bobcat/selector>
 #include <bobcat/syslogstream>
 
-#include "../options/options.h"
 #include "../showseconds/showseconds.h"
-#include "../conntrack/conntrack.h"
-#include "../devices/devices.h"
+#include "../storage/storage.h"
+
+#include "../devicesproducer/devicesproducer.h"
+#include "../conntrackproducer/conntrackproducer.h"
+#include "../tcpdumpproducer/tcpdumpproducer.h"
+
+#include "../connectionsconsumer/connectionsconsumer.h"
 
 using namespace std;
 using namespace FBB;

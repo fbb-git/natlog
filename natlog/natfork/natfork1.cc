@@ -3,7 +3,8 @@
 NatFork::NatFork()
 :
     d_options(Options::instance()),
-    d_stdMsg(&d_multiStreambuf)
+    d_stdMsg(&d_multiStreambuf),
+    d_mode(d_options.mode())
 {
     setupStdMsg();
 
@@ -11,10 +12,6 @@ NatFork::NatFork()
         setupDaemonMsg();
     else
         setupNonDaemonMsg();
-
-    d_mode = string(d_options[0]) == "conntrack" ? CONNTRACK :
-             d_options.nArgs() == 2              ? PCAP      :
-                                                   ERROR;
 
     specifications();
 }

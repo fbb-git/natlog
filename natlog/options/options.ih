@@ -1,5 +1,10 @@
 #include "options.h"
 
+//TMP
+#include <iostream>
+#define CERR cerr << __FILE__": "
+
+
 #include <unistd.h>
 
 #include <bobcat/exception>

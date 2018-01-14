@@ -1,13 +1,16 @@
 #ifndef INCLUDED_OPTIONS_
 #define INCLUDED_OPTIONS_
 
+#include <ctime>
 #include <string>
+#include <unordered_set>
 
 #include <bobcat/argconfig>
 #include <bobcat/syslogstream>      // for the enums
-#include <bobcat/linearmap>
 
-struct Options
+#include "../iptypes/iptypes.h"
+
+struct Options: public IP_Types
 {
     enum Time
     {
@@ -23,6 +26,18 @@ struct Options
         CONNTRACK_ENDED,
     };
     
+    enum Mode               // working mode: conntrack, pcap, or tcpdump
+    {
+        CONNTRACK,
+        PCAP,
+        TCPDUMP,
+    };
+
+    enum 
+    {
+        TTL = 20        // default TTL
+    };
+
     private:
         FBB::ArgConfig &d_arg;
     
@@ -31,10 +46,13 @@ struct Options
         bool d_useSyslog;
         bool d_warnings;
 
+        Mode d_mode;
+
         size_t d_verbose;
         size_t d_conntrackRestart = 10;
+        time_t  d_ttl = TTL;
 
-        FBB::LinearMap<std::string, Time>::const_iterator d_time;
+        std::unordered_map<std::string, Time>::const_iterator d_time;
     
         std::string d_conntrackCommand;
         std::string d_conntrackDevice;
@@ -44,13 +62,13 @@ struct Options
         std::string d_timeSpecError;
         std::string d_syslogPriorityError;
         std::string d_syslogFacilityError;
-        std::string d_conntrackProtocol;
-    
-        FBB::LinearMap<std::string, FBB::Facility>::const_iterator 
-                                                            d_syslogFacility;
-        FBB::LinearMap<std::string, FBB::Priority>::const_iterator 
-                                                            d_syslogPriority;
 
+        std::unordered_set<Protocol> d_protocols;
+    
+        std::unordered_map<std::string, FBB::Facility>::const_iterator 
+                                                            d_syslogFacility;
+        std::unordered_map<std::string, FBB::Priority>::const_iterator 
+                                                            d_syslogPriority;
             // default values:
 
         static char const s_defaultConfigPath[];
@@ -62,11 +80,15 @@ struct Options
         static char const s_defaultSyslogPriority[];
         static char const s_defaultPIDfile[];
     
-        static FBB::LinearMap<std:: string, Time> const s_time;
-        static FBB::LinearMap<std::string, FBB::Facility> const 
+        static std::unordered_map<std:: string, Time> const s_time;
+        static std::unordered_map<std::string, FBB::Facility> const 
                                                            s_syslogFacilities;
-        static FBB::LinearMap<std::string, FBB::Priority> const 
+        static std::unordered_map<std::string, FBB::Priority> const 
                                                            s_syslogPriorities;
+        static std::unordered_map<std::string, Protocol> const 
+                                                           s_name2protocol;
+        static std::unordered_map<Protocol, std::string> const 
+                                                           s_protocol2name;
 
         static Options *s_options;
 
@@ -76,19 +98,24 @@ struct Options
         Options(Options const &other) = delete;
 
         bool daemon() const;
+        bool realTime() const;
         bool stdout() const;
         bool syslog() const;
         bool warnings() const;
 
         size_t verbose() const;
 
+        time_t ttl() const;
         Time time() const;
         std::string const &timeTxt() const;
+        Mode mode() const;
 
         std::string const &configPath() const;
         std::string const &timeSpecError() const;
         std::string const &pidFile() const;
-        std::string const &protocols() const;
+        std::unordered_set<Protocol> const &protocolSet() const;
+        bool hasProtocol(std::string const &protoName) const;
+        bool hasProtocol(size_t protocol) const;
         std::string const &conntrackCommand() const;
         char const *conntrackDevice() const;
         std::string const &syslogTag() const;
@@ -108,8 +135,12 @@ struct Options
 
         size_t  conntrackRestart() const;
 
+        std::string protocolNames() const;
+
+        static std::string const &protocolName(Protocol protocol);
         static char const *defaultConfigPath();
         static char const *defaultConntrackCommand();
+        static char const *defaultConntrackDevice();
         static char const *defaultConntrackArgs();
         static char const *defaultSyslogIdent();
         static char const *defaultSyslogFacility();
@@ -120,15 +151,26 @@ struct Options
         Options();
 
         void openConfig();
-        void setSyslogParams();
         void setBoolMembers();
+        void setConntrack();
+        void setMode();
         void setSyslogFacility();
+        void setSyslogParams();
         void setSyslogPriority();
         void setTime(std::string const &time);
-
-        std::string protocol(std::string const &available, std::string &spec);
-        std::string setProtocol();
+        void setTimeSpec();
+        void setProtocol();
 };
+
+inline Options::Mode Options::mode() const
+{   
+    return d_mode;
+}
+
+inline bool Options::realTime() const
+{
+    return d_mode != TCPDUMP;
+}
 
 inline bool Options::stdout() const
 {   
@@ -153,6 +195,11 @@ inline bool Options::warnings() const
 inline bool Options::syslog() const
 {   
     return d_useSyslog;
+}
+
+inline time_t Options::ttl() const
+{
+    return d_ttl;
 }
 
 inline Options::Time Options::time() const
@@ -255,6 +302,11 @@ inline char const *Options::defaultConntrackCommand()
     return s_defaultConntrackCommand;
 }
 
+inline char const *Options::defaultConntrackDevice() 
+{
+    return s_defaultConntrackDevice;
+}
+
 inline char const *Options::defaultSyslogIdent() 
 {
     return s_defaultSyslogIdent;
@@ -275,15 +327,21 @@ inline size_t Options::conntrackRestart() const
     return d_conntrackRestart;
 }
 
-inline std::string const &Options::protocols() const
+inline std::unordered_set<IP_Types::Protocol> const &Options::protocolSet() 
+                                                                        const
 {
-    return d_conntrackProtocol;
+    return d_protocols;
+}
+
+inline std::string const &Options::protocolName(Protocol protocol)
+{
+    return s_protocol2name.find(protocol)->second;
+}
+
+inline bool Options::hasProtocol(size_t protocol) const
+{
+    return d_protocols.find(static_cast<Protocol>(protocol))
+            != d_protocols.end(); 
 }
 
 #endif
-
-
-
-
-
-

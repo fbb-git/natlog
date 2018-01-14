@@ -1,7 +1,7 @@
 #include "natfork.ih"
 
-void NatFork::conntrackMode()
-{
+void NatFork::conntrackMode()           // check the availability of the 
+{                                       // conntrack device
     string conntrack = d_options.conntrackCommand();
 
     size_t pos = conntrack.find_first_of(" \t");

@@ -66,7 +66,7 @@
 
     // define the compiler to use. Options specified here will always be used
     // and cannot be overruled by COMPILER_OPTIONS or COPT settings
-#define COMPILER            "g++ --std=c++0x -Wall"
+#define COMPILER            "g++ --std=c++17 -Wall"
 
     // define the compiler options to use. 
     // To enable GNU extensions in addition to C++0x extensions, add the

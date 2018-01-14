@@ -6,7 +6,7 @@ Pcap::Pcap(char const *device, bool promisc, size_t snapLen, size_t timeOutMs)
     // http://stackoverflow.com/questions/1779715/
     //              how-to-get-mac-address-of-your-machine-using-a-c-program 
 
-    ifstream mac((string("/sys/class/net/") + device) + "/address");
+    ifstream mac(("/sys/class/net/"s + device) + "/address");
 
     string address;
     mac >> address;

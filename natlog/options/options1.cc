@@ -9,25 +9,16 @@ Options::Options()
 {
     openConfig();
 
-    if (not d_arg.option(&d_conntrackCommand, "conntrack-device"))
-        d_conntrackDevice = s_defaultConntrackDevice;
+    setMode();
+    setProtocol();
 
-    if (not d_arg.option(&d_conntrackCommand, "conntrack-command"))
-        d_conntrackCommand = s_defaultConntrackCommand + setProtocol() +
-                             s_defaultConntrackArgs;
+    if (d_mode == CONNTRACK)
+        setConntrack();
 
     setSyslogParams();
 
-    d_verbose = d_arg.option('V');
+    d_verbose = d_arg.option('V');      // not a bool, but a size_t
 
     setBoolMembers();
-
-    string value;
-    if (not d_arg.option(&value, 't'))
-        d_time = s_time.find("raw");
-    else 
-        setTime(value);
-
-    if (d_arg.option(&value, "conntrack-restart"))
-        d_conntrackRestart = stoul(value);
+    setTimeSpec();
 }

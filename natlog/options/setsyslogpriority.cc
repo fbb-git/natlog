@@ -7,8 +7,7 @@ void Options::setSyslogPriority()
     string option;
     if (not d_arg.option(&option, "syslog-priority"))
     {
-        FBB::LinearMap<std::string, FBB::Priority>::const_iterator 
-            priority = s_syslogPriorities.find(option);
+        auto priority = s_syslogPriorities.find(option);
 
         if (priority != s_syslogPriorities.end())
             d_syslogPriority = priority;

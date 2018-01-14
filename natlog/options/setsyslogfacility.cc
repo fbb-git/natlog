@@ -7,8 +7,7 @@ void Options::setSyslogFacility()
     string option;
     if (d_arg.option(&option, "syslog-facility"))
     {
-        FBB::LinearMap<std::string, FBB::Facility>::const_iterator 
-            facility = s_syslogFacilities.find(option);
+        auto facility = s_syslogFacilities.find(option);
 
         if (facility != s_syslogFacilities.end())
             d_syslogFacility = facility;

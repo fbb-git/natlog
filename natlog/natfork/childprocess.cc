@@ -9,35 +9,35 @@ void NatFork::childProcess()
 
     try
     {
-        if (d_mode == CONNTRACK)            // either use Conntrack
-        {
-            Conntrack conntrack(d_stdMsg);
-            conntrack.run();
-        }
-        else                                // or use explicitly mentioned 
-        {                                   // devices
-            Devices devices(d_stdMsg);
-            devices.run();
-        }
+        Storage storage;
+
+        unique_ptr<Producer> producer {
+            d_mode == Options::CONNTRACK ? 
+                Producer::alloc<ConntrackProducer>(d_stdMsg, ref(storage)) : 
+            d_mode == Options::PCAP ? 
+                Producer::alloc<DevicesProducer>(d_stdMsg, ref(storage))   :
+            // TCPDUMP:
+                Producer::alloc<TcpdumpProducer>(d_stdMsg, ref(storage))
+        };
+
+        ConnectionsConsumer connections{ d_stdMsg, storage };
+
+        thread produce{ Producer::process, producer.get() };
+
+        connections.run();
+
+        produce.join();
     }
-    catch (exception const &err)        // errors at Conntrack or Devices
+    catch (exception const &err)        // Producer errors
     {
         if (not d_options.daemon())
             throw;                      // rethrow the exception
 
         d_stdMsg << err.what() << endl;
-//        out << 1 << endl;               // The daemon can't start:
-                                        // inform via the pipe
     }
 
-        // when the child process ends it throws away its own pid file:
-    ifstream pidFile(d_options.pidFile());
-    pid_t pid;
-    if (pidFile >> pid && pid == getpid())
-    {
-        pidFile.close();
-        unlink(d_options.pidFile().c_str());
-    }
+    cleanupPidFile();
+        // the ending child process cleans up its own pid file:
 
     throw Options::OK;              // ends the program or the child process
 }

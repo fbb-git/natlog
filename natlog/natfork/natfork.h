@@ -7,22 +7,15 @@
 #include <bobcat/fork>
 #include <bobcat/multistreambuf>
 
+#include "../options/options.h"
+
 namespace FBB
 {
     class SyslogStream;
 }
 
-class Options;
-
 class NatFork: public FBB::Fork
 {
-    enum Mode                       // working mode: use conntrack or pcap
-    {
-        ERROR,
-        CONNTRACK,
-        PCAP
-    };
-
     Options &d_options;
 
     std::unique_ptr<FBB::SyslogStream> d_syslog;
@@ -30,12 +23,14 @@ class NatFork: public FBB::Fork
     FBB::MultiStreambuf d_multiStreambuf;
     std::ostream d_stdMsg;
 
-    Mode d_mode;
+    Options::Mode d_mode;
 
     public:
-        NatFork();
+        NatFork();                  // configure and initialize data
 
-        void run();
+        void run();                 // dameonize when running in the
+                                    // background, otherwise call
+                                    // 'childProcess'
 
     private:
         void specifications();
@@ -51,6 +46,9 @@ class NatFork: public FBB::Fork
 
         void parentProcess() override;
         void childProcess() override;
+
+        void cleanupPidFile() const;
+
 };
         
 #endif

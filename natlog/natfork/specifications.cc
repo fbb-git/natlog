@@ -6,21 +6,23 @@ void NatFork::specifications()
     {
         switch (d_mode)
         {
-            case CONNTRACK:
-                d_stdMsg << "conntrack command: " << 
-                            d_options.conntrackCommand() << endl;
+            case Options::CONNTRACK:
+                d_stdMsg << "CONNTRACK mode: command = `" << 
+                            d_options.conntrackCommand() << '\'' << endl;
                 d_stdMsg << "max # conntrack restarts: " << 
                             d_options.conntrackRestart() << endl;
-                d_stdMsg << "protocol(s): " << d_options.protocols() << endl;
+                d_stdMsg << "protocol(s): " << d_options.protocolNames() << 
+                                                                        endl;
             break;
 
-            case PCAP:
+            case Options::PCAP:
                 d_stdMsg << "PCAP mode: " << 
                             d_options[0] << ' ' << d_options[1] << endl;
             break;
 
-            case ERROR:
-                d_stdMsg << "Mode specification error" << endl;
+            case Options::TCPDUMP:
+                d_stdMsg << "TCPDUMP mode: " << 
+                            d_options[1] << ' ' << d_options[2] << endl;
             break;
         }
 
