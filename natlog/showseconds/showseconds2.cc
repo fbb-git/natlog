@@ -1,6 +1,6 @@
 #include "showseconds.ih"
 
-ShowSeconds::ShowSeconds(time_t seconds)
+ShowSeconds::ShowSeconds(size_t seconds)
 :
-    d_seconds(to_string(seconds))
+    d_seconds(seconds)
 {}

@@ -2,32 +2,32 @@
 #define INCLUDED_SHOWSECONDS_
 
 #include <iosfwd>
-#include <ctime>
-#include <string>
 
 class ShowSeconds
 {
     friend std::ostream &operator<<(std::ostream &out, 
                                     ShowSeconds const &showSeconds);
 
-    std::string d_seconds;
+    size_t d_seconds;
 
     static std::string s_utcMarker;
 
-    static void (*s_show)(std::ostream &out, std::string const &time);
+    static void (*s_show)(std::ostream &out, size_t time);
 
     public:
-        ShowSeconds(std::string const &seconds);
-        ShowSeconds(time_t seconds);
+        ShowSeconds();
+        ShowSeconds(size_t seconds);
 
         static void setFormat();
         static std::string const &utcMarker();
 
+        static std::string now();
+
     private:
             // all in time.cc
-        static void rawTime(std::ostream &out, std::string const &seconds);
-        static void utcTime(std::ostream &out, std::string const &seconds);
-        static void localTime(std::ostream &out, std::string const &seconds);
+        static void rawTime(std::ostream &out,   size_t seconds);
+        static void utcTime(std::ostream &out,   size_t seconds);
+        static void localTime(std::ostream &out, size_t seconds);
 };
 
 inline std::string const &ShowSeconds::utcMarker()

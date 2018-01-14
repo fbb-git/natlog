@@ -1,8 +1,11 @@
 #include "showseconds.h"
 
+#include <ctime>
+
 #include <ostream>
 #include <string>
 #include <sstream>
+#include <string>
 
 #include <bobcat/datetime>
 

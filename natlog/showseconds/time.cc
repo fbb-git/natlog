@@ -3,10 +3,10 @@
 namespace
 {
     void insertTime(DateTime::TimeType type, 
-                    std::ostream &out, std::string const &seconds)
+                    std::ostream &out, size_t seconds)
     {
         
-        DateTime dt(static_cast<time_t>(stoul(seconds)), type);
+        DateTime dt(static_cast<time_t>(seconds), type);
         ostringstream os;
         os << dt;
             // E.g., 'Sun Nov 2 13:29:11 2008'
@@ -15,19 +15,27 @@ namespace
     }
 }
 
-void ShowSeconds::rawTime(ostream &out, string const &seconds)
+void ShowSeconds::rawTime(ostream &out, size_t seconds)
 {
     out << seconds;
 }
 
-void ShowSeconds::utcTime(ostream &out, string const &seconds)
+void ShowSeconds::utcTime(ostream &out, size_t seconds)
 {
     insertTime(DateTime::UTC, out, seconds);
 }
 
-void ShowSeconds::localTime(ostream &out, string const &seconds)
+void ShowSeconds::localTime(ostream &out, size_t seconds)
 {
     insertTime(DateTime::LOCALTIME, out, seconds);
 }
 
+string ShowSeconds::now()
+{
+    ostringstream out;
+
+    out << ShowSeconds{ static_cast<size_t>(time(0)) } << ":000000";
+
+    return out.str();
+}
 
