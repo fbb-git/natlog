@@ -1,4 +1,0 @@
-#include "pcappacket.h"
-
-using namespace std;
-

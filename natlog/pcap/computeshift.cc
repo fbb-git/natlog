@@ -6,10 +6,10 @@ void Pcap::computeShift(char const *device)
     // http://stackoverflow.com/questions/1779715/
     //              how-to-get-mac-address-of-your-machine-using-a-c-program 
 
-    ifstream mac((string("/sys/class/net/") + device) + "/address");
+    ifstream mac(("/sys/class/net/"s + device) + "/address");
 
     string address;
-    d_shift = (mac >> address) ? 0 : PcapPacket::SIZEOF_ETHERNET_HEADER;
+    d_shift = (mac >> address) ? 0 : PcapRecord::SIZEOF_ETHERNET_HEADER;
 
     if (d_shift == 0)
         imsg << "Device " << device << " has MAC address " << address << endl;

@@ -1,5 +1,0 @@
-#include "pcappacket.ih"
-
-PcapPacket::
-{
-}

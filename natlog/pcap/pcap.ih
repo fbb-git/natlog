@@ -6,7 +6,8 @@
 #include <bobcat/exception>
 #include <bobcat/mstream>
 
-#include "../pcappacket/pcappacket.h"
+#include "../options/options.h"
+#include "../pcaprecord/pcaprecord.h"
 
 using namespace std;
 using namespace FBB;
