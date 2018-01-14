@@ -1,5 +1,0 @@
-#include "conntrack.ih"
-
-Conntrack::
-{
-}

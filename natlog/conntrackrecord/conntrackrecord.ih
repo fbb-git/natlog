@@ -1,5 +1,9 @@
 #include "conntrackrecord.h"
 
+//TMP
+#include <iostream>
+#define CERR cerr << __FILE__": "
+
 #include <limits>
 #include <bobcat/pattern>
 #include <bobcat/mstream>
@@ -7,3 +11,10 @@
 using namespace std;
 using namespace FBB;
 
+
+template <typename Enum>
+inline std::string ConntrackRecord::pat(Enum value) const
+{
+    return d_pattern[ static_cast<size_t>(value) ];
+}
+    
