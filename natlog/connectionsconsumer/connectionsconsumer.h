@@ -56,9 +56,6 @@ class ConnectionsConsumer
         void tcpDestroy(Record &record);
         void udpDestroy(Record &record);
 
-// OBS:
-        void incompleteUDP();
-
         void logICMP(Record const &record, char const * = "");
         void logTCP_UDP(Record const &record, char const *type);
 
