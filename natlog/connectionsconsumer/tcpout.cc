@@ -11,7 +11,7 @@ void ConnectionsConsumer::tcpOut(Record &record)
         return;                         //  no further actions required.
 
                                         // find the matching record
-    auto iter = d_tcp.find( d_sequence[ record.sequenceNr() ] );
+    auto iter = d_tcp.find( d_sequence[ record.id() ] );
 
     if (iter == d_tcp.end())            // no data about this connection
         return;
@@ -19,5 +19,5 @@ void ConnectionsConsumer::tcpOut(Record &record)
     iter->second.setViaIP(record.sourceIP());
     iter->second.setViaPort(record.sourcePort());
 
-    d_sequence.erase(d_sequence.find(record.sequenceNr()));
+    d_sequence.erase(d_sequence.find(record.id()));
 }

@@ -50,8 +50,8 @@ struct Record: public IP_Types
         size_t  d_payload = 0;
     
         size_t  d_flags;
-        size_t  d_sequenceNr;
-
+        size_t  d_id;               // sequence nr for TCP, identification for
+                                    // UDP
         time_t  d_lastUsed;
 
     public:
@@ -92,7 +92,6 @@ struct Record: public IP_Types
         size_t  payload() const;
 
         size_t  flags() const;          // only with TCP
-        size_t  sequenceNr() const;     // only with TCP
 
         std::string showFlags() const;
 
@@ -124,7 +123,7 @@ struct Record: public IP_Types
 
         void setPayload(size_t nBytes);
         void setFlags(size_t flags);
-        void setSequenceNr(size_t sequenceNr);
+        void setID(size_t value);
 
         static char *ntoa(uint32_t ipAddr);
         static size_t aton(std::string const &addr);
@@ -140,14 +139,9 @@ inline size_t Record::key() const
     return d_key;
 }
 
-inline size_t Record::sequenceNr() const
-{
-    return d_sequenceNr;
-}
-
 inline size_t Record::id() const
 {
-    return d_key;
+    return d_id;
 }
 
 inline Record::Protocol Record::protocol() const
@@ -251,9 +245,9 @@ inline void Record::setKey(size_t key)
     d_key = key;
 }
 
-inline void Record::setSequenceNr(size_t sequenceNr)
+inline void Record::setID(size_t value)
 {
-    d_sequenceNr = sequenceNr;
+    d_id = value;
 }
 
 inline void Record::setTime(size_t seconds, size_t microSeconds)

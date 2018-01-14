@@ -1,0 +1,66 @@
+Setting up a demo udp connection:
+
+    On the server run (make sure the firewall accepts incoming connections for
+    the used port:
+
+iptables -A INPUT -p udp --dport <port>       -j ACCEPT
+
+    Start nc to listen on the port:
+
+nc -l -u -p <portnr>
+
+    Start nc on the client:
+
+nc -u -p <portnr> server
+
+
+    Run tcpdump -ni <interface> udp and port <portnr> to inspect the flow.
+
+Example:
+
+Server (e.g., www.rug.nl):
+
+    nc -l -u -p 12345
+
+Client:
+
+    nc -u -p 12345 www.rug.nl
+
+Tcpdump (e.g. at the client)
+
+    tcpdump -ni eth0 udp and port 12345
+
+
+When sending UDP packets, the ID's at the client and nat computer are
+identical:
+
+Client (1.2) to destination (2.51):
+
+15:43:54.437608 IP (tos 0x0, ttl 64, id 36222, offset 0, flags [DF], proto UDP (17), length 34)
+    192.168.1.2.51757 > 129.125.2.51.12345: UDP, length 6
+15:44:13.541867 IP (tos 0x0, ttl 52, id 18749, offset 0, flags [DF], proto UDP (17), length 38)
+    129.125.2.51.12345 > 192.168.1.2.51757: UDP, length 10
+15:45:49.393355 IP (tos 0x0, ttl 64, id 63059, offset 0, flags [DF], proto UDP (17), length 37)
+    192.168.1.2.51757 > 129.125.2.51.12345: UDP, length 9
+15:46:17.583739 IP (tos 0x0, ttl 52, id 24262, offset 0, flags [DF], proto UDP (17), length 40)
+    129.125.2.51.12345 > 192.168.1.2.51757: UDP, length 12
+
+Nathost (17.6) to destination (2.51):
+
+15:43:54.437689 IP (tos 0x0, ttl 63, id 36222, offset 0, flags [DF], proto UDP (17), length 34)
+    192.168.17.6.51757 > 129.125.2.51.12345: UDP, length 6
+15:44:13.541818 IP (tos 0x0, ttl 53, id 18749, offset 0, flags [DF], proto UDP (17), length 38)
+    129.125.2.51.12345 > 192.168.17.6.51757: UDP, length 10
+15:45:49.393444 IP (tos 0x0, ttl 63, id 63059, offset 0, flags [DF], proto UDP (17), length 37)
+    192.168.17.6.51757 > 129.125.2.51.12345: UDP, length 9
+15:46:17.583695 IP (tos 0x0, ttl 53, id 24262, offset 0, flags [DF], proto UDP (17), length 40)
+    129.125.2.51.12345 > 192.168.17.6.51757: UDP, length 12
+
+
+Multiple udp packets may be sent by identical processes, in which case the
+client and nathost computers may use different  ports.
+
+The IN connections store the source, dest, IP-addresses and ports, and uses
+d_id (like the tcp's sequence nr) to allow association with the matching OUT
+packet. Once the association is made, the via IP-address and port can be set,
+and the d_id entry can be removed.

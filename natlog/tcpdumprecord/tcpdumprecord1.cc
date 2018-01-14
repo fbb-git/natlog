@@ -50,7 +50,7 @@ TcpdumpRecord::TcpdumpRecord(Type inOut, PktHdr const &hdr,
                 get<UDP_Header>(packet).sourcePort,
                 get<UDP_Header>(packet).destPort
             );
-            setSequenceNr(get<TCP_Header>(packet).sequenceNr);
+            setID(get<TCP_Header>(packet).sequenceNr);
             setFlags(get<TCP_Header>(packet).flags);
 
             payloadLength = ipLength - headerLength - dataOffset;

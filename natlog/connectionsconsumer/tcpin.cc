@@ -9,7 +9,7 @@ void ConnectionsConsumer::tcpIn(Record &record)
         d_tcp.insert( value_type{ key, record } );
 
             // d_sequence: a support map only used for SYN tcp connections
-        d_sequence[record.sequenceNr()] = key;   // used by OUT at SYN flag
+        d_sequence[record.id()] = key;   // used by OUT at SYN flag
         return;
     }
                                         // find this record's accumulated data

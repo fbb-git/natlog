@@ -17,6 +17,9 @@ void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *const consumer)
 
         consumer->cleanup(now_ttl, consumer->d_tcpMutex, consumer->d_tcp,
                 &ConnectionsConsumer::logTCP_UDP, "tcp");
+
+        consumer->cleanup(now_ttl, consumer->d_udpMutex, consumer->d_udp,
+                &ConnectionsConsumer::logTCP_UDP, "upd");
     }
 }
 

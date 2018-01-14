@@ -2,15 +2,19 @@
 
 void ConnectionsConsumer::udpDestroy(Record &record)
 {
-//    size_t key = record.tcpudpKey();
-//
-//    auto iter = d_udp.find(key);        // find this record's accumulated data
-//
-//    if (iter == d_udp.end())            // unknown record: matching NEW 
-//        return;                         // not seen during this program's
-//                                        // lifetime 
-//
-//    logTCP_UDP("udp", iter->second.time(), record.time(), record);    
-//    d_udp.erase(iter);                  // remove the entry
-//
+                                        // find this record's accumulated data
+    auto iter = d_udp.find(record.key());
+
+    if (iter == d_udp.end())            // unknown record: no existing
+        return;                         // connection
+
+    auto &accu = iter->second;
+    accu.setEndTime(record);
+
+    accu.addSentBytes(record.sentBytes());
+    accu.addReceivedBytes(record.receivedBytes());
+
+    logTCP_UDP(iter->second, "udp");    
+    d_udp.erase(iter);                  // remove the entry
 }
+

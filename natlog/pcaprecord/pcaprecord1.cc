@@ -38,7 +38,7 @@ PcapRecord::PcapRecord(Type inOut,
                 ntohs(get<UDP_Header>(packet).sourcePort),
                 ntohs(get<UDP_Header>(packet).destPort)
             );
-            setTCPUDPkey();
+            setID(get<IP_Header>(packet).identification);
 
             payloadLength = ntohs(get<UDP_Header>(packet).length) 
                                                     - sizeof(UDP_Header);
@@ -50,7 +50,7 @@ PcapRecord::PcapRecord(Type inOut,
                 ntohs(get<UDP_Header>(packet).sourcePort),
                 ntohs(get<UDP_Header>(packet).destPort)
             );
-            setSequenceNr(get<TCP_Header>(packet).sequenceNr);
+            setID(get<TCP_Header>(packet).sequenceNr);
             setFlags(get<TCP_Header>(packet).flags);
 
             payloadLength = ipLength - headerLength - dataOffset;
