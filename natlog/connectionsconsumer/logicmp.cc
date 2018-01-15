@@ -9,7 +9,7 @@ void ConnectionsConsumer::logICMP(Record const &record,
                 record.sourceIPstr() << 
                 " (via: " << record.viaIPstr()  << ") "
                 "to " << record.destIPstr() << "; "
-                "Sent: " << record.sentBytes() << ", "
+                "sent: " << record.sentBytes() << ", "
                 "received: " << record.receivedBytes() << 
                 (record.hasEndTime() ? "" : " (INCOMPLETE)") << endl;
 }

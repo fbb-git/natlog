@@ -18,8 +18,19 @@ void ConnectionsConsumer::udpOut(Record &record)
     if (iter == d_udp.end())            // not available for some reason
         return;
 
-    iter->second.setViaIP(record.sourceIP());
-    iter->second.setViaPort(record.sourcePort());
+    auto &accu = iter->second;
+
+    if (accu.sourceIP() != record.sourceIP())
+    {
+        accu.setViaIP(record.sourceIP());
+        accu.setViaPort(record.sourcePort());
+    }
+    else
+    {
+        accu.reverse();
+        accu.setViaIP(record.destIP());
+        accu.setViaPort(record.destPort());
+    }
 
     d_id.erase(iterID);                 // remove the ID information
 }

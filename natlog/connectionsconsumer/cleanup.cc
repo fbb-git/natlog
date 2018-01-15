@@ -8,9 +8,13 @@ void ConnectionsConsumer::cleanup(
 {
     vector<size_t> remove;
     lock_guard<mutex> lg(mapMutex);
-   
+
     for (value_type &value: map)
     {
+//if (&map == &d_udp)
+//CERR << "key: " << value.second.key() << ", lastused: " << 
+//value.second.lastUsed() << ", now_ttl: " << now_ttl << '\n';
+            
         if (value.second.lastUsed() < now_ttl)
         {
             (this->*logFun)(value.second, type);

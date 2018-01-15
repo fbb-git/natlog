@@ -38,7 +38,7 @@ PcapRecord::PcapRecord(Type inOut,
                 ntohs(get<UDP_Header>(packet).sourcePort),
                 ntohs(get<UDP_Header>(packet).destPort)
             );
-            setID(get<IP_Header>(packet).identification);
+            setID(ntohs(get<IP_Header>(packet).identification));
 
             payloadLength = ntohs(get<UDP_Header>(packet).length) 
                                                     - sizeof(UDP_Header);

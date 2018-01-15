@@ -24,7 +24,7 @@ Server (e.g., www.rug.nl):
 
 Client:
 
-    nc -u -p 12345 www.rug.nl
+    nc -u www.rug.nl 12345
 
 Tcpdump (e.g. at the client)
 

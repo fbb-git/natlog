@@ -2,10 +2,6 @@
 
 void ConnectionsConsumer::udp(Record &record)
 {
-CERR << "proto: " << record.protocol() <<
-", key: " << record.key() <<
-", type: " << record.type() << '\n';
-
     lock_guard<mutex> lg(d_udpMutex);
 
      switch (record.type())
