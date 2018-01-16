@@ -1,3 +1,11 @@
+Conntrack byte counts add the sizes of the IP headers (usually 20 bytes) to
+the byte counts. So, icmp packets are usually reported as having size 84, 
+even though ping etc reports the payload (64 bytes). Since the actual size of
+the IP headers cannot be determined from conntrack's output, the sizes
+reported via natlog's conntrack mode are as reported, and are therefore not
+corrected for IP header lengths.
+
+
 Example conntrack lines: 
 The 'maybe' entries appear if the command
  

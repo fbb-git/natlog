@@ -7,7 +7,6 @@
 
 #include "../record/record.h"
 
-
 class Storage;
 
     // ConnectionsConsumer object constructed in natfork/childprocess
@@ -63,6 +62,9 @@ class ConnectionsConsumer
         void logTCP_UDP(Record const &record, char const *type);
 
         static void cleanupWrap(ConnectionsConsumer *const consumer);
+
+        void cleanupCompleted(time_t now_ttl);  // clean up completed 
+                                                // connections.
         void cleanup(
             time_t now_ttl, std::mutex &mapMutex, RecordMap &map,
             void (ConnectionsConsumer::*logFun)(Record const &, char const *),

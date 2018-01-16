@@ -98,7 +98,8 @@ struct Options: public IP_Types
         Options(Options const &other) = delete;
 
         bool daemon() const;
-        bool realTime() const;
+        bool realTime() const;          // true if the packets are received
+                                        // real-time; when recorded: false.
         bool stdout() const;
         bool syslog() const;
         bool warnings() const;

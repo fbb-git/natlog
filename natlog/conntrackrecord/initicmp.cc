@@ -9,8 +9,6 @@ void ConntrackRecord::initICMP(Pattern const &pattern)
     setProtocol(ICMP);
     setKey( stoul(pat(CTicmp::ID)) );
 
-CERR << lastUsed() << '\n';
-
     if (type() == DESTROY)
     {
         if (pattern.end() == static_cast<size_t>(CTicmp::nFields))

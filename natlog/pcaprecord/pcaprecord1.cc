@@ -3,29 +3,12 @@
 PcapRecord::PcapRecord(Type inOut, 
                        struct pcap_pkthdr const &hdr, u_char const *packet)
 :
-    Record(inOut, hdr.ts.tv_sec, hdr.ts.tv_usec)
+    Record(inOut, hdr.ts.tv_sec, hdr.ts.tv_usec, packet)
 {
-    setSourceIP(get<IP_Header>(packet).sourceAddr.s_addr);
-    setDestIP(get<IP_Header>(packet).destAddr.s_addr);
+    auto [headerLength, ipLength, dataOffset, payloadLength] = 
+                                                        stdLengths(packet);
 
-                                            // hdrLength itself selects its
-                                            // bits
-    size_t headerLength = get<IP_Header>(packet).hdrLength << 2;
-    size_t ipLength = ntohs(get<IP_Header>(packet).length);
-
-        // 4 most significant bits: # 32 bit words
-        // so: shr 4 to het the # 32 bit words, and 
-        // << 2 to multiply by 4 to get the #bytes before the data
-    size_t dataOffset = get<TCP_Header>(packet).dataOffset >> 4 << 2;
-
-
-    Protocol protocol = static_cast<Protocol>(
-                                get<IP_Header>(packet).protocol);
-    setProtocol(protocol);
-
-    size_t payloadLength = 0;       // avoids warning with -O2
-
-    switch (protocol)
+    switch (protocol())
     {
         case ICMP:
             setKey(ntohs(get<ICMP_Header>(packet).ident));

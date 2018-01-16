@@ -107,7 +107,18 @@ struct Record: public IP_Types
         void reverse();                     // swap source and dest stuff
 
     protected:
-        Record(Type type, size_t seconds, size_t muSeconds);
+        struct Lengths
+        {
+            size_t headerLength;
+            size_t ipLength;
+            size_t dataOffset;
+            size_t payloadLength;
+        };
+
+        Record(Type type, size_t seconds, size_t muSeconds,
+                u_char const *packet);
+
+        Lengths stdLengths(u_char const *packet) const;
 
         void setProtocol(Protocol protocol);
         void setType(Type type);

@@ -10,16 +10,7 @@ void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *const consumer)
     {
         this_thread::sleep_for(chrono::seconds(3));
 
-        time_t now_ttl = time(0) - consumer->d_ttl;
-
-        consumer->cleanup(now_ttl, consumer->d_icmpMutex, consumer->d_icmp,
-                &ConnectionsConsumer::logICMP);
-
-        consumer->cleanup(now_ttl, consumer->d_tcpMutex, consumer->d_tcp,
-                &ConnectionsConsumer::logTCP_UDP, "tcp");
-
-        consumer->cleanup(now_ttl, consumer->d_udpMutex, consumer->d_udp,
-                &ConnectionsConsumer::logTCP_UDP, "upd");
+        consumer->cleanupCompleted(time(0) - consumer->d_ttl);
     }
 }
 
