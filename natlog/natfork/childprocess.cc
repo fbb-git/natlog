@@ -22,11 +22,12 @@ void NatFork::childProcess()
 
         ConnectionsConsumer connections{ d_stdMsg, storage };
 
-        thread produce{ Producer::process, producer.get() };
+        auto maybeException =   async(launch::async, 
+                                      Producer::process, producer.get() 
+                                );
 
         connections.run();
-
-        produce.join();
+        maybeException.get();
     }
     catch (exception const &err)        // Producer errors
     {

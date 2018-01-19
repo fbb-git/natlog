@@ -4,8 +4,12 @@
 #include <unistd.h>
 
 #include <thread>
+#include <future>
 #include <iostream>
 #include <fstream>
+
+//TMP
+#define CERR cerr << __FILE__": "
 
 #include <bobcat/ofdstream>
 #include <bobcat/mstream>

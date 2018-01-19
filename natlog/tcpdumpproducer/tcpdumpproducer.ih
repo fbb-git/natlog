@@ -7,8 +7,10 @@
 #include <bobcat/exception>
 
 #include "../options/options.h"
-// #include "../pcapfilter/pcapfilter.h"
 #include "../storage/storage.h"
+
+//TMP
+#define CERR std::cerr << __FILE__": "
 
 using namespace std;
 using namespace FBB;

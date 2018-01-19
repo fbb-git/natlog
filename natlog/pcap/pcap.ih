@@ -9,6 +9,9 @@
 #include "../options/options.h"
 #include "../pcaprecord/pcaprecord.h"
 
+//TMP
+#define CERR std::cerr << __FILE__": "
+
 using namespace std;
 using namespace FBB;
 

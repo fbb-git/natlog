@@ -1,10 +1,10 @@
 #include "devicesproducer.ih"
 
 void DevicesProducer::run()
+try
 {
                                         // see pcapfilter/callback for
                                         // handling incoming packets
-
     PcapFilter  in{ d_options[0], Record::IN, d_stdMsg, d_storage };
     PcapFilter out{ d_options[1], Record::OUT, d_stdMsg, d_storage };
 
@@ -19,6 +19,11 @@ void DevicesProducer::run()
     out();    
 
     inThread.join();
+}
+catch (exception const &ex)
+{
+    d_storage.setEmpty();
+    throw;
 }
 
 

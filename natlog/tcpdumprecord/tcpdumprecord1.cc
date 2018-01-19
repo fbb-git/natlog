@@ -8,8 +8,8 @@ TcpdumpRecord::TcpdumpRecord(Type inOut, PktHdr const &hdr,
     auto [headerLength, ipLength, dataOffset, payloadLength] = 
                                                         stdLengths(packet);
 
-CERR << (inOut == IN ? "IN" : "OUT") <<
-" from: " << sourceIPstr() << " to " << destIPstr() << '\n';
+//CERR << (inOut == IN ? "IN" : "OUT") <<
+//" from: " << sourceIPstr() << " to " << destIPstr() << '\n';
 
     switch (protocol())
     {
@@ -34,8 +34,8 @@ CERR << (inOut == IN ? "IN" : "OUT") <<
 
         case TCP:
             setPorts(
-                get<UDP_Header>(packet).sourcePort,
-                get<UDP_Header>(packet).destPort
+                ntohs(get<UDP_Header>(packet).sourcePort),
+                ntohs(get<UDP_Header>(packet).destPort)
             );
             setID(get<TCP_Header>(packet).sequenceNr);
             setFlags(get<TCP_Header>(packet).flags);
