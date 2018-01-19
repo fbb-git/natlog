@@ -107,18 +107,18 @@ struct Record: public IP_Types
         void reverse();                     // swap source and dest stuff
 
     protected:
-        struct Lengths
-        {
-            size_t headerLength;
-            size_t ipLength;
-            size_t dataOffset;
-            size_t payloadLength;
-        };
-
+//        struct Lengths
+//        {
+//            size_t headerLength;
+//            size_t ipLength;
+//            size_t dataOffset;
+//            size_t payloadLength;
+//        };
+                                    // used for pcap and tcpdump records
         Record(Type type, size_t seconds, size_t muSeconds,
                 u_char const *packet);
 
-        Lengths stdLengths(u_char const *packet) const;
+//        Lengths stdLengths(u_char const *packet) const;
 
         void setProtocol(Protocol protocol);
         void setType(Type type);
@@ -133,16 +133,15 @@ struct Record: public IP_Types
 
         void setPorts(size_t sourcePort, size_t destPort);
 
-        void setPayload(size_t nBytes);
-        void setFlags(size_t flags);
-        void setID(size_t value);
+//        void setPayload(size_t nBytes);
+//        void setFlags(size_t flags);
+//        void setID(size_t value);
 
-        static char *ntoa(uint32_t ipAddr);
         static size_t aton(std::string const &addr);
-
         static std::string time(size_t seconds, size_t microSeconds);
 
     private:
+        static char *ntoa(uint32_t ipAddr);
         static size_t ports2key(size_t lowPort, size_t highPort);
 };
 
@@ -257,10 +256,10 @@ inline void Record::setKey(size_t key)
     d_key = key;
 }
 
-inline void Record::setID(size_t value)
-{
-    d_id = value;
-}
+//inline void Record::setID(size_t value)
+//{
+//    d_id = value;
+//}
 
 inline void Record::setTime(size_t seconds, size_t microSeconds)
 {
@@ -294,15 +293,15 @@ inline void Record::setViaPort(size_t  viaPort)
     d_viaPort = viaPort;
 }
 
-inline void Record::setPayload(size_t nBytes)
-{
-    d_payload = nBytes;
-}
+//inline void Record::setPayload(size_t nBytes)
+//{
+//    d_payload = nBytes;
+//}
 
-inline void Record::setFlags(size_t flags)
-{
-    d_flags = flags;
-}
+//inline void Record::setFlags(size_t flags)
+//{
+//    d_flags = flags;
+//}
 
 inline bool operator!=(Record const &lhs, Record const &rhs)
 {
