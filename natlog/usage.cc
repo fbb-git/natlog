@@ -11,7 +11,7 @@ void usage(std::string const &progname)
     "Usage: " << progname << " [options] command\n"
     "Where:\n"
     "   [options] - optional arguments (short options between parentheses):\n"
-    "      --config (-c) path - path: pathname of the configuation file\n"
+    "      --config (-c) path - path: pathname of the configuration file\n"
     "                           (default: `" << 
                                 Options::defaultConfigPath() << "')\n"
     "      --conntrack-command cmd - cmd: `conntrack' command specification\n"

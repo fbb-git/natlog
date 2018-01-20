@@ -24,11 +24,6 @@ DEFINEMACRO(soption)(1)(\
 
 DEFINEMACRO(itx)(0)()
 DEFINEMACRO(itemlist)(1)(ARG1)
-DEFINEMACRO(tr)(3)(\
-    row(cell(ARG1)cell()\
-        cell(ARG2)cell()\
-        cell(ARG3)))
-
 
 DELETEMACRO(tt)
 DEFINEMACRO(tt)(1)(em(ARG1))
@@ -187,7 +182,7 @@ manpagesection(OPTIONS)
         runs as an ordinary program (i.e., in the foreground when the option
         tt(no-daemon) is provided). When running as a daemon, tt(--stdout)
         (see below) is suppressed, and tt(--verbose) messages (see below) are
-        sent to the sylog daemon, unless tt(--no-syslog) was specified.
+        sent to the syslog daemon, unless tt(--no-syslog) was specified.
 
     it() loption(no-syslog)nl()
        By default tt(natlog) writes syslog messages to the tt(DAEMON) facility

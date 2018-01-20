@@ -1,3 +1,9 @@
+natlog (1.03.01)
+
+  * Fixed doubly defined macro tr(...) in man/natlog.yo.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 20 Jan 2018 09:58:46 +0100
+
 natlog (1.03.00)
 
   * Fixed bug when setting syslog-facility in options/setSyslogFacility:
