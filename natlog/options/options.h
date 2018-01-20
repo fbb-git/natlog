@@ -23,7 +23,7 @@ struct Options: public IP_Types
     {
         OK,
         FAILED,
-        CONNTRACK_ENDED,
+        TERM_SIGNAL,
     };
     
     enum Mode               // working mode: conntrack, pcap, or tcpdump

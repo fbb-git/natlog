@@ -11,10 +11,12 @@ void ConntrackProducer::parentProcess()
 
     waitForChild();
 
-    if (not d_stop)
+    if (d_stop)
+        d_storage.setEmpty();
+    else
     {
         cin.clear();
-        throw Options::CONNTRACK_ENDED;
+        throw Options::TERM_SIGNAL;
     }
 }
 

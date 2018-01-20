@@ -19,6 +19,12 @@ try
     out();    
 
     inThread.join();
+
+    if (out.stopped())
+    {
+        d_storage.setEmpty();
+        throw Options::TERM_SIGNAL;
+    }
 }
 catch (exception const &ex)
 {

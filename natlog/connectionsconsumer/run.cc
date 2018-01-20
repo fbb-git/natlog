@@ -29,6 +29,9 @@ void ConnectionsConsumer::run()
         cleanupThread.join();
     else
         cleanupCompleted(time(0) + 1);
+
+    cleanup(time(0) + 1, d_tcpMutex, d_tcp,
+                                    &ConnectionsConsumer::logTCP_UDP, "tcp");
 }
 
 
