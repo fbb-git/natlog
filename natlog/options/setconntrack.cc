@@ -2,7 +2,7 @@
 
 void Options::setConntrack()
 {
-    if (not d_arg.option(&d_conntrackCommand, "conntrack-device"))
+    if (not d_arg.option(&d_conntrackDevice, "conntrack-device"))
         d_conntrackDevice = s_defaultConntrackDevice;
 
     if (not d_arg.option(&d_conntrackCommand, "conntrack-command"))
