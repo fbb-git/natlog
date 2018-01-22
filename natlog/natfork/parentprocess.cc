@@ -8,8 +8,6 @@ void NatFork::parentProcess()
         // write the daemon's pid-file:
     ofstream pidFile(Options::instance().pidFile());
     pidFile << pid() << endl;
-
-    throw Options::OK;                  // ends the parent program
 }
 
 

@@ -1,6 +1,6 @@
 #include "natfork.ih"
 
-void NatFork::cleanupPidFile() const    // called by childProcess
+void NatFork::cleanupPidFile() const
 {
     ifstream pidFile(d_options.pidFile());
     pid_t pid;

@@ -10,5 +10,6 @@ ConntrackProducer::ConntrackProducer(ostream &stdMsg, Storage &storage)
         throw Exception() << "Cannot read " << d_options.conntrackDevice();
 
     Signal::instance().add(SIGHUP, *this);      // ignored
+    Signal::instance().add(SIGINT, *this);
     Signal::instance().add(SIGTERM, *this);
 }

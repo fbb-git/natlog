@@ -27,6 +27,7 @@ class NatFork: public FBB::Fork
 
     public:
         NatFork();                  // configure and initialize data
+        ~NatFork() override;
 
         void run();                 // dameonize when running in the
                                     // background, otherwise call

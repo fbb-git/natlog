@@ -8,7 +8,8 @@ void ConntrackProducer::signalHandler(size_t signum)
         return;
     }
 
-    d_stdMsg << "stopping pid " << pid() << " on signal " << signum << endl;
+    d_stdMsg << "received signal " << signum << " (" << 
+        (signum == SIGINT ? "SIGINT" : "SIGTERM") << ')' << endl;
 
     d_stop = true;
 

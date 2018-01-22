@@ -101,10 +101,10 @@ provided log message easily allows us to related this to the `real' host and
 port from which the connection originated: tt(192.168.19.72:4467).
 
     When tt(natlog) terminates tt(natlog) can no longer track connections that
-are still open. If tt(natlog) was terminated by a tt(SIGTERM) signal, then it
-sends a `terminating' line to syslog, followed by an overview of all still
-open connections. The end-microseconds values of connections that are no
-longer tracked are shown as tt(0000).
+are still open. If tt(natlog) was terminated by a tt(SIGINT) or tt(SIGTERM)
+signal, then it sends a `terminating' line to syslog, followed by an overview
+of all still open connections. The end-microseconds values of connections that
+are no longer tracked are shown as tt(0000).
 
 manpagesection(COMMANDS)
 
@@ -192,10 +192,10 @@ manpagesection(OPTIONS)
     it() lsaoption(pid-file)(p)(path)nl()
        When tt(natlog) runs in the background, then tt(path) is the name of
         the path of the file holding the daemon's process-id. By default this
-        is tt(/run/natlog.pid). To end the daemon, send a SIGTERM signal to
-        the process id mentioned in the tt(pid-file). tt(Natlog) ignores
-        tt(SIGHUP) signals (but writes a log message if a tt(SIGHUP) interrupt
-        is received).
+        is tt(/run/natlog.pid). To end the daemon, send a tt(SIGINT) or
+        tt(SIGTERM) signal to the process id mentioned in the
+        tt(pid-file). tt(Natlog) ignores tt(SIGHUP) signals (but writes a log
+        message when receiving a tt(SIGHUP) interrupt).
         
     it() lsaoption(protocol)(P)(specification)nl()
        The protocols to monitor by bf(conntrack)(1). By default
@@ -212,8 +212,8 @@ manpagesection(OPTIONS)
 
     it() loption(stdout) (soption(s))nl() 
        Syslog-equivalent messages are sent to the standard output.
-        This option is implied by tt(--verbose), but is suppressed when
-        tt(natlog) runs as a daemon..
+        This option is implied by tt(--verbose), but is suppressed once
+        tt(natlog) runs as a daemon.
 
     it() laoption(syslog-facility)(facility)nl()
        The facility that is used to write the syslog messages to. By default

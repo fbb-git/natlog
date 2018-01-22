@@ -11,12 +11,12 @@ void ConntrackProducer::parentProcess()
 
     waitForChild();
 
-    if (d_stop)
-        d_storage.setEmpty();
-    else
+    d_storage.setEmpty();       // to end the consumer
+
+    if (not d_stop)
     {
-        cin.clear();
-        throw Options::TERM_SIGNAL;
+        d_stdMsg << "conntrack terminated" << endl;
+        d_stop = true;
     }
 }
 

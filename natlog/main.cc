@@ -45,10 +45,6 @@ catch (exception const &err)
     cout << err.what() << endl;
     return 1;
 }
-catch (Options::ExitStatus status)
-{
-    return status;
-}
 catch (int x)
 {
     return ArgConfig::instance().option("hv") ? 0 : x;

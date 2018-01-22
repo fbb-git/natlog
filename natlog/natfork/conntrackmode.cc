@@ -11,6 +11,6 @@ void NatFork::conntrackMode()           // check the availability of the
     if (access(conntrack.c_str(), R_OK | X_OK) != 0)
     {
         d_stdMsg << "[Fatal] can't execute " << conntrack << endl;
-        throw Options::FAILED;
+        throw 1; 
     }
 }
