@@ -22,7 +22,7 @@ class PcapFilter: public FBB::SignalHandler
 
     Record::Type d_type;
     Pcap d_pcap;
-    bool d_stopped = false;
+    bool d_stop = false;
 
     public:
         PcapFilter(char const *device, Record::Type, std::ostream &stdMsg, 
@@ -41,7 +41,7 @@ class PcapFilter: public FBB::SignalHandler
 
 inline bool PcapFilter::stopped() const
 {
-    return d_stopped;
+    return d_stop;
 }
 
 #endif

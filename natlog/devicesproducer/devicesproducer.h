@@ -16,6 +16,7 @@ class DevicesProducer: public Producer
 
     public:
         DevicesProducer(std::ostream &stdMsg, Storage &storage);
+        ~DevicesProducer() override;
 
     private:
         void run() override;

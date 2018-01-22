@@ -1,5 +1,5 @@
-#include "devices.ih"
+#include "devicesproducer.ih"
 
-Devices::
+DevicesProducer::
 {
 }

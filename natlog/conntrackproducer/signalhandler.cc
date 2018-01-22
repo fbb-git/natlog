@@ -4,7 +4,7 @@ void ConntrackProducer::signalHandler(size_t signum)
 {
     if (signum == SIGHUP)
     {
-        d_stdMsg << "ignoring signal SIGHUP for pid " << pid() << endl;
+        d_stdMsg << "ignoring signal SIGHUP" << endl;
         return;
     }
 
