@@ -2,9 +2,6 @@
 
 void ConnectionsConsumer::icmp(Record &record)
 {
-//CERR << "key: " << record.key() << ", type: " << record.type() << '\n';
-
-
     lock_guard<mutex> lg(d_icmpMutex);
 
     auto iter = d_icmp.find(record.key());  // key is the record's ID

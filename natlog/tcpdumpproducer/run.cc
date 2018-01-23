@@ -2,7 +2,7 @@
 
 void TcpdumpProducer::run()
 {
-    Exception::open(d_in.stream, d_inName);
+    Exception::open(d_in.stream, d_inName); // throw exceptions on failure
     Exception::open(d_out.stream, d_outName);
 
     d_in.stream.ignore(24);            // skip the global header, see
