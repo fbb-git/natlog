@@ -6,6 +6,8 @@
 
 #include <unistd.h>
 
+#include <algorithm>
+
 #include <bobcat/exception>
 #include <bobcat/mstream>
 

@@ -35,7 +35,8 @@ struct Options: public IP_Types
 
     enum 
     {
-        TTL = 20        // default TTL
+        TTL = 60,           // default TTL in seconds
+        TTLTCP = 15 * 60,   // default TTL in seconds for tcp connections
     };
 
     private:
@@ -51,6 +52,7 @@ struct Options: public IP_Types
         size_t d_verbose;
         size_t d_conntrackRestart = 10;
         time_t  d_ttl = TTL;
+        time_t  d_ttlTCP = TTLTCP;
 
         std::unordered_map<std::string, Time>::const_iterator d_time;
     
@@ -107,6 +109,7 @@ struct Options: public IP_Types
         size_t verbose() const;
 
         time_t ttl() const;
+        time_t ttlTCP() const;
         Time time() const;
         std::string const &timeTxt() const;
         Mode mode() const;
@@ -201,6 +204,11 @@ inline bool Options::syslog() const
 inline time_t Options::ttl() const
 {
     return d_ttl;
+}
+
+inline time_t Options::ttlTCP() const
+{
+    return d_ttlTCP;
 }
 
 inline Options::Time Options::time() const
