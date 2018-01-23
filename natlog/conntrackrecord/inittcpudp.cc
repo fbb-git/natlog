@@ -3,7 +3,7 @@
 void ConntrackRecord::initTCP_UDP(Pattern const &pattern)
 {
     setSourceIP( aton(pat(CTtcpudp::SRC))   );
-    setDestIP(  aton(pat(CTtcpudp::SRC))    );
+    setDestIP(  aton(pat(CTtcpudp::DST))    );
     setViaIP(   aton(pat(CTtcpudp::NATSRC)) );
 
     setPorts( stoul(pat(CTtcpudp::SPORT)), stoul(pat(CTtcpudp::DPORT)) );
