@@ -15,5 +15,5 @@
 #define USE_VERSION
 #define USE_ALL             "a"
 #define IH                  ".ih"
-// #define PRECOMP             "-x c++-header"
+#define PRECOMP             "-x c++-header"
 #define DEFCOM              "program"

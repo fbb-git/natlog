@@ -10,7 +10,7 @@
 #include "../storage/storage.h"
 
 //TMP
-#define CERR std::cerr << __FILE__": "
+//#define CERR std::cerr << __FILE__": "
 
 using namespace std;
 using namespace FBB;

@@ -3,14 +3,14 @@
 #include <iostream>
 #include <fstream>
 
+//TMP
+//#define CERR std::cerr << __FILE__": "
+
 #include <bobcat/exception>
 #include <bobcat/mstream>
 
 #include "../options/options.h"
 #include "../pcaprecord/pcaprecord.h"
-
-//TMP
-#define CERR std::cerr << __FILE__": "
 
 using namespace std;
 using namespace FBB;

@@ -3,7 +3,7 @@
 #include <iostream>
 
 //TMP
-#define CERR cerr << __FILE__": "
+//#define CERR cerr << __FILE__": "
 
 #include "../storage/storage.h"
 #include "../options/options.h"

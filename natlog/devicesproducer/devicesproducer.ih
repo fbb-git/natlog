@@ -4,7 +4,7 @@
 #include <thread>
 
 //TMP
-#define CERR std::cerr << __FILE__": "
+//#define CERR std::cerr << __FILE__": "
 
 #include "../options/options.h"
 #include "../pcapfilter/pcapfilter.h"

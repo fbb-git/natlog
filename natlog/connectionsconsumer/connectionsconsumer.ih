@@ -1,8 +1,8 @@
 #include "connectionsconsumer.h"
 
 //TMP
-#include <iostream>
-#define CERR cerr << __FILE__": "
+//#include <iostream>
+//#define CERR cerr << __FILE__": "
 
 #include <ostream>
 #include <vector>

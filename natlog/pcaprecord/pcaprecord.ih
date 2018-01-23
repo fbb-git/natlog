@@ -1,8 +1,8 @@
 #include "pcaprecord.h"
 
 //TMP
-#include <iostream>
-#define CERR cerr << __FILE__": "
+//#include <iostream>
+//#define CERR cerr << __FILE__": "
 
 #include <bobcat/mstream>
 

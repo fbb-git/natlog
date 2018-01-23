@@ -1,9 +1,8 @@
 #include "conntrackproducer.h"
 
 //TMP
-#include <iostream>
-#define CERR cerr << __FILE__": "
-
+//#include <iostream>
+//#define CERR cerr << __FILE__": "
 
 #include <signal.h>
 #include <unistd.h>
