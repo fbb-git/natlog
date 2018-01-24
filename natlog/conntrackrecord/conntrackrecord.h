@@ -17,11 +17,12 @@ class ConntrackRecord: public Record
     FBB::Pattern const &d_pattern;
             
     public:
-        ConntrackRecord(Protocol protocol, FBB::Pattern const &pattern);
+        ConntrackRecord(Protocol protocol, FBB::Pattern const &pattern,
+                        size_t ipHeaderSize);
 
     private:
-        void initTCP_UDP(FBB::Pattern const &pattern);
-        void initICMP(FBB::Pattern const &pattern);
+        void initTCP_UDP(FBB::Pattern const &pattern, size_t ipHeaderSize);
+        void initICMP(FBB::Pattern const &pattern, size_t ipHeaderSize);
 
         template <typename Enum>
         std::string pat(Enum value) const;
@@ -70,9 +71,4 @@ enum class CTicmp
     nFields,
 };
     
-
 #endif
-
-
-
-

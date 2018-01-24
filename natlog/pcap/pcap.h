@@ -15,7 +15,7 @@ class Pcap
         Pcap(char const *device, bool promisc = false, size_t snapLen = 1500, 
              size_t timeOutMs = 1000);
 
-        void loop(u_char *pcapFilterPtr, pcap_handler callback);
+        void loop(void *pcapFilterPtr, pcap_handler callback);
         void stop();
 
         int shiftPacketBegin() const;

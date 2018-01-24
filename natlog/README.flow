@@ -1,33 +1,154 @@
-main -> natfork.run
+main -> natfork.run()
 
-natfork::run daemonizes or merely calls childprocess if no daemon is
-        requested. Daemonizing is not available when TcpdumpProducer is used.
-    
-natfork::childprocess: 
-        defines the Storage: a queue filled by the producer, and emptied by
-            the consumer (ConnectionsConsumer object)
+            childProcess
+                mode CONNTRACK: ConntrackProducer object
+                                        installs signal handler for signals 
+                                        2 (SIGINT) and 15 (SIGTERM)
 
-        defines the appropriate Producer (connection handling object);
+                            signalHandler: 
+                                kills conntrack process
+                                d_signalled = true
 
-        defines the ConnectionsConsumer consumer;
+
+                thread: Producer::process calls one of:
+
+                        ConntrackProducer.run -> forks (max limit)
+                        ---------------------
+                            childProcess: execs 'conntrack'
+                                    throws 0 on failure, ending main,
+                                    thus ending parentProcess:
+
+                            parentProcess:
+                                loop:
+                                    process(line) from childProcess
+                                        pushes ConntrackRecord
+                                        
+
+                                storage.setEmpty()
+                                not d_signaled: 'terminated' msg
+
+
+                        DevicesProducer.run
+                        -------------------
+                            detached anonymous PcapFilter thread reading the
+                                1st (incoming, pre-NAT) device 
+                            PcapFilter out reading the 2nd (outgoing,
+                                post-NAT) device
+
+                            out() runs, ends at signal 2 or 15
+                            storage.setEmpty()
+                            out not signaled: 'terminated' msg
+
+
+                                PcapFilter: constructs Pcap object d_pcap
+                                    
+                                    PcapFilter::operator()() 
+                                    ------------------------
+                                        d_pcap.loop: receives the PcapFilter
+                                            object as a void *, and
+                                            PcapFilter::callback as
+                                            pcap_handler. 
+
+                                    PcapFilter::callback:
+                                            pushes PcapRecord
+
+                                
+                        TcpdumpProducer.run
+                        -------------------
+
+                ConnectionsConsumer.run()
+                    thread: cleanupWrap
+
+                    loop:
+                        storage.wait(), break if empty
+                        fetch Record
+                        notify producer
+
+                        handle protocol data:
+                            icmp():
+                                IN, NEW: d_icmp += record (key is record's ID)
+                                         update addresses, sent/received
+                                DESTROY: icmpDestroy():
+                                            logICMP(), 
+                                            d_icmp -= record
+                            udp():
+                                IN: udpIn()
+                                        d_udp += record (key: setTCPUDPkey)
+                                        d_id[record.id()] = key
+                                        update sent/received
+                                OUT: udpOut()
+                                        record.id test
+                                        or: set IP, d_id -= ID
+                                NEW: d_udp += record
+                                DESTROY: tcp_udpDestroy() - cf. icmpDestroy
+
+                            tcp():
+                                IN: tcpIn()
+                                        d_tcp += record (key: setTCPTCPkey)
+                                        d_sequence[record.id()] = key
+                                        update sent/received
+                                OUT: tcpOut()
+                                        SYN flag test
+                                        or: set IP, d_sequence -= ID
+                                NEW: d_tcp += record
+                                DESTROY: tcp_udpDestroy()
+
+                    cleanupICMP_UDP, cleanup(tcp)
+
+main:
+=====
+    defines NatFork
+
+    natfork.run
+    -----------
+
+    exceptions:
+    -----------
+        std::exception -> returns 1
+        int exception  -> returns the int-value
+
+
+natfork::run 
+============
+daemon:
+
+    parentProcess -> childProcess
+    -------------
+        (not available for mode tcpdump)
+
+foreground:    
+
+    childProcess
+    ------------
+        defines * Storage
+                * the requested Producer (DevicesProducer, 
+                                          TcpdumpProducer,
+                                          ConntrackProducer)
+
+                * the ConnectionConsumer (connections)
         
-        starts the Producer thread Producer::run to start producing Records
+        detaches the Producer::process thread, producing connections
+                     -----------------
+        conections.run handles observed connections
+        --------------
 
-        calls ConnectionsConsumer::run to processing Records obtained 
-            from the Storage 
+Storage
+=======
+    Producer queues lines, Consumer retrieves lines
+    empty() - returns true if queue is empty and setEmpty() was called
 
-        (and finally waits for the producer thread to end)
-
-
-
-Producers:
+Producer:
 =========
 
-    The class Producer is an abstract base class. Its member run is purely
-    virtual. Its (no actions) destructor is defined in its only source file.
+    Abstract Base Class. 
+        virtual run() = 0.
+        
+        static process(Producer *pr)      -- producer thread
+        ----------------------------
+            pr->run: derived class's run member producing connection data
+            
 
-    Producer::run is overriden by Producers:
-            DevicesProducer:    producing Records from incoming and outgoing 
+DevicesProducer:    producing Records from incoming and outgoing 
                                     (natted) devices
             ConntrackProducer:  producing Records using info received from 
                                     the conntrack program

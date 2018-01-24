@@ -11,15 +11,9 @@ void NatFork::childProcess()
     // Once the producers have been constructed, messages to cout are
     // suppressed by prepareDaemon below
 
-    unique_ptr<Producer> producer {
-        d_mode == Options::CONNTRACK ? 
-            Producer::alloc<ConntrackProducer>(d_stdMsg, ref(storage)) : 
-        d_mode == Options::PCAP ? 
-            Producer::alloc<DevicesProducer>(d_stdMsg, ref(storage))   :
-        // TCPDUMP:
-            Producer::alloc<TcpdumpProducer>(d_stdMsg, ref(storage))
-    };
-
+    unique_ptr<Producer> producer { 
+                            (*s_producer[d_mode]) (d_stdMsg, storage) 
+                         };
     ConnectionsConsumer connections{ d_stdMsg, storage };
 
     if (d_options.daemon())

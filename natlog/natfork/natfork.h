@@ -14,6 +14,9 @@ namespace FBB
     class SyslogStream;
 }
 
+class Producer;
+class Storage;
+
 class NatFork: public FBB::Fork
 {
     Options &d_options;
@@ -24,6 +27,8 @@ class NatFork: public FBB::Fork
     std::ostream d_stdMsg;
 
     Options::Mode d_mode;
+
+    static Producer *(*s_producer[]) (std::ostream &stdMsg, Storage &storage);
 
     public:
         NatFork();                  // configure and initialize data

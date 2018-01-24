@@ -11,7 +11,7 @@ void ConntrackProducer::signalHandler(size_t signum)
     d_stdMsg << "received signal " << signum << " (" << 
         (signum == SIGINT ? "SIGINT" : "SIGTERM") << ')' << endl;
 
-    d_stop = true;
+    d_signaled = true;
 
     kill(pid(), SIGTERM);
     kill(pid(), SIGTERM);

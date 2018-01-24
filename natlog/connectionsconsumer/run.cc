@@ -28,7 +28,7 @@ void ConnectionsConsumer::run()
     if (Options::instance().realTime())
         cleanupThread.join();
     else
-        cleanupCompleted(time(0) + 1);
+        cleanupICMP_UDP(time(0) + 1);
 
     cleanup(time(0) + 1, d_tcpMutex, d_tcp,
                                     &ConnectionsConsumer::logTCP_UDP, "tcp");

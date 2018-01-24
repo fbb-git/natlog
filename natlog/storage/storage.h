@@ -25,6 +25,7 @@ class Storage
                                             // arrive 
     public:
         Storage();                          // could be default?
+        Storage(Storage const &) = delete;
 
         void consumeWait();                
         void produceNotify();

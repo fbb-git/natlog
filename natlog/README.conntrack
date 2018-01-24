@@ -5,7 +5,6 @@ the IP headers cannot be determined from conntrack's output, the sizes
 reported via natlog's conntrack mode are as reported, and are therefore not
 corrected for IP header lengths.
 
-
 Example conntrack lines: 
 The 'maybe' entries appear if the command
  
@@ -38,7 +37,7 @@ The 'maybe' entries appear if the command
 With conntrack records the source port and unique port combinations (1st line)
 are unique and are used as the key.
 
--------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 [1387190207.172139]      [NEW] udp      17 30
      src=10.4.0.6        dst=129.125.4.6       sport=42998 dport=53 [UNREPLIED]
@@ -56,7 +55,7 @@ are unique and are used as the key.
 With conntrack records the source port and unique port combinations (1st line)
 are unique and are used as the key.
 
--------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 
 
@@ -73,7 +72,7 @@ are unique and are used as the key.
 
 With conntrack records the IDs are unique and are used as the key.
 
--------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
 
 
 

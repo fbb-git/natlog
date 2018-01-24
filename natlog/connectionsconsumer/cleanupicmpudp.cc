@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::cleanupCompleted(time_t now_ttl)
+void ConnectionsConsumer::cleanupICMP_UDP(time_t now_ttl)
 {
     cleanup(now_ttl, d_icmpMutex, d_icmp, &ConnectionsConsumer::logICMP);
 

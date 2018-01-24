@@ -19,7 +19,7 @@ void ConnectionsConsumer::tcp(Record &record)
         return;
 
         case Record::DESTROY:
-            tcpDestroy(record);
+            tcp_udpDestroy(d_tcp, record, "tcp");
         return;
     }
 }

@@ -1,6 +1,7 @@
 #include "conntrackrecord.ih"
 
-ConntrackRecord::ConntrackRecord(Protocol type, Pattern const &pattern)
+ConntrackRecord::ConntrackRecord(Protocol type, Pattern const &pattern,
+                                 size_t ipHeaderSize)
 :
     d_pattern(pattern)
 {
@@ -12,7 +13,7 @@ ConntrackRecord::ConntrackRecord(Protocol type, Pattern const &pattern)
             stoul(pat(CTicmp::MU_SECONDS)));
 
     if (type == ICMP)
-        initICMP(pattern);
+        initICMP(pattern, ipHeaderSize);
     else 
-        initTCP_UDP(pattern);
+        initTCP_UDP(pattern, ipHeaderSize);
 }

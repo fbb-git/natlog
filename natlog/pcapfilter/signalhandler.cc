@@ -12,5 +12,5 @@ void PcapFilter::signalHandler(size_t signum)
         (signum == SIGINT ? "SIGINT" : "SIGTERM") << ')' << endl;
 
     d_pcap.stop();
-    d_stop = true;
+    d_signaled = true;
 }

@@ -10,7 +10,7 @@ void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *const consumer)
     {
         this_thread::sleep_for(chrono::seconds(3));
 
-        consumer->cleanupCompleted(time(0) - consumer->d_ttl);
+        consumer->cleanupICMP_UDP(time(0) - consumer->d_ttl);
     }
 }
 

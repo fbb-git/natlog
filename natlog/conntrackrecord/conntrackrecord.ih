@@ -16,4 +16,4 @@ inline std::string ConntrackRecord::pat(Enum value) const
 {
     return d_pattern[ static_cast<size_t>(value) ];
 }
-    
+

@@ -1,3 +1,4 @@
+
 #include "connectionsconsumer.ih"
 
 void ConnectionsConsumer::udp(Record &record)
@@ -19,7 +20,7 @@ void ConnectionsConsumer::udp(Record &record)
         return;
 
         case Record::DESTROY:
-            udpDestroy(record);
+            tcp_udpDestroy(d_udp, record, "udp");
         return;
     }
 }

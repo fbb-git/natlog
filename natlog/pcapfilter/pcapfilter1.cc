@@ -8,4 +8,7 @@ PcapFilter::PcapFilter(char const *device, Record::Type type,
     d_storage(storage),
     d_type(type),
     d_pcap(device)  // see pcap.h for default arg. specs.
-{}
+{
+    if (type == Record::OUT)
+        handleSignals();
+}

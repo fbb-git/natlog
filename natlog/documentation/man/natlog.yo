@@ -112,9 +112,26 @@ manpagesection(COMMANDS)
     it() tt(conntrack): this command can only be used on platforms using
 bf(iptables)(1) on which bf(conntrack)(1) has also been installed. Information
 about source-natted connections is obtained from bf(conntrack)(1)'s
-output. With this command the TCP, UDP, and ICMP layer four protocols can be
-monitored (by default the TCP protocol is monitored). See also the
-tt(conntrack-command) option.
+output. With this command all (by default) or one of the TCP, UDP, and ICMP
+layer four protocols can be monitored. 
+
+    tt(Conntrack) by default does not report byte counts. To have conntrack
+report byte counts the command
+    verb(
+     $ echo 1 > /proc/sys/net/netfilter/nf_conntrack_acct
+    )
+    must have been issued before starting tt(conntrack). 
+
+tt(Conntrack) adds the sizes of the IP headers (usually 20 bytes) to reported
+byte counts. Thus, tt(icmp) packets are usually reported as having size 84,
+even though bf(ping)(1) reports a payload of 64 bytes. Since the actual sizes
+of IP headers cannot be determined from conntrack's output, the sizes reported
+when using tt(natlog's) conntrack mode are as reported by tt(conntrack), and
+are therefore not corrected for IP header lengths. The option
+tt(--conntrack-ip-header-size) can be used to correct for the (assumed) IP
+header sizes.
+
+See also the tt(conntrack-command) option.
     
     it() tt(indevice outdevice): tt(indevice) is the name of the device behind
 the firewall. Addresses living behind the tt(indevice) are source-natted to

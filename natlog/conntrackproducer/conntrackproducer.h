@@ -26,7 +26,7 @@ class ConntrackProducer: public Producer, public FBB::Fork,
     std::ostream &d_stdMsg;
     Storage &d_storage;
 
-    bool d_stop = false;
+    bool d_signaled = false;
 
     static FBB::Pattern s_tcpudp;
     static FBB::Pattern s_icmp;
@@ -38,7 +38,7 @@ class ConntrackProducer: public Producer, public FBB::Fork,
     private:
         void run() override;
 
-        void process(std::string const &line);
+        void process(std::string const &line, size_t ipHeaderSize);
 
         void signalHandler(size_t signum) override;
 

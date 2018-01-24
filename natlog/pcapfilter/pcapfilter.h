@@ -22,14 +22,14 @@ class PcapFilter: public FBB::SignalHandler
 
     Record::Type d_type;
     Pcap d_pcap;
-    bool d_stop = false;
+    bool d_signaled = false;
 
     public:
-        PcapFilter(char const *device, Record::Type, std::ostream &stdMsg, 
-                                                     Storage &storage);
+        PcapFilter(char const *device, Record::Type, 
+                   std::ostream &stdMsg, Storage &storage);
 
         void operator()();
-        bool stopped() const;
+        bool signaled() const;
         
     private:
         static void callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
@@ -37,11 +37,13 @@ class PcapFilter: public FBB::SignalHandler
 
         int shiftPacketBegin() const;
         void signalHandler(size_t signum) override;
+        void handleSignals();
+
 };
 
-inline bool PcapFilter::stopped() const
+inline bool PcapFilter::signaled() const
 {
-    return d_stop;
+    return d_signaled;
 }
 
 #endif

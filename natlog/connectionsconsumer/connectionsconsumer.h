@@ -24,8 +24,8 @@ class ConnectionsConsumer
     std::mutex d_udpMutex;
     RecordMap d_udp;
 
-    std::unordered_map<size_t, size_t> d_sequence;  // TCP: sequence nr by key
-    std::unordered_map<size_t, size_t> d_id;        // UDP: id nr by key
+    std::unordered_map<size_t, size_t> d_sequence;  // TCP: sequence nr -> key
+    std::unordered_map<size_t, size_t> d_id;        // UDP: id nr -> key
 
     std::mutex d_tcpMutex;
     RecordMap d_tcp;
@@ -55,6 +55,9 @@ class ConnectionsConsumer
         void udpOut(Record &record);
 
         void icmpDestroy(Record &record);   // used for conntrack connections
+        void tcp_udpDestroy(RecordMap &map, Record const &record, 
+                            char const *type);
+
         void tcpDestroy(Record &record);
         void udpDestroy(Record &record);
 
@@ -63,7 +66,7 @@ class ConnectionsConsumer
 
         static void cleanupWrap(ConnectionsConsumer *const consumer);
 
-        void cleanupCompleted(time_t now_ttl);  // clean up completed 
+        void cleanupICMP_UDP(time_t now_ttl);   // clean up completed 
                                                 // connections.
         void cleanup(
             time_t now_ttl, std::mutex &mapMutex, RecordMap &map,
