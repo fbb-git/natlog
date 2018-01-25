@@ -13,6 +13,7 @@ void ConntrackProducer::process(string const &line, size_t ipHeaderSize)
                                              s_tcpudp, ipHeaderSize } );
         return;
     }
+
                                         // or try to match ICMP
     if (s_icmp << line and d_options.hasProtocol(Record::ICMP))
     {

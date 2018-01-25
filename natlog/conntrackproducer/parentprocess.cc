@@ -18,8 +18,6 @@ void ConntrackProducer::parentProcess()
 
     waitForChild();
 
-    d_storage.setEmpty();       // ends the consumer
-
     if (not d_signaled)
         d_stdMsg << "conntrack terminated" << endl;
 }

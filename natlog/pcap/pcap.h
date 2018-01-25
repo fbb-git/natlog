@@ -1,7 +1,6 @@
 #ifndef INCLUDED_PCAP_
 #define INCLUDED_PCAP_
 
-#include <iosfwd>
 #include <pcap.h>
 
 class Pcap
@@ -17,7 +16,6 @@ class Pcap
 
         void loop(void *pcapFilterPtr, pcap_handler callback);
         void stop();
-
         int shiftPacketBegin() const;
 
     private:

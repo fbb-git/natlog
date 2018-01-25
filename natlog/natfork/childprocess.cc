@@ -19,7 +19,7 @@ void NatFork::childProcess()
     if (d_options.daemon())
         prepareDaemon();
 
-    thread{ Producer::process, producer.get() }.detach();
+    thread{ Producer::process, producer.get(), ref(storage) }.detach();
 
     connections.run();              // this must end before...
 }

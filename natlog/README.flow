@@ -1,209 +1,207 @@
+main 
+    |
+    natfork.run()
+    |
+    +--- parentProcess
+    |
+    +--- childProcess
+         |
+         +---+ (1 of 3)
+         |   |
+         |   +- ConntrackProducer
+         |   |  |
+         |   |  +- signalHandler
+         |   |
+         |   +- DevicesProducer
+         |   |
+         |   +- TcpdumpProducer
+         |  
+         +--- Producer::process (thread)
+         |    |
+         |    +---+ (1 of 3)
+         |    |   |
+         |    |   +- ConntrackProducer.run
+         |    |   |  |
+         |    |   |  +- childProcess: execs 'conntrack'
+         |    |   |  |
+         |    |   |  +- parentProcess
+         |    |   |     |
+         |    |   |     +- process pushes ConntrackRecord on the storage
+         |    |   |
+         |    |   +- DevicesProducer.run
+         |    |   |  |  
+         |    |   |  +- PcapFilter (thread)
+         |    |   |  |  |
+         |    |   |  |  +- operator()
+         |    |   |  |  |  |
+         |    |   |  |  |  +- Pcap d_pcap.loop
+         |    |   |  |  |   
+         |    |   |  |  +- callback pushes PcapRecord on the storage
+         |    |   |  |
+         |    |   |  +- PcapFilter out
+         |    |   |     |
+         |    |   |     +- operator() (same, see above)
+         |    |   |
+         |    |   +- TcpdumpProducer.run
+         |    |      |
+         |    |      +- get
+         |    |      |
+         |    |      +- process
+         |    |         |
+         |    |         +- store pushes TcpdumpRecord on the storage
+         |    |      
+         |    +- storage.setEmpty
+         |
+         +- ConnectionsConsumer.run
+            |
+            +- cleanupWrap (thread)
+            |  |
+            |  +- cleanupICMP_UDP
+            |
+            +---+
+            |   |
+            |   +- icmp
+            |   |  |
+            |   |  +- icmpDestroy
+            |   |     |
+            |   |     +- logICMP 
+            |   |
+            |   +- udp
+            |   |  |
+            |   |  +- udpIn
+            |   |  |
+            |   |  +- udpOut
+            |   |  |
+            |   |  +- tcp_udpDestroy
+            |   |     |
+            |   |     +- logTCP_UDP
+            |   |
+            |   +- tcp
+            |      |
+            |      +- tcpIn
+            |      |
+            |      +- tcpOut
+            |      |
+            |      +- tcp_udpDestroy
+            |         |
+            |         +- logTCP_UDP
+            |
+            +- cleanupICMP_UDP
+            |
+            +- cleanup("tcp")
+
+===================================================================
+
 main -> natfork.run()
 
-            childProcess
-                mode CONNTRACK: ConntrackProducer object
-                                        installs signal handler for signals 
-                                        2 (SIGINT) and 15 (SIGTERM)
-
-                            signalHandler: 
-                                kills conntrack process
-                                d_signalled = true
-
-
-                thread: Producer::process calls one of:
-
-                        ConntrackProducer.run -> forks (max limit)
-                        ---------------------
-                            childProcess: execs 'conntrack'
-                                    throws 0 on failure, ending main,
-                                    thus ending parentProcess:
-
-                            parentProcess:
-                                loop:
-                                    process(line) from childProcess
-                                        pushes ConntrackRecord
-                                        
-
-                                storage.setEmpty()
-                                not d_signaled: 'terminated' msg
-
-
-                        DevicesProducer.run
-                        -------------------
-                            detached anonymous PcapFilter thread reading the
-                                1st (incoming, pre-NAT) device 
-                            PcapFilter out reading the 2nd (outgoing,
-                                post-NAT) device
-
-                            out() runs, ends at signal 2 or 15
-                            storage.setEmpty()
-                            out not signaled: 'terminated' msg
-
-
-                                PcapFilter: constructs Pcap object d_pcap
-                                    
-                                    PcapFilter::operator()() 
-                                    ------------------------
-                                        d_pcap.loop: receives the PcapFilter
-                                            object as a void *, and
-                                            PcapFilter::callback as
-                                            pcap_handler. 
-
-                                    PcapFilter::callback:
-                                            pushes PcapRecord
-
-                                
-                        TcpdumpProducer.run
-                        -------------------
-
-                ConnectionsConsumer.run()
-                    thread: cleanupWrap
-
-                    loop:
-                        storage.wait(), break if empty
-                        fetch Record
-                        notify producer
-
-                        handle protocol data:
-                            icmp():
-                                IN, NEW: d_icmp += record (key is record's ID)
-                                         update addresses, sent/received
-                                DESTROY: icmpDestroy():
-                                            logICMP(), 
-                                            d_icmp -= record
-                            udp():
-                                IN: udpIn()
-                                        d_udp += record (key: setTCPUDPkey)
-                                        d_id[record.id()] = key
-                                        update sent/received
-                                OUT: udpOut()
-                                        record.id test
-                                        or: set IP, d_id -= ID
-                                NEW: d_udp += record
-                                DESTROY: tcp_udpDestroy() - cf. icmpDestroy
-
-                            tcp():
-                                IN: tcpIn()
-                                        d_tcp += record (key: setTCPTCPkey)
-                                        d_sequence[record.id()] = key
-                                        update sent/received
-                                OUT: tcpOut()
-                                        SYN flag test
-                                        or: set IP, d_sequence -= ID
-                                NEW: d_tcp += record
-                                DESTROY: tcp_udpDestroy()
-
-                    cleanupICMP_UDP, cleanup(tcp)
-
-main:
-=====
-    defines NatFork
-
-    natfork.run
-    -----------
-
-    exceptions:
-    -----------
-        std::exception -> returns 1
-        int exception  -> returns the int-value
-
-
-natfork::run 
-============
-daemon:
-
-    parentProcess -> childProcess
-    -------------
-        (not available for mode tcpdump)
-
-foreground:    
+NatFork:
 
     childProcess
-    ------------
-        defines * Storage
-                * the requested Producer (DevicesProducer, 
-                                          TcpdumpProducer,
-                                          ConntrackProducer)
+        mode CONNTRACK: ConntrackProducer object
+                                installs signal handler for signals 
+                                2 (SIGINT) and 15 (SIGTERM)
 
-                * the ConnectionConsumer (connections)
-        
-        detaches the Producer::process thread, producing connections
-                     -----------------
-        conections.run handles observed connections
-        --------------
+                    signalHandler: 
+                        kills conntrack process
+                        d_signalled = true
 
-Storage
-=======
-    Producer queues lines, Consumer retrieves lines
-    empty() - returns true if queue is empty and setEmpty() was called
+            thread: Producer::process calls one of:
 
-Producer:
-=========
+                ConntrackProducer.run -> forks (repeatedly, with a limit)
+                ---------------------
+                    childProcess: execs 'conntrack'
+                            throws 0 on failure, ending main,
+                            thus ending parentProcess:
 
-    Abstract Base Class. 
-        virtual run() = 0.
-        
-        static process(Producer *pr)      -- producer thread
-        ----------------------------
-            pr->run: derived class's run member producing connection data
-            
+                    parentProcess:
+                        loop:
+                            process(line) from childProcess
+                                pushes ConntrackRecord
+                                       ===============
 
-DevicesProducer:    producing Records from incoming and outgoing 
-                                    (natted) devices
-            ConntrackProducer:  producing Records using info received from 
-                                    the conntrack program
-            TcpdumpProducer:    produces Records from captured tcpdump files
+                        storage.setEmpty()
+                        not d_signaled: 'terminated' msg
 
+                    data.cc - definitions of regular expressions
+                        (FBB::Pattern objects) matching TCP/UDP or ICMP
+                        packets. 
 
-DevicesProducer:
-================
-    
-    DevicesProducer::run (single (private) member):
-        * defines PcapFilter objects for the IN and OUT devices.
-        * starts PcapFilter threads (on the IN devices, calling
-          its operator() function, then calls the OUT device's operator().
-            
-        The important function is PcapFilter::callback (see below)
-    
-    
-    PcapFilter::PcapFilter defines Pcap d_pcap, wrapping calls to pcap_
-                           functions 
-        Pcap::Pcap:
-            opens the pcap device, obtains the IPv4 address (pcap_lookupnet)
-            and defines the appropriate filtering (filterProtocols ->
-            pcap_setfilter): the info is available in its d_pcap data member.
-    
-            pcap::computeshift obtains the device's MAC address.
-    
-            pcap::loop: see next:
-    
-    PcapFilter::operator() merely calls pcap::loop, passing itself and its
-            callback function as arguments.
-    
-        Pcap::loop: merely calls pcap_loop: 
-            * 1st argument is its d_pcap data member contains filtering info 
-                for the captured device.
-            * 2nd arg is -1: continue until the program ends
-            * 3rd arg. is the handler, which is PcapFilter::callback
-            * 4th arg. is extra (user) data, passed to callback: points to the
-                PcapFilter object.
-    
-    PcapFilter::callback:
-    ---------------------
-        Implements a producer: when data appear at the device callback is
-                               called. 
+                DevicesProducer.run
+                -------------------
+                    detach anonymous PcapFilter thread reading the
+                        1st (incoming, pre-NAT) device 
+                    PcapFilter out reading the 2nd (outgoing,
+                        post-NAT) device
 
-        the data is prepared for handling by PcapRecord (derived from Record), 
-        and is stored in the storage.
-    
-        The PcapFilter object is received by callback as a pointer, allowing 
-        callback to access the storage.
+                    out(), ends at signal 2 or 15
+
+                    storage.setEmpty()
+
+                    out not signaled: 'terminated' msg
 
 
-TcpdumpProducer:
-================    
+                        PcapFilter: 
+                            Pcap d_pcap
+                                wraps C pcap_ function calls.
+
+                            operator()() - explicitly called or thread
+                                d_pcap.loop: receives
+                                    this as void *
+                                    callback as pcap_handler. 
+
+                            callback: pushes PcapRecord
+                                             ==========
+
+                        
+                TcpdumpProducer.run
+                -------------------
+                    opens 1st (incoming, pre-NAT) tcpdump saved file 
+                      and 2nd (outgoing, post-NAT) tcpdump saved file
+
+                    gets 1st packets from both
+
+                    calls process():
+                        calls store() for all packets sorted by time
+                            store: pushes TcpdumpRecord
+                                          =============
+                        storage.setEmpty
 
 
+        ConnectionsConsumer.run()
+            thread: cleanupWrap
 
+            loop:
+                storage.wait(), break if empty
+                fetch Record
+                notify producer
 
+                handle protocol data:
+                    icmp():
+                        IN, NEW: d_icmp += record (key is record's ID)
+                                 update addresses, sent/received
+                        DESTROY: icmpDestroy():
+                                    logICMP(), 
+                                    d_icmp -= record
+                    udp():
+                        IN: udpIn()
+                                d_udp += record (key: setTCPUDPkey)
+                                d_id[record.id()] = key
+                                update sent/received
+                        OUT: udpOut()
+                                record.id test
+                                or: set IP, d_id -= ID
+                        NEW: d_udp += record
+                        DESTROY: tcp_udpDestroy() - cf. icmpDestroy
 
+                    tcp():
+                        IN: tcpIn()
+                                d_tcp += record (key: setTCPTCPkey)
+                                d_sequence[record.id()] = key
+                                update sent/received
+                        OUT: tcpOut()
+                                SYN flag test
+                                or: set IP, d_sequence -= ID
+                        NEW: d_tcp += record
+                        DESTROY: tcp_udpDestroy()
+
+            cleanupICMP_UDP, cleanup(tcp)

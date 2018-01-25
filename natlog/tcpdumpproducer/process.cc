@@ -16,7 +16,5 @@ void TcpdumpProducer::process()
             store(Record::OUT, d_out);
         }
     }
-
-    d_storage.setEmpty();
 }
 

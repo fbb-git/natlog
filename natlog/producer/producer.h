@@ -10,7 +10,7 @@ class Producer
     public:
         virtual ~Producer();
 
-        static void process(Producer *producer);
+        static void process(Producer *producer, Storage &storage);
 
         template <typename Derived, typename ...Params>
         static Producer *alloc(Params &&...params);         
@@ -19,11 +19,6 @@ class Producer
         virtual void run() = 0;
 };
         
-inline void Producer::process(Producer *producer)
-{
-    producer->run();
-}
-
 // static
 template <typename Derived, typename ...Params>
 inline Producer *Producer::alloc(Params &&...params)

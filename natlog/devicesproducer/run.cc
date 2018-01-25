@@ -16,8 +16,6 @@ void DevicesProducer::run()
 
     out();    
 
-    d_storage.setEmpty();
-
     if (not out.signaled())
         d_stdMsg << "capturing network devices terminated" << endl;
 }
