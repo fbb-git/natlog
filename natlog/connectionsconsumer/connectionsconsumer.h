@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <unordered_map>
 #include <mutex>
+#include <fstream>
 
 #include "../record/record.h"
 
@@ -15,6 +16,7 @@ class ConnectionsConsumer
     typedef std::unordered_map<size_t, Record> RecordMap;
     typedef RecordMap::value_type value_type;
 
+    std::ofstream d_logDataStream;
     std::ostream &d_stdMsg;
     Storage &d_storage;
 
@@ -29,6 +31,8 @@ class ConnectionsConsumer
 
     std::mutex d_tcpMutex;
     RecordMap d_tcp;
+
+    void (ConnectionsConsumer::*d_logData)(Record const &, char const*);
 
     static std::unordered_map<
                     Record::Protocol, 
@@ -61,8 +65,11 @@ class ConnectionsConsumer
         void tcpDestroy(Record &record);
         void udpDestroy(Record &record);
 
-        void logICMP(Record const &record, char const * = "");
+        void logICMP(Record const &record, char const *type = "");
         void logTCP_UDP(Record const &record, char const *type);
+
+        void logData(Record const &record, char const *type);
+        void noDataLog(Record const &record, char const *type);
 
         static void cleanupWrap(ConnectionsConsumer *const consumer);
 
@@ -71,7 +78,7 @@ class ConnectionsConsumer
         void cleanup(
             time_t now_ttl, std::mutex &mapMutex, RecordMap &map,
             void (ConnectionsConsumer::*logFun)(Record const &, char const *),
-            char const *type = ""
+            char const *type
         );
 };
         

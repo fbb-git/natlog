@@ -10,7 +10,7 @@
 
 struct IP_Types
 {
-    enum Protocol
+    enum Protocol       // update record/protocolstr.cc when modified
     {
         ICMP =  1,
         TCP  =  6,

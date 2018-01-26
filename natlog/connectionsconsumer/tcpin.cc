@@ -28,4 +28,11 @@ void ConnectionsConsumer::tcpIn(Record &record)
         accu.addSentBytes(record.payload());
     else                                    // packet was received fm. dest.
         accu.addReceivedBytes(record.payload());
+
+    if (record.flags() & Record::FIN)      // FIN-flag set
+    {
+        logTCP_UDP(iter->second, "tcp");    
+        d_tcp.erase(iter);                 // remove the entry
+    }
 }
+

@@ -5,4 +5,37 @@ ConnectionsConsumer::ConnectionsConsumer(ostream &stdMsg, Storage &storage)
     d_stdMsg(stdMsg),
     d_storage(storage),
     d_ttl(Options::instance().ttl())
-{}
+{
+    string path;
+    if (ArgConfig::instance().option(&path, "log-data") == 0)
+        d_logData = &ConnectionsConsumer::noDataLog;
+    else
+    {
+        bool existing = access(path.c_str(), F_OK) == 0;
+
+        d_logData = &ConnectionsConsumer::logData;
+        Exception::open(d_logDataStream, path, 
+                                    existing ?
+                                        ios::in | ios::ate : ios::out);
+        if (not existing)
+            d_logDataStream <<
+                        "type," <<
+
+            setw(15) << "srcIP"     << ',' <<
+            setw(11) << "srcNr"     << ',' <<
+            setw(8)  << "srcPort"   << ',' <<
+
+            setw(15) << "dstIP"     << ',' <<
+            setw(11) << "dstNr"     << ',' <<
+            setw(8)  << "dstPort"   << ',' <<
+
+            setw(8)  << "sent"      << ',' <<
+            setw(8)  << "recvd"     << ',' <<
+
+            setw(11) << "begin"     << ',' <<
+            setw(11) << "end"       << ", " <<
+
+            setw(22) << "beginTime" << ", " <<
+            setw(23) << "endTime\n";
+    }
+}

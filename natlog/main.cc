@@ -11,6 +11,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("conntrack-device", Arg::Required),
         Arg::LongOption("conntrack-restart", Arg::Required),
         Arg::LongOption("help", 'h'),
+        Arg::LongOption("log-data", Arg::Required),
         Arg::LongOption("no-daemon", Arg::None),
         Arg::LongOption("no-syslog", Arg::None),
         Arg::LongOption("pid-file", 'p'),

@@ -3,6 +3,7 @@
 void ConnectionsConsumer::logTCP_UDP(Record const &record, char const *type)
 {
     if (record.viaIP() != 0)
+    {
         d_stdMsg << "from " << record.beginTime() << 
             " until " << record.endTime() << 
             ShowSeconds::utcMarker() << ":  " << type << ' ' <<
@@ -12,5 +13,8 @@ void ConnectionsConsumer::logTCP_UDP(Record const &record, char const *type)
             "sent: " << record.sentBytes() << ", "
             "received: " << record.receivedBytes() << 
             (record.hasEndTime() ? "" : " (INCOMPLETE)") << endl;
+
+        (this->*d_logData)(record, "icmp");
+    }
 }
 

@@ -1,7 +1,7 @@
 #include "connectionsconsumer.ih"
 
 void ConnectionsConsumer::logICMP(Record const &record,
-                                    [[maybe_unused]] char const *)
+                                  [[maybe_unused]] char const *)
 {
     d_stdMsg << "from " << record.beginTime() << 
                 " until " << record.endTime() << 
@@ -12,4 +12,6 @@ void ConnectionsConsumer::logICMP(Record const &record,
                 "sent: " << record.sentBytes() << ", "
                 "received: " << record.receivedBytes() << 
                 (record.hasEndTime() ? "" : " (INCOMPLETE)") << endl;
+
+    (this->*d_logData)(record, "icmp");
 }

@@ -41,9 +41,9 @@ struct Record: public IP_Types
         size_t d_viaIP;
         size_t d_destIP;
     
-        size_t  d_sourcePort;
+        size_t  d_sourcePort = 0;
         size_t  d_viaPort;
-        size_t  d_destPort;
+        size_t  d_destPort = 0;
 
         size_t  d_receivedBytes = 0;
         size_t  d_sentBytes = 0;
@@ -61,6 +61,8 @@ struct Record: public IP_Types
         // move and copy operations: all default
 
         Protocol protocol() const; 
+        char const *protocolStr() const;
+
         Type type() const; 
 
         size_t key() const;
@@ -68,6 +70,7 @@ struct Record: public IP_Types
 
         size_t id() const;          // with ICMP
 
+        size_t inSeconds() const;
         size_t seconds() const;
         size_t muSeconds() const;
 
@@ -155,6 +158,11 @@ inline Record::Type Record::type() const
 inline size_t Record::seconds() const
 {
     return d_seconds;
+}
+
+inline size_t Record::inSeconds() const
+{
+    return d_inSeconds;
 }
 
 inline size_t Record::muSeconds() const

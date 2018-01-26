@@ -5,7 +5,7 @@ void ConnectionsConsumer::tcp(Record &record)
     lock_guard<mutex> lg(d_tcpMutex);
 
      switch (record.type())
-    {
+     {
         case Record::IN:
             tcpIn(record);
         break;

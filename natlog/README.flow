@@ -57,6 +57,18 @@ main
             +- cleanupWrap (thread)
             |  |
             |  +- cleanupICMP_UDP
+            |     |
+            |     +- cleanup("icmp")
+            |     |  |
+            |     |  +- logICMP 
+            |     |     |
+            |     |     +-logICMPdata
+            |     |
+            |     +- cleanup("udp")
+            |        |
+            |        +- logTCP_UDP
+            |           |
+            |           +-logTCP_UDPdata
             |
             +---+
             |   |
@@ -65,6 +77,8 @@ main
             |   |  +- icmpDestroy
             |   |     |
             |   |     +- logICMP 
+            |   |        |
+            |   |        logICMPdata
             |   |
             |   +- udp
             |   |  |
@@ -75,20 +89,44 @@ main
             |   |  +- tcp_udpDestroy
             |   |     |
             |   |     +- logTCP_UDP
+            |   |        |
+            |   |        logTCP_UDPdata
             |   |
             |   +- tcp
             |      |
             |      +- tcpIn
+            |      |  |
+            |      |  +- logTCP_UDP
+            |      |     |
+            |      |     logTCP_UDPdata
             |      |
             |      +- tcpOut
             |      |
             |      +- tcp_udpDestroy
             |         |
             |         +- logTCP_UDP
+            |            |
+            |            logTCP_UDPdata
             |
             +- cleanupICMP_UDP
+            |   |
+            |   +- cleanup("icmp")
+            |   |  |
+            |   |  +- logICMP 
+            |   |     |
+            |   |     +-logICMPdata
+            |   |
+            |   +- cleanup("udp")
+            |      |
+            |      +- logTCP_UDP
+            |         |
+            |         +-logTCP_UDPdata
             |
             +- cleanup("tcp")
+               |
+               +- logTCP_UDP
+                  |
+                  logTCP_UDPdata
 
 ===================================================================
 
