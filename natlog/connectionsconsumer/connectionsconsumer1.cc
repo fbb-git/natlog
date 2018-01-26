@@ -21,12 +21,12 @@ ConnectionsConsumer::ConnectionsConsumer(ostream &stdMsg, Storage &storage)
             d_logDataStream <<
                         "type," <<
 
-            setw(15) << "srcIP"     << ',' <<
             setw(11) << "srcNr"     << ',' <<
+            setw(15) << "srcIP"     << ',' <<
             setw(8)  << "srcPort"   << ',' <<
 
-            setw(15) << "dstIP"     << ',' <<
             setw(11) << "dstNr"     << ',' <<
+            setw(15) << "dstIP"     << ',' <<
             setw(8)  << "dstPort"   << ',' <<
 
             setw(8)  << "sent"      << ',' <<
