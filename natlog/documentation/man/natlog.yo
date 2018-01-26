@@ -68,8 +68,8 @@ this:
     IPfw:fwport is used when communicating with IPdst:dport.
         )
     From the perspective of the destination host the communication originates
-at tt(IPfw::fwport) and consequently all communication (e.g., and incident
-report) sent by the systems administrator maintaining tt(IPdst) to tt(IPfw)'s
+at tt(IPfw::fwport) and consequently all communication (e.g., incident
+reports) sent by the systems administrator maintaining tt(IPdst) to tt(IPfw)'s
 systems administrator will refer to tt(IPfw:fwport), rather than to
 tt(IPsrc::sport).
 
@@ -77,17 +77,20 @@ tt(IPsrc::sport).
 us to relate tt(IPfw:fwport) to tt(IPsrc:sport), and tt(natlog) was developed
 to fill in that particular niche.
 
-    When running tt(natlog), messages are sent to the syslog daemon (e.g.,
-bf(rsyslogd)(1)) and/or the standard output stream showing the essential
-characteristics of the connection using source natting. Here is an example:
+    tt(Natlog) sends messages to the syslog daemon (cf., bf(rsyslogd)(1))
+and/or to the standard output stream showing the essential characteristics of
+connections using source natting. Here is an example of a logged message
+(log-entries occupy single lines; the line-breaks below are to enhance
+readability in this man-page):
         verb(
-    NATLOG: (TCP) From 1338990672:55588 until 1338990747:807100:     
-    192.168.19.72:4467 (via: 129.125.90.132:4467) to 200.49.219.180:443
+    NATLOG: from 1338990672:55588 until 1338990747:807100 (UTC): tcp
+        192.168.19.72:4467 (via: 129.125.90.132:4467) to 200.49.219.180:443;
+        sent: 802, received: 7669
         )
     In this example the values tt(1338990672:55588) and tt(1338990747:807100)
 represent time stamps showing the begin- and end-times in seconds:microseconds
 of a TCP connection since Jan 1, 1970, 0:00 UTC. tt(Natlog) offers the
-tt(--datetime) option, resulting in time representations like tt(Nov 2
+tt(--datetime) option, resulting in time representations like tt(Nov  2
 13:29:11) rather than time representations using seconds and micro seconds.
 
     The next value (tt(192.168.19.72:4467)) represents tt(IPsrc::sport). This
@@ -99,6 +102,9 @@ host tt(200.49.219.180), port tt(443). To this latter host the connection
 appeared to have originated from tt(129.125.90.132) port tt(4467). The
 provided log message easily allows us to related this to the `real' host and
 port from which the connection originated: tt(192.168.19.72:4467).
+
+    The final entries show the number of bytes that were sent by the
+source-host (tt(IPsrc)) and received from the destination-host (tt(IPdst)).
 
     When tt(natlog) terminates tt(natlog) can no longer track connections that
 are still open. If tt(natlog) was terminated by a tt(SIGINT) or tt(SIGTERM)
@@ -347,15 +353,12 @@ manpagesection(FILES)
 
 manpagesection(SEE ALSO)
 
-    bf(conntrack)(1), bf(iptables)(1), bf(rsyslogd)(1), bf(syslog)(3)
+    bf(conntrack)(1), bf(iptables)(1), bf(pcap-filter)(7), bf(syslog)(3)
 
 manpagesection(BUGS)
 
-    The tt(conntrack) command currently only supports the TCP, UDP and ICMP
-layer four protocols.
-
-    The tt(indevice outdevice) command currently only supports the TCP
-protocol.
+    tt(Natlog) currently only processes TCP, UDP and ICMP layer four
+protocols.
 
 manpageauthor()
 
