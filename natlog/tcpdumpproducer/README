@@ -180,6 +180,9 @@ And here is what the file utility thinks of it
 kroosec@dojo:~$ type file
 file is /usr/bin/file
 kroosec@dojo:~$ file connection\ termination.cap
-connection termination.cap: tcpdump capture file (little-endian) - version 2.4 (Ethernet, capture length 65535)
+connection termination.cap: tcpdump capture file (little-endian) - version 2.4
+(Ethernet, capture length 65535)
 
+A hexdump of a file written by tcpdump is in the file br0.hex in the current
+directory. 
 

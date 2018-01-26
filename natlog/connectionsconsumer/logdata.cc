@@ -2,6 +2,8 @@
 
 void ConnectionsConsumer::logData(Record const &record, char const *type)
 {
+    static size_t nr = 0;
+
     d_logDataStream << 
                         record.protocolStr()    << ',' <<
 
@@ -20,4 +22,13 @@ void ConnectionsConsumer::logData(Record const &record, char const *type)
             setw(11) << record.seconds()        << ", " <<
                          record.beginTime()     << ", " <<
                          record.endTime()       << '\n';
+
+    if (++nr % 32 == 0)
+        d_logDataStream.flush();        
 }
+
+
+
+
+
+

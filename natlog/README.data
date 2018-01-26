@@ -1,17 +1,18 @@
-Tcpdump file format:
-====================
+IP packet related enum and struct definitions are in 
 
-    tcpdumpproducer/pcapfile.txt    -   Hani's blog describing the file 
-                                        organization
+    iptypes/iptypes.h
 
-    tcpdumpproducer/br0.hex         -   Hexdump output of a captured file
+------------------------------------------------------------------------------
 
-Pcap file format:
-=================
+An annotated example of tcp communication is available in pcap/README.tcp
 
-    pcapfilter/pcap.pkthdr          -   Description of the pcap packet
-                                        organization as obtained by pcap_loop
-                                        (arriving in pcapfilter/callback)
+Information describing the format of the file written by tcpdump is found in
+tcpdumpproducer/README
 
-    iptypes/iptypes.h               -   Struct and enum definitions
+An annotated example of udp communication and the instructions of how to set
+up a demo-udp connection is available in pcap/README.udp
 
+The organization of pcap packets is described in pcap/README.packet
+
+An example of the information made available by the conntrack program for tcp,
+udp, and icmp connections is available in conntrackproducer/README.
