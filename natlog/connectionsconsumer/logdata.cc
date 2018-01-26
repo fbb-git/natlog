@@ -19,5 +19,5 @@ void ConnectionsConsumer::logData(Record const &record, char const *type)
             setw(11) << record.inSeconds()      << ',' <<
             setw(11) << record.seconds()        << ", " <<
                          record.beginTime()     << ", " <<
-                         record.endTime()       << endl;
+                         record.endTime()       << '\n';
 }
