@@ -8,11 +8,11 @@ void ConnectionsConsumer::logData(Record const &record, char const *type)
                         record.protocolStr()    << ',' <<
 
             setw(11) << record.sourceIP()       << ',' <<
-            setw(15) << record.sourceIPstr()    << ',' <<
+            setw(16) << record.sourceIPstr()    << ',' <<
             setw(8)  << record.sourcePort()     << ',' <<
 
             setw(11) << record.destIP()         << ',' <<
-            setw(15) << record.destIPstr()      << ',' <<
+            setw(16) << record.destIPstr()      << ',' <<
             setw(8)  << record.destPort()       << ',' <<
 
             setw(8)  << record.sentBytes()      << ',' <<

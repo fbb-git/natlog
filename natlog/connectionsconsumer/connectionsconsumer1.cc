@@ -22,11 +22,11 @@ ConnectionsConsumer::ConnectionsConsumer(ostream &stdMsg, Storage &storage)
                         "type," <<
 
             setw(11) << "srcNr"     << ',' <<
-            setw(15) << "srcIP"     << ',' <<
+            setw(16) << "srcIP"     << ',' <<
             setw(8)  << "srcPort"   << ',' <<
 
             setw(11) << "dstNr"     << ',' <<
-            setw(15) << "dstIP"     << ',' <<
+            setw(16) << "dstIP"     << ',' <<
             setw(8)  << "dstPort"   << ',' <<
 
             setw(8)  << "sent"      << ',' <<
