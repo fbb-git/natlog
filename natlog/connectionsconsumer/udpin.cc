@@ -1,5 +1,8 @@
 #include "connectionsconsumer.ih"
 
+extern ofstream info;
+
+
 void ConnectionsConsumer::udpIn(Record &record)
 {
     size_t key = record.setTCPUDPkey();
@@ -13,6 +16,8 @@ void ConnectionsConsumer::udpIn(Record &record)
 
             // d_id: a support map only used for new udp connections
         d_id[record.id()] = key;        // used by OUT
+
+info << "   new: id = " << record.id() << ", key = " << key << endl;
 
         return;
     }

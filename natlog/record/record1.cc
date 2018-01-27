@@ -1,5 +1,8 @@
 #include "record.ih"
 
+#include <fstream>
+ofstream info { "/tmp/info" };
+
 Record::Record(Type type, size_t seconds, size_t muSeconds,  
                u_char const *packet)
 :
@@ -41,6 +44,10 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
 
             d_payload = ntohs(get<UDP_Header>(packet).length) 
                                                     - sizeof(UDP_Header);
+
+info << type << ": " << sourceIPstr() << ", " << sourcePort() << " -> " <<
+                        destIPstr() << ", " << destPort() << endl;
+
         }
         break;
 
