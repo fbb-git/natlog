@@ -2,22 +2,23 @@
 
 void DevicesProducer::run()
 {
-                                        // see pcapfilter/callback for
-                                        // handling incoming packets
-    thread{                          
-        PcapFilter {d_options[0], Record::IN, d_stdMsg, d_storage }
-    }.detach();
-
-                                        // the out object handles signals
+    PcapFilter in{ d_options[0], Record::IN, d_stdMsg, d_storage };
     PcapFilter out{ d_options[1], Record::OUT, d_stdMsg, d_storage };
+
+    thread{ in }.detach();
+    thread{ out }.detach();
 
     d_stdMsg << "starting capturing " << d_options[0] << 
                               " and " << d_options[1] << endl;
 
-    out();    
+    d_signaled.wait();
+    d_endSignal = true;
 
-    if (not out.signaled())
-        d_stdMsg << "capturing network devices terminated" << endl;
+    in.stop();
+    out.stop();
+
+    d_stdMsg << "monitoring " << d_options[0] << " and " <<
+                d_options[1] << " ends" << endl;
 }
 
 

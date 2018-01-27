@@ -7,8 +7,8 @@
 //#define CERR std::cerr << __FILE__": "
 
 #include "../options/options.h"
-#include "../pcapfilter/pcapfilter.h"
 #include "../storage/storage.h"
+#include "../pcapfilter/pcapfilter.h"
 
 using namespace std;
 using namespace FBB;

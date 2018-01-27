@@ -1,6 +1,6 @@
-#include "pcapfilter.ih"
+#include "devicesproducer.ih"
 
-void PcapFilter::signalHandler(size_t signum)
+void DevicesProducer::signalHandler(size_t signum)
 {
     if (signum == SIGHUP)
     {
@@ -11,6 +11,5 @@ void PcapFilter::signalHandler(size_t signum)
     d_stdMsg << "received signal " << signum << " (" << 
         (signum == SIGINT ? "SIGINT" : "SIGTERM") << ')' << endl;
 
-    d_pcap.stop();
-    d_signaled = true;
+    d_signaled.notify();
 }
