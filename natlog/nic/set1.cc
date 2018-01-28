@@ -1,6 +1,6 @@
 #include "nic.ih"
 
-void NIC::set(string const &name)
+void NIC::set(Record::Type type, string const &name)
 try
 {
     ifaddrs *ifaddr;
@@ -17,7 +17,7 @@ try
         )
             continue;
 
-        d_map[name] =                           // found it.
+        d_nic[type] =                           // found it.
             {
                 ntohl(
                     reinterpret_cast<sockaddr_in *>(

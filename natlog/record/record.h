@@ -16,13 +16,15 @@ struct Record: public IP_Types
 
     friend bool operator==(Record const &lhs, Record const &rhs);
 
-    enum Type
+    enum Type           // update ../nic/ when altered.
     {
         IN,
         OUT,
 
         NEW,            // Conntrack types 
         DESTROY,
+
+        nTypes 
     };
 
     private:

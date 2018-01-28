@@ -9,6 +9,7 @@
 #include "../options/options.h"
 #include "../storage/storage.h"
 #include "../pcapfilter/pcapfilter.h"
+#include "../nic/nic.h"
 
 using namespace std;
 using namespace FBB;

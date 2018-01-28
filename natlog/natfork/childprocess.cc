@@ -21,7 +21,7 @@ void NatFork::childProcess()
 
     thread{ Producer::process, producer.get(), ref(storage) }.detach();
 
-    connections.run();              // this must end before...
+    connections.run();
 }
 
 
