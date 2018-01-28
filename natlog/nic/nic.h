@@ -32,14 +32,6 @@ inline size_t NIC::address(Record::Type type) const
      return d_nic[type].address;
 }
 
-inline bool NIC::mask(Record::Type type, size_t address) const
-{
-    return (d_nic[type].address & d_nic[type].mask)
-            == 
-            (address            & d_nic[type].mask);
-
-}
-
 extern NIC g_nic;
 
 #endif
