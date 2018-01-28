@@ -16,6 +16,7 @@
 #include "../showseconds/showseconds.h"
 #include "../storage/storage.h"
 #include "../options/options.h"
+#include "../nic/nic.h"
 
 using namespace std;
 using namespace FBB;

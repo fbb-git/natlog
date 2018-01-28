@@ -1,37 +1,37 @@
 #include "connectionsconsumer.ih"
 
-extern ofstream info;
-
-
 void ConnectionsConsumer::udpIn(Record &record)
 {
-    size_t key = record.setTCPUDPkey();
-                                        
-    auto iter = d_udp.find(key);        // find this record's accumulated data
+    if (record.id() == 0)                   // ignore invalid IDs
+        return;
 
-    if (iter == d_udp.end())            // new connection
-    {                                   // store it
-        record.addSentBytes(record.payload());
-        d_udp.insert( value_type{ key, record } );
+    size_t key = record.setTCPUDPkey();     // find the key
 
-            // d_id: a support map only used for new udp connections
-        d_id[record.id()] = key;        // used by OUT
+    if (g_nic.mask(Record::IN, record.sourceIP())) // package being sent?
+    {
+                                            // connecting the NAT host?
+                                            // then ignore the record
+        if (g_nic.address(Record::OUT) == record.destIP())   
+            return;
 
-info << "   new: id = " << record.id() << ", key = " << key << endl;
+                                            // accumulated data exists, then
+                                            // update #sent
+        if (auto iter = d_udp.find(key); iter != d_udp.end())
+            iter->second.addSentBytes(record.payload());
+        else                                // or it's a new connection
+        {                                   
+            record.addSentBytes(record.payload());      // set #sent
+            d_udp.insert( value_type{ key, record } );  // store the record
+            d_id[record.id()] = key;        // store id -> key, used by udpOut
+        }
 
         return;
     }
 
-    // existing connections:
+    auto iter = d_udp.find(key);            // find the accumulated data
 
-    Record &accu = iter->second;        // the connection's accumulated data
-
-    accu.setEndTime(record);
-
-    if (accu.sourceIP() == record.sourceIP()) // packet was sent to dest.
-        accu.addSentBytes(record.payload());
-    else                                    // packet was received fm. dest.
-        accu.addReceivedBytes(record.payload());
+    if (iter != d_udp.end())                // available: 
+        iter->second.addReceivedBytes(record.payload());    // add #received
 }
 
 

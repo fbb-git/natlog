@@ -8,8 +8,8 @@ class NIC
 {
     struct Addresses
     {
-        uint32_t address = 0;
-        uint32_t mask = 0;
+        size_t address = 0;
+        size_t mask = 0;
     };
 
     Addresses d_nic[Record::nTypes];    // modify when Record::Type is
@@ -20,22 +20,25 @@ class NIC
         void set(Record::Type, std::string const &address,
                                std::string const &mask);
 
-        
-//        uint32_t address(Record::Type);
-//        uint32_t mask(Record::Type);
+                
+        size_t address(Record::Type) const;
+        bool mask(Record::Type, size_t address) const;
         
     private:
 };
         
-// inline uint32_t NIC::address(std::string const &name)
-// {
-//     return d_map[name].address;
-// }
-// 
-// inline uint32_t NIC::mask(std::string const &name)
-// {
-//     return d_map[name].mask;
-// }
+inline size_t NIC::address(Record::Type type) const
+{
+     return d_nic[type].address;
+}
+
+inline bool NIC::mask(Record::Type type, size_t address) const
+{
+    return (d_nic[type].address & d_nic[type].mask)
+            == 
+            (address            & d_nic[type].mask);
+
+}
 
 extern NIC g_nic;
 

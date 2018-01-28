@@ -109,7 +109,7 @@ struct Record: public IP_Types
         void setViaIP(size_t viaIP);        // used in connections/udp.cc
         void setViaPort(size_t  viaPort);
         void setEndTime(Record const &record);
-        void reverse();                     // swap source and dest stuff
+//        void reverse();                     // swap source and dest stuff
 
     protected:
                                     // used for pcap and tcpdump records
