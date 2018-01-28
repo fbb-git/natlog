@@ -20,6 +20,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("syslog-facility", Arg::Required),
         Arg::LongOption("syslog-priority", Arg::Required),
         Arg::LongOption("syslog-tag", Arg::Required),
+        Arg::LongOption("terminate", Arg::None),
         Arg::LongOption("time", 't'),
         Arg::LongOption("ttl", 'T'),
         Arg::LongOption("verbose", 'V'),

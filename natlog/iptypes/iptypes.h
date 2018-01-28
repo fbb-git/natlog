@@ -3,7 +3,40 @@
 
 #include <arpa/inet.h>
 
+//  struct ifaddrs {
+//      struct ifaddrs  *ifa_next;    /* Next item in list */
+//      char            *ifa_name;    /* Name of interface */
+//      unsigned int     ifa_flags;   /* Flags from SIOCGIFFLAGS */
+//      struct sockaddr *ifa_addr;    /* Address of interface */
+//      struct sockaddr *ifa_netmask; /* Netmask of interface */
+//      union {
+//          struct sockaddr *ifu_broadaddr;
+//                           /* Broadcast address of interface */
+//          struct sockaddr *ifu_dstaddr;
+//                           /* Point-to-point destination address */
+//      };
+//      #define    ifa_broadaddr ifa_ifu.ifu_broadaddr
+//      #define    ifa_dstaddr   ifa_ifu.ifu_dstaddr
+//         void   *ifa_data;    /* Address-specific data */
+//  };
+// 
+// struct sockaddr {
+//     unsigned short    sa_family;    // address family, AF_xxx
+//     char              sa_data[14];  // 14 bytes of protocol address
+// };
+// 
+// 
+// // IPv4 AF_INET sockets:
+// 
+// struct sockaddr_in {
+//     short            sin_family;   // e.g. AF_INET, AF_INET6
+//     unsigned short   sin_port;     // e.g. htons(3490)
+//     struct in_addr   sin_addr;     // see struct in_addr, below
+//     char             sin_zero[8];  // zero this if you want to
+// };
+//
 // typedef uint32_t in_addr_t;
+//
 // struct in_addr {
 //     uint32_t s_addr;  // load with inet_aton()
 // };

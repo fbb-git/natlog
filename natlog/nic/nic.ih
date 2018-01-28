@@ -1,0 +1,14 @@
+#include "nic.h"
+//#include <iostream>
+//#define CERR std::cerr << __FILE__": "
+
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <ifaddrs.h>
+
+#include <bobcat/exception>
+
+using namespace std;
+using namespace FBB;
