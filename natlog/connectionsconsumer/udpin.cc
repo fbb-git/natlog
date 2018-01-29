@@ -4,15 +4,15 @@ void ConnectionsConsumer::udpIn(Record &record)
 {
     size_t key = record.setTCPUDPkey();     // find the key
 
-    if (g_nic.mask(Record::IN, record.sourceIP())) // package being sent?
+    if (g_nic.mask(Record::IN, record.sourceIP())) // package is sent?
     {
                                             // connecting the local net?
                                             // then ignore the record
         if (g_nic.mask(Record::IN, record.destIP()))
             return;
 
-                                            // accumulated data exists, then
-                                            // update #sent
+                                            // if accumulated data exist
+                                            // then update #sent
         if (auto iter = d_udp.find(key); iter != d_udp.end())
         {
             iter->second.addSentBytes(record.payload());

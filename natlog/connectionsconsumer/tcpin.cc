@@ -5,13 +5,24 @@ void ConnectionsConsumer::tcpIn(Record &record)
     size_t key = record.setTCPUDPkey();
 
     if (record.flags() == Record::SYN)      // syn-flag set
-    {                                       // store new connection
-        d_tcp.insert( value_type{ key, record } );
+    {
+        if (g_nic.mask(Record::IN, record.sourceIP())) // package is sent?
+        {
+                                            // connecting the local net?
+                                            // then ignore the record
+            if (g_nic.mask(Record::IN, record.destIP()))
+                return;
 
-            // d_sequence: a support map only used for SYN tcp connections
-        d_sequence[record.id()] = key;   // used by OUT at SYN flag
+                                            // store new connection
+            d_tcp.insert( value_type{ key, record } );
+
+               // d_sequence: a support map for SYN tcp connections
+            d_sequence[record.id()] = key;   // used by OUT at SYN flag
+        }
+
         return;
     }
+
                                         // find this record's accumulated data
     auto iter = d_tcp.find(record.key()); 
 

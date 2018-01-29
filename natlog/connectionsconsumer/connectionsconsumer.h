@@ -53,12 +53,11 @@ class ConnectionsConsumer
         void udp(Record &record);           // returned
 
         void icmpIn(Record &record);
-        void icmpOut(Record const &record);
-
         void tcpIn(Record &record);
         void udpIn(Record &record);
 
-        void tcpOut(Record &record);
+        void icmpOut(Record const &record);
+        void tcpOut(Record const &record);
         void udpOut(Record const &record);
 
         void icmpDestroy(Record &record);   // used for conntrack connections
