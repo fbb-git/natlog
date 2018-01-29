@@ -39,6 +39,9 @@ try
     
     arg.versionHelp(usage, Icmbuild::version, 1);
 
+    if (Options::instance().kill())
+        return 0;
+    
     NatFork natfork;
 
     natfork.run();

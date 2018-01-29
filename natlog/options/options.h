@@ -52,7 +52,6 @@ struct Options: public IP_Types
         size_t d_verbose;
         size_t d_conntrackRestart = 10;
         time_t  d_ttl = TTL;
-//        time_t  d_ttlTCP = TTLTCP;
 
         std::unordered_map<std::string, Time>::const_iterator d_time;
     
@@ -105,11 +104,11 @@ struct Options: public IP_Types
         bool stdout() const;
         bool syslog() const;
         bool warnings() const;
+        bool kill() const;
 
         size_t verbose() const;
 
         time_t ttl() const;
-//        time_t ttlTCP() const;
         Time time() const;
         std::string const &timeTxt() const;
         Mode mode() const;

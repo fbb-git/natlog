@@ -19,14 +19,10 @@ try
 
         d_nic[type] =                           // found it.
             {
-                ntohl(
-                    reinterpret_cast<sockaddr_in *>(
-                                        ifa->ifa_addr)->sin_addr.s_addr
-                ),
-                ntohl(
-                    reinterpret_cast<sockaddr_in *>(
+                reinterpret_cast<sockaddr_in *>(
+                                        ifa->ifa_addr)->sin_addr.s_addr,
+                reinterpret_cast<sockaddr_in *>(
                                         ifa->ifa_netmask)->sin_addr.s_addr
-                )
             };
 
         freeifaddrs(ifaddr);
