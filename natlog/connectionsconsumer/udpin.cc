@@ -2,22 +2,22 @@
 
 void ConnectionsConsumer::udpIn(Record &record)
 {
-    if (record.id() == 0)                   // ignore invalid IDs
-        return;
-
     size_t key = record.setTCPUDPkey();     // find the key
 
     if (g_nic.mask(Record::IN, record.sourceIP())) // package being sent?
     {
-                                            // connecting the NAT host?
+                                            // connecting the local net?
                                             // then ignore the record
-        if (g_nic.address(Record::OUT) == record.destIP())   
+        if (g_nic.mask(Record::IN, record.destIP()))
             return;
 
                                             // accumulated data exists, then
                                             // update #sent
         if (auto iter = d_udp.find(key); iter != d_udp.end())
+        {
             iter->second.addSentBytes(record.payload());
+            iter->second.setEndTime(record);
+        }
         else                                // or it's a new connection
         {                                   
             record.addSentBytes(record.payload());      // set #sent
@@ -30,8 +30,11 @@ void ConnectionsConsumer::udpIn(Record &record)
 
     auto iter = d_udp.find(key);            // find the accumulated data
 
-    if (iter != d_udp.end())                // available: 
-        iter->second.addReceivedBytes(record.payload());    // add #received
+    if (iter == d_udp.end())                // not available: done
+        return;
+
+    iter->second.addReceivedBytes(record.payload());    // add #received
+    iter->second.setEndTime(record);
 }
 
 

@@ -7,8 +7,6 @@
 
 void ConnectionsConsumer::udpOut(Record &record)
 {
-    if (record.id() == 0)               // ignore invalid IDs
-        return;
                                         // previously seen ID?
     auto iterID = d_id.find(record.id());   
 
@@ -22,7 +20,10 @@ void ConnectionsConsumer::udpOut(Record &record)
                                         // OK: so set the accumulated data's
                                         // 'via' address.
     if (g_nic.address(Record::OUT) == record.sourceIP())
+    {
         iter->second.setViaIP(record.sourceIP());
+        iter->second.setViaPort(record.sourcePort());
+    }
 
     d_id.erase(iterID);                 // remove the ID information
 }
