@@ -43,7 +43,6 @@ try
     if (Options::instance().kill())
         return 0;
 
-
     NatFork natfork;
 
     natfork.run();
