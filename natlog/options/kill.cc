@@ -2,7 +2,7 @@
 
 bool Options::kill() const
 {
-    if (not d_arg.option("terminate"))      // no terminate requested.
+    if (not d_terminate)
         return false;
 
     ifstream in;

@@ -46,6 +46,7 @@ struct Options: public IP_Types
         bool d_stdout;
         bool d_useSyslog;
         bool d_warnings;
+        bool d_terminate;
 
         Mode d_mode;
 

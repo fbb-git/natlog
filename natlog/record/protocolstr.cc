@@ -13,4 +13,7 @@ char const *Record::protocolStr() const
         case TCP:
         return " tcp";
     }
+
+    throw Exception() << "Internal error: unexpected protocol value " << 
+                            d_protocol;
 }

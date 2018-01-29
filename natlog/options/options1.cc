@@ -7,9 +7,15 @@ Options::Options()
 :
     d_arg(ArgConfig::instance())
 {
+    d_terminate = d_arg.option(0, "terminate");
+
     openConfig();
 
+    if (d_terminate)
+        return;
+
     setMode();
+
     setProtocol();
 
     if (d_mode == CONNTRACK)
@@ -22,3 +28,4 @@ Options::Options()
     setBoolMembers();
     setTimeSpec();
 }
+

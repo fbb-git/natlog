@@ -37,11 +37,13 @@ try
     ArgConfig &arg = ArgConfig::initialize("c:hp:P:st:T:vVw", 
                         longOptions, longEnd, argc, argv);
     
-    arg.versionHelp(usage, Icmbuild::version, 1);
+    arg.versionHelp(usage, Icmbuild::version, 
+                    arg.option(0, "terminate") ? 0 : 1);
 
     if (Options::instance().kill())
         return 0;
-    
+
+
     NatFork natfork;
 
     natfork.run();

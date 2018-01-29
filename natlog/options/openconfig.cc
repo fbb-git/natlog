@@ -9,11 +9,11 @@ void Options::openConfig()
     if (not d_arg.option(&d_configPath, 'c'))
         d_configPath = s_defaultConfigPath;
 
-    if (not d_arg.option(&d_PIDfile, 'p'))
-        d_PIDfile = s_defaultPIDfile;
-
     if (access(d_configPath.c_str(), R_OK) == 0)
         d_arg.open(d_configPath);
+
+    if (not d_arg.option(&d_PIDfile, 'p'))
+        d_PIDfile = s_defaultPIDfile;
 }
 
 

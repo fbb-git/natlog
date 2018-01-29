@@ -22,9 +22,12 @@ struct Record: public IP_Types
         OUT,
 
         NEW,            // Conntrack types 
-        DESTROY,
+        DESTROY
+    };
 
-        nTypes 
+    enum 
+    {
+        nTypes = DESTROY + 1
     };
 
     private:
