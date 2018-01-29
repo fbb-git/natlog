@@ -7,12 +7,11 @@ DevicesProducer::DevicesProducer(ostream &stdMsg, Storage &storage)
     d_signaled(0)
 {
     Options const &options = Options::instance();
-    d_in = options[0];
-    d_out = options[3];
+    d_inName = options[0];
+    d_outName = options[1];
 
     handleSignals();
 
-            //  device:    address      mask
-    g_nic.set(Record::IN,  options[1],  options[2]);
-    g_nic.set(Record::OUT, options[4],  options[5]);
+    g_nic.set(Record::IN,  d_inName);
+    g_nic.set(Record::OUT, d_outName);
 }

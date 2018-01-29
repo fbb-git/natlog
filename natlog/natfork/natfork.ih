@@ -8,7 +8,7 @@
 #include <fstream>
 
 //TMP
-//#define CERR cerr << __FILE__": "
+#define CERR cerr << __FILE__": "
 
 #include <bobcat/ofdstream>
 #include <bobcat/mstream>

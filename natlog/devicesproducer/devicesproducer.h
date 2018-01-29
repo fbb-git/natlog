@@ -16,8 +16,8 @@ class DevicesProducer: public Producer, public FBB::SignalHandler
     Storage &d_storage;
     FBB::Semaphore d_signaled;
     bool d_endSignal = false;
-    char const *d_in;
-    char const *d_out;
+    char const *d_inName;
+    char const *d_outName;
 
     public:
         DevicesProducer(std::ostream &stdMsg, Storage &storage);

@@ -8,7 +8,6 @@ void ConnectionsConsumer::icmpIn(Record &record)
                                             // then ignore the record
         if (g_nic.mask(Record::IN, record.destIP()))
             return;
-
                                             // key is the record's ID
                                             // existing entry:
         if (auto iter = d_icmp.find(record.key()); iter != d_icmp.end())
