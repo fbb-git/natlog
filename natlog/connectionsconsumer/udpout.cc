@@ -5,7 +5,7 @@
     // and the entry can be removed from d_id, as no information
     // about this connection on the OUT device is used anymore.
 
-void ConnectionsConsumer::udpOut(Record &record)
+void ConnectionsConsumer::udpOut(Record const &record)
 {
                                         // previously seen ID?
     auto iterID = d_id.find(record.id());   
@@ -16,6 +16,7 @@ void ConnectionsConsumer::udpOut(Record &record)
     auto iter = d_udp.find( iterID->second );
     if (iter == d_udp.end())            // not available for some reason
         return;
+                                        // 1st time out:
                                         // NAT has changed the source address
                                         // OK: so set the accumulated data's
                                         // 'via' address.
@@ -27,3 +28,5 @@ void ConnectionsConsumer::udpOut(Record &record)
 
     d_id.erase(iterID);                 // remove the ID information
 }
+
+

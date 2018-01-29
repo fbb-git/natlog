@@ -5,11 +5,11 @@ void ConnectionsConsumer::udp(Record &record)
 {
     lock_guard<mutex> lg(d_udpMutex);
 
-     switch (record.type())
+    switch (record.type())
     {
         case Record::IN:
             udpIn(record);
-        break;
+        return;
 
         case Record::OUT:
             udpOut(record);

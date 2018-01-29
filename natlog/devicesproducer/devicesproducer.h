@@ -8,16 +8,16 @@
 
 #include "../producer/producer.h"
 
-class Options;
 class Storage;
 
 class DevicesProducer: public Producer, public FBB::SignalHandler
 {
-    Options &d_options;
     std::ostream &d_stdMsg;
     Storage &d_storage;
     FBB::Semaphore d_signaled;
     bool d_endSignal = false;
+    char const *d_in;
+    char const *d_out;
 
     public:
         DevicesProducer(std::ostream &stdMsg, Storage &storage);
