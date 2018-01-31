@@ -7,16 +7,16 @@ void ConnectionsConsumer::logData(Record const &record, char const *type)
     d_logDataStream << 
                         record.protocolStr()    << ',' <<
 
-            setw(11) << record.sourceIP()       << ',' <<
+            setw(11) << ntohl(record.sourceIP())<< ',' <<
             setw(16) << record.sourceIPstr()    << ',' <<
             setw(8)  << record.sourcePort()     << ',' <<
 
-            setw(11) << record.destIP()         << ',' <<
+            setw(11) << ntohl(record.destIP())  << ',' <<
             setw(16) << record.destIPstr()      << ',' <<
             setw(8)  << record.destPort()       << ',' <<
 
-            setw(10) << record.sentBytes()      << ',' <<
-            setw(10) << record.receivedBytes()  << ',' <<
+            setw(11) << record.sentBytes()      << ',' <<
+            setw(11) << record.receivedBytes()  << ',' <<
 
             setw(11) << record.inSeconds()      << ',' <<
             setw(11) << record.seconds()        << ", " <<

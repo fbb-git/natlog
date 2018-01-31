@@ -29,8 +29,8 @@ ConnectionsConsumer::ConnectionsConsumer(ostream &stdMsg, Storage &storage)
             setw(16) << "dstIP"     << ',' <<
             setw(8)  << "dstPort"   << ',' <<
 
-            setw(10) << "sent"      << ',' <<
-            setw(10) << "recvd"     << ',' <<
+            setw(11) << "sent"      << ',' <<
+            setw(11) << "recvd"     << ',' <<
 
             setw(11) << "begin"     << ',' <<
             setw(11) << "end"       << ", " <<
