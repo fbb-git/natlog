@@ -8,10 +8,20 @@ NatFork::NatFork()
 {
     setupStdMsg();
 
-    if (d_options.daemon())
-        setupDaemonMsg();
-    else
+    if (not d_options.daemon())
         setupNonDaemonMsg();
+
+    else 
+    {
+        if (not (d_options.mode() == Options::TCPDUMP))
+            setupDaemonMsg();
+        else
+        {
+            d_options.foreground();
+            setupNonDaemonMsg();
+            d_stdMsg << "mode TCPDUMP: ignoring daemon mode" << endl;
+        }
+    }
 
     specifications();
 }

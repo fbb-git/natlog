@@ -8,6 +8,7 @@
 
 #include "../options/options.h"
 #include "../storage/storage.h"
+#include "../nic/nic.h"
 
 //TMP
 //#define CERR std::cerr << __FILE__": "

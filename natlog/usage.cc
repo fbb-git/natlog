@@ -37,7 +37,7 @@ progname << " V" << Icmbuild::version << " " << Icmbuild::years << "\n"
 "      --protocol (-P) spec - spec: protocols handled by " << 
                                                         progname << "\n"
 "                           command. Use colon separated combinations of\n"
-"                           tcp, udp and icmp, or use `all' (default: tcp)\n"
+"                           tcp (default), udp and icmp, or use `all'\n"
 "      --syslog-tag id    - id: identifier prefixed to syslog messages\n"
 "                           (default `" << 
                                 Options::defaultSyslogIdent() << "')\n"

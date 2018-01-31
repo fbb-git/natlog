@@ -1,5 +1,7 @@
 #include "record.ih"
 
+// #include <iostream>
+
 Record::Record(Type type, size_t seconds, size_t muSeconds,  
                u_char const *packet)
 :
@@ -56,5 +58,11 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
 
         break;
     }
+
+//    cout << 
+//        "type: " << type <<
+//        ", from " << sourceIPstr() << " to " << destIPstr() <<
+//        ", protocol: " << protocolStr() << 
+//        ", id: " << d_id << endl;
 }    
 

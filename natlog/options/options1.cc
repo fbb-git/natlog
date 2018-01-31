@@ -26,6 +26,7 @@ Options::Options()
     d_verbose = d_arg.option('V');      // not a bool, but a size_t
 
     setBoolMembers();
+
     setTimeSpec();
 }
 

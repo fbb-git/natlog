@@ -36,7 +36,6 @@ struct Options: public IP_Types
     enum 
     {
         TTL = 60,           // default TTL in seconds
-//        TTLTCP = 15 * 60,   // default TTL in seconds for tcp connections
     };
 
     private:
@@ -100,6 +99,8 @@ struct Options: public IP_Types
         Options(Options const &other) = delete;
 
         bool daemon() const;
+        void foreground();              // undo a default daemon request
+
         bool realTime() const;          // true if the packets are received
                                         // real-time; when recorded: false.
         bool stdout() const;
@@ -189,6 +190,11 @@ inline size_t Options::verbose() const
 inline bool Options::daemon() const
 {   
     return d_daemon;
+}
+
+inline void Options::foreground()
+{   
+    d_daemon = false;
 }
 
 inline bool Options::warnings() const
