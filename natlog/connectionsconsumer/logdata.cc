@@ -15,8 +15,8 @@ void ConnectionsConsumer::logData(Record const &record, char const *type)
             setw(16) << record.destIPstr()      << ',' <<
             setw(8)  << record.destPort()       << ',' <<
 
-            setw(8)  << record.sentBytes()      << ',' <<
-            setw(8)  << record.receivedBytes()  << ',' <<
+            setw(10) << record.sentBytes()      << ',' <<
+            setw(10) << record.receivedBytes()  << ',' <<
 
             setw(11) << record.inSeconds()      << ',' <<
             setw(11) << record.seconds()        << ", " <<
