@@ -1,6 +1,6 @@
 #include "conntrackrecord.ih"
 
-void ConntrackRecord::initTCP_UDP(Pattern const &pattern, size_t ipHeaderSize)
+void ConntrackRecord::initTCP_UDP(Pattern const &pattern)
 {
     setSourceIP( aton(pat(CTtcpudp::SRC))   );
     setDestIP(  aton(pat(CTtcpudp::DST))    );
@@ -17,7 +17,8 @@ void ConntrackRecord::initTCP_UDP(Pattern const &pattern, size_t ipHeaderSize)
     {                           //                              byte counts
         if (pattern.end() == static_cast<size_t>(CTtcpudp::nFields))
         {
-            if (ipHeaderSize)
+            size_t ipHeaderSize =  Options::instance().IPheaderSize();
+            if (ipHeaderSize != 0)
                 ipHeaderSize *= stoul(pat(CTtcpudp::RECVDPACKETS));
 
             size_t nBytes = stoul(pat(CTtcpudp::SENTBYTES));

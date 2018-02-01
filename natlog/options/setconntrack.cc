@@ -21,4 +21,7 @@ void Options::setConntrack()
     string value;
     if (d_arg.option(&value, "conntrack-restart"))
         d_conntrackRestart = stoul(value);
+
+    if (d_arg.option(&value, "conntrack-ip-header-size"))
+        d_IPheaderSize = stoul(value);
 }

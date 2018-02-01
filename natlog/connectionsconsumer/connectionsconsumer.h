@@ -15,6 +15,8 @@ class Storage;
     // ConnectionsConsumer object constructed in natfork/childprocess
 class ConnectionsConsumer: public FBB::SignalHandler
 {
+    typedef std::unordered_map<size_t, size_t> Size_tMap;
+
     typedef std::unordered_map<size_t, Record> RecordMap;
     typedef RecordMap::value_type value_type;
 
@@ -28,9 +30,9 @@ class ConnectionsConsumer: public FBB::SignalHandler
     std::mutex d_udpMutex;
     RecordMap d_udp;
 
-    std::unordered_map<size_t, size_t> d_sequence;  // TCP: sequence nr -> key
-    std::unordered_map<size_t, size_t> d_id;        // UDP: id nr -> key
-
+    Size_tMap d_sequence;  // TCP: sequence nr -> key
+    Size_tMap d_id;        // UDP: id nr -> key
+    
     std::mutex d_tcpMutex;
     RecordMap d_tcp;
 
@@ -89,9 +91,9 @@ class ConnectionsConsumer: public FBB::SignalHandler
         );
 };
 
-inline ConnectionsConsumer::signalHandler(size_t signum)
+inline void ConnectionsConsumer::signalHandler(size_t signum)
 {
-    d_completed = false;
+    d_complete = false;
 }
         
 #endif

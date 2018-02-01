@@ -22,7 +22,6 @@ void ConnectionsConsumer::tcpIn(Record &record)
 
         return;
     }
-
                                         // find this record's accumulated data
     auto iter = d_tcp.find(record.key()); 
 
@@ -40,10 +39,10 @@ void ConnectionsConsumer::tcpIn(Record &record)
     else                                    // packet was received fm. dest.
         accu.addReceivedBytes(record.payload());
 
-    if (record.flags() & Record::FIN)      // FIN-flag set
+    if (record.flags() & Record::FIN)       // FIN-flag set
     {
         logTCP_UDP(iter->second, "tcp");    
-        d_tcp.erase(iter);                 // remove the entry
+        d_tcp.erase(iter);                  // remove the entry
     }
 }
 

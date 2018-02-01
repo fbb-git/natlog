@@ -38,7 +38,7 @@ class ConntrackProducer: public Producer, public FBB::Fork,
     private:
         void run() override;
 
-        void process(std::string const &line, size_t ipHeaderSize);
+        void process(std::string const &line);
 
         void signalHandler(size_t signum) override;
 

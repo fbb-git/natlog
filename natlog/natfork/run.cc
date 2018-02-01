@@ -8,7 +8,7 @@ void NatFork::run()
             conntrackMode();
         break;
 
-        case Options::PCAP:
+        case Options::DEVICE:
         break;
 
         case Options::TCPDUMP:

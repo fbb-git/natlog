@@ -29,7 +29,7 @@ struct Options: public IP_Types
     enum Mode               // working mode: conntrack, pcap, or tcpdump
     {
         CONNTRACK,          // when modified: update producer/data.cc
-        PCAP,
+        DEVICE,
         TCPDUMP,
     };
 
@@ -44,15 +44,16 @@ struct Options: public IP_Types
         bool d_daemon;
         bool d_stdout;
         bool d_useSyslog;
-        bool d_warnings;
+//        bool d_warn;
         bool d_terminate;
 
         Mode d_mode;
 
+        size_t d_IPheaderSize = 0;
         size_t d_verbose;
         size_t d_conntrackRestart = 10;
         time_t  d_ttl = TTL;
-
+        
         std::unordered_map<std::string, Time>::const_iterator d_time;
     
         std::string d_conntrackCommand;
@@ -63,6 +64,7 @@ struct Options: public IP_Types
         std::string d_timeSpecError;
         std::string d_syslogPriorityError;
         std::string d_syslogFacilityError;
+        std::string d_logData;
 
         std::unordered_set<Protocol> d_protocols;
     
@@ -105,11 +107,11 @@ struct Options: public IP_Types
                                         // real-time; when recorded: false.
         bool stdout() const;
         bool syslog() const;
-        bool warnings() const;
+//        bool warn() const;
         bool kill() const;
 
+        size_t IPheaderSize() const;
         size_t verbose() const;
-
         time_t ttl() const;
         Time time() const;
         std::string const &timeTxt() const;
@@ -124,6 +126,7 @@ struct Options: public IP_Types
         std::string const &conntrackCommand() const;
         char const *conntrackDevice() const;
         std::string const &syslogTag() const;
+        std::string const &logData() const;
 
         FBB::Priority syslogPriority() const;
         FBB::Facility syslogFacility() const;
@@ -197,10 +200,10 @@ inline void Options::foreground()
     d_daemon = false;
 }
 
-inline bool Options::warnings() const
-{   
-    return d_warnings;
-}
+//inline bool Options::warn() const
+//{   
+//    return d_warn;
+//}
 
 inline bool Options::syslog() const
 {   
@@ -210,6 +213,11 @@ inline bool Options::syslog() const
 inline time_t Options::ttl() const
 {
     return d_ttl;
+}
+
+inline size_t Options::IPheaderSize() const
+{
+    return d_IPheaderSize;
 }
 
 //inline time_t Options::ttlTCP() const
@@ -235,6 +243,11 @@ inline std::string const &Options::configPath() const
 inline std::string const &Options::syslogTag() const
 {   
     return d_syslogTag;
+}
+
+inline std::string const &Options::logData() const
+{   
+    return d_logData;
 }
 
 inline std::string const &Options::pidFile() const

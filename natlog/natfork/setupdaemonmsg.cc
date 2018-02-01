@@ -5,7 +5,7 @@ void NatFork::setupDaemonMsg()
     if (not d_options.syslog())
     {
         imsg.off();
-        wmsg.off();
+//        wmsg.off();
 
         return;
     }
@@ -16,9 +16,9 @@ void NatFork::setupDaemonMsg()
     else
         imsg.off();
 
-                                // warning msg via syslog, if syslog is active
-    if (d_options.warnings())
-        wmsg.reset(*d_syslog);
-    else
-        wmsg.off();
+//                                // warning msg via syslog, if syslog is active
+//    if (d_options.warnings())
+//        wmsg.reset(*d_syslog);
+//    else
+//        wmsg.off();
 }

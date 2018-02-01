@@ -1,6 +1,6 @@
 #include "conntrackproducer.ih"
 
-void ConntrackProducer::process(string const &line, size_t ipHeaderSize)
+void ConntrackProducer::process(string const &line)
 {
     imsg << "LINE: " << line << endl;
 
@@ -10,16 +10,14 @@ void ConntrackProducer::process(string const &line, size_t ipHeaderSize)
                         s_tcpudp[ static_cast<size_t>(CTtcpudp::PROTOCOL) ] ) 
         )
             d_storage.push( ConntrackRecord{ Record::TCP,   // (also for UDP)
-                                             s_tcpudp, ipHeaderSize } );
+                                             s_tcpudp } );
         return;
     }
 
                                         // or try to match ICMP
     if (s_icmp << line and d_options.hasProtocol(Record::ICMP))
     {
-        d_storage.push( 
-                    ConntrackRecord{ Record::ICMP, s_icmp, ipHeaderSize } 
-        );
+        d_storage.push( ConntrackRecord{ Record::ICMP, s_icmp } );
         return;
     }
 

@@ -1,6 +1,6 @@
 #include "conntrackrecord.ih"
 
-void ConntrackRecord::initICMP(Pattern const &pattern, size_t ipHeaderSize)
+void ConntrackRecord::initICMP(Pattern const &pattern)
 {
     setSourceIP( aton(pat(CTicmp::SRC))    );
     setDestIP(   aton(pat(CTicmp::DST))    );
@@ -13,7 +13,8 @@ void ConntrackRecord::initICMP(Pattern const &pattern, size_t ipHeaderSize)
     {
         if (pattern.end() == static_cast<size_t>(CTicmp::nFields))
         {
-            if (ipHeaderSize)
+            size_t ipHeaderSize = Options::instance().IPheaderSize();
+            if (ipHeaderSize != 0)
                 ipHeaderSize *= stoul(pat(CTicmp::RECVDPACKETS));
 
             size_t nBytes = stoul(pat(CTicmp::SENTBYTES));

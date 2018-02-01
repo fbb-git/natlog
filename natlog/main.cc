@@ -25,7 +25,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("ttl", 'T'),
         Arg::LongOption("verbose", 'V'),
         Arg::LongOption("version", 'v'),
-        Arg::LongOption("warn", 'w'),
+//        Arg::LongOption("warn", 'w'),
     };
 
     auto longEnd = longOptions + size(longOptions);
@@ -34,7 +34,7 @@ namespace   // the anonymous namespace can be used here
 int main(int argc, char **argv)
 try
 {
-    ArgConfig &arg = ArgConfig::initialize("c:hp:P:st:T:vVw", 
+    ArgConfig &arg = ArgConfig::initialize("c:hp:P:st:T:vV", 
                         longOptions, longEnd, argc, argv);
     
     arg.versionHelp(usage, Icmbuild::version, 

@@ -6,5 +6,5 @@ void Options::setBoolMembers()
 
     d_daemon = not d_arg.option(0, "no-daemon");
     d_stdout = d_verbose || d_arg.option('s');
-    d_warnings = d_arg.option('w');
+//    d_warnings = d_arg.option('w');
 }

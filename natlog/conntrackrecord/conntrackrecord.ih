@@ -8,6 +8,8 @@
 #include <bobcat/pattern>
 #include <bobcat/mstream>
 
+#include "../options/options.h"
+
 using namespace std;
 using namespace FBB;
 
