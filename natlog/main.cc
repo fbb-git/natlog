@@ -56,6 +56,3 @@ catch (int x)
 {
     return ArgConfig::instance().option("hv") ? 0 : x;
 }
-
-
-

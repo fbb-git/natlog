@@ -36,6 +36,11 @@ ConnectionsConsumer::ConnectionsConsumer(ostream &stdMsg, Storage &storage)
             setw(11) << "end"       << ", " <<
 
             setw(22) << "beginTime" << ", " <<
-            setw(23) << "endTime\n";
+            setw(23) << "endTime"   << ", complete\n";
+                                     // 1234567
     }
+
+    Signal::instance().add(SIGINT, *this);
+    Signal::instance().add(SIGTERM, *this);
 }
+

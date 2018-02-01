@@ -12,7 +12,7 @@ void ConnectionsConsumer::logTCP_UDP(Record const &record, char const *type)
             "to " << record.destIPstr() << ':' << record.destPort() << "; "
             "sent: " << record.sentBytes() << ", "
             "received: " << record.receivedBytes() << 
-            (record.hasEndTime() ? "" : " (INCOMPLETE)") << endl;
+            (d_complete ? "" : " (INCOMPLETE)") << endl;
 
         (this->*d_logData)(record, "icmp");
     }

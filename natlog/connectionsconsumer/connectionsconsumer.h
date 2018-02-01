@@ -6,12 +6,14 @@
 #include <mutex>
 #include <fstream>
 
+#include <bobcat/signal>
+
 #include "../record/record.h"
 
 class Storage;
 
     // ConnectionsConsumer object constructed in natfork/childprocess
-class ConnectionsConsumer
+class ConnectionsConsumer: public FBB::SignalHandler
 {
     typedef std::unordered_map<size_t, Record> RecordMap;
     typedef RecordMap::value_type value_type;
@@ -40,6 +42,7 @@ class ConnectionsConsumer
                 > s_handler;
 
     time_t  d_ttl;
+    bool    d_complete = true;
 
     public:
         ConnectionsConsumer(std::ostream &stdMsg,Storage &storage);
@@ -73,6 +76,8 @@ class ConnectionsConsumer
         void logData(Record const &record, char const *type);
         void noDataLog(Record const &record, char const *type);
 
+        void signalHandler(size_t signum) override;
+
         static void cleanupWrap(ConnectionsConsumer *const consumer);
 
         void cleanupICMP_UDP(time_t now_ttl);   // clean up completed 
@@ -83,6 +88,11 @@ class ConnectionsConsumer
             char const *type
         );
 };
+
+inline ConnectionsConsumer::signalHandler(size_t signum)
+{
+    d_completed = false;
+}
         
 #endif
 

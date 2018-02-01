@@ -44,16 +44,17 @@ manpagesection(DESCRIPTION)
     Firewalls like bf(iptables)(1) may offer tt(POSTROUTING) (source network
 address translation, snat) facilities changing the source address of a host
 behind the firewall to the address of the host connected to the outer
-world. With using tt(snat) the following combinations of IP addresses and port
+world. With tt(snat) the following combinations of IP addresses and port
 numbers are encountered:
     itemization(
     it() the IP address and port number used by the host behind the firewall
-(in this manual page referred to as tt(IPsrc, sport));
-    it() the IP address and port number of the host tt(IPsrc) connects to (in
-this manual page referred to as tt(IPdst, dport));
+initiating a connection to the outer world (the source host, in this manual
+page referred to as tt(IPsrc, sport));
+    it() the IP address and port number of the host that tt(IPsrc) connects to
+(the destination host, in this manual page referred to as tt(IPdst, dport));
     it() the IP address and port number used by the firewalling host when
-source natting tt(IPsrc) and tt(sport) (in this manual page referred to as
-tt(IPfw, fwport)).
+source natting tt(IPsrc) and tt(sport) (the firewall host, in this manual page
+referred to as tt(IPfw, fwport)).
     )
 
     Source natting usually uses tt(sport) for tt(fwport), but tt(fwport) may
@@ -74,24 +75,24 @@ systems administrator will refer to tt(IPfw:fwport), rather than to
 tt(IPsrc::sport).
 
     The standard log facilities provided by tt(iptables) do not easily allow
-us to relate tt(IPfw:fwport) to tt(IPsrc:sport), and tt(natlog) was developed
+relating tt(IPfw:fwport) to tt(IPsrc:sport), and tt(natlog) was developed
 to fill in that particular niche.
 
-    tt(Natlog) provides data about this process in various forms. The standard
-logging mode consists of messages sent to the syslog daemon (cf.,
+    tt(Natlog) provides data about source natting in various forms. The
+standard logging mode consists of messages sent to the syslog daemon (cf.,
 bf(rsyslogd)(1)) and/or to the standard output stream showing the essential
 characteristics of connections using source natting. Here is an example of a
 logged message (log-entries occupy single lines; the line-breaks below are to
-enhance readability in this man-page):
+enhance readability):
         verb(
     NATLOG: from 1338990672:55588 until 1338990747:807100 (UTC): tcp
         192.168.19.72:4467 (via: 129.125.90.132:4467) to 200.49.219.180:443;
         sent: 802, received: 7669
         )
-    Here the values tt(1338990672:55588) and tt(1338990747:807100) are time
-stamps showing the begin- and end-times in seconds:microseconds of a TCP
-connection since Jan 1, 1970, 0:00 UTC. tt(Natlog) offers the tt(--time)
-option that can be used to obtain human-readable time specifications like
+    The values tt(1338990672:55588) and tt(1338990747:807100) are time stamps
+showing the begin- and end-times in seconds:microseconds of a TCP connection
+since the beginning of the epoch (Jan 1, 1970, 0:00 UTC). tt(Natlog) offers
+the tt(--time) option for requesting human-readable time specifications like
 tt(Nov 2 13:29:11) rather than time representations using seconds and micro
 seconds.
 
@@ -101,9 +102,9 @@ third pair of values (tt(200.49.219.180:443)) represents tt(IPdst:dport).
 
     In this example, host tt(192.168.19.72), using port tt(4467), connected to
 host tt(200.49.219.180), port tt(443). To this latter host the connection
-appears to have originated from tt(129.125.90.132) port tt(4467). The
-provided log message easily allows us to related this to the `real' host and
-port from which the connection originated: tt(192.168.19.72:4467).
+appears to have originated from tt(129.125.90.132) port tt(4467). The log
+message allows us to associate this with the `real' host and port from which
+the connection originated: tt(192.168.19.72:4467).
 
     The final entries show the number of bytes that were sent by the
 source-host (tt(IPsrc)) and received from the destination-host (tt(IPdst)).
@@ -111,8 +112,9 @@ source-host (tt(IPsrc)) and received from the destination-host (tt(IPdst)).
     When tt(natlog) is terminated it can no longer track connections that are
 still open. If tt(natlog) was terminated (by a tt(SIGINT) or tt(SIGTERM)
 signal), then it logs a `terminating' line, followed by an overview of all
-still open connections. The end-microseconds values of connections that are no
-longer tracked are shown as tt(0000).
+(potentially) still open connections. Those connections are flagged with a
+trailing '(INCOMPLETE)' log-element, and their end-times show tt(natlog's)
+termination time.
 
     In addition to the standard logs the option tt(--log-data) is
 available. This option requires the path to a file where information is logged
@@ -127,7 +129,7 @@ names are (all on one line):
         dstNr, dstIP, dstPort, 
         sent, recvd, 
         begin,     end, 
-        beginTime, endTime
+        beginTime, endTime, complete
     )
     Most column labels will be self-explanatory. tt(Type) indicates the
 connection type, logged as tt(icmp, tcp,) or tt(udp); tt(srcNr) and tt(dstNr)
@@ -135,7 +137,10 @@ are the 32 bit numeric values of, respectively, the source host's IP address
 and the destination host's IP address (decimal representations); tt(begin) and
 tt(end) are the times in seconds since the beginning of the epoch,
 corresponding to the times displayed at, respectively, tt(beginTime) and
-tt(endTime).
+tt(endTime); tt(complete) indicates whether the connection was completed (log
+entry 1) or still open (log entry 0) when tt(natlog) terminated. When
+tt(complete) is logged as 0, then the tt(end) and tt(endTime) entries show
+tt(natlog's) termination time.
 
 Log entries look like this (each entry occupies one line, header line and
 logged data lines are right-aligned):
@@ -145,18 +150,18 @@ logged data lines are right-aligned):
           4012145084,  188.121.36.239,      80,       
                  430,      2266, 
           1517387644,             1517387644, 
-          Jan 31 08:34:04:318340, Jan 31 08:34:04:383170 
+          Jan 31 08:34:04:318340, Jan 31 08:34:04:383170, 1
     )
 
 
-manpagesection(COMMANDS)
+manpagesection(MODES AND COMMANDS)
 
     itemization(
-    it() tt(conntrack): this command can only be used on platforms using
-bf(iptables)(1) where bf(conntrack)(1) has also been installed. Information
-about source-natted connections is obtained from bf(conntrack)(1)'s
-output. With this command all, or one of the (by default) TCP, UDP, and ICMP
-layer four protocols can be monitored. 
+    it() tt(conntrack): the `conntrack'-mode. This command can only be used on
+platforms using bf(iptables)(1) where bf(conntrack)(1) has also been
+installed. Information about source-natted connections is obtained from
+bf(conntrack)(1)'s output. In this mode all, or one of the (by default) TCP,
+UDP, and ICMP layer four protocols can be monitored.
 
     By default tt(conntrack) does not report byte counts. To have conntrack
 report byte counts the command
@@ -165,55 +170,93 @@ report byte counts the command
     )
     must have been issued before starting tt(conntrack). 
 
-tt(Conntrack) adds the sizes of the IP headers (usually 20 bytes) to reported
-byte counts. Thus, tt(icmp) packets are usually reported as having size 84,
-even though bf(ping)(1) reports a payload of 64 bytes. Since the actual sizes
-of IP headers cannot be determined from conntrack's output, the sizes reported
-when using tt(natlog's) conntrack mode are as reported by tt(conntrack), and
-are therefore not corrected for IP header lengths. The option
-tt(--conntrack-ip-header-size) can be used to correct for the (assumed) IP
-header sizes.
+tt(Conntrack) includes the sizes of the IP headers (usually 20 bytes) in
+reported byte counts. Thus, tt(icmp) packets are usually reported as having
+size 84, even though bf(ping)(1) reports a payload of 64 bytes. Since the
+actual sizes of IP headers cannot be determined from conntrack's output, the
+sizes reported when using tt(natlog's) conntrack mode are as reported by
+tt(conntrack), and are therefore not corrected for IP header lengths. The
+option tt(--conntrack-ip-header-size) can be used to correct for the (assumed)
+IP header sizes.
 
 See also the tt(conntrack-command) option.
     
-    it() tt(indevice outdevice): tt(indevice) is the name of the device behind
-the firewall: addresses living behind the tt(indevice) are source-natted to
-the firewall host's IP address when passed on to the tt(outdevice);
+    it() tt(indevice outdevice): the `devices'-mode. Here, tt(indevice) is the
+name of the device behind the firewall: addresses living behind the
+tt(indevice) are source-natted to the firewall host's IP address when passed
+on to the tt(outdevice);
 
 tt(outdevice) is the name of the device where source-natted packets are
 forwarded to, and from where replies for source-natted hosts living behind the
 tt(indevice) are received. With this command all, or any combination of the
 (by default) TCP, UDP, and ICMP layer four protocols can be monitored.
 
-    it() tt(infile in-address in-mask outfile out-address out-mask)
+    it() tt(infile in-address in-mask outfile out-address out-mask): the
+`tcpdump'-mode. This command can be used to process bf(tcpdump)(1) generated
+binary files, generated on the source-natting host. If a source natting host
+uses interface tt(eth1) behind the firewall and tt(eth0) to connect to the
+outside world, then the follow tt(tcpdump) commands produce the required
+binary files (these commands will normally be run in the background, hence the
+trailing tt(&)):
+        verb(
+    tcpdump -wi eth0 /tmp/eth0 &
+    tcpdump -wi eth1 /tmp/eth1 &
+        )
+    To have tt(natlog) process these files, terminate the tt(tcpdump)
+commands, and transfer the files tt(/tmp/eth0) and tt(/tmp/eth1) to the host
+where  tt(natlog) has been installed. The required addresses and masks are
+shown by the bf(ifconfig)(1) command. E.g.,
+        verb(
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 129.125.1.123  netmask 255.255.0.0  broadcast 129.125.255.255
 
+eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 192.168.1.1  netmask 255.255.255.0  broadcast 192.168.1255
+        )
+    The relevant info is shown in the lines following the interface's name:
+the value following tt(inet) is the interface's IP address, and the value
+following tt(netmask) is the network's mask. 
+
+    Combining files and addresses, tt(natlog) is run as follows (all on one
+line):
+        verb(
+    natlog  /tmp/eth0 129.125.1.123  255.255.0.0 
+            /tmp/eth1 192.168.1.1 255.255.255.0
+        )
+    Instead of fully specifying the netmask, netmaks specifications like /24
+are also accepted. In that case the number following the slash indicates the
+number of non-zero bits of the netmask. In practice, each value of the netmask
+is either 255 (8 bits are set) or 0 (0 bits are set), and so 255.255.0.0 can
+also be specified as /16, while 255.255.255.0 can be specified like /24.
     )
 
 manpagesection(OPTIONS)
 
     itemization(
     it() lsaoption(config)(c)(config-path)nl()
-       The argument tt(config-path) defines the path to the configuration file
-        to be used by tt(natlog). By default the configuration file is
-        expected in tt(/etc/natlog.conf). All configuration options have
-        defaults, which are used when no configuration file and no
-        command-line options are provided. 
+       The argument tt(config-path) defines the path to tt(natlog's)
+        configuration file. By default it is tt(/etc/natlog.conf). All
+        configuration options have defaults, which are used when no
+        configuration file and no command-line options were provided.
 
        All options, except for tt(config, help) and tt(verbose) can also be
         specified in the configuration file. The configuration file ignores
         empty lines and all information on lines beginning with a hash-mark
-        (tt(#)). In the configuration file option names do not use initial
-        hyphens, and may immediately be followed by a colon. Multi-word
-        arguments should not be surrounded by quotes. Examples: 
-            verb(
+        (tt(#)). In the configuration file initial hyphens should be omitted,
+        and option names may immediately be followed by a colon. Multi-word
+        arguments should not be surrounded by quotes. Examples:
+       verb(
     stdout
     syslog-facility: LOCAL0
-            )
+        )
        Command-line options override configuration file options.
 
     it() laoption(conntrack-command)(path [options])nl()
        The path and options to the bf(conntrack)(1) program. By default this
-        is tt(/usr/sbin/conntrack -p tcp -E -n -o timestamp -e NEW,DESTROY),
+        is 
+       verb(
+    /usr/sbin/conntrack -p tcp -E -n -o timestamp -e NEW,DESTROY
+        )
         resulting in:nl()
 
        - Monitoring the TCP layer four protocol;nl()
@@ -222,14 +265,26 @@ manpagesection(OPTIONS)
        - Logging all new and destroyed (ended) events (tt(-e
             NEW,DESTROY));nl()
 
-       The protocols to monitor can separately be configured using the
-        tt(--protocol) option.
+       By default tt(tcp) is monitored. Other protocols can be configured
+        using the tt(--protocol) option.
 
        The tt(conntrack) program must be available when requesting
         tt(natlog)'s tt(conntrack) command. Layer four protocols other than
         TCP, UDP and ICMP are currently not supported. A subset of the
         supported protocols may be requested using tt(conntrack's -p tcp, -p
         udp) or tt(-p icmp) options.
+
+    it() laoption(conntrack-device)(dev)nl()
+       By default tt(conntrack) monitors the information made available at the
+        tt(/proc/net/nf_conntrack) device. When another device is used, it can
+        be specified using this option.
+
+    it() laoption(conntrack-ip-header-size)(size)nl()
+       This option can be used to correct for the IP header sizes. By default,
+        tt(conntrack) includes these sizes in reported byte counts. By
+        specifying this option packet sizes reported by tt(conntrack) are
+        reduced by tt(size). Commonly IP headers consist of 20 bytes (so, to
+        correct for this specify tt(--conntrack-ip-header-size 20)).
 
     it() laoption(conntrack-restart)(max)nl()
        If the conntrack process prematurely ends it is restarted at most
@@ -241,12 +296,22 @@ manpagesection(OPTIONS)
        Write basic usage information to the standard output stream and
         terminate.
 
+    it() laoption(log-data)(path)nl()
+       tt(Path) specifies the pathname of the file where information about
+        observed connections is written in tabular form. Information is
+        appended to existing files. If tt(path) does not yet exist it is first
+        created. Refer to the tt(DESCRIPTION) section for information about
+        the format of the generated table.
+
     it() loption(no-daemon)nl()
        By default, tt(natlog) runs in the background (a daemon). tt(Natlog)
         runs as an ordinary program (i.e., in the foreground when the option
         tt(no-daemon) is provided). When running as a daemon, tt(--stdout)
         (see below) is suppressed, and tt(--verbose) messages (see below) are
-        sent to the sylog daemon, unless tt(--no-syslog) was specified.
+        sent to the sylog daemon, unless tt(--no-syslog) was specified. When
+        using the tcpdump-mode tt(natlog) does not run in the background. In
+        this case, if tt(no-daemon) is omitted a warning message is logged,
+        and tt(natlog) continues as an ordinary program.
 
     it() loption(no-syslog)nl()
        By default tt(natlog) writes syslog messages to the tt(DAEMON) facility
@@ -262,17 +327,15 @@ manpagesection(OPTIONS)
         message when receiving a tt(SIGHUP) interrupt).
         
     it() lsaoption(protocol)(P)(specification)nl()
-       The protocols to monitor by bf(conntrack)(1). By default
-        tt(conntrack-command) monitors the TCP layer four protocol. Currently
-        tt(natlog's conntrack) command can monitor the TCP, UDP, and ICMP
-        layer four protocols.  Using the tt(protocol) option (note: singular!)
-        any subset of these protocols can be selected by specifying a
-        colon-separated subset of TCP, UDP, and ICMP (e.g., tt(--protocol
-        udp:tcp)). The specification tt(all) can be used to monitor all three
-        protocols: TCP, UDP, and ICMP.
-
-       If the tt(conntrack-command) option is specified, the tt(protocol)
-        option is ignored.
+       The protocol(s) to monitor. By default the TCP layer four protocol is
+        monitored. Currently tt(natlog's conntrack) command can monitor the
+        TCP, UDP, and ICMP layer four protocols.  Using the tt(protocol)
+        option (note: singular!)  any subset of these protocols can be
+        selected by specifying a colon-separated subset of TCP, UDP, and ICMP
+        (e.g., tt(--protocol udp:tcp)). The specification tt(all) can be used
+        to monitor all three protocols (TCP, UDP, and ICMP). When using the
+        conntrack-mode, only a single protocol (including tt(all)) can be
+        specified.
 
     it() loption(stdout) (soption(s))nl() 
        Syslog-equivalent messages are sent to the standard output.
@@ -299,6 +362,16 @@ manpagesection(OPTIONS)
         the log-files. By default the tag tt(NATLOG) is used. See also section
         tt(RSYSLOG FILTERING) below.
 
+    it() loption(terminate)nl() 
+       When tt(natlog) is running as a daemon, a separate command tt(natlog
+        --terminate) can be issued to terminate the daemon. This assumes that
+        the default pid-file (tt(/run/natlog.pid)) was used or that a
+        non-default pid-file was specified in the default configuration
+        file. If not, then the location of the pid-file or the location of the
+        non-default configuration file must also be specified. When the daemon
+        could be terminated 0 is returned. Otherwise, an error message is
+        displayed and 1 is returned,
+
     it() lsaoption(time)(t)(spec)nl()
         By default time stamps written by tt(natlog) are in raw, numeric
         form. E.g.,
@@ -315,6 +388,12 @@ NATLOG: From 1338990672:55588 until 1338990747:807100
         Universal Time Coordinated;nl()
        specify tt(local) for a representation like tt(Jun 6 13:29:11), using
         the local time zone defined by the computer running tt(natlog).
+
+    it() lsaoption(ttl)(T)(secs)nl()
+       time-to-live for received ICMP/UDP connections (by default 60
+        seconds). When an ICMP or UDP connection has not been used for tt(ttl)
+        seconds it is assumed that the connection has ended, and it is logged
+        as completed.
 
     it() lsoption(verbose)(V)nl() 
        Additional messages about tt(natlog)'s mode of operation are sent to
@@ -361,13 +440,12 @@ manpagesection(EXAMPLES)
 
     Examples of tt(natlog) activations:
     itemization(
-    it() tt(natlog --no-daemon --no-syslog -s tun0 eth0)nl()
+    it() tt(natlog --no-daemon --no-syslog -s br0 eth0)nl()
         tt(Natlog) remains active as a foreground process, no syslog messages
 are written, syslog-equivalent message are written to the standard
-output. tt(Natlog) uses the pcap library to capture packets from the tt(tun0)
-device (e.g., an bf(openvpn)(1) device), which is active behind the firewall,
-and to capture packets from the tt(eth0) device, which is the device to where
-source-natted packages are sent.
+output. tt(Natlog) uses the pcap library to capture packets from the tt(br0)
+device, which is active behind the firewall, and to capture packets from the
+tt(eth0) device, which is the device to where source-natted packages are sent.
 
     it() tt(natlog conntrack)nl()
         Depending on the options specified in tt(/etc/natlog.conf) (or, if not
@@ -394,7 +472,8 @@ manpagesection(FILES)
 
 manpagesection(SEE ALSO)
 
-    bf(conntrack)(1), bf(iptables)(1), bf(pcap-filter)(7), bf(syslog)(3)
+    bf(conntrack)(1), bf(iptables)(1), bf(pcap-filter)(7), bf(syslog)(3),
+    bf(tcpdump)(1)
 
 manpagesection(BUGS)
 
