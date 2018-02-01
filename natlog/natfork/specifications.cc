@@ -2,12 +2,13 @@
 
 void NatFork::specifications()
 {
-    if (d_options.verbose() == 2)
+    if (d_options.verbose() >= 2)
     {
         switch (d_mode)
         {
             case Options::CONNTRACK:
-                d_stdMsg << "CONNTRACK mode: command = `" << 
+                d_stdMsg << "CONNTRACK mode" << endl;
+                d_stdMsg <<  "command = `" << 
                             d_options.conntrackCommand() << '\'' << endl;
                 d_stdMsg << "conntrack device: " << 
                             d_options.conntrackDevice() << endl;
@@ -22,23 +23,23 @@ void NatFork::specifications()
             break;
 
             case Options::DEVICE:
-                d_stdMsg << "DEVICE mode: " << 
-                            d_options[0] << ' ' << d_options[1] << endl;
+                d_stdMsg << "DEVICE mode" << endl;
+                d_stdMsg << d_options[0] << ' ' << d_options[1] << endl;
             break;
 
             case Options::TCPDUMP:
-                d_stdMsg << "TCPDUMP mode: " << 
-                    d_options[0] << ' ' << d_options[1] << 
-                                                d_options[2] << ' ' << 
-                    d_options[3] << ' ' << d_options[4] << ' ' << 
-                                                d_options[5] << endl;
+                d_stdMsg << "TCPDUMP mode" << endl;
+                d_stdMsg <<   d_options[0] << ' ' << 
+                                d_options[1] << d_options[2] << ' ' << 
+                              d_options[3] << ' ' << 
+                                d_options[4] << ' ' << d_options[5] << endl;
             break;
         }
 
         d_stdMsg << boolalpha;
         d_stdMsg << "config file: " << d_options.configPath() << endl;
-        d_stdMsg << "log data: " << (d_options.logData().length() ? 
-                                    d_options.logData() : ""s) << endl;
+        if (string const &logData = d_options.logData(); not logData.empty())
+            d_stdMsg << "log data: " << logData << endl;
         d_stdMsg << "daemon: " << d_options.daemon() << endl;
         d_stdMsg << "PID file: " << d_options.pidFile() << endl;
         d_stdMsg << "protocol(s): " << d_options.protocolNames() << endl;
@@ -48,11 +49,18 @@ void NatFork::specifications()
         d_stdMsg << "syslog priority: " << d_options.priority() << endl;
         d_stdMsg << "syslog tag: " << d_options.syslogTag() << endl;
         d_stdMsg << "time type `" << d_options.timeTxt() << '\'' << endl;
-        d_stdMsg << "ttl (udp, icmp) " << d_options.ttl() << " seconds" << 
-                                                                    endl;
+        if (d_mode != Options::CONNTRACK)
+            d_stdMsg << "ttl (udp, icmp) " << d_options.ttl() << " seconds" << 
+                                                                        endl;
         d_stdMsg << "verbose: " << d_options.verbose() << endl;
 //        d_stdMsg << "warn: " << d_options.warnings() << endl;
         d_stdMsg << noboolalpha;
+
+        if (d_options.verbose() > 2)
+        {
+            d_stdMsg << "ENDS" << endl;
+            throw 0;
+        }
     }
 
     if (d_options.timeSpecError().length() != 0)
@@ -62,5 +70,6 @@ void NatFork::specifications()
     else if (d_options.verbose() < 2)
         imsg << "Using time type `" << d_options.timeTxt() << '\'' << endl;
 }
+
 
 

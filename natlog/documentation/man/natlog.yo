@@ -393,7 +393,7 @@ NATLOG: From 1338990672:55588 until 1338990747:807100
        time-to-live for received ICMP/UDP connections (by default 60
         seconds). When an ICMP or UDP connection has not been used for tt(ttl)
         seconds it is assumed that the connection has ended, and it is logged
-        as completed.
+        as completed. Time-to-live is not used in conntrack-mode.
 
     it() lsoption(verbose)(V)nl() 
        Additional messages about tt(natlog)'s mode of operation are sent to
@@ -411,11 +411,13 @@ NATLOG: From 1338990672:55588 until 1338990747:807100
        Write tt(natlog)'s version number to the standard output stream and
         terminate.
 
+COMMENT(
     it() loption(warn) (soption(w))nl() 
        Warn about terminating connections not yet registered in tt(natlog)'s
         database. This normally only happens during a short period after
         starting tt(natlog), when existing connections haven't yet been
         noticed. 
+END)
     )
                     
 manpagesection(RSYSLOG FILTERING)

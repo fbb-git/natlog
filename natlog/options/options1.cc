@@ -24,8 +24,6 @@ Options::Options()
     setSyslogParams();
 
     d_verbose = d_arg.option('V');      // not a bool, but a size_t
-    if (d_verbose > 2)
-        d_verbose = 2;                  // restrict the max. verbosity
 
     setBoolMembers();
 
