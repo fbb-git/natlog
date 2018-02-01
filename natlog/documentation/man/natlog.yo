@@ -1,4 +1,4 @@
-NOUSERMACRO(natlog)
+NOUSERMACRO(natlog protocol)
 
 includefile(../../release.yo)
 
@@ -86,11 +86,11 @@ logged message (log-entries occupy single lines; the line-breaks below are to
 enhance readability):
         verb(
     NATLOG: from 1338990672:55588 until 1338990747:807100 (UTC): tcp
-        192.168.19.72:4467 (via: 129.125.90.132:4467) to 200.49.219.180:443;
-        sent: 802, received: 7669
+        192.168.19.72:4467 (via: 129.125.90.132:4467) to 
+        to 200.49.219.180:443; sent: 802, received: 7669
         )
     The values tt(1338990672:55588) and tt(1338990747:807100) are time stamps
-showing the begin- and end-times in seconds:microseconds of a TCP connection
+showing the begin- and end-times in seconds:microseconds of a tcp connection
 since the beginning of the epoch (Jan 1, 1970, 0:00 UTC). tt(Natlog) offers
 the tt(--time) option for requesting human-readable time specifications like
 tt(Nov 2 13:29:11) rather than time representations using seconds and micro
@@ -124,12 +124,8 @@ existing file. When the log file does not yet exist it is created. The first
 line of the thus written log files names the columns of the table. The column
 names are (all on one line):
     verb(
-    type, 
-        srcNr, srcIP, srcPort, 
-        dstNr, dstIP, dstPort, 
-        sent, recvd, 
-        begin,     end, 
-        beginTime, endTime, complete
+    type, srcNr, srcIP, srcPort, dstNr, dstIP, dstPort, 
+        sent, recvd, begin,  end, beginTime, endTime, complete
     )
     Most column labels will be self-explanatory. tt(Type) indicates the
 connection type, logged as tt(icmp, tcp,) or tt(udp); tt(srcNr) and tt(dstNr)
@@ -145,12 +141,10 @@ tt(natlog's) termination time.
 Log entries look like this (each entry occupies one line, header line and
 logged data lines are right-aligned):
     verb(
-    tcp,  
-           101820608,    192.168.17.6,   48886, 
-          4012145084,  188.121.36.239,      80,       
-                 430,      2266, 
-          1517387644,             1517387644, 
-          Jan 31 08:34:04:318340, Jan 31 08:34:04:383170, 1
+    tcp, 101820608,    192.168.17.6,        48886, 
+        4012145084,  188.121.36.239,           80,       
+               430,            2266,   1517387644,    1517387644, 
+        Jan 31 08:34:04:318340, Jan 31 08:34:04:383170,  1
     )
 
 
@@ -160,8 +154,8 @@ manpagesection(MODES AND COMMANDS)
     it() tt(conntrack): the `conntrack'-mode. This command can only be used on
 platforms using bf(iptables)(1) where bf(conntrack)(1) has also been
 installed. Information about source-natted connections is obtained from
-bf(conntrack)(1)'s output. In this mode all, or one of the (by default) TCP,
-UDP, and ICMP layer four protocols can be monitored.
+bf(conntrack)(1)'s output. In this mode all, or one of the (by default) tcp,
+udp, and icmp layer four protocols can be monitored.
 
     By default tt(conntrack) does not report byte counts. To have conntrack
 report byte counts the command
@@ -189,7 +183,7 @@ on to the tt(outdevice);
 tt(outdevice) is the name of the device where source-natted packets are
 forwarded to, and from where replies for source-natted hosts living behind the
 tt(indevice) are received. With this command all, or any combination of the
-(by default) TCP, UDP, and ICMP layer four protocols can be monitored.
+(by default) tcp, udp, and icmp layer four protocols can be monitored.
 
     it() tt(infile in-address in-mask outfile out-address out-mask): the
 `tcpdump'-mode. This command can be used to process bf(tcpdump)(1) generated
@@ -208,10 +202,12 @@ where  tt(natlog) has been installed. The required addresses and masks are
 shown by the bf(ifconfig)(1) command. E.g.,
         verb(
 eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 129.125.1.123  netmask 255.255.0.0  broadcast 129.125.255.255
+      inet 129.125.1.123  netmask 255.255.0.0  
+                          broadcast 129.125.255.255
 
 eth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
-        inet 192.168.1.1  netmask 255.255.255.0  broadcast 192.168.1255
+        inet 192.168.1.1  netmask 255.255.255.0  
+                          broadcast 192.168.1255
         )
     The relevant info is shown in the lines following the interface's name:
 the value following tt(inet) is the interface's IP address, and the value
@@ -259,7 +255,7 @@ manpagesection(OPTIONS)
         )
         resulting in:nl()
 
-       - Monitoring the TCP layer four protocol;nl()
+       - Monitoring the tcp layer four protocol;nl()
        - Displaying real-time event logs (tt(-E));nl()
        - Displaying time stamps (tt(-o timestamp));nl()
        - Logging all new and destroyed (ended) events (tt(-e
@@ -270,7 +266,7 @@ manpagesection(OPTIONS)
 
        The tt(conntrack) program must be available when requesting
         tt(natlog)'s tt(conntrack) command. Layer four protocols other than
-        TCP, UDP and ICMP are currently not supported. A subset of the
+        tcp, udp and icmp are currently not supported. A subset of the
         supported protocols may be requested using tt(conntrack's -p tcp, -p
         udp) or tt(-p icmp) options.
 
@@ -327,13 +323,13 @@ manpagesection(OPTIONS)
         message when receiving a tt(SIGHUP) interrupt).
         
     it() lsaoption(protocol)(P)(specification)nl()
-       The protocol(s) to monitor. By default the TCP layer four protocol is
+       The protocol(s) to monitor. By default the tcp layer four protocol is
         monitored. Currently tt(natlog's conntrack) command can monitor the
-        TCP, UDP, and ICMP layer four protocols.  Using the tt(protocol)
+        tcp, udp, and icmp layer four protocols.  Using the tt(protocol)
         option (note: singular!)  any subset of these protocols can be
-        selected by specifying a colon-separated subset of TCP, UDP, and ICMP
+        selected by specifying a colon-separated subset of tcp, udp, and icmp
         (e.g., tt(--protocol udp:tcp)). The specification tt(all) can be used
-        to monitor all three protocols (TCP, UDP, and ICMP). When using the
+        to monitor all three protocols (tcp, udp, and icmp). When using the
         conntrack-mode, only a single protocol (including tt(all)) can be
         specified.
 
@@ -390,8 +386,8 @@ NATLOG: From 1338990672:55588 until 1338990747:807100
         the local time zone defined by the computer running tt(natlog).
 
     it() lsaoption(ttl)(T)(secs)nl()
-       time-to-live for received ICMP/UDP connections (by default 60
-        seconds). When an ICMP or UDP connection has not been used for tt(ttl)
+       time-to-live for received icmp/udp connections (by default 60
+        seconds). When an icmp or udp connection has not been used for tt(ttl)
         seconds it is assumed that the connection has ended, and it is logged
         as completed. Time-to-live is not used in conntrack-mode.
 
@@ -474,12 +470,12 @@ manpagesection(FILES)
 
 manpagesection(SEE ALSO)
 
-    bf(conntrack)(1), bf(iptables)(1), bf(pcap-filter)(7), bf(syslog)(3),
-    bf(tcpdump)(1)
+    bf(conntrack)(1), bf(ifconfig)(1), bf(iptables)(1), bf(pcap-filter)(7), 
+    bf(ping)(1), bf(R)(1), bf(rsyslogd)(1), bf(syslog)(3), bf(tcpdump)(1)
 
 manpagesection(BUGS)
 
-    tt(Natlog) currently only processes TCP, UDP and ICMP layer four
+    tt(Natlog) currently only processes tcp, udp and icmp layer four
 protocols.
 
 manpageauthor()
