@@ -11,6 +11,7 @@
 #include "../record/record.h"
 
 class Storage;
+class Options;
 
     // ConnectionsConsumer object constructed in natfork/childprocess
 class ConnectionsConsumer: public FBB::SignalHandler
@@ -19,6 +20,8 @@ class ConnectionsConsumer: public FBB::SignalHandler
 
     typedef std::unordered_map<size_t, Record> RecordMap;
     typedef RecordMap::value_type value_type;
+
+    Options const &d_options;
 
     std::ofstream d_logDataStream;
     std::ostream &d_stdMsg;

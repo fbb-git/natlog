@@ -29,6 +29,11 @@ Options::Options()
 
     setTimeSpec();
 
-    ArgConfig::instance().option(&d_logData, "log-data");
+    if (d_arg.option(&d_logData, "log-data"))
+    {
+        string value;
+        if (d_arg.option(&value, "log-data-flush"))
+            d_logDataFlush = max(1LU, stoul(value));
+    }   
 }
 

@@ -235,12 +235,13 @@ manpagesection(OPTIONS)
         configuration options have defaults, which are used when no
         configuration file and no command-line options were provided.
 
-       All options, except for tt(config, help) and tt(verbose) can also be
-        specified in the configuration file. The configuration file ignores
-        empty lines and all information on lines beginning with a hash-mark
-        (tt(#)). In the configuration file initial hyphens should be omitted,
-        and option names may immediately be followed by a colon. Multi-word
-        arguments should not be surrounded by quotes. Examples:
+       All options, except for tt(config, help, verbose) and tt(version) can
+        also be specified in the configuration file. The configuration file
+        ignores empty lines and all information on lines beginning with a
+        hash-mark (tt(#)). In the configuration file initial hyphens should be
+        omitted, and option names may immediately be followed by a
+        colon. Multi-word arguments should not be surrounded by
+        quotes. Examples:
        verb(
     stdout
     syslog-facility: LOCAL0
@@ -297,7 +298,12 @@ manpagesection(OPTIONS)
         observed connections is written in tabular form. Information is
         appended to existing files. If tt(path) does not yet exist it is first
         created. Refer to the tt(DESCRIPTION) section for information about
-        the format of the generated table.
+        the format of the generated table. 
+
+    it() laoption(log-data-flush)(nEntries)nl()
+       When option tt(log-data) is specified, the log-data file buffer is
+        by default flushed after every 32 lines. This option can be used to
+        specify a smaller or larger number of entries.
 
     it() loption(no-daemon)nl()
        By default, tt(natlog) runs in the background (a daemon). tt(Natlog)
@@ -460,12 +466,13 @@ syntax:
 option  value 
     )
     Option and value are separated by white space, a colon may be appended to
-option names, and option values may consist of multiple words.
+option names:
+
     verbinclude(../../etc/natlog.conf)
         
 manpagesection(FILES)
     itemization(
-    it() tt(/etc/natlog.conf): default configuration file.
+    it() tt(/etc/natlog.conf): default configuration file location.
     )
 
 manpagesection(SEE ALSO)

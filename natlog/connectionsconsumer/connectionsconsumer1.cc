@@ -2,9 +2,10 @@
 
 ConnectionsConsumer::ConnectionsConsumer(ostream &stdMsg, Storage &storage)
 :
+    d_options(Options::instance()),
     d_stdMsg(stdMsg),
     d_storage(storage),
-    d_ttl(Options::instance().ttl())
+    d_ttl(d_options.ttl())
 {
     string path;
     if (ArgConfig::instance().option(&path, "log-data") == 0)

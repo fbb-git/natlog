@@ -4,7 +4,7 @@ void ConnectionsConsumer::run()
 {
     thread cleanupThread;
 
-    if (Options::instance().realTime())
+    if (d_options.realTime())
         cleanupThread = thread{ &ConnectionsConsumer::cleanupWrap, this };
 
     while (true)
@@ -25,7 +25,7 @@ void ConnectionsConsumer::run()
         (this->*s_handler[record.protocol()])(record);  
     }
 
-    if (Options::instance().realTime())
+    if (d_options.realTime())
         cleanupThread.join();
     else
     {

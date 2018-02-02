@@ -52,6 +52,7 @@ struct Options: public IP_Types
         size_t d_IPheaderSize = 0;
         size_t d_verbose;
         size_t d_conntrackRestart = 10;
+        size_t d_logDataFlush = 32;
         time_t  d_ttl = TTL;
         
         std::unordered_map<std::string, Time>::const_iterator d_time;
@@ -127,6 +128,7 @@ struct Options: public IP_Types
         char const *conntrackDevice() const;
         std::string const &syslogTag() const;
         std::string const &logData() const;
+        size_t logDataFlush() const;
 
         FBB::Priority syslogPriority() const;
         FBB::Facility syslogFacility() const;
@@ -248,6 +250,11 @@ inline std::string const &Options::syslogTag() const
 inline std::string const &Options::logData() const
 {   
     return d_logData;
+}
+
+inline size_t Options::logDataFlush() const
+{   
+    return d_logDataFlush;
 }
 
 inline std::string const &Options::pidFile() const

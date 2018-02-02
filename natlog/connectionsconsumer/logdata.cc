@@ -24,7 +24,7 @@ void ConnectionsConsumer::logData(Record const &record, char const *type)
                          record.endTime()       << ", " <<
             setw(7)  << d_complete              << '\n';
 
-    if (++nr % 32 == 0)
+    if (++nr % d_options.logDataFlush() == 0)
         d_logDataStream.flush();        
 }
 
