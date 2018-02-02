@@ -85,7 +85,7 @@ characteristics of connections using source natting. Here is an example of a
 logged message (log-entries occupy single lines; the line-breaks below are to
 enhance readability):
         verb(
-    NATLOG: from 1338990672:55588 until 1338990747:807100 (UTC): tcp
+    NATLOG: from 1338990672:55588 thru 1338990747:807100 (UTC): tcp
         192.168.19.72:4467 (via: 129.125.90.132:4467) to 
         to 200.49.219.180:443; sent: 802, received: 7669
         )
@@ -378,7 +378,7 @@ manpagesection(OPTIONS)
         By default time stamps written by tt(natlog) are in raw, numeric
         form. E.g.,
         verb(
-NATLOG: From 1338990672:55588 until 1338990747:807100
+NATLOG: From 1338990672:55588 thru 1338990747:807100
         )
        These time stamps indicate times in seconds:microseconds since the
         beginning of the epoch, January 1, 1970, 0:00 UTC. This option can be
