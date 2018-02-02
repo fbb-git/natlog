@@ -1,6 +1,7 @@
-documentation/section*
+documentation/howto*
 documentation/pcap*
-tcpdump.nat
+*/driver/*
+tcpdumpproducer/tcpdump.nat
 
 
 
