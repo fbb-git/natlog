@@ -3,7 +3,7 @@
 ConnectionsConsumer::ConnectionsConsumer(ostream &stdMsg, Storage &storage)
 :
     d_options(Options::instance()),
-    d_logDataStream(d_options.logRotate(), header),
+    d_logDataStream(header),
     d_stdMsg(stdMsg),
     d_storage(storage),
     d_ttl(d_options.ttl())

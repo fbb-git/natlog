@@ -1,25 +1,16 @@
 #include "rotatingstreambuf.ih"
 
-void RotatingStreambuf::rotate(RotatingStreambuf *rs)
+void RotatingStreambuf::rotate(std::string const &suffix)
 {
-    while (true)
-    {
-        this_thread::sleep_for(chrono::hours(rs->d_nDays));
+    d_mutex.lock();
 
-        time_t now = time(0);
-        ostringstream suffix;
-        suffix << put_time(gmtime(&now), ".%F-%T");
+    d_out.close();
+    rename(d_name.c_str(), (d_name + suffix).c_str());
 
-        rs->d_mutex.lock();
+    Exception::open(d_out, d_name);
 
-        rs->d_out.close();
-        rename(rs->d_name.c_str(), (rs->d_name + suffix.str()).c_str());
+    if (d_header)
+        (*d_header)(d_out);
 
-        Exception::open(rs->d_out, rs->d_name);
-
-        if (rs->d_header)
-            (*rs->d_header)(rs->d_out);
-
-        rs->d_mutex.unlock();
-    }
+    d_mutex.unlock();
 }

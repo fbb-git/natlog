@@ -22,6 +22,8 @@ class ShowSeconds
         static std::string const &utcMarker();
 
         static std::string now();
+        static void (*utcFormat())(std::ostream &, size_t);
+        static void setFormat(void (*show)(std::ostream &, size_t));
 
     private:
             // all in time.cc
@@ -33,6 +35,11 @@ class ShowSeconds
 inline std::string const &ShowSeconds::utcMarker()
 {
     return s_utcMarker;
+}
+
+inline void ShowSeconds::setFormat(void (*show)(std::ostream &, size_t))
+{
+    s_show = show;
 }
 
 #endif

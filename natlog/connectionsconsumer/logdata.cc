@@ -2,6 +2,8 @@
 
 void ConnectionsConsumer::logData(Record const &record, char const *type)
 {
+    auto ptr = ShowSeconds::utcFormat();
+
     d_logDataStream << 
                         record.protocolStr()    << ',' <<
 
@@ -21,6 +23,8 @@ void ConnectionsConsumer::logData(Record const &record, char const *type)
                          record.beginTime()     << ", " <<
                          record.endTime()       << ", " <<
             setw(7)  << d_complete              << endl;
+
+        ShowSeconds::setFormat(ptr);
 }
 
 

@@ -7,14 +7,13 @@
 class RotatingStream: private RotatingStreambuf, public std::ostream
 {
     public:
-        RotatingStream(size_t nDays, void (*header)(std::ostream &) = 0);
+        RotatingStream(void (*header)(std::ostream &) = 0);
         void open(std::string const &name);
 };
 
-inline RotatingStream::RotatingStream(size_t nDays,
-                                       void (*header)(std::ostream &))
+inline RotatingStream::RotatingStream(void (*header)(std::ostream &))
 :
-    RotatingStreambuf(nDays, header),
+    RotatingStreambuf(header),
     std::ostream(this)
 {}
         
