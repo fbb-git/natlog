@@ -9,6 +9,7 @@
 #include <bobcat/signal>
 
 #include "../record/record.h"
+#include "../rotatingstream/rotatingstream.h"
 
 class Storage;
 class Options;
@@ -23,7 +24,7 @@ class ConnectionsConsumer: public FBB::SignalHandler
 
     Options const &d_options;
 
-    std::ofstream d_logDataStream;
+    RotatingStream d_logDataStream;
     std::ostream &d_stdMsg;
     Storage &d_storage;
 
@@ -92,6 +93,8 @@ class ConnectionsConsumer: public FBB::SignalHandler
             void (ConnectionsConsumer::*logFun)(Record const &, char const *),
             char const *type
         );
+
+        static void header(std::ostream &log);
 };
 
 inline void ConnectionsConsumer::signalHandler(size_t signum)

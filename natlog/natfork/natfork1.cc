@@ -3,6 +3,7 @@
 NatFork::NatFork()
 :
     d_options(Options::instance()),
+    d_log(d_options.logRotate()),
     d_stdMsg(&d_multiStreambuf),
     d_mode(d_options.mode())
 {

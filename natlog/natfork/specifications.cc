@@ -43,7 +43,8 @@ void NatFork::specifications()
         d_stdMsg << "daemon: " << d_options.daemon() << endl;
         d_stdMsg << "PID file: " << d_options.pidFile() << endl;
         d_stdMsg << "protocol(s): " << d_options.protocolNames() << endl;
-        d_stdMsg << "using syslog: " << d_options.syslog() << endl;
+        if (not d_options.log().empty())
+            d_stdMsg << "using log: " << d_options.log() << endl;
         d_stdMsg << "using stdout: " << d_options.stdout() << endl;
         d_stdMsg << "syslog facility: " << d_options.facility() << endl;
         d_stdMsg << "syslog priority: " << d_options.priority() << endl;

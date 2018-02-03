@@ -43,8 +43,6 @@ struct Options: public IP_Types
     
         bool d_daemon;
         bool d_stdout;
-        bool d_useSyslog;
-//        bool d_warn;
         bool d_terminate;
 
         Mode d_mode;
@@ -52,7 +50,8 @@ struct Options: public IP_Types
         size_t d_IPheaderSize = 0;
         size_t d_verbose;
         size_t d_conntrackRestart = 10;
-        size_t d_logDataFlush = 32;
+        size_t d_logDataFlush = 32;         // after 32 lines: flush
+        size_t d_logRotate = 0;             // rotate non-syslog logs (days)
         time_t  d_ttl = TTL;
         
         std::unordered_map<std::string, Time>::const_iterator d_time;
@@ -65,6 +64,7 @@ struct Options: public IP_Types
         std::string d_timeSpecError;
         std::string d_syslogPriorityError;
         std::string d_syslogFacilityError;
+        std::string d_log;
         std::string d_logData;
 
         std::unordered_set<Protocol> d_protocols;
@@ -107,12 +107,11 @@ struct Options: public IP_Types
         bool realTime() const;          // true if the packets are received
                                         // real-time; when recorded: false.
         bool stdout() const;
-        bool syslog() const;
-//        bool warn() const;
         bool kill() const;
 
         size_t IPheaderSize() const;
         size_t verbose() const;
+        size_t logRotate() const;
         time_t ttl() const;
         Time time() const;
         std::string const &timeTxt() const;
@@ -127,6 +126,7 @@ struct Options: public IP_Types
         std::string const &conntrackCommand() const;
         char const *conntrackDevice() const;
         std::string const &syslogTag() const;
+        std::string const &log() const;
         std::string const &logData() const;
         size_t logDataFlush() const;
 
@@ -164,8 +164,8 @@ struct Options: public IP_Types
         void setBoolMembers();
         void setConntrack();
         void setMode();
+        void setLogParams();
         void setSyslogFacility();
-        void setSyslogParams();
         void setSyslogPriority();
         void setTime(std::string const &time);
         void setTimeSpec();
@@ -202,14 +202,14 @@ inline void Options::foreground()
     d_daemon = false;
 }
 
-//inline bool Options::warn() const
-//{   
-//    return d_warn;
-//}
-
-inline bool Options::syslog() const
+inline std::string const &Options::log() const
 {   
-    return d_useSyslog;
+    return d_log;
+}
+
+inline size_t Options::logRotate() const
+{
+    return d_logRotate;
 }
 
 inline time_t Options::ttl() const
@@ -221,11 +221,6 @@ inline size_t Options::IPheaderSize() const
 {
     return d_IPheaderSize;
 }
-
-//inline time_t Options::ttlTCP() const
-//{
-//    return d_ttlTCP;
-//}
 
 inline Options::Time Options::time() const
 {   

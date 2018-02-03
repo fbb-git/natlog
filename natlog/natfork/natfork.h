@@ -1,13 +1,14 @@
 #ifndef INCLUDED_NATFORK_
 #define INCLUDED_NATFORK_
 
-#include <ostream>
+#include <fstream>
 #include <memory>
 
 #include <bobcat/fork>
 #include <bobcat/multistreambuf>
 
 #include "../options/options.h"
+#include "../rotatingstream/rotatingstream.h"
 
 namespace FBB
 {
@@ -22,6 +23,7 @@ class NatFork: public FBB::Fork
     Options &d_options;
 
     std::unique_ptr<FBB::SyslogStream> d_syslog;
+    RotatingStream d_log;
 
     FBB::MultiStreambuf d_multiStreambuf;
     std::ostream d_stdMsg;
@@ -37,7 +39,6 @@ class NatFork: public FBB::Fork
         void run();                 // dameonize when running in the
                                     // background, otherwise call
                                     // 'childProcess'
-
     private:
         void specifications();
 

@@ -1,0 +1,19 @@
+#include "rotatingstreambuf.h"
+
+#include <unistd.h>
+#include <cstdio>
+
+#include <iostream>
+#define CERR std::cerr << __FILE__": "
+
+#include <iomanip>
+#include <sstream>
+#include <string>
+#include <thread>
+#include <chrono>
+
+#include <bobcat/exception>
+
+using namespace std;
+using namespace FBB;
+

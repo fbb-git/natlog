@@ -1,0 +1,5 @@
+#include "rotatingstreambuf.ih"
+
+RotatingStreambuf::
+{
+}

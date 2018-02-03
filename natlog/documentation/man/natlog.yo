@@ -293,12 +293,25 @@ manpagesection(OPTIONS)
        Write basic usage information to the standard output stream and
         terminate.
 
+    it() laoption(log)(argument)nl()
+       By default tt(natlog) forwards log messages about tt(natlog) and
+        connection information to the syslog daemon using the tt(DAEMON)
+        facility with priority tt(NOTICE) (see below at the tt(syslog*)
+        options). This is identical to specifying the argument
+        tt(syslog). Alternatively, specify the argument tt(off) to suppress
+        writing log messages. Any other argument is interpreted as a
+        path-specification to a file to receive the log messages: log-messages
+        are appended to existing files. If the log file does not yet exist it
+        is first created.
+
     it() laoption(log-data)(path)nl()
        tt(Path) specifies the pathname of the file where information about
         observed connections is written in tabular form. Information is
         appended to existing files. If tt(path) does not yet exist it is first
         created. Refer to the tt(DESCRIPTION) section for information about
-        the format of the generated table. 
+        the format of the generated table. Specify tt("") as command-line
+        option if the configuration file specifies a log data file but you
+        don't want the data to be logged in a particular run of tt(natlog).
 
     it() laoption(log-data-flush)(nEntries)nl()
        When option tt(log-data) is specified, the log-data file buffer is
@@ -314,11 +327,6 @@ manpagesection(OPTIONS)
         using the tcpdump-mode tt(natlog) does not run in the background. In
         this case, if tt(no-daemon) is omitted a warning message is logged,
         and tt(natlog) continues as an ordinary program.
-
-    it() loption(no-syslog)nl()
-       By default tt(natlog) writes syslog messages to the tt(DAEMON) facility
-        with priority tt(NOTICE). No messages are sent to the syslog daemon
-        when this option is specified.
 
     it() lsaoption(pid-file)(p)(path)nl()
        When tt(natlog) runs in the background, then tt(path) is the name of

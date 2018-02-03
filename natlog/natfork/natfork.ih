@@ -5,7 +5,6 @@
 
 #include <thread>
 #include <iostream>
-#include <fstream>
 
 //TMP
 #define CERR cerr << __FILE__": "
@@ -14,6 +13,7 @@
 #include <bobcat/mstream>
 #include <bobcat/selector>
 #include <bobcat/syslogstream>
+#include <bobcat/exception>
 
 #include "../showseconds/showseconds.h"
 #include "../storage/storage.h"

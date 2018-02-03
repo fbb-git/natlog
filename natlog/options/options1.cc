@@ -21,19 +21,14 @@ Options::Options()
     if (d_mode == CONNTRACK)
         setConntrack();
 
-    setSyslogParams();
+    setLogParams();
 
     d_verbose = d_arg.option('V');      // not a bool, but a size_t
 
     setBoolMembers();
 
     setTimeSpec();
-
-    if (d_arg.option(&d_logData, "log-data"))
-    {
-        string value;
-        if (d_arg.option(&value, "log-data-flush"))
-            d_logDataFlush = max(1LU, stoul(value));
-    }   
 }
+
+
 
