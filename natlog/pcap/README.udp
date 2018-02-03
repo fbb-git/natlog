@@ -11,7 +11,7 @@ nc -l -u -p <portnr>
 
     Start nc on the client:
 
-nc -u -p <portnr> server
+nc -u server <portnr>
 
 
     Run tcpdump -ni <interface> udp and port <portnr> to inspect the flow.
