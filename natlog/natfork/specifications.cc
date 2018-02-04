@@ -53,9 +53,11 @@ void NatFork::specifications()
 
         if (d_options.rotateFreq() != 0 and d_options.nRotations() != 0)
         {
-            d_stdMsg << setw(25) << "rotating log files: " << "each " << 
-                        d_options.rotateFreq() << 
-                                        d_options.rotateTimeSpec() << endl;
+            d_stdMsg << setw(25) << "rotating log files: " << "every";
+            if (d_options.rotateFreq() != 1)
+                d_stdMsg << ' ' << d_options.rotateFreq();
+            d_stdMsg << d_options.rotateTimeSpec() << endl;
+
             d_stdMsg << setw(25) << "number of rotated files: " << 
                                         d_options.nRotations() << endl;
         }
