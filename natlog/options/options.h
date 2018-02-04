@@ -36,6 +36,7 @@ struct Options: public IP_Types
     enum 
     {
         TTL = 60,           // default TTL in seconds
+        TTL_TCP = 3000      // TTL for TCP
     };
 
     private:
@@ -50,9 +51,15 @@ struct Options: public IP_Types
         size_t d_IPheaderSize = 0;
         size_t d_verbose;
         size_t d_conntrackRestart = 10;
-        size_t d_logDataFlush = 32;         // after 32 lines: flush
-        size_t d_logRotate = 0;             // rotate non-syslog logs (days)
-        time_t  d_ttl = TTL;
+
+        size_t d_rotateFreq = 0;        // rotate non-syslog logs
+        size_t d_rotateFactor = 1;      // after spec * factor minutes
+        std::string d_rotateTimeSpec;   // e.g., ' minutes'
+
+        size_t d_nRotations = 0;        // rotate #files
+
+        time_t d_ttl = TTL;
+        time_t d_ttlTCP = TTL_TCP;
         
         std::unordered_map<std::string, Time>::const_iterator d_time;
     
@@ -111,8 +118,15 @@ struct Options: public IP_Types
 
         size_t IPheaderSize() const;
         size_t verbose() const;
-        size_t logRotate() const;
+
+        size_t rotateFreq() const;
+        size_t rotateFactor() const;
+        size_t nRotations() const;
+        std::string const &rotateTimeSpec() const;
+
         time_t ttl() const;
+        time_t ttlTCP() const;
+
         Time time() const;
         std::string const &timeTxt() const;
         Mode mode() const;
@@ -128,7 +142,6 @@ struct Options: public IP_Types
         std::string const &syslogTag() const;
         std::string const &log() const;
         std::string const &logData() const;
-        size_t logDataFlush() const;
 
         FBB::Priority syslogPriority() const;
         FBB::Facility syslogFacility() const;
@@ -167,7 +180,7 @@ struct Options: public IP_Types
         void setLogParams();
         void setSyslogFacility();
         void setSyslogPriority();
-        void setTime(std::string const &time);
+        void setTimeType(std::string const &time);
         void setTimeSpec();
         void setProtocol();
 };
@@ -207,14 +220,34 @@ inline std::string const &Options::log() const
     return d_log;
 }
 
-inline size_t Options::logRotate() const
+inline size_t Options::rotateFreq() const
 {
-    return d_logRotate;
+    return d_rotateFreq;
+}
+
+inline size_t Options::rotateFactor() const
+{
+    return d_rotateFactor;
+}
+
+inline std::string const &Options::rotateTimeSpec() const
+{
+    return d_rotateTimeSpec;
+}
+
+inline size_t Options::nRotations() const
+{
+    return d_nRotations;
 }
 
 inline time_t Options::ttl() const
 {
     return d_ttl;
+}
+
+inline time_t Options::ttlTCP() const
+{
+    return d_ttlTCP;
 }
 
 inline size_t Options::IPheaderSize() const
@@ -247,10 +280,10 @@ inline std::string const &Options::logData() const
     return d_logData;
 }
 
-inline size_t Options::logDataFlush() const
-{   
-    return d_logDataFlush;
-}
+//inline size_t Options::logDataFlush() const
+//{   
+//    return d_logDataFlush;
+//}
 
 inline std::string const &Options::pidFile() const
 {   

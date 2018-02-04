@@ -13,7 +13,6 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("help", 'h'),
         Arg::LongOption("log", Arg::Required),
         Arg::LongOption("log-data", Arg::Required),
-//        Arg::LongOption("log-data-flush", Arg::Required),
         Arg::LongOption("log-rotate", Arg::Required),
         Arg::LongOption("no-daemon", Arg::None),
         Arg::LongOption("pid-file", 'p'),

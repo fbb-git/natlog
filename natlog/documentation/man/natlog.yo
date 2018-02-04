@@ -313,10 +313,15 @@ manpagesection(OPTIONS)
         option if the configuration file specifies a log data file but you
         don't want the data to be logged in a particular run of tt(natlog).
 
-    it() laoption(log-data-flush)(nEntries)nl()
-       When option tt(log-data) is specified, the log-data file buffer is
-        by default flushed after every 32 lines. This option can be used to
-        specify a smaller or larger number of entries.
+    it() laoption(log-rotate)(spec)nl()
+       This option is used to specify the frequency and the number of
+        log-files that are rotated. By default log-files are not rotated.nl()
+       Specify tt(time[mhd]) or tt(time[mhd]nFiles). A time unit specification
+        must follow tt(time) and is tt(m) for minutes, tt(h) for hours, and
+        tt(d) for days. tt(nFiles) specifies the max. number of rotated
+        files. If only tt(time[mhd]) is specified, then tt(nFiles) is set to
+        1.  By default (or if tt(time) or tt(nfiles) are specified as zero)
+        log files are not rotated.
 
     it() loption(no-daemon)nl()
        By default, tt(natlog) runs in the background (a daemon). tt(Natlog)

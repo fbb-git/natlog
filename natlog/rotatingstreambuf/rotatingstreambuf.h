@@ -11,6 +11,7 @@ class RotatingStreambuf: public std::streambuf
 {
     std::mutex d_mutex;
     bool d_locked = false;
+    volatile bool d_contents = false;
 
     std::ofstream d_out;
     std::string d_name;
@@ -32,7 +33,7 @@ class RotatingStreambuf: public std::streambuf
         int lockedOverflow(int ch);
 
         static void rotateThread();
-        void rotate(std::string const &suffix);
+        void rotate(size_t nFiles);
 };
 
 inline RotatingStreambuf::RotatingStreambuf(void (*header)(std::ostream &))

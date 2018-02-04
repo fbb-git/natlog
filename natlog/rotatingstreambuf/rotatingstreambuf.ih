@@ -6,8 +6,6 @@
 #include <iostream>
 #define CERR std::cerr << __FILE__": "
 
-#include <iomanip>
-#include <sstream>
 #include <string>
 #include <thread>
 #include <chrono>

@@ -1,6 +1,22 @@
 main 
-    |
-    natfork.run()
+ |
+ +- NatFork
+ |  |
+ |  +- RotatingStream
+ |  |  |
+ |  |  +- RotatingStreambuf
+ |  |
+ |  +- setupStdMsg
+ |     |
+ |     +- RotatingStream::open
+ |        |
+ |        +- RotatingStreambuf::open
+ |           |
+ |           +- rotateThread (thread, once)
+ |              |
+ |              +- rotate
+ |
+ +- natfork.run()
     |
     +--- parentProcess
     |
@@ -51,6 +67,20 @@ main
          |    |         +- store pushes TcpdumpRecord on the storage
          |    |      
          |    +- storage.setEmpty
+         |
+         +- ConnectionsConsumer
+         |  |
+         |  +- RotatingStream
+         |  |  |
+         |  |  +- RotatingStreambuf
+         |  |
+         |  +- RotatingStream::open
+         |     |
+         |     +- RotatingStreambuf::open
+         |        |
+         |        +- rotateThread (thread, once)
+         |           |
+         |           +- rotate
          |
          +- ConnectionsConsumer.run
             |

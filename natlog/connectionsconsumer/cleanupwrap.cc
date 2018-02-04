@@ -13,8 +13,8 @@ void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *const consumer)
         consumer->cleanupICMP_UDP(time(0) - consumer->d_ttl);
 
             // tcp connections passive for more than 1 hour are removed.
-        consumer->cleanup(time(0) - 4000, consumer->d_tcpMutex, 
-                                          consumer->d_tcp, 
+        consumer->cleanup(time(0) - Options::instance().ttlTCP(), 
+                          consumer->d_tcpMutex, consumer->d_tcp, 
                           &ConnectionsConsumer::logTCP_UDP, "tcp");
     }
 }

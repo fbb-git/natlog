@@ -1,6 +1,6 @@
 #include "options.ih"
 
-void Options::setTime(string const &spec)
+void Options::setTimeType(string const &spec)
 {
     d_time = s_time.find(spec);
     if (d_time == s_time.end())

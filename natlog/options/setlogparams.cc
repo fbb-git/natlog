@@ -16,12 +16,48 @@ void Options::setLogParams()
     else if (d_log == "off")                    // no logging
         d_log.clear();
 
-    if (d_arg.option(&d_logData, "log-data"))
-    {
-        if (d_arg.option(&value, "log-data-flush"))
-            d_logDataFlush = max(1LU, stoul(value));
-    }
+    d_arg.option(&d_logData, "log-data");
+//    {
+//        if (d_arg.option(&value, "log-data-flush"))
+//            d_logDataFlush = max(1LU, stoul(value));
+//    }
 
     if (d_arg.option(&value, "log-rotate"))     // log file rotation in days
-        d_logRotate = stoul(value);             
+    {
+        istringstream in{ value };
+
+        in >> d_rotateFreq;
+        switch (in.get())
+        {
+            case 'd':
+                d_rotateFactor = 24 * 60;
+                d_rotateTimeSpec = " days";
+            break;
+
+            case 'h':
+                d_rotateFactor = 60;
+                d_rotateTimeSpec = " hours";
+            break;
+
+            case 'm':
+                d_rotateTimeSpec = " minutes";
+            break;
+
+            default:
+            throw Exception{} << "`log-rotate " << value << "' not supported";
+        }
+
+        if (d_rotateFreq == 1)
+            d_rotateTimeSpec.pop_back();
+
+        if (not (in >> d_nRotations))
+            d_nRotations = 1;
+    }
 }
+
+
+
+
+
+
+

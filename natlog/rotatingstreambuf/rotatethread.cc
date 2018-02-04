@@ -2,20 +2,21 @@
 
 void RotatingStreambuf::rotateThread()
 {
-    size_t nDays = Options::instance().logRotate();
+    Options const &options = Options::instance();
 
-    if (nDays == 0)
+    size_t freq = options.rotateFreq();
+    size_t nRotations = options.nRotations();
+
+    if (freq == 0 || nRotations == 0)
         return;
+
+    freq *= options.rotateFactor();
 
     while (true)
     {
-        this_thread::sleep_for(chrono::hours(nDays));
-
-        time_t now = time(0);
-        ostringstream suffix;
-        suffix << put_time(gmtime(&now), ".%F-%T");
+        this_thread::sleep_for(chrono::minutes(freq));
 
         for (RotatingStreambuf *rs: s_rotate)
-            rs->rotate(suffix.str());
+            rs->rotate(nRotations);
     }
 }
