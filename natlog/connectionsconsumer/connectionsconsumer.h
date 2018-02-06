@@ -52,6 +52,7 @@ class ConnectionsConsumer: public FBB::SignalHandler
 
     public:
         ConnectionsConsumer(std::ostream &stdMsg,Storage &storage);
+        ~ConnectionsConsumer();
 
         void run();                         // process all connections:
                                             // start the producer thread

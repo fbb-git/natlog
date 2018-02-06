@@ -27,12 +27,13 @@ void ConnectionsConsumer::run()
 
     if (d_options.realTime())
         cleanupThread.join();
-    else
-    {
-        d_complete = false;                 // tcpdump processing ended:
-        cleanupICMP_UDP(time(0) + 1);       // what's still in the maps is
-    }                                       // incomplete
 
+CERR << "cleanup ICMP/UDP\n";
+    d_complete = false;                     // tcpdump processing ended:
+    cleanupICMP_UDP(time(0) + 1);           // what's still in the maps is
+                                            // incomplete
+
+CERR << "cleanup TCP\n";
     cleanup(time(0) + 1, d_tcpMutex, d_tcp,
                                     &ConnectionsConsumer::logTCP_UDP, "tcp");
 }
