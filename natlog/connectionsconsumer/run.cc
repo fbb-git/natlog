@@ -4,6 +4,8 @@ void ConnectionsConsumer::run()
 {
     thread cleanupThread;
 
+        // when logging in Conntrack-mode or Device-mode (realTime)
+        // inspect the TTL of the incoming packages in the background.
     if (d_options.realTime())
         cleanupThread = thread{ &ConnectionsConsumer::cleanupWrap, this };
 
@@ -27,15 +29,15 @@ void ConnectionsConsumer::run()
 
     if (d_options.realTime())
         cleanupThread.join();
+        
+    d_logType = EOP;
 
-CERR << "cleanup ICMP/UDP\n";
-    d_complete = false;                     // tcpdump processing ended:
-    cleanupICMP_UDP(time(0) + 1);           // what's still in the maps is
-                                            // incomplete
+    time_t eop = time(0) + 1;
 
-CERR << "cleanup TCP\n";
-    cleanup(time(0) + 1, d_tcpMutex, d_tcp,
-                                    &ConnectionsConsumer::logTCP_UDP, "tcp");
+    cleanupICMP_UDP(eop);                   // what's still in the maps is
+                                            // there at EOP
+
+    cleanup(eop, d_tcpMutex, d_tcp, &ConnectionsConsumer::logTCP_UDP, "tcp");
 }
 
 

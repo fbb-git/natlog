@@ -7,3 +7,10 @@ ConnectionsConsumer::s_handler =
     { Record::TCP,              &ConnectionsConsumer::tcp }, 
     { Record::UDP,              &ConnectionsConsumer::udp }, 
 };
+
+char const *ConnectionsConsumer::s_logType[]
+{
+    "",
+    " (INCOMPLETE)",
+    " (EOP)"
+};

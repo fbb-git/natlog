@@ -12,7 +12,7 @@ void ConnectionsConsumer::logTCP_UDP(Record const &record, char const *type)
             "to " << record.destIPstr() << ':' << record.destPort() << "; "
             "sent: " << record.sentBytes() << ", "
             "received: " << record.receivedBytes() << 
-            (d_complete ? "" : " (INCOMPLETE)") << endl;
+            s_logType[d_logType] << endl;
 
         (this->*d_logData)(record, type);
     }

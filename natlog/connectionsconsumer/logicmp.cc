@@ -11,7 +11,7 @@ void ConnectionsConsumer::logICMP(Record const &record,
                 "to " << record.destIPstr() << "; "
                 "sent: " << record.sentBytes() << ", "
                 "received: " << record.receivedBytes() << 
-                (d_complete ? "" : " (INCOMPLETE)") << endl;
+                s_logType[d_logType] << endl;
 
     (this->*d_logData)(record, "icmp");
 }

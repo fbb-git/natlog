@@ -40,7 +40,7 @@ class ConnectionsConsumer: public FBB::SignalHandler
     std::mutex d_tcpMutex;
     RecordMap d_tcp;
 
-    void (ConnectionsConsumer::*d_logData)(Record const &, char const*);
+    void (ConnectionsConsumer::*d_logData)(Record const &, char const *);
 
     static std::unordered_map<
                     Record::Protocol, 
@@ -48,11 +48,19 @@ class ConnectionsConsumer: public FBB::SignalHandler
                 > s_handler;
 
     time_t  d_ttl;
-    bool    d_complete = true;
+
+    enum LogType
+    {
+        COMPLETE,
+        INCOMPLETE,
+        EOP
+    };
+
+    LogType  d_logType = COMPLETE;
+    static char const *s_logType[];
 
     public:
         ConnectionsConsumer(std::ostream &stdMsg,Storage &storage);
-        ~ConnectionsConsumer();
 
         void run();                         // process all connections:
                                             // start the producer thread
@@ -100,7 +108,7 @@ class ConnectionsConsumer: public FBB::SignalHandler
 
 inline void ConnectionsConsumer::signalHandler(size_t signum)
 {
-    d_complete = false;
+    d_logType = EOP;
 }
         
 #endif
