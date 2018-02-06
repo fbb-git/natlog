@@ -20,6 +20,6 @@ void ConnectionsConsumer::header(ostream &log)
         setw(11) << "end"       << ", " <<
 
         setw(22) << "beginTime" << ", " <<
-        setw(22) << "endTime"   << ", complete" << endl;
-                                 // 1234567
+        setw(22) << "endTime"   << ", logType" << endl;
+                                 // 123456
 }
