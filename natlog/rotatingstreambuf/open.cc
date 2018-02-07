@@ -12,7 +12,7 @@ void RotatingStreambuf::open(string const &name)
         (*d_header)(d_out);
 
     if (s_rotate.empty())
-        thread{ rotateThread }.detach();
+        s_rotateThread = thread{ rotateThread };
 
     s_rotate.push_back(this);
 }

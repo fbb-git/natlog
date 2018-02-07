@@ -7,7 +7,6 @@
 #define CERR std::cerr << __FILE__": "
 
 #include <string>
-#include <thread>
 #include <chrono>
 
 #include <bobcat/exception>

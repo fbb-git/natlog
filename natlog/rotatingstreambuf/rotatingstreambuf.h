@@ -5,7 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <iosfwd>
-#include <mutex>
+#include <thread>
 #include <bobcat/semaphore>
 
 class RotatingStreambuf: public std::streambuf
@@ -17,12 +17,13 @@ class RotatingStreambuf: public std::streambuf
     std::ofstream d_out;
     std::string d_name;
 
-    static std::vector<RotatingStreambuf *> s_rotate;
-    static FBB::Semaphore s_semaphore;
-  
     int (RotatingStreambuf::*d_overflow)(int ch);
     void (*d_header)(std::ostream &);
 
+    static std::vector<RotatingStreambuf *> s_rotate;
+    static FBB::Semaphore s_semaphore;
+    static std::thread s_rotateThread;
+  
     public:
         RotatingStreambuf(void (*header)(std::ostream &) = 0);
         void open(std::string const &name);
@@ -44,9 +45,4 @@ inline RotatingStreambuf::RotatingStreambuf(void (*header)(std::ostream &))
     d_header(header)
 {}
 
-inline void RotatingStreambuf::notify()
-{
-    s_semaphore.notify();
-}
-       
 #endif
