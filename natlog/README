@@ -1,0 +1,23 @@
+IP packet related enum and struct definitions are in 
+
+    iptypes/iptypes.h
+
+------------------------------------------------------------------------------
+
+The organization of the program's flow is described in
+documentation/README.flow
+
+An annotated example of tcp communication is available in
+documentation/README.tcp
+
+Information describing the format of the file written by tcpdump is found in
+documentation/README.tcpdump
+
+An annotated example of udp communication and the instructions of how to set
+up a demo-udp connection is available in documentation/README.udp
+
+The organization of pcap packets is described in documentation/README.packet
+
+An example of the information made available by the conntrack program for tcp,
+udp, and icmp connections is available in documentation/README.conntrack
+
