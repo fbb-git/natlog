@@ -134,12 +134,13 @@ and the destination host's IP address (decimal representations); tt(begin) and
 tt(end) are the times in seconds since the beginning of the epoch,
 corresponding to the times displayed at, respectively, tt(beginTime) and
 tt(endTime); tt(status) indicates the status of the logged connection
-information: 0 indicates a connection that was normally completed; 1 indicates
-that the connection was recognized, but was not normally completed; 2 is used
-for connections that were still active by the time tt(natlog) terminates. When
-the status equals 1, the time entries show the times of receiving the first
-and last packets of that connection; when 2, then the tt(end) and tt(endTime)
-entries show tt(natlog's) termination time.
+information: tt(ok) indicates a connection that was normally completed;
+tt(incomplete) indicates that the connection was recognized, but was not
+normally completed; tt(eop) is used for connections that were still active by
+the time tt(natlog) terminates. When the status equals tt(incomplete), the
+time entries show the times of receiving the first and last packets of that
+connection; when tt(eop), then the tt(end) and tt(endTime) entries show
+tt(natlog's) termination time.
 
 Log entries look like this (each entry occupies one line, header line and
 logged data lines are right-aligned):
@@ -147,7 +148,7 @@ logged data lines are right-aligned):
     tcp, 101820608,    192.168.17.6,        48886, 
         4012145084,  188.121.36.239,           80,       
                430,            2266,   1517387644,    1517387644, 
-        Jan 31 08:34:04:318340, Jan 31 08:34:04:383170, 0
+        Jan 31 08:34:04:318340, Jan 31 08:34:04:383170,  ok
     )
 
 manpagesection(MODES AND COMMANDS)

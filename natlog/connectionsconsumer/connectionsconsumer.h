@@ -57,7 +57,7 @@ class ConnectionsConsumer: public FBB::SignalHandler
     };
 
     LogType  d_logType = COMPLETE;
-    static char const *s_logType[];
+    static std::pair<char const *, char const *> s_logType[];
 
     public:
         ConnectionsConsumer(std::ostream &stdMsg,Storage &storage);

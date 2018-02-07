@@ -9,6 +9,7 @@ class RotatingStream: private RotatingStreambuf, public std::ostream
     public:
         RotatingStream(void (*header)(std::ostream &) = 0);
         void open(std::string const &name);
+        static void notify();
 };
 
 inline RotatingStream::RotatingStream(void (*header)(std::ostream &))
@@ -20,6 +21,11 @@ inline RotatingStream::RotatingStream(void (*header)(std::ostream &))
 inline void RotatingStream::open(std::string const &name)
 {
     RotatingStreambuf::open(name);
+}
+
+inline void RotatingStream::notify()
+{
+    RotatingStreambuf::notify();
 }
 
 #endif

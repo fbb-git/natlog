@@ -22,7 +22,8 @@ void ConnectionsConsumer::logData(Record const &record, char const *type)
             setw(11) << record.seconds()        << ", " <<
                          record.beginTime()     << ", " <<
                          record.endTime()       << ", " <<
-            setw(6)  << d_logType               << endl;
+
+            setw(10) << s_logType[d_logType].second << endl;
 
         ShowSeconds::setFormat(ptr);
 }

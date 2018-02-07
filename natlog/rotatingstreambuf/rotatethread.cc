@@ -12,10 +12,8 @@ void RotatingStreambuf::rotateThread()
 
     freq *= options.rotateFactor();
 
-    while (true)
+    while (s_semaphore.wait_for(chrono::minutes(freq)) == cv_status::timeout)
     {
-        this_thread::sleep_for(chrono::minutes(freq));
-
         for (RotatingStreambuf *rs: s_rotate)
             rs->rotate(nRotations);
     }

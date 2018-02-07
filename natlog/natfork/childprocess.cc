@@ -19,9 +19,13 @@ void NatFork::childProcess()
     if (d_options.daemon())
         prepareDaemon();
 
-    thread{ Producer::process, producer.get(), ref(storage) }.detach();
+    thread producerThread{ Producer::process, producer.get(), ref(storage) };
 
     connections.run();
+
+    producerThread.join();
+
+    RotatingStreambuf::notify();             // ends the log-rotating threads.
 }
 
 

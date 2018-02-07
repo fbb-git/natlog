@@ -8,9 +8,9 @@ ConnectionsConsumer::s_handler =
     { Record::UDP,              &ConnectionsConsumer::udp }, 
 };
 
-char const *ConnectionsConsumer::s_logType[]
+pair<char const *, char const *> ConnectionsConsumer::s_logType[]
 {
-    "",
-    " (INCOMPLETE)",
-    " (EOP)"
+    { "",               "ok"         },
+    { " (INCOMPLETE)",  "incomplete" },
+    { " (EOP)",         "eop"        }
 };

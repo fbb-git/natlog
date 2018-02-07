@@ -23,11 +23,6 @@ class Pcap
         void computeShift(char const *device);  // from Pcap(): sets d_shift
 };
 
-inline void Pcap::stop()
-{
-    pcap_breakloop(d_pcap);
-}
-
 inline int Pcap::shiftPacketBegin() const
 {
     return d_shift;
