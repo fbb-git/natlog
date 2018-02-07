@@ -48,3 +48,4 @@ Provide arg:
 
 esac
 
+rm -f ${PROJECT}/LICENSE

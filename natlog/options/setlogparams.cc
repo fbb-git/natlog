@@ -50,8 +50,13 @@ void Options::setLogParams()
         if (d_rotateFreq == 1)
             d_rotateTimeSpec.pop_back();
 
-        if (not (in >> d_nRotations))
+        if (isdigit(in.peek()))
+             in >> d_nRotations;
+        else if (in.peek() == EOF)
             d_nRotations = 1;
+        else
+            throw Exception{} << "`--log-rotate " << value << 
+                                                    "' not supported";
     }
 }
 

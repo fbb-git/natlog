@@ -1,13 +1,41 @@
-natlog (2.00.00)    (WIP)
+natlog (2.00.00)
+
+  * Added mode tcpdump processing captured tcpdump files
+
+  * Modes tcpdump, conntrack and device (formerly known as mode pcap) log
+    files show numbers of bytes that were sent and received. 
+
+  * To use byte-accounting in mode conntrack the following command must have
+    been issued (after starting iptables):
+
+        /bin/echo "1" > /proc/sys/net/netfilter/nf_conntrack_acct
 
   * Added option --contrack-device, by default set to /proc/net/nf_conntrack.
     Older systems may still use /proc/net/ip_conntrack, which may be selected
     using this option.
 
-  *  To activate byte-accounting:
-    /bin/echo "1" > /proc/sys/net/netfilter/nf_conntrack_acct
+  * Added option --ip-header-size, correcting for the IP header sizes which
+    are added by conntrack to its logs.
 
-  * Pcap record handling now also processes ICMP and UDP records.
+  * Added option --log, replacing the former --no-syslog option. --log can be
+    used to specify a log-file instead of using syslog facilities.
+
+  * Added option --log-data, specifying a path to a log file to contain a
+    table that can be used by statistical software.
+
+  * Added option --log-rotate, specifying time-interval between log-file
+    rotations and number of log-files to rotate.
+
+  * Option --protocol can be used to process tcp, udp, and/or icmp protocols
+    for all three modes. To process all three protocols '--protocol all' can
+    be specified. With mode conntrack only a single protocol or 'all' can be
+    used. 
+ 
+  * Added option --terminate terminating a running natlog daemon process.
+
+  * Added option --ttl for udp/icmp and/or tcp connections
+
+
 
 natlog (1.03.00)
 

@@ -331,7 +331,7 @@ manpagesection(OPTIONS)
         runs as an ordinary program (i.e., in the foreground when the option
         tt(no-daemon) is provided). When running as a daemon, tt(--stdout)
         (see below) is suppressed, and tt(--verbose) messages (see below) are
-        sent to the sylog daemon, unless tt(--no-syslog) was specified. When
+        sent to the syslog daemon, unless tt(--no-syslog) was specified. When
         using the tcpdump-mode tt(natlog) does not run in the background. In
         this case, if tt(no-daemon) is omitted a warning message is logged,
         and tt(natlog) continues as an ordinary program.

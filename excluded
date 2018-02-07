@@ -2,6 +2,9 @@ documentation/howto*
 documentation/pcap*
 */driver/*
 tcpdumpproducer/tcpdump.nat
+tcpdumpproducer/br0.hex
+testtcpdump
+
 
 
 
