@@ -1,50 +1,23 @@
 <!DOCTYPE html><html><head>
 <meta charset="UTF-8">
-<title>natlog</title>
-<style type="text/css">
-    figure {text-align: center;}
-    img {vertical-align: center;}
-</style>
-<link rev="made" href="mailto:Frank B. Brokken: f.b.brokken@rug.nl">
-</head>
-<body text="#27408B" bgcolor="#FFFAF0">
-<hr/>
-<h1 id="title">natlog</h1>
-<h2 id="author">natlog.1.03.00.tar.gz</h2>
-<h2 id="date">2012-2017</h2>
-
-<!DOCTYPE html><html><head>
-<meta charset="UTF-8">
-<style type="text/css">
-    figure {text-align: center;}
-    img {vertical-align: center;}
-    figure {text-align: center;}
-    img {vertical-align: center;}
-</style>
-<link rev="made" href="mailto:Frank B. Brokken: f.b.brokken@rug.nl">
-</head>
-<body text="#27408B" bgcolor="#FFFAF0">
-<hr/>
-<h1 id="title"></h1>
-
-<!DOCTYPE html><html><head>
-<meta charset="UTF-8">
 <title>natlog(1)</title>
 <style type="text/css">
     figure {text-align: center;}
     img {vertical-align: center;}
-    figure {text-align: center;}
-    img {vertical-align: center;}
-    figure {text-align: center;}
-    img {vertical-align: center;}
+    .XXfc {margin-left:auto;margin-right:auto;}
+    .XXtc {text-align: center;}
+    .XXtl {text-align: left;}
+    .XXtr {text-align: right;}
+    .XXvt {vertical-align: top;}
+    .XXvb {vertical-align: bottom;}
 </style>
 <link rev="made" href="mailto:Frank B. Brokken: f.b.brokken@rug.nl">
 </head>
 <body text="#27408B" bgcolor="#FFFAF0">
 <hr/>
 <h1 id="title">natlog(1)</h1>
-<h2 id="author">natlog.1.03.00.tar.gz natlog</h2>
-<h2 id="date">2012-2017</h2>
+<h2 id="author">natlog<br/>(natlog.2.00.00.tar.gz)</h2>
+<h2 id="date">2012-2018</h2>
 
 
 <p>
@@ -57,19 +30,20 @@
 <p>
 <h2 >DESCRIPTION</h2>
 <p>
-Firewalls like <strong >iptables</strong>(1) usually offer <em >POSTROUTING</em> (source
-network address translation, snat) facilities changing the source address of a
-host behind the firewall to the address of the host before the firewall. With
-<em >snat</em> the following combinations of IP addresses and port numbers are
-encountered:
+Firewalls like <strong >iptables</strong>(1) may offer <em >POSTROUTING</em> (source network
+address translation, snat) facilities changing the source address of a host
+behind the firewall to the address of the host connected to the outer
+world. With <em >snat</em> the following combinations of IP addresses and port
+numbers are encountered:
     <ul>
     <li> the IP address and port number used by the host behind the firewall
-(in this manual page referred to as <em >IPsrc, sport</em>);
-    <li> the IP address and port number of the host <em >IPsrc</em> connects to (in
-this manual page referred to as <em >IPdst, dport</em>);
+initiating a connection to the outer world (the source host, in this manual
+page referred to as <em >IPsrc, sport</em>);
+    <li> the IP address and port number of the host that <em >IPsrc</em> connects to
+(the destination host, in this manual page referred to as <em >IPdst, dport</em>);
     <li> the IP address and port number used by the firewalling host when
-source natting <em >IPsrc</em> and <em >sport</em> (in this manual page referred to as
-<em >IPfw, fwport</em>).
+source natting <em >IPsrc</em> and <em >sport</em> (the firewall host, in this manual page
+referred to as <em >IPfw, fwport</em>).
     </ul>
 <p>
 Source natting usually uses <em >sport</em> for <em >fwport</em>, but <em >fwport</em> may
@@ -87,30 +61,35 @@ this:
 </pre>
 
     From the perspective of the destination host the communication originates
-at <em >IPfw::fwport</em> and consequently all communication (e.g., and incident
-report) sent by the systems administrator maintaining <em >IPdst</em> to <em >IPfw</em>'s
+at <em >IPfw::fwport</em> and consequently all communication (e.g., incident
+reports) sent by the systems administrator maintaining <em >IPdst</em> to <em >IPfw</em>'s
 systems administrator will refer to <em >IPfw:fwport</em>, rather than to
 <em >IPsrc::sport</em>.
 <p>
 The standard log facilities provided by <em >iptables</em> do not easily allow
-us to relate <em >IPfw:fwport</em> to <em >IPsrc:sport</em>, and <em >natlog</em> was developed
+relating <em >IPfw:fwport</em> to <em >IPsrc:sport</em>, and <em >natlog</em> was developed
 to fill in that particular niche.
 <p>
-When running <em >natlog</em>, messages are sent to the syslog daemon (e.g.,
-<strong >rsyslogd</strong>(1)) and/or the standard output stream showing the essential
-characteristics of the connection using source natting. Here is an example:
+<em >Natlog</em> provides data about source natting in various forms. The
+standard logging mode consists of messages sent to the syslog daemon (cf.,
+<strong >rsyslogd</strong>(1)) and/or to the standard output stream showing the essential
+characteristics of connections using source natting. Here is an example of a
+logged message (log-entries occupy single lines; the line-breaks below are to
+enhance readability):
         <pre>
 
-    NATLOG: (TCP) From 1338990672:55588 until 1338990747:807100:     
-    192.168.19.72:4467 (via: 129.125.90.132:4467) to 200.49.219.180:443
+    NATLOG: from 1338990672:55588 thru 1338990747:807100 (UTC): tcp
+        192.168.19.72:4467 (via: 129.125.90.132:4467) to 
+        to 200.49.219.180:443; sent: 802, received: 7669
         
 </pre>
 
-    In this example the values <em >1338990672:55588</em> and <em >1338990747:807100</em>
-represent time stamps showing the begin- and end-times in seconds:microseconds
-of a TCP connection since Jan 1, 1970, 0:00 UTC. <em >Natlog</em> offers the
-<em >--datetime</em> option, resulting in time representations like <em >Nov 2
-13:29:11</em> rather than time representations using seconds and micro seconds.
+    The values <em >1338990672:55588</em> and <em >1338990747:807100</em> are time stamps
+showing the begin- and end-times in seconds:microseconds of a tcp connection
+since the beginning of the epoch (Jan 1, 1970, 0:00 UTC). <em >Natlog</em> offers
+the <em >--time</em> option for requesting human-readable time specifications like
+<em >Nov 2 13:29:11</em> rather than time representations using seconds and micro
+seconds.
 <p>
 The next value (<em >192.168.19.72:4467</em>) represents <em >IPsrc::sport</em>. This
 is followed by <em >129.125.90.132:4467</em>, representing <em >IPfw:fwport</em>. The
@@ -118,79 +97,213 @@ third pair of values (<em >200.49.219.180:443</em>) represents <em >IPdst:dport<
 <p>
 In this example, host <em >192.168.19.72</em>, using port <em >4467</em>, connected to
 host <em >200.49.219.180</em>, port <em >443</em>. To this latter host the connection
-appeared to have originated from <em >129.125.90.132</em> port <em >4467</em>. The
-provided log message easily allows us to related this to the `real' host and
-port from which the connection originated: <em >192.168.19.72:4467</em>.
+appears to have originated from <em >129.125.90.132</em> port <em >4467</em>. The log
+message allows us to associate this with the `real' host and port from which
+the connection originated: <em >192.168.19.72:4467</em>.
 <p>
-When <em >natlog</em> terminates <em >natlog</em> can no longer track connections that
-are still open. If <em >natlog</em> was terminated by a <em >SIGTERM</em> signal, then it
-sends a `terminating' line to syslog, followed by an overview of all still
-open connections. The end-microseconds values of connections that are no
-longer tracked are shown as <em >0000</em>.
+The final entries show the number of bytes that were sent by the
+source-host (<em >IPsrc</em>) and received from the destination-host (<em >IPdst</em>).
 <p>
-<h2 >COMMANDS</h2>
+When <em >natlog</em> is terminated it can no longer track connections that are
+still open. If <em >natlog</em> was terminated (by a <em >SIGINT</em> or <em >SIGTERM</em>
+signal), then it logs a `terminating' line, followed by an overview of all
+(potentially) still open connections. Those connections are flagged with a
+trailing '(EOP)' (end of program) log-element, and their end-times show
+<em >natlog's</em> termination time. Incomplete connections show <em >(INCOMPLETE)</em>.
+<p>
+In addition to the standard logs the option <em >--log-data</em> is
+available. This option requires the path to a file where information is logged
+in tabular form, which can easily be processed by statistical software like
+<strong >R</strong>(1). When specifying this option information will be appended to an
+existing file. When the log file does not yet exist it is created. The first
+line of the thus written log files names the columns of the table. The column
+names are (all on one line):
+    <pre>
+
+    type, srcNr, srcIP, srcPort, dstNr, dstIP, dstPort, 
+        sent, recvd, begin,  end, beginTime, endTime, status 
+    
+</pre>
+
+    Most column labels will be self-explanatory. <em >Type</em> indicates the
+connection type, logged as <em >icmp, tcp,</em> or <em >udp</em>; <em >srcNr</em> and <em >dstNr</em>
+are the 32 bit numeric values of, respectively, the source host's IP address
+and the destination host's IP address (decimal representations); <em >begin</em> and
+<em >end</em> are the times in seconds since the beginning of the epoch,
+corresponding to the times displayed at, respectively, <em >beginTime</em> and
+<em >endTime</em>; <em >status</em> indicates the status of the logged connection
+information: <em >ok</em> indicates a connection that was normally completed;
+<em >incomplete</em> indicates that the connection was recognized, but was not
+normally completed; <em >eop</em> is used for connections that were still active by
+the time <em >natlog</em> terminates. When the status equals <em >incomplete</em>, the
+time entries show the times of receiving the first and last packets of that
+connection; when <em >eop</em>, then the <em >end</em> and <em >endTime</em> entries show
+<em >natlog's</em> termination time.
+<p>
+Log entries look like this (each entry occupies one line, header line and
+logged data lines are right-aligned):
+    <pre>
+
+    tcp, 101820608,    192.168.17.6,        48886, 
+        4012145084,  188.121.36.239,           80,       
+               430,            2266,   1517387644,    1517387644, 
+        Jan 31 08:34:04:318340, Jan 31 08:34:04:383170,  ok
+    
+</pre>
+
+<p>
+<h2 >MODES AND COMMANDS</h2>
 <p>
 <ul>
-    <li> <em >conntrack</em>: this command can only be used on platforms using
-<strong >iptables</strong>(1) on which <strong >conntrack</strong>(1) has also been installed. Information
-about source-natted connections is obtained from <strong >conntrack</strong>(1)'s
-output. With this command the TCP, UDP, and ICMP layer four protocols can be
-monitored (by default the TCP protocol is monitored). See also the
-<em >conntrack-command</em> option.
+    <li> <em >conntrack</em>: the `conntrack'-mode. This command can only be used on
+platforms using <strong >iptables</strong>(1) where <strong >conntrack</strong>(1) has also been
+installed. Information about source-natted connections is obtained from
+<strong >conntrack</strong>(1)'s output. In this mode all, or one of the (by default) tcp,
+udp, and icmp layer four protocols can be monitored.
 <p>
-<li> <em >indevice outdevice</em>: <em >indevice</em> is the name of the device behind
-the firewall. Addresses living behind the <em >indevice</em> are source-natted to
-the firewall's IP address when passed on to the <em >outdevice</em>; <em >outdevice</em>
-is the name of the device to which source-natted packets are forwarded,
-c.q. from where replies for source-natted hosts living behind the <em >indevice</em>
-are received. Currently, this command is only available for tracking TCP
-connections. 
+By default <em >conntrack</em> does not report byte counts. To have conntrack
+report byte counts the command
+    <pre>
+
+     $ echo 1 &gt; /proc/sys/net/netfilter/nf_conntrack_acct
+    
+</pre>
+
+    must have been issued before starting <em >conntrack</em>. 
+<p>
+<em >Conntrack</em> includes the sizes of the IP headers (usually 20 bytes) in
+reported byte counts. Thus, <em >icmp</em> packets are usually reported as having
+size 84, even though <strong >ping</strong>(1) reports a payload of 64 bytes. Since the
+actual sizes of IP headers cannot be determined from conntrack's output, the
+sizes reported when using <em >natlog's</em> conntrack mode are as reported by
+<em >conntrack</em>, and are therefore not corrected for IP header lengths. The
+option <em >--conntrack-ip-header-size</em> can be used to correct for the (assumed)
+IP header sizes.
+<p>
+See also the <em >conntrack-command</em> option.
+<p>
+<li> <em >indevice outdevice</em>: the `devices'-mode. Here, <em >indevice</em> is the
+name of the device behind the firewall: addresses living behind the
+<em >indevice</em> are source-natted to the firewall host's IP address when passed
+on to the <em >outdevice</em>;
+<p>
+<em >outdevice</em> is the name of the device where source-natted packets are
+forwarded to, and from where replies for source-natted hosts living behind the
+<em >indevice</em> are received. With this command all, or any combination of the
+(by default) tcp, udp, and icmp layer four protocols can be monitored.
+<p>
+<li> <em >infile in-address in-mask outfile out-address out-mask</em>: the
+`tcpdump'-mode. This command can be used to process <strong >tcpdump</strong>(1) generated
+binary files, generated on the source-natting host. If a source natting host
+uses interface <em >eth1</em> behind the firewall and <em >eth0</em> to connect to the
+outside world, then the follow <em >tcpdump</em> commands produce the required
+binary files (these commands will normally be run in the background, hence the
+trailing <em >&amp;</em>):
+        <pre>
+
+    tcpdump -wi eth0 /tmp/eth0 &amp;
+    tcpdump -wi eth1 /tmp/eth1 &amp;
+        
+</pre>
+
+    To have <em >natlog</em> process these files, terminate the <em >tcpdump</em>
+commands, and transfer the files <em >/tmp/eth0</em> and <em >/tmp/eth1</em> to the host
+where  <em >natlog</em> has been installed. The required addresses and masks are
+shown by the <strong >ifconfig</strong>(1) command. E.g.,
+        <pre>
+
+eth0: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+      inet 129.125.1.123  netmask 255.255.0.0  
+                          broadcast 129.125.255.255
+
+eth1: flags=4163&lt;UP,BROADCAST,RUNNING,MULTICAST&gt;  mtu 1500
+        inet 192.168.1.1  netmask 255.255.255.0  
+                          broadcast 192.168.1255
+        
+</pre>
+
+    The relevant info is shown in the lines following the interface's name:
+the value following <em >inet</em> is the interface's IP address, and the value
+following <em >netmask</em> is the network's mask. 
+<p>
+Combining files and addresses, <em >natlog</em> is run as follows (all on one
+line):
+        <pre>
+
+    natlog  /tmp/eth0 129.125.1.123  255.255.0.0 
+            /tmp/eth1 192.168.1.1 255.255.255.0
+        
+</pre>
+
+    Instead of fully specifying the netmask, netmaks specifications like /24
+are also accepted. In that case the number following the slash indicates the
+number of non-zero bits of the netmask. In practice, each value of the netmask
+is either 255 (8 bits are set) or 0 (0 bits are set), and so 255.255.0.0 can
+also be specified as /16, while 255.255.255.0 can be specified like /24.
     </ul>
 <p>
 <h2 >OPTIONS</h2>
 <p>
 <ul>
     <li> <strong >--config</strong>=<em >config-path</em> (<strong >-c</strong>)<br/>
-       The argument <em >config-path</em> defines the path to the configuration file
-        to be used by <em >natlog</em>. By default the configuration file is
-        expected in <em >/etc/natlog.conf</em>. All configuration options have
-        defaults, which are used when no configuration file and no
-        command-line options are provided. 
+       The argument <em >config-path</em> defines the path to <em >natlog's</em>
+        configuration file. By default it is <em >/etc/natlog.conf</em>. All
+        configuration options have defaults, which are used when no
+        configuration file and no command-line options were provided.
 <p>
-All options, except for <em >config, help</em> and <em >verbose</em> can also be
-        specified in the configuration file. The configuration file ignores
-        empty lines and all information on lines beginning with a hash-mark
-        (<em >#</em>). In the configuration file option names do not use initial
-        hyphens, and may immediately be followed by a colon. Multi-word
-        arguments should not be surrounded by quotes. Examples: 
-            <pre>
+All options, except for <em >config, help, verbose</em> and <em >version</em> can
+        also be specified in the configuration file. The configuration file
+        ignores empty lines and all information on lines beginning with a
+        hash-mark (<em >#</em>). In the configuration file initial hyphens should be
+        omitted, and option names may immediately be followed by a
+        colon. Multi-word arguments should not be surrounded by
+        quotes. Examples:
+       <pre>
 
     stdout
     syslog-facility: LOCAL0
-            
+        
 </pre>
 
        Command-line options override configuration file options.
 <p>
 <li> <strong >--conntrack-command</strong>=<em >path [options]</em><br/>
        The path and options to the <strong >conntrack</strong>(1) program. By default this
-        is <em >/usr/sbin/conntrack -p tcp -E -n -o timestamp -e NEW,DESTROY</em>,
+        is 
+       <pre>
+
+    /usr/sbin/conntrack -p tcp -E -n -o timestamp -e NEW,DESTROY
+        
+</pre>
+
         resulting in:<br/>
 <p>
-- Monitoring the TCP layer four protocol;<br/>
+- Monitoring the tcp layer four protocol;<br/>
        - Displaying real-time event logs (<em >-E</em>);<br/>
        - Displaying time stamps (<em >-o timestamp</em>);<br/>
        - Logging all new and destroyed (ended) events (<em >-e
             NEW,DESTROY</em>);<br/>
 <p>
-The protocols to monitor can separately be configured using the
-        <em >--protocol</em> option.
+By default <em >tcp</em> is monitored. Other protocols can be configured
+        using the <em >--protocol</em> option.
 <p>
 The <em >conntrack</em> program must be available when requesting
         <em >natlog</em>'s <em >conntrack</em> command. Layer four protocols other than
-        TCP, UDP and ICMP are currently not supported. A subset of the
+        tcp, udp and icmp are currently not supported. A subset of the
         supported protocols may be requested using <em >conntrack's -p tcp, -p
         udp</em> or <em >-p icmp</em> options.
+<p>
+<li> <strong >--conntrack-device</strong>=<em >dev</em><br/>
+       By default <em >conntrack</em> monitors the information made available at the
+        <em >/proc/net/nf_conntrack</em> device. When another device is used, it can
+        be specified using this option.
+<p>
+<li> <strong >--conntrack-ip-header-size</strong>=<em >size</em><br/>
+       This option can be used to correct for the IP header sizes. By default,
+        <em >conntrack</em> includes these sizes in reported byte counts. By
+        specifying this option packet sizes reported by <em >conntrack</em> are
+        reduced by <em >size</em>. Commonly IP headers consist of 20 bytes (so, to
+        correct for this specify <em >--conntrack-ip-header-size 20</em>).
 <p>
 <li> <strong >--conntrack-restart</strong>=<em >max</em><br/>
        If the conntrack process prematurely ends it is restarted at most
@@ -202,43 +315,69 @@ The <em >conntrack</em> program must be available when requesting
        Write basic usage information to the standard output stream and
         terminate.
 <p>
+<li> <strong >--log</strong>=<em >argument</em><br/>
+       By default <em >natlog</em> forwards log messages about <em >natlog</em> and
+        connection information to the syslog daemon using the <em >DAEMON</em>
+        facility with priority <em >NOTICE</em> (see below at the <em >syslog*</em>
+        options). This is identical to specifying the argument
+        <em >syslog</em>. Alternatively, specify the argument <em >off</em> to suppress
+        writing log messages. Any other argument is interpreted as a
+        path-specification to a file to receive the log messages: log-messages
+        are appended to existing files. If the log file does not yet exist it
+        is first created.
+<p>
+<li> <strong >--log-data</strong>=<em >path</em><br/>
+       <em >Path</em> specifies the pathname of the file where information about
+        observed connections is written in tabular form. Information is
+        appended to existing files. If <em >path</em> does not yet exist it is first
+        created. Refer to the <em >DESCRIPTION</em> section for information about
+        the format of the generated table. Specify <em >""</em> as command-line
+        option if the configuration file specifies a log data file but you
+        don't want the data to be logged in a particular run of <em >natlog</em>.
+<p>
+<li> <strong >--log-rotate</strong>=<em >spec</em><br/>
+       This option is used to specify the frequency and the number of
+        log-files that are rotated. By default log-files are not rotated.<br/>
+       Specify <em >time[mhd]</em> or <em >time[mhd]nFiles</em>. A time unit specification
+        must follow <em >time</em> and is <em >m</em> for minutes, <em >h</em> for hours, and
+        <em >d</em> for days. <em >nFiles</em> specifies the max. number of rotated
+        files. If only <em >time[mhd]</em> is specified, then <em >nFiles</em> is set to
+        1.  By default (or if <em >time</em> or <em >nfiles</em> are specified as zero)
+        log files are not rotated.
+<p>
 <li> <strong >--no-daemon</strong><br/>
        By default, <em >natlog</em> runs in the background (a daemon). <em >Natlog</em>
         runs as an ordinary program (i.e., in the foreground when the option
         <em >no-daemon</em> is provided). When running as a daemon, <em >--stdout</em>
         (see below) is suppressed, and <em >--verbose</em> messages (see below) are
-        sent to the sylog daemon, unless <em >--no-syslog</em> was specified.
-<p>
-<li> <strong >--no-syslog</strong><br/>
-       By default <em >natlog</em> writes syslog messages to the <em >DAEMON</em> facility
-        with priority <em >NOTICE</em>. No messages are sent to the syslog daemon
-        when this option is specified.
+        sent to the syslog daemon, unless <em >--no-syslog</em> was specified. When
+        using the tcpdump-mode <em >natlog</em> does not run in the background. In
+        this case, if <em >no-daemon</em> is omitted a warning message is logged,
+        and <em >natlog</em> continues as an ordinary program.
 <p>
 <li> <strong >--pid-file</strong>=<em >path</em> (<strong >-p</strong>)<br/>
        When <em >natlog</em> runs in the background, then <em >path</em> is the name of
         the path of the file holding the daemon's process-id. By default this
-        is <em >/run/natlog.pid</em>. To end the daemon, send a SIGTERM signal to
-        the process id mentioned in the <em >pid-file</em>. <em >Natlog</em> ignores
-        <em >SIGHUP</em> signals (but writes a log message if a <em >SIGHUP</em> interrupt
-        is received).
+        is <em >/run/natlog.pid</em>. To end the daemon, send a <em >SIGINT</em> or
+        <em >SIGTERM</em> signal to the process id mentioned in the
+        <em >pid-file</em>. <em >Natlog</em> ignores <em >SIGHUP</em> signals (but writes a log
+        message when receiving a <em >SIGHUP</em> interrupt).
 <p>
 <li> <strong >--protocol</strong>=<em >specification</em> (<strong >-P</strong>)<br/>
-       The protocols to monitor by <strong >conntrack</strong>(1). By default
-        <em >conntrack-command</em> monitors the TCP layer four protocol. Currently
-        <em >natlog's conntrack</em> command can monitor the TCP, UDP, and ICMP
-        layer four protocols.  Using the <em >protocol</em> option (note: singular!)
-        any subset of these protocols can be selected by specifying a
-        colon-separated subset of TCP, UDP, and ICMP (e.g., <em >--protocol
-        udp:tcp</em>). The specification <em >all</em> can be used to monitor all three
-        protocols: TCP, UDP, and ICMP.
-<p>
-If the <em >conntrack-command</em> option is specified, the <em >protocol</em>
-        option is ignored.
+       The protocol(s) to monitor. By default the tcp layer four protocol is
+        monitored. Currently <em >natlog's conntrack</em> command can monitor the
+        tcp, udp, and icmp layer four protocols.  Using the <em >protocol</em>
+        option (note: singular!)  any subset of these protocols can be
+        selected by specifying a colon-separated subset of tcp, udp, and icmp
+        (e.g., <em >--protocol udp:tcp</em>). The specification <em >all</em> can be used
+        to monitor all three protocols (tcp, udp, and icmp). When using the
+        conntrack-mode, only a single protocol (including <em >all</em>) can be
+        specified.
 <p>
 <li> <strong >--stdout</strong> (<strong >-s</strong>)<br/> 
        Syslog-equivalent messages are sent to the standard output.
-        This option is implied by <em >--verbose</em>, but is suppressed when
-        <em >natlog</em> runs as a daemon..
+        This option is implied by <em >--verbose</em>, but is suppressed once
+        <em >natlog</em> runs as a daemon.
 <p>
 <li> <strong >--syslog-facility</strong>=<em >facility</em><br/>
        The facility that is used to write the syslog messages to. By default
@@ -260,12 +399,22 @@ If the <em >conntrack-command</em> option is specified, the <em >protocol</em>
         the log-files. By default the tag <em >NATLOG</em> is used. See also section
         <em >RSYSLOG FILTERING</em> below.
 <p>
+<li> <strong >--terminate</strong><br/> 
+       When <em >natlog</em> is running as a daemon, a separate command <em >natlog
+        --terminate</em> can be issued to terminate the daemon. This assumes that
+        the default pid-file (<em >/run/natlog.pid</em>) was used or that a
+        non-default pid-file was specified in the default configuration
+        file. If not, then the location of the pid-file or the location of the
+        non-default configuration file must also be specified. When the daemon
+        could be terminated 0 is returned. Otherwise, an error message is
+        displayed and 1 is returned,
+<p>
 <li> <strong >--time</strong>=<em >spec</em> (<strong >-t</strong>)<br/>
         By default time stamps written by <em >natlog</em> are in raw, numeric
         form. E.g.,
         <pre>
 
-NATLOG: From 1338990672:55588 until 1338990747:807100
+NATLOG: From 1338990672:55588 thru 1338990747:807100
         
 </pre>
 
@@ -279,6 +428,17 @@ NATLOG: From 1338990672:55588 until 1338990747:807100
         Universal Time Coordinated;<br/>
        specify <em >local</em> for a representation like <em >Jun 6 13:29:11</em>, using
         the local time zone defined by the computer running <em >natlog</em>.
+<p>
+<li> <strong >--ttl</strong>=<em >secs[ui]</em> (<strong >-T</strong>)<br/>
+       time-to-live for received connections. At most two time-to-live
+        specifications can be provided: for udp/icmp connections a letter
+        <em >u</em> must be appended to the specified seconds. By default <em >60u</em> is
+        used. For tcp connections a letter <em >t</em> must be appended to the
+        specified seconds. By default <em >3000t</em> is used. Both time-to-live
+        specifications may be combined: <em >--ttl 120u1800t</em> specifies a
+        time-to-live of two minutes for udp/icmp connections and a
+        time-to-live of half an hour for tcp connections. Time-to-live is not
+        used in conntrack-mode.
 <p>
 <li> <strong >--verbose</strong> (<strong >-V</strong>)<br/> 
        Additional messages about <em >natlog</em>'s mode of operation are sent to
@@ -296,11 +456,7 @@ When <em >--verbose</em> is specified more often then <em >natlog</em> ends afte
        Write <em >natlog</em>'s version number to the standard output stream and
         terminate.
 <p>
-<li> <strong >--warn</strong> (<strong >-w</strong>)<br/> 
-       Warn about terminating connections not yet registered in <em >natlog</em>'s
-        database. This normally only happens during a short period after
-        starting <em >natlog</em>, when existing connections haven't yet been
-        noticed. 
+
     </ul>
 <p>
 <h2 >RSYSLOG FILTERING</h2>
@@ -328,13 +484,12 @@ filtering is also supported, see, e.g.,
 <p>
 Examples of <em >natlog</em> activations:
     <ul>
-    <li> <em >natlog --no-daemon --no-syslog -s tun0 eth0</em><br/>
+    <li> <em >natlog --no-daemon --no-syslog -s br0 eth0</em><br/>
         <em >Natlog</em> remains active as a foreground process, no syslog messages
 are written, syslog-equivalent message are written to the standard
-output. <em >Natlog</em> uses the pcap library to capture packets from the <em >tun0</em>
-device (e.g., an <strong >openvpn</strong>(1) device), which is active behind the firewall,
-and to capture packets from the <em >eth0</em> device, which is the device to where
-source-natted packages are sent.
+output. <em >Natlog</em> uses the pcap library to capture packets from the <em >br0</em>
+device, which is active behind the firewall, and to capture packets from the
+<em >eth0</em> device, which is the device to where source-natted packages are sent.
 <p>
 <li> <em >natlog conntrack</em><br/>
         Depending on the options specified in <em >/etc/natlog.conf</em> (or, if not
@@ -354,8 +509,9 @@ option  value
 </pre>
 
     Option and value are separated by white space, a colon may be appended to
-option names, and option values may consist of multiple words.
-    <pre >
+option names:
+<p>
+<pre >
 # This configuration file shows the default option values.
 
 # all options and values are case sensitive
@@ -365,7 +521,34 @@ option names, and option values may consist of multiple words.
     # when no filtering options are specified, the tcp
     # protocol is monitored
     # the default command is shown:
-#conntrack-command:  /usr/sbin/conntrack -p tcp -E -n -o timestamp -e NEW,DESTROY"
+#conntrack-command:  /usr/sbin/conntrack -p tcp -E -n -o timestamp \
+                                                        -e NEW,DESTROY"
+
+    # the device used by conntrack
+#conntrack-device:  /proc/net/nf_conntrack
+
+    # correction for the IP header size 
+    # (standard IP header size is 20 bytes)
+#conntrack-ip-header-size:  0
+
+    # max. number of conntrack restarts
+#conntrack-restart: 10
+
+    # data file for tabular logs (specify path, default: 
+    # data file is not used)
+#log-data:  
+
+    # flush the log-data file after writing log-data-flush lines
+#log-data-flush: 32
+
+    # do not run as a daemon (by default: natlog runs as a daemon)
+#no-daemon
+
+    # do not write messages handled by syslog
+#no-syslog
+
+    # the path to the pid-file of natlog's daemon process
+#pid-file: /run/natlog.pid
 
     # the protocols that are scanned with the 'conntrack' command:
     #   protocol: all       - monitors tcp, udp, icmp
@@ -374,8 +557,8 @@ option names, and option values may consist of multiple words.
     # ignored when conntrack-command is specified
 #protocol: tcp
 
-    # the default syslog tag:
-#syslog-tag: NATLOG
+    # write messages to stdout (ignored by daemons)
+#stdout
 
     # the default syslog facility:
 #syslog-facility: DAEMON
@@ -383,11 +566,14 @@ option names, and option values may consist of multiple words.
     # the default syslog priority:
 #syslog-priority: NOTICE
 
+    # the default syslog tag:
+#syslog-tag: NATLOG
+
     # the time specification:
 #time: raw
 
-    # the path to the pid-file of natlog's daemon process
-#pid-file: /run/natlog.pid
+    # ttl: time to live (seconds) for udp/icmp connections
+#ttl: 60
 
 # end of the configuration file
 
@@ -398,22 +584,22 @@ option names, and option values may consist of multiple words.
 <p>
 <h2 >FILES</h2>
     <ul>
-    <li> <em >/etc/natlog.conf</em>: default configuration file.
+    <li> <em >/etc/natlog.conf</em>: default configuration file location.
     </ul>
 <p>
 <h2 >SEE ALSO</h2>
 <p>
-<strong >conntrack</strong>(1), <strong >iptables</strong>(1), <strong >rsyslogd</strong>(1), <strong >syslog</strong>(3)
+<strong >conntrack</strong>(1), <strong >ifconfig</strong>(1), <strong >iptables</strong>(1), <strong >pcap-filter</strong>(7), 
+    <strong >ping</strong>(1), <strong >R</strong>(1), <strong >rsyslogd</strong>(1), <strong >syslog</strong>(3), <strong >tcpdump</strong>(1)
 <p>
 <h2 >BUGS</h2>
 <p>
-The <em >conntrack</em> command currently only supports the TCP, UDP and ICMP
-layer four protocols.
-<p>
-The <em >indevice outdevice</em> command currently only supports the TCP
-protocol.
+<em >Natlog</em> currently only processes tcp, udp and icmp layer four
+protocols.
 <p>
 <h2 >AUTHOR</h2>
 <p>
 Frank B. Brokken (f.b.brokken@rug.nl).
 <p>
+</body>
+</html>
