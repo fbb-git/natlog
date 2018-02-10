@@ -13,7 +13,7 @@ void DevicesProducer::run()
 
     d_signaled.wait();
 
-    d_stdMsg << "DevicesProducer signaled << endl;
+    d_stdMsg << "DevicesProducer signaled" << endl;
 
     d_endSignal = true;
 
