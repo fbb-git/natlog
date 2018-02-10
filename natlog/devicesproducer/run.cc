@@ -12,13 +12,21 @@ void DevicesProducer::run()
                                                                         endl; 
 
     d_signaled.wait();
+
+    d_stdMsg << "DevicesProducer signaled << endl;
+
     d_endSignal = true;
 
     in.stop();
     out.stop();
 
     inThread.join();
+
+    d_stdMsg << "DevicesProducer inThread joined << endl;
+
     outThread.join();
+
+    d_stdMsg << "DevicesProducer outThread joined << endl;
 
     d_stdMsg << "monitoring " << d_inName << " and " << d_outName << 
                                                             " ends" << endl;

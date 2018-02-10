@@ -17,6 +17,8 @@ void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *const consumer)
                           consumer->d_tcpMutex, consumer->d_tcp, 
                           &ConnectionsConsumer::logTCP_UDP, "tcp");
     }
+    
+    consumer->d_stdMsg << "cleanupWrap thread ends" << endl;
 }
 
 

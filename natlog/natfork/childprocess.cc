@@ -26,6 +26,8 @@ void NatFork::childProcess()
     producerThread.join();
 
     RotatingStreambuf::notify();             // ends the log-rotating threads.
+
+    d_stdMsg << "NatFork::childProcess ends" << endl;    
 }
 
 

@@ -4,6 +4,8 @@ void ConnectionsConsumer::run()
 {
     thread cleanupThread;
 
+    size_t count = 0;
+
         // when logging in Conntrack-mode or Device-mode (realTime)
         // inspect the TTL of the incoming packages in the background.
     if (d_options.realTime())
@@ -22,6 +24,12 @@ void ConnectionsConsumer::run()
                                             // there's no need to copy the
                                             // record at this point
         d_storage.produceNotify();
+
+        if (++count == 500)
+        {
+            d_msg << "500 records received" << endl;
+            count = 0;
+        }
                                             // process the incoming protocol
                                             // data, calls tcp, udp or icmp
         (this->*s_handler[record.protocol()])(record);  
