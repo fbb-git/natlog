@@ -22,7 +22,7 @@ void DevicesProducer::run()
 
     inThread.join();
 
-    d_stdMsg << "DevicesProducer inThread joined << endl;
+    d_stdMsg << "DevicesProducer inThread joined" << endl;
 
     outThread.join();
 

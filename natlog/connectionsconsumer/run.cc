@@ -25,9 +25,9 @@ void ConnectionsConsumer::run()
                                             // record at this point
         d_storage.produceNotify();
 
-        if (++count == 500)
+        if (++count == 2000)
         {
-            d_stdMsg << "500 records received" << endl;
+            d_stdMsg << "2000 records received" << endl;
             count = 0;
         }
                                             // process the incoming protocol
