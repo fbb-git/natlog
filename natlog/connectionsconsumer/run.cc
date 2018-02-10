@@ -27,7 +27,7 @@ void ConnectionsConsumer::run()
 
         if (++count == 500)
         {
-            d_msg << "500 records received" << endl;
+            d_stdMsg << "500 records received" << endl;
             count = 0;
         }
                                             // process the incoming protocol
