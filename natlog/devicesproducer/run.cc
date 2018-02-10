@@ -26,7 +26,7 @@ void DevicesProducer::run()
 
     outThread.join();
 
-    d_stdMsg << "DevicesProducer outThread joined << endl;
+    d_stdMsg << "DevicesProducer outThread joined" << endl;
 
     d_stdMsg << "monitoring " << d_inName << " and " << d_outName << 
                                                             " ends" << endl;
