@@ -25,14 +25,14 @@ void ConnectionsConsumer::run()
                                             // record at this point
         d_storage.produceNotify();
 
-        if (++count == 2000)
-        {
-            d_stdMsg << "2000 records received. map-sizes:"
-                            " tcp: " << d_tcp.size() << 
-                            " udp: " << d_udp.size() << 
-                            " icmp: " << d_icmp.size() << endl;
-            count = 0;
-        }
+//        if (++count == 2000)
+//        {
+//            d_stdMsg << "2000 records received. map-sizes:"
+//                            " tcp: " << d_tcp.size() << 
+//                            " udp: " << d_udp.size() << 
+//                            " icmp: " << d_icmp.size() << endl;
+//            count = 0;
+//        }
                                             // process the incoming protocol
                                             // data, calls tcp, udp or icmp
         (this->*s_handler[record.protocol()])(record);  
