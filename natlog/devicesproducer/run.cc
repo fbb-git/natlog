@@ -2,7 +2,8 @@
 
 void DevicesProducer::run()
 {
-    PcapFilter in{ d_inName, Record::IN, d_stdMsg, d_storage };
+    PcapFilter in{ d_inName, Record::IN, d_stdMsg, d_storage
+,true };
     PcapFilter out{ d_outName, Record::OUT, d_stdMsg, d_storage };
 
     thread inThread{ in };
