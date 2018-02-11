@@ -4,7 +4,7 @@ void ConnectionsConsumer::run()
 {
     thread cleanupThread;
 
-    size_t count = 0;
+//    size_t count = 0;
 
         // when logging in Conntrack-mode or Device-mode (realTime)
         // inspect the TTL of the incoming packages in the background.
