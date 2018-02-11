@@ -22,9 +22,12 @@ class PcapFilter
     Pcap d_pcap;
     bool d_stop = false;
 
+bool d_msg;    
+
     public:
         PcapFilter(char const *device, Record::Type, 
-                   std::ostream &stdMsg, Storage &storage);
+                   std::ostream &stdMsg, Storage &storage, 
+bool msg = false);
         void operator()();
 
         void stop();

@@ -1,9 +1,17 @@
 #include "pcapfilter.ih"
 
+thread_local size_t count = 0;
+
 // static
 void PcapFilter::callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                           u_char const *packet)
 {
+if (pf->d_msg and ++count == 2000)
+{
+    pf->d_stdMsg << "PcapFilter::callback after 2000 packets\n";
+    count = 0;
+}
+
     if (pf->d_stop)
         return;
 
