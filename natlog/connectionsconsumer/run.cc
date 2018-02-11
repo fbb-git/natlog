@@ -27,7 +27,10 @@ void ConnectionsConsumer::run()
 
         if (++count == 2000)
         {
-            d_stdMsg << "2000 records received" << endl;
+            d_stdMsg << "2000 records received. map-sizes: "
+                            "tcp: " << d_tcp.size() << 
+                            "udp: " << d_udp.size() << 
+                            "icmp: " << d_icmp.size() << endl;
             count = 0;
         }
                                             // process the incoming protocol
