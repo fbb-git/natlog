@@ -29,6 +29,8 @@ class RotatingStreambuf: public std::streambuf
         void open(std::string const &name);
         static void notify();
 
+        static void startThread();
+
     private:
         int overflow(int ch) override;
         int sync() override;

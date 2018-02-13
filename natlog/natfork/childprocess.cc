@@ -19,6 +19,8 @@ void NatFork::childProcess()
     if (d_options.daemon())
         prepareDaemon();
 
+    RotatingStreambuf::startThread();
+
     thread producerThread{ Producer::process, producer.get(), ref(storage) };
 
     connections.run();

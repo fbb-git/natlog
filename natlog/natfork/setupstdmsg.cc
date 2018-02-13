@@ -7,7 +7,7 @@ void NatFork::setupStdMsg()
 
     if (d_options.log().empty())        // no messages
         return;
-        
+
     if (d_options.log() == "syslog")
     {
         d_syslog.reset(

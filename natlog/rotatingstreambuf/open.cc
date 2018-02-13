@@ -11,8 +11,5 @@ void RotatingStreambuf::open(string const &name)
     if (not existing and d_header)
         (*d_header)(d_out);
 
-    if (s_rotate.empty())
-        s_rotateThread = thread{ rotateThread };
-
     s_rotate.push_back(this);
 }

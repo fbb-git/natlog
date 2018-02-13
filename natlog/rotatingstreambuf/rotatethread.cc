@@ -1,5 +1,6 @@
 #include "rotatingstreambuf.ih"
 
+// static
 void RotatingStreambuf::rotateThread()
 {
     Options const &options = Options::instance();
@@ -11,6 +12,7 @@ void RotatingStreambuf::rotateThread()
         return;
 
     freq *= options.rotateFactor();
+
 
     while (s_semaphore.wait_for(chrono::minutes(freq)) == cv_status::timeout)
     {

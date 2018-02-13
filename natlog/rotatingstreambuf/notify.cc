@@ -2,7 +2,10 @@
 
 void RotatingStreambuf::notify()
 {
-    s_semaphore.notify();
-    s_rotateThread.join();
+    if (not s_rotate.empty())
+    {
+        s_semaphore.notify();
+        s_rotateThread.join();
+    }
 }
        

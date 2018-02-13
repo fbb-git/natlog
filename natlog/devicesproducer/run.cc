@@ -6,8 +6,8 @@ void DevicesProducer::run()
 ,true };
     PcapFilter out{ d_outName, Record::OUT, d_stdMsg, d_storage };
 
-    thread inThread{ in };
-    thread outThread{ out };
+    thread { in }.detach();
+    thread { out }.detach();
 
     d_stdMsg << "starting capturing " << d_inName << " and " << d_outName <<
                                                                         endl; 
@@ -21,13 +21,8 @@ void DevicesProducer::run()
     in.stop();
     out.stop();
 
-    inThread.join();
-
-    d_stdMsg << "DevicesProducer inThread joined" << endl;
-
-    outThread.join();
-
-    d_stdMsg << "DevicesProducer outThread joined" << endl;
+//    inThread.join();
+//    outThread.join();
 
     d_stdMsg << "monitoring " << d_inName << " and " << d_outName << 
                                                             " ends" << endl;
