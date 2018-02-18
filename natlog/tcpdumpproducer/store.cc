@@ -2,7 +2,7 @@
 
 void TcpdumpProducer::store(Record::Type type, Data &data)
 {
-    if (data.hdr.len > d_bufLen)      // ip header length already in host byte
+    if (data.hdr.len > d_bufLen)    // ip header length already in host byte
     {                               // order
         delete[] d_buffer;
         d_buffer = new char[ d_bufLen = data.hdr.len ];
@@ -17,7 +17,7 @@ void TcpdumpProducer::store(Record::Type type, Data &data)
     if (d_options.hasProtocol(
             IP_Types::get<IP_Types::IP_Header>(buffer).protocol)
     )
-        d_storage.push( TcpdumpRecord{ type, data.hdr, buffer } );
+        d_storage.push( new TcpdumpRecord{ type, data.hdr, buffer } );
 
     get(data);
 }

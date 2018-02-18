@@ -9,15 +9,15 @@ void ConntrackProducer::process(string const &line)
         if ( d_options.hasProtocol( 
                         s_tcpudp[ static_cast<size_t>(CTtcpudp::PROTOCOL) ] ) 
         )
-            d_storage.push( ConntrackRecord{ Record::TCP,   // (also for UDP)
-                                             s_tcpudp } );
+            d_storage.push( new ConntrackRecord{    // (also for UDP) 
+                                                Record::TCP, s_tcpudp } );
         return;
     }
 
                                         // or try to match ICMP
     if (s_icmp << line and d_options.hasProtocol(Record::ICMP))
     {
-        d_storage.push( ConntrackRecord{ Record::ICMP, s_icmp } );
+        d_storage.push( new ConntrackRecord{ Record::ICMP, s_icmp } );
         return;
     }
 

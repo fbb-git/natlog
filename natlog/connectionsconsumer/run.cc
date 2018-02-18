@@ -4,8 +4,6 @@ void ConnectionsConsumer::run()
 {
     thread cleanupThread;
 
-//    size_t count = 0;
-
         // when logging in Conntrack-mode or Device-mode (realTime)
         // inspect the TTL of the incoming packages in the background.
     if (d_options.realTime())
@@ -18,24 +16,15 @@ void ConnectionsConsumer::run()
         if (d_storage.empty())
             break;
 
-        Record &record = d_storage.fetch(); // makes available the next
-                                            // record. Since this is the
+        Record *record = d_storage.fetch(); // makes available the next
+                                            // record-> Since this is the
                                             // only thread fetching records
                                             // there's no need to copy the
                                             // record at this point
         d_storage.produceNotify();
-
-//        if (++count == 2000)
-//        {
-//            d_stdMsg << "2000 records received. map-sizes:"
-//                            " tcp: " << d_tcp.size() << 
-//                            " udp: " << d_udp.size() << 
-//                            " icmp: " << d_icmp.size() << endl;
-//            count = 0;
-//        }
                                             // process the incoming protocol
                                             // data, calls tcp, udp or icmp
-        (this->*s_handler[record.protocol()])(record);  
+        (this->*s_handler[record->protocol()])(record);  
     }
 
     if (d_options.realTime())

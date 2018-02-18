@@ -22,6 +22,30 @@ Here is an example of the TCP communication:
 Initially, on the IN and OUT devices the seq. nrs are identical, 
 and are used to match the two SYN records. This is only required once:
 to determine the nathost's address and port.
+
+SYN connections start the connection, so when a SYN is received on the IN
+device, then the src and sport values as well as the dst and dport values are
+known. The NAT host receives the same sequence number and thus obtains the
+nathost and nport values.
+
+Thereafter, the key is computed from the IN packets: 
+    SYN: then a new connections -> key from src and sport
+         if existing: old connection is ended (logged as incomplete)
+
+    FIN: existing: connections ends and is logged
+         otherwise: ignore
+
+    otherwise:
+        existing: bytes are sent
+        key(dst, dport) exists: recvd
+        otherwise: uknown, ignore
+
+
+    
+             not existing: key must be dst, dport: recvd 
+                           
+
+
 -----------------------------------------------------------
 
 

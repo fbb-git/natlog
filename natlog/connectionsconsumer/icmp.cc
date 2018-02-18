@@ -1,10 +1,10 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::icmp(Record &record)
+void ConnectionsConsumer::icmp(Record *record)
 {
     lock_guard<mutex> lg(d_icmpMutex);
 
-    switch (record.type())
+    switch (record->type())
     {
         case Record::IN:
             icmpIn(record);
@@ -15,7 +15,7 @@ void ConnectionsConsumer::icmp(Record &record)
         return;
 
         case Record::NEW:
-            d_icmp.insert( value_type{ record.key(), record } );
+            d_icmp.insert( value_type{ record->key(), record } );
         return;
 
         case Record::DESTROY:

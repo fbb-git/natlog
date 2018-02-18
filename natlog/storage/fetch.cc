@@ -1,6 +1,6 @@
 #include "storage.ih"
 
-Record &Storage::fetch()
+Record *Storage::fetch()
 {
     lock_guard<mutex> lg{ d_mutex };
 

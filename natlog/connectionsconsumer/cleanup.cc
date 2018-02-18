@@ -3,7 +3,7 @@
 void ConnectionsConsumer::cleanup(
             time_t now_ttl, 
             mutex &mapMutex, RecordMap &map,
-            void (ConnectionsConsumer::*logFun)(Record const &, char const *),
+            void (ConnectionsConsumer::*logFun)(Record const *, char const *),
             char const *type)
 {
     vector<size_t> remove;
@@ -11,7 +11,7 @@ void ConnectionsConsumer::cleanup(
 
     for (value_type &value: map)
     {
-        if (value.second.lastUsed() < now_ttl)
+        if (value.second->lastUsed() < now_ttl)
         {
             (this->*logFun)(value.second, type);
             remove.push_back(value.first);
@@ -19,5 +19,5 @@ void ConnectionsConsumer::cleanup(
     }
 
     for (size_t key: remove)
-        map.erase(map.find(key));
+        erase(map, map.find(key));
 }

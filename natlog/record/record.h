@@ -14,7 +14,7 @@ struct Record: public IP_Types
         // == and != are implemented for use by unordered_maps. They only
         // compare source and destination ports.
 
-    friend bool operator==(Record const &lhs, Record const &rhs);
+//    friend bool operator==(Record const *lhs, Record const *rhs);
 
     enum Type           // update ../nic/ when altered.
     {
@@ -65,41 +65,41 @@ struct Record: public IP_Types
 
         // move and copy operations: all default
 
-        Protocol protocol() const; 
+        Protocol protocol() const;          // i
         char const *protocolStr() const;
 
-        Type type() const; 
+        Type type() const;          // i
 
-        size_t key() const;
+        size_t key() const;         // i
         size_t setTCPUDPkey();
 
-        size_t id() const;          // with ICMP
+        size_t id() const;          // i    - with ICMP
 
-        size_t inSeconds() const;
-        size_t seconds() const;
-        size_t muSeconds() const;
+        size_t inSeconds() const;   // i
+        size_t seconds() const;     // i
+        size_t muSeconds() const;   // i
 
         std::string beginTime() const;
         std::string endTime() const;
         bool hasEndTime() const;
 
-        std::string sourceIPstr() const;
-        std::string viaIPstr() const;
-        std::string destIPstr() const;
+        std::string sourceIPstr() const;    // i
+        std::string viaIPstr() const;       // i
+        std::string destIPstr() const;      // i
 
-        size_t sourceIP() const;
-        size_t viaIP() const;
-        size_t destIP() const;
+        size_t sourceIP() const;            // i
+        size_t viaIP() const;               // i
+        size_t destIP() const;              // i
 
-        size_t  sourcePort() const;
-        size_t  viaPort() const;
-        size_t  destPort() const;
+        size_t  sourcePort() const;         // i
+        size_t  viaPort() const;            // i
+        size_t  destPort() const;           // i
 
-        size_t  receivedBytes() const;
-        size_t  sentBytes() const;
-        size_t  payload() const;
+        size_t  receivedBytes() const;      // i
+        size_t  sentBytes() const;          // i
+        size_t  payload() const;            // i
 
-        size_t  flags() const;          // only with TCP
+        size_t  flags() const;              // i    - only with TCP
 
         std::string showFlags() const;
 
@@ -111,26 +111,25 @@ struct Record: public IP_Types
 
         void setViaIP(size_t viaIP);        // used in connections/udp.cc
         void setViaPort(size_t  viaPort);
-        void setEndTime(Record const &record);
-//        void reverse();                     // swap source and dest stuff
+        void setEndTime(Record const *record);      // i
 
     protected:
                                     // used for pcap and tcpdump records
         Record(Type type, size_t seconds, size_t muSeconds,
                 u_char const *packet);
 
-        void setProtocol(Protocol protocol);
-        void setType(Type type);
+        void setProtocol(Protocol protocol);    // i
+        void setType(Type type);                // i
         void setLastUsed(time_t time);
 
-        void setKey(size_t key);
+        void setKey(size_t key);                // i
 
-        void setTime(size_t seconds, size_t microSeconds);
+        void setTime(size_t seconds, size_t microSeconds);      // i
 
-        void setSourceIP(size_t sourceIP);
-        void setDestIP(size_t destIP);
+        void setSourceIP(size_t sourceIP);      // i
+        void setDestIP(size_t destIP);          // i
 
-        void setPorts(size_t sourcePort, size_t destPort);
+        void setPorts(size_t sourcePort, size_t destPort);      
 
         static size_t aton(std::string const &addr);
         static std::string time(size_t seconds, size_t microSeconds);
@@ -262,10 +261,10 @@ inline void Record::setTime(size_t seconds, size_t microSeconds)
     d_inMicroSeconds = microSeconds;
 }
 
-inline void Record::setEndTime(Record const &other)
+inline void Record::setEndTime(Record const *other)
 {
-    d_seconds = other.d_inSeconds;
-    d_microSeconds = other.d_inMicroSeconds;
+    d_seconds = other->d_inSeconds;
+    d_microSeconds = other->d_inMicroSeconds;
 }
 
 inline void Record::setSourceIP(size_t sourceIP)
@@ -288,10 +287,10 @@ inline void Record::setViaPort(size_t  viaPort)
     d_viaPort = viaPort;
 }
 
-inline bool operator!=(Record const &lhs, Record const &rhs)
-{
-    return not (lhs == rhs);
-}
+//inline bool operator!=(Record const *lhs, Record const *rhs)
+//{
+//    return not (*lhs == *rhs);
+//}
 
 inline time_t Record::lastUsed() const
 {

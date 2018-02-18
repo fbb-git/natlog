@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-unordered_map<Record::Protocol, void (ConnectionsConsumer::*)(Record &)> 
+unordered_map<Record::Protocol, void (ConnectionsConsumer::*)(Record *)> 
 ConnectionsConsumer::s_handler = 
 {
     { Record::ICMP,             &ConnectionsConsumer::icmp }, 

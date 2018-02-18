@@ -6,12 +6,6 @@ thread_local size_t count = 0;
 void PcapFilter::callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                           u_char const *packet)
 {
-if (pf->d_msg and ++count == 2000)
-{
-    pf->d_stdMsg << "PcapFilter::callback after 2000 packets\n";
-    count = 0;
-}
-
     if (pf->d_stop)
         return;
 
@@ -23,5 +17,5 @@ if (pf->d_msg and ++count == 2000)
     if (pf->d_options.hasProtocol(
                 IP_Types::get<IP_Types::IP_Header>(packet).protocol)
     )
-        pf->d_storage.push( PcapRecord{ pf->d_type, *hdr, packet } );
+        pf->d_storage.push( new PcapRecord{ pf->d_type, *hdr, packet } );
 }

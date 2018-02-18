@@ -1,10 +1,10 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::tcp(Record &record)
+void ConnectionsConsumer::tcp(Record *record)
 {
     lock_guard<mutex> lg(d_tcpMutex);
 
-     switch (record.type())
+     switch (record->type())
      {
         case Record::IN:
             tcpIn(record);
@@ -15,7 +15,7 @@ void ConnectionsConsumer::tcp(Record &record)
         return;
 
         case Record::NEW:
-            d_tcp.insert( value_type{ record.key(), record } );
+            d_tcp.insert( value_type{ record->key(), record } );
         return;
 
         case Record::DESTROY:
