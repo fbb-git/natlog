@@ -17,9 +17,18 @@ class Options;
     // ConnectionsConsumer object constructed in natfork/childprocess
 class ConnectionsConsumer: public FBB::SignalHandler
 {
+    enum TCP_type       // see s_tcpIn and tcpIN()
+    {
+        TCP_SYN,
+        TCP_FIN,
+        TCP_SENT,
+        TCP_RECVD,
+        TCP_IGNORE
+    };
+
     typedef std::unordered_map<size_t, size_t> Size_tMap;
 
-    typedef std::unordered_map<size_t, Record *> RecordMap;
+    typedef std::unordered_map<uint64_t, Record *> RecordMap;
     typedef RecordMap::value_type value_type;
 
     Options const &d_options;
@@ -34,8 +43,8 @@ class ConnectionsConsumer: public FBB::SignalHandler
     std::mutex d_udpMutex;
     RecordMap d_udp;
 
-    Size_tMap d_sequence;  // TCP: sequence nr -> key
-    Size_tMap d_id;        // UDP: id nr -> key
+//    Size_tMap d_sequence;  // TCP: sequence nr -> key
+//    Size_tMap d_id;        // UDP: id nr -> key
     
     std::mutex d_tcpMutex;
     RecordMap d_tcp;
@@ -57,7 +66,9 @@ class ConnectionsConsumer: public FBB::SignalHandler
     };
 
     LogType  d_logType = COMPLETE;
+
     static std::pair<char const *, char const *> s_logType[];
+    static void (ConnectionsConsumer::*s_tcpIn[]) (Record *);
 
     public:
         ConnectionsConsumer(std::ostream &stdMsg, Storage &storage);
@@ -77,6 +88,12 @@ class ConnectionsConsumer: public FBB::SignalHandler
         void icmpOut(Record const *record);
         void tcpOut(Record const *record);
         void udpOut(Record const *record);
+
+        void finRecord(Record *next); // called by tcpIn
+        void ignoreRecord(Record *next);
+        void receivedRecord(Record *next);
+        void sentRecord(Record *next);
+        void synRecord(Record *next);
 
         void icmpDestroy(Record *record);   // used for conntrack connections
         void tcp_udpDestroy(RecordMap &map, Record const *record, 
@@ -105,6 +122,8 @@ class ConnectionsConsumer: public FBB::SignalHandler
 
         static void header(std::ostream &log);
         static void erase(RecordMap &map, RecordMap::iterator const &iter);
+        static TCP_type tcpInType(Record const *record);
+
 };
 
 inline void ConnectionsConsumer::signalHandler(size_t signum)

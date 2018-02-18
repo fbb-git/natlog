@@ -29,7 +29,7 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
     switch (protocol())
     {
         case ICMP:
-            setKey(ntohs(get<ICMP_Header>(packet).ident));
+            setIDKey(ntohs(get<ICMP_Header>(packet).ident));
             d_payload = ipLength - headerLength;
         break;
 

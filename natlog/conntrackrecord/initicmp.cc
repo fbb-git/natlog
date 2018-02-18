@@ -7,7 +7,7 @@ void ConntrackRecord::initICMP(Pattern const &pattern)
     setViaIP(    aton(pat(CTicmp::NATSRC)) );
 
     setProtocol(ICMP);
-    setKey( stoul(pat(CTicmp::ID)) );
+    setIDKey( stoul(pat(CTicmp::ID)) );
 
     if (type() == DESTROY)
     {
@@ -18,10 +18,10 @@ void ConntrackRecord::initICMP(Pattern const &pattern)
                 ipHeaderSize *= stoul(pat(CTicmp::RECVDPACKETS));
 
             size_t nBytes = stoul(pat(CTicmp::SENTBYTES));
-            addSentBytes( nBytes ? nBytes - ipHeaderSize : 0 );
+            setSentBytes( nBytes ? nBytes - ipHeaderSize : 0 );
 
             nBytes = stoul(pat(CTicmp::RECVDBYTES));
-            addReceivedBytes( nBytes ? nBytes - ipHeaderSize : 0 ); 
+            setReceivedBytes( nBytes ? nBytes - ipHeaderSize : 0 ); 
 
         }
     };

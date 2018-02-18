@@ -11,7 +11,7 @@ void ConntrackRecord::initTCP_UDP(Pattern const &pattern)
 
     setProtocol( pat(CTtcpudp::PROTOCOL) == "tcp" ? TCP : UDP );
 
-    setTCPUDPkey();
+    setSrcKey();
 
     if (type() == DESTROY)      // DESTROY records may have sent/received
     {                           //                              byte counts
@@ -22,10 +22,10 @@ void ConntrackRecord::initTCP_UDP(Pattern const &pattern)
                 ipHeaderSize *= stoul(pat(CTtcpudp::RECVDPACKETS));
 
             size_t nBytes = stoul(pat(CTtcpudp::SENTBYTES));
-            addSentBytes( nBytes ? nBytes - ipHeaderSize : 0 );
+            setSentBytes( nBytes ? nBytes - ipHeaderSize : 0 );
 
             nBytes = stoul(pat(CTtcpudp::RECVDBYTES));
-            addReceivedBytes( nBytes ? nBytes - ipHeaderSize : 0 ); 
+            setReceivedBytes( nBytes ? nBytes - ipHeaderSize : 0 ); 
         }
     };
 }

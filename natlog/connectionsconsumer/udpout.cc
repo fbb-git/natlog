@@ -8,24 +8,24 @@
 void ConnectionsConsumer::udpOut(Record const *record)
 {
                                         // previously seen ID?
-    auto iterID = d_id.find(record->id());   
-
-    if (iterID == d_id.end())           // no: no further actions required.
-        return;
-                                        // find the matching record 
-    auto iter = d_udp.find( iterID->second );
-    if (iter == d_udp.end())            // not available for some reason
-        return;
-                                        // 1st time out:
-                                        // NAT has changed the source address
-                                        // OK: so set the accumulated data's
-                                        // 'via' address.
-    if (g_nic.address(Record::OUT) == record->sourceIP())
-    {
-        iter->second->setViaIP(record->sourceIP());
-        iter->second->setViaPort(record->sourcePort());
-    }
-
-    d_id.erase(iterID);                 // remove the ID information
+//    auto iterID = d_id.find(record->id());   
+//
+//    if (iterID == d_id.end())           // no: no further actions required.
+//        return;
+//                                        // find the matching record 
+//    auto iter = d_udp.find( iterID->second );
+//    if (iter == d_udp.end())            // not available for some reason
+//        return;
+//                                        // 1st time out:
+//                                        // NAT has changed the source address
+//                                        // OK: so set the accumulated data's
+//                                        // 'via' address.
+//    if (g_nic.address(Record::OUT) == record->sourceIP())
+//    {
+//        iter->second->setViaIP(record->sourceIP());
+//        iter->second->setViaPort(record->sourcePort());
+//    }
+//
+//    d_id.erase(iterID);                 // remove the ID information
 }
 

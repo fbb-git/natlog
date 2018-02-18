@@ -31,10 +31,20 @@ struct Record: public IP_Types
     };
 
     private:
+        union Key
+        {
+            struct
+            {
+                uint32_t v32;
+                uint16_t v16;
+            };
+            uint64_t key;
+        };
+
         Protocol d_protocol;
         Type d_type;
 
-        size_t d_key;
+        Key d_key;
     
         size_t d_seconds = 0;
         size_t d_microSeconds = 0;
@@ -42,13 +52,13 @@ struct Record: public IP_Types
         size_t d_inSeconds;
         size_t d_inMicroSeconds;
     
-        size_t d_sourceIP;
-        size_t d_viaIP;
-        size_t d_destIP;
+        uint32_t d_sourceIP;
+        uint32_t d_viaIP;
+        uint32_t d_destIP;
     
-        size_t  d_sourcePort = 0;
-        size_t  d_viaPort;
-        size_t  d_destPort = 0;
+        uint16_t  d_sourcePort = 0;
+        uint16_t  d_viaPort;
+        uint16_t  d_destPort = 0;
 
         size_t  d_receivedBytes = 0;
         size_t  d_sentBytes = 0;
@@ -70,10 +80,16 @@ struct Record: public IP_Types
 
         Type type() const;          // i
 
-        size_t key() const;         // i
-        size_t setTCPUDPkey();
+        uint64_t key() const;               // i    - actual key
+        uint64_t sequenceKey() const;       // i    - key computed from seq.
+        uint64_t IDKey() const;             // i    - from ID
+        uint64_t srcKey() const;            // i    - from src
+        uint64_t dstKey() const;            // i    - from dst
+    
+//        size_t setTCPUDPkey();
 
         size_t id() const;          // i    - with ICMP
+        size_t sequence() const;    // i    - with TCP (stored in d_id)
 
         size_t inSeconds() const;   // i
         size_t seconds() const;     // i
@@ -106,23 +122,25 @@ struct Record: public IP_Types
         time_t lastUsed() const;
 
     // public modifiers:
-        void addReceivedBytes(size_t  receivedBytes);
-        void addSentBytes(size_t  sentBytes);
+        void addReceivedBytes(Record const *next);
+        void addSentBytes(Record const *next);
 
         void setViaIP(size_t viaIP);        // used in connections/udp.cc
         void setViaPort(size_t  viaPort);
-        void setEndTime(Record const *record);      // i
 
     protected:
                                     // used for pcap and tcpdump records
         Record(Type type, size_t seconds, size_t muSeconds,
                 u_char const *packet);
 
+        void setReceivedBytes(size_t nBytes);   // i
+        void setSentBytes(size_t nBytes);       // i
+
         void setProtocol(Protocol protocol);    // i
         void setType(Type type);                // i
         void setLastUsed(time_t time);
 
-        void setKey(size_t key);                // i
+//        void setKey(size_t key);                // i
 
         void setTime(size_t seconds, size_t microSeconds);      // i
 
@@ -134,17 +152,50 @@ struct Record: public IP_Types
         static size_t aton(std::string const &addr);
         static std::string time(size_t seconds, size_t microSeconds);
 
+//        void setSequenceKey();          // i    - key computed from seq.
+        void setIDKey(size_t id);       // i    - set d_id and key
+        void setSrcKey();               // i    - from src
+
     private:
+        void setEndTime(Record const *record);  // also updates d_lastUsed
+
         static char *ntoa(uint32_t ipAddr);
-        static size_t ports2key(size_t lowPort, size_t highPort);
+
+//        static size_t ports2key(size_t lowPort, size_t highPort);
+
 };
 
-inline size_t Record::key() const
+inline uint64_t Record::key() const
 {
-    return d_key;
+    return d_key.key;
+}
+
+inline uint64_t Record::sequenceKey() const
+{
+    return d_id;
+}
+
+inline uint64_t Record::IDKey() const
+{
+    return d_id;
+}
+
+inline uint64_t Record::srcKey() const
+{
+    return Key{ { d_sourceIP, d_sourcePort } }.key;
+}
+
+inline uint64_t Record::dstKey() const
+{
+    return Key{ { d_destIP, d_destPort } }.key;
 }
 
 inline size_t Record::id() const
+{
+    return d_id;
+}
+
+inline size_t Record::sequence() const
 {
     return d_id;
 }
@@ -250,21 +301,10 @@ inline void Record::setType(Type type)
     d_type = type;
 }
 
-inline void Record::setKey(size_t key)
-{
-    d_key = key;
-}
-
 inline void Record::setTime(size_t seconds, size_t microSeconds)
 {
     d_inSeconds = seconds;
     d_inMicroSeconds = microSeconds;
-}
-
-inline void Record::setEndTime(Record const *other)
-{
-    d_seconds = other->d_inSeconds;
-    d_microSeconds = other->d_inMicroSeconds;
 }
 
 inline void Record::setSourceIP(size_t sourceIP)
@@ -315,6 +355,27 @@ inline bool Record::hasEndTime() const
 inline void Record::setLastUsed(time_t time)
 {
     d_lastUsed = time;
+}
+
+inline void Record::setSentBytes(size_t size)
+{
+    d_sentBytes = size;
+}
+
+inline void Record::setReceivedBytes(size_t size)
+{
+    d_receivedBytes = size;
+}
+
+inline void Record::setIDKey(size_t id)
+{
+    d_key.key = id;
+    d_id = id;
+}
+
+inline void Record::setSrcKey()
+{
+    d_key = Key{ { d_sourceIP, d_sourcePort } };
 }
 
 #endif

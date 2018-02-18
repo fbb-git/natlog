@@ -10,12 +10,12 @@ void ConnectionsConsumer::tcp_udpDestroy(RecordMap &map, Record const *record,
         return;                         // connection
 
     auto *accu = iter->second;
-    accu->setEndTime(record);
 
-    accu->addSentBytes(record->sentBytes());
-    accu->addReceivedBytes(record->receivedBytes());
+    accu->addSentBytes(record);
+    accu->addReceivedBytes(record);
 
-    logTCP_UDP(iter->second, type);    
+    logTCP_UDP(iter->second, type);
+    delete record;
     erase(map, iter);                   // remove the entry
 }
 

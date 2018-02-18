@@ -1,8 +1,9 @@
 #include "record.ih"
 
-void Record::addSentBytes(size_t  sentBytes)
+void Record::addSentBytes(Record const *next)
 {
-    d_sentBytes += sentBytes;
-    d_lastUsed = ::time(0);
+    d_sentBytes += next->payload();
+
+    setEndTime(next);
 }
 

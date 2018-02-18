@@ -14,3 +14,14 @@ pair<char const *, char const *> ConnectionsConsumer::s_logType[]
     { " (INCOMPLETE)",  "incomplete" },
     { " (EOP)",         "eop"        }
 };
+
+void (ConnectionsConsumer::*ConnectionsConsumer::s_tcpIn[]) (Record *) =
+{
+    &ConnectionsConsumer::synRecord,        // TCP_SYN
+    &ConnectionsConsumer::finRecord,        // TCP_FIN
+    &ConnectionsConsumer::sentRecord,       // TCP_SENT
+    &ConnectionsConsumer::receivedRecord,   // TCP_RECVD
+    &ConnectionsConsumer::ignoreRecord      // TCP_IGNORE
+};
+
+

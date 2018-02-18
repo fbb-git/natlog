@@ -6,25 +6,32 @@
     // about this connection on the OUT device is used anymore.
 
 void ConnectionsConsumer::tcpOut(Record const *record)
+try
 {
-    if (record->flags() != Record::SYN)  // not a mere SYN record:
-        return;                         //  no further actions required.
+    if (record->flags() != Record::SYN) // ignore unless a mere SYN record
+        throw false;                    
 
                                         // find the matching record
-    auto iter = d_tcp.find( d_sequence[ record->id() ] );
+    auto iter = d_tcp.find( record->sequence() );
 
-    if (iter == d_tcp.end())            // no data for this connection
-        return;
+    if 
+    (
+        iter == d_tcp.end()             // ignore if unkown record
+        or                              // or not coming from the out-device
+        g_nic.address(Record::OUT) != record->sourceIP()
+    )
+        throw false;
 
-                                        // 1st time out:
-                                        // NAT has changed the source address
-                                        // OK: so set the accumulated data's
-                                        // 'via' address.
-    if (g_nic.address(Record::OUT) == record->sourceIP())
-    {
-        iter->second->setViaIP(record->sourceIP());
-        iter->second->setViaPort(record->sourcePort());
-    }
+                                        // set the via-address and via-port
+    iter->second->setViaIP(record->sourceIP());
+    iter->second->setViaPort(record->sourcePort());
 
-    d_sequence.erase(d_sequence.find(record->id()));
+    throw false;
 }
+catch (...)
+{
+    delete record;
+}
+
+
+
