@@ -26,8 +26,6 @@ class ConnectionsConsumer: public FBB::SignalHandler
         TCP_IGNORE
     };
 
-    typedef std::unordered_map<size_t, size_t> Size_tMap;
-
     typedef std::unordered_map<uint64_t, Record *> RecordMap;
     typedef RecordMap::value_type value_type;
 
@@ -43,9 +41,6 @@ class ConnectionsConsumer: public FBB::SignalHandler
     std::mutex d_udpMutex;
     RecordMap d_udp;
 
-//    Size_tMap d_sequence;  // TCP: sequence nr -> key
-//    Size_tMap d_id;        // UDP: id nr -> key
-    
     std::mutex d_tcpMutex;
     RecordMap d_tcp;
 
@@ -78,29 +73,32 @@ class ConnectionsConsumer: public FBB::SignalHandler
                                             // and consume the produced data
     private:
         void icmp(Record *record);          // Producers must make sure that
-        void tcp(Record *record);           // only defined protocols are
-        void udp(Record *record);           // returned
-
-        void icmpIn(Record *record);
-        void tcpIn(Record *record);
-        void udpIn(Record *record);
-
+        void icmpIn(Record *record);        // only defined protocols are
+        void icmpOutbound(Record *next);    // returned
+        void icmpInbound(Record *next);      
         void icmpOut(Record const *record);
-        void tcpOut(Record const *record);
+
+        void udp(Record *record);
+        void udpIn(Record *record);
+        void udpOutbound(Record *next);
+        void udpInbound(Record *next);      
         void udpOut(Record const *record);
 
-        void finRecord(Record *next); // called by tcpIn
+        void tcp(Record *record);           
+        void tcpIn(Record *record);
+        void finRecord(Record *next);
         void ignoreRecord(Record *next);
         void receivedRecord(Record *next);
         void sentRecord(Record *next);
         void synRecord(Record *next);
+        void tcpOut(Record const *record);
 
         void icmpDestroy(Record *record);   // used for conntrack connections
         void tcp_udpDestroy(RecordMap &map, Record const *record, 
                             char const *type);
 
-        void tcpDestroy(Record *record);
-        void udpDestroy(Record *record);
+//        void tcpDestroy(Record *record);
+//        void udpDestroy(Record *record);
 
         void logICMP(Record const *record, char const *type = "");
         void logTCP_UDP(Record const *record, char const *type);
@@ -121,6 +119,7 @@ class ConnectionsConsumer: public FBB::SignalHandler
         );
 
         static void header(std::ostream &log);
+                                                // also deletes the Record
         static void erase(RecordMap &map, RecordMap::iterator const &iter);
         static TCP_type tcpInType(Record const *record);
 

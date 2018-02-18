@@ -47,23 +47,25 @@ Thereafter, the key is computed from the IN packets:
 
 
 -----------------------------------------------------------
-
-
     SYN ACK:
     ========
     reply from remote -> nathost
 
 09:42:20.665832 eth1 (OUT) remote.22 > nathost.nport: Flags [S.], 
-                                                                        seq 3499515712, ack 442193846, win 65535, 
+seq 3499515712  
+ack 442193846                                                           win 65535, 
                                                                         options [mss 1409,nop,wscale 7,sackOK,TS 
-                                                                        val 1600635341 ecr 918415591], length 0
+val 1600635341 
+ecr 918415591   = previous val                                          length 0
 
     remote reply forwarded by nathost to client
 
 09:42:20.665882 br0  (IN)  remote.22 > client.cport: Flags [S.], 
-                                                                        seq 3499515712, ack 442193846, win 65535, 
+seq 3499515712, 
+ack 442193846,                                                          win 65535, 
                                                                         options [mss 1409,nop,wscale 7,sackOK,TS 
-                                                                        val 1600635341 ecr 918415591], length 0
+val 1600635341 
+ecr 918415591   = previous val                                          length 0
 
 These SYN ACK records do not contain useful information (for us). E.g., no length
 -----------------------------------------------------------
@@ -83,7 +85,9 @@ Same
     =====
     client sends data packet:
 09:42:20.666543 br0  (IN)  client.cport > remote.22: Flags [P.], seq 1:33, ack 1, win 229, 
-                                                                        options [nop,nop,TS val 918415642 ecr 1600635341], 
+                                                                        options [nop,nop,TS 
+val 918415642 
+ecr 1600635341 = previous val 
                                                                         length 32
 
 Using cport|22 as key, the #sent bytes is updated 
@@ -110,7 +114,8 @@ Incoming data, which can also be ignored, since it'll arrive at the client
 
     nathost forwards to client:
 09:42:20.695704 br0  (IN)  remote.22 > client.cport: Flags [P.], seq 1:33, ack 33, win 1023, 
-                                                                        options [nop,nop,TS val 1600635344 ecr 918415642], 
+                                                                        options [nop,nop,TS 
+val 1600635344 ecr 918415642], 
                                                                         length 32
 
 Data arriving at the client: using cport|22 as key, the #received bytes is updated
@@ -119,10 +124,14 @@ if the record's dest port is equal to the record[key]'s source port
 
 
     client sends ACK to remote 
-09:42:20.695976 br0  (IN)  client.cport > remote.22: Flags [.], ack 33, win 229, options [nop,nop,TS val 918415671 ecr 1600635344], length 0
+09:42:20.695976 br0  (IN)  client.cport > remote.22: Flags [.], ack 33, win 229, options [nop,nop,TS 
+val 918415671 
+ecr 1600635344]                                                         , length 0
 
     nathost forwards ACK to remote
-09:42:20.696019 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 33, win 229, options [nop,nop,TS val 918415671 ecr 1600635344], length 0
+09:42:20.696019 eth1 (OUT) nathost.nport > remote.22: Flags [.], ack 33, win 229, options [nop,nop,TS 
+val 918415671 
+ecr 1600635344                                                          ], length 0
 
 09:42:20.696687 br0  (IN)  client.cport > remote.22: Flags [P.], seq 33:1393, ack 33, win 229, options [nop,nop,TS val 918415672 ecr 1600635344], length 1360
 09:42:20.696730 eth1 (OUT) nathost.nport > remote.22: Flags [P.], seq 33:1393, ack 33, win 229, options [nop,nop,TS val 918415672 ecr 1600635344], length 1360

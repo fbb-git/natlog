@@ -16,7 +16,7 @@ void ConnectionsConsumer::udp(Record *record)
         return;
 
         case Record::NEW:
-            d_udp.insert( value_type{ record->key(), record } );
+            d_udp.insert( value_type{ record->srcKey(), record } );
         return;
 
         case Record::DESTROY:

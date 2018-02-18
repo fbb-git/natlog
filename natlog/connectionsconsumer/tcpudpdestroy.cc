@@ -4,7 +4,7 @@ void ConnectionsConsumer::tcp_udpDestroy(RecordMap &map, Record const *record,
                                          char const *type)
 {
                                         // find this record's accumulated data
-    auto iter = map.find(record->key());
+    auto iter = map.find(record->srcKey());
 
     if (iter == map.end())              // unknown record: no existing
         return;                         // connection

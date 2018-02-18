@@ -26,6 +26,9 @@ try
     iter->second->setViaIP(record->sourceIP());
     iter->second->setViaPort(record->sourcePort());
 
+    d_tcp.insert( value_type{ iter->second->srcKey(), iter->second } );
+    d_tcp.erase(iter);
+
     throw false;
 }
 catch (...)

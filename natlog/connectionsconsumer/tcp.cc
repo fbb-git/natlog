@@ -15,7 +15,7 @@ void ConnectionsConsumer::tcp(Record *record)
         return;
 
         case Record::NEW:
-            d_tcp.insert( value_type{ record->key(), record } );
+            d_tcp.insert( value_type{ record->srcKey(), record } );
         return;
 
         case Record::DESTROY:

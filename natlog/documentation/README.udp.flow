@@ -1,0 +1,25 @@
+When sending UDP packets, the ID's at the client and nat computer are
+identical:
+
+Client (1.2) to destination (2.51):
+
+id 36222,  length 34  192.168.1.2.  51757  > 129.125.2.51. 12345,  length 6
+id 18749,  length 38  129.125.2.51. 12345  > 192.168.1.2.  51757,  length 10
+id 63059,  length 37  192.168.1.2.  51757  > 129.125.2.51. 12345,  length 9
+id 24262,  length 40  129.125.2.51. 12345  > 192.168.1.2.  51757,  length 12
+
+Nathost (17.6) to destination (2.51):
+
+id 36222, length 34   192.168.17.6. 51757  > 129.125.2.51. 12345,  length 6
+id 18749, length 38   129.125.2.51. 12345  > 192.168.17.6. 51757,  length 10
+id 63059, length 37   192.168.17.6. 51757  > 129.125.2.51. 12345,  length 9
+id 24262, length 40   129.125.2.51. 12345  > 192.168.17.6. 51757,  length 12
+
+
+Multiple udp packets may be sent by identical processes, in which case the
+client and nathost computers may use different  ports.
+
+The IN connections store the source, dest, IP-addresses and ports, and uses
+d_id (like the tcp's sequence nr) to allow association with the matching OUT
+packet. Once the association is made, the via IP-address and port can be set,
+and the d_id entry can be removed.

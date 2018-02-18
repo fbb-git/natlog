@@ -1,7 +1,5 @@
 #include "pcapfilter.ih"
 
-thread_local size_t count = 0;
-
 // static
 void PcapFilter::callback(PcapFilter *pf, struct pcap_pkthdr const *hdr,
                           u_char const *packet)
