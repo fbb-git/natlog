@@ -68,10 +68,9 @@ progname << " V" << Icmbuild::version << " " << Icmbuild::years << "\n"
 "                               local: local date and time\n"
 "      --ttl (-T) secs    - time-to-live for received connections. Format:\n"
 "                           `<secs>u' (UDP/ICMP ttl) and/or `<secs>t'\n"
-"                           (TCP ttl). Default: u" << Options::TTL << 
-                                               't' << Options::TTL_TCP << "\n"
-"                           info about connections is logged if they are "
-                                                                    "not\n"
+"                           (TCP ttl). Default: " << Options::TTL << 'u' << 
+                                                    Options::TTL_TCP << "t\n"
+"                           info about a connection is logged if it is not\n"
 "                           active for `secs' seconds\n"
 "      --verbose (-V)     - write additional information:\n"
 "                               with --no-daemon: to stdout;\n"

@@ -1,7 +1,5 @@
 #include "record.ih"
 
-// #include <iostream>
-
 Record::Record(Type type, size_t seconds, size_t muSeconds,  
                u_char const *packet)
 :
@@ -18,6 +16,8 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
 
     d_lastUsed(::time(0))
 {
+    ++s_count;
+
     size_t headerLength = size_t(get<IP_Header>(packet).hdrLength << 2);
     size_t ipLength = ntohs(get<IP_Header>(packet).length);
 
@@ -58,11 +58,5 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
 
         break;
     }
-
-//    cout << 
-//        "type: " << type <<
-//        ", from " << sourceIPstr() << " to " << destIPstr() <<
-//        ", protocol: " << protocolStr() << 
-//        ", id: " << d_id << endl;
 }    
 

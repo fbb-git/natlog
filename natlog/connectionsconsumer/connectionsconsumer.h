@@ -84,6 +84,8 @@ class ConnectionsConsumer: public FBB::SignalHandler
         void udpInbound(Record *next);      
         void udpOut(Record const *record);
 
+        TCP_type tcpInType(Record const *record);
+
         void tcp(Record *record);           
         void tcpIn(Record *record);
         void finRecord(Record *next);
@@ -97,8 +99,8 @@ class ConnectionsConsumer: public FBB::SignalHandler
         void tcp_udpDestroy(RecordMap &map, Record const *record, 
                             char const *type);
 
-//        void tcpDestroy(Record *record);
-//        void udpDestroy(Record *record);
+        void newKey(RecordMap &map, RecordMap::iterator const &iter,
+                                    Record const *record);
 
         void logICMP(Record const *record, char const *type = "");
         void logTCP_UDP(Record const *record, char const *type);
@@ -121,8 +123,6 @@ class ConnectionsConsumer: public FBB::SignalHandler
         static void header(std::ostream &log);
                                                 // also deletes the Record
         static void erase(RecordMap &map, RecordMap::iterator const &iter);
-        static TCP_type tcpInType(Record const *record);
-
 };
 
 inline void ConnectionsConsumer::signalHandler(size_t signum)

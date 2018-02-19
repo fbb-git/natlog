@@ -1,10 +1,13 @@
 #include "record.h"
 
-#include <ctime>
+//TMP
+#include <iostream>
+#define CERR cerr << __FILE__": "
 
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <ostream>
 #include <sstream>
 #include <iomanip>
 #include <unordered_map>
@@ -15,10 +18,4 @@
 
 using namespace std;
 using namespace FBB;
-
-//// static
-//inline size_t Record::ports2key(size_t lowPort, size_t highPort)
-//{
-//    return (highPort << sizeof(u_short) * 8) | lowPort;
-//}
 

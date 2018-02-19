@@ -8,6 +8,8 @@
 void ConnectionsConsumer::tcpOut(Record const *record)
 try
 {
+//CERR << '\n';
+
     if (record->flags() != Record::SYN) // ignore unless a mere SYN record
         throw false;                    
 
@@ -20,14 +22,11 @@ try
         or                              // or not coming from the out-device
         g_nic.address(Record::OUT) != record->sourceIP()
     )
+//{
+//CERR << "NO KEY " << record->sequenceKey() << " or source not remote\n";
         throw false;
-
-                                        // set the via-address and via-port
-    iter->second->setViaIP(record->sourceIP());
-    iter->second->setViaPort(record->sourcePort());
-
-    d_tcp.insert( value_type{ iter->second->srcKey(), iter->second } );
-    d_tcp.erase(iter);
+//}
+    newKey(d_tcp, iter, record);        // use sport srcIP as key
 
     throw false;
 }

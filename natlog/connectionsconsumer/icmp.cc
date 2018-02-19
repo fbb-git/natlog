@@ -1,7 +1,15 @@
 #include "connectionsconsumer.ih"
 
+//static size_t count = 0;
+
 void ConnectionsConsumer::icmp(Record *record)
 {
+//cerr << "\n"
+//        "---------------\n\n" <<
+//        ++count << ": ";
+//
+//CERR << *record << '\n';
+
     lock_guard<mutex> lg(d_icmpMutex);
 
     switch (record->type())

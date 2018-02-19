@@ -1,6 +1,7 @@
 #ifndef INCLUDED_RECORD_
 #define INCLUDED_RECORD_
 
+#include <iosfwd>
 #include <string>
 #include <ctime>
 
@@ -14,7 +15,7 @@ struct Record: public IP_Types
         // == and != are implemented for use by unordered_maps. They only
         // compare source and destination ports.
 
-//    friend bool operator==(Record const *lhs, Record const *rhs);
+    friend std::ostream &operator<<(std::ostream &out, Record const &record);
 
     enum Type           // update ../nic/ when altered.
     {
@@ -52,28 +53,29 @@ struct Record: public IP_Types
         size_t d_inSeconds;
         size_t d_inMicroSeconds;
     
-        uint32_t d_sourceIP;
-        uint32_t d_viaIP;
-        uint32_t d_destIP;
+        uint32_t d_sourceIP = 0;
+        uint32_t d_viaIP = 0;
+        uint32_t d_destIP = 0;
     
         uint16_t  d_sourcePort = 0;
-        uint16_t  d_viaPort;
+        uint16_t  d_viaPort = 0;
         uint16_t  d_destPort = 0;
 
         size_t  d_receivedBytes = 0;
         size_t  d_sentBytes = 0;
         size_t  d_payload = 0;
     
-        size_t  d_flags;
-        size_t  d_id;               // sequence nr for TCP, identification for
+        size_t  d_flags = 0;
+        size_t  d_id = 0;           // sequence nr for TCP, identification for
                                     // UDP
         time_t  d_lastUsed;
 
+        static size_t s_count;
+
     public:
-        Record() = default;         // required for Storage and ConntrackRec.
         virtual ~Record();
 
-        // move and copy operations: all default
+        Record(Record const &other) = delete;
 
         Protocol protocol() const;          // i
         char const *protocolStr() const;
@@ -86,8 +88,6 @@ struct Record: public IP_Types
         uint64_t srcKey() const;            // i    - from src
         uint64_t dstKey() const;            // i    - from dst
     
-//        size_t setTCPUDPkey();
-
         size_t id() const;          // i    - with ICMP
         size_t sequence() const;    // i    - with TCP (stored in d_id)
 
@@ -132,6 +132,7 @@ struct Record: public IP_Types
                                     // used for pcap and tcpdump records
         Record(Type type, size_t seconds, size_t muSeconds,
                 u_char const *packet);
+        Record();                   // 2.cc - used by ConntrackRecord
 
         void setReceivedBytes(size_t nBytes);   // i
         void setSentBytes(size_t nBytes);       // i
@@ -139,8 +140,6 @@ struct Record: public IP_Types
         void setProtocol(Protocol protocol);    // i
         void setType(Type type);                // i
         void setLastUsed(time_t time);
-
-//        void setKey(size_t key);                // i
 
         void setTime(size_t seconds, size_t microSeconds);      // i
 
@@ -152,17 +151,14 @@ struct Record: public IP_Types
         static size_t aton(std::string const &addr);
         static std::string time(size_t seconds, size_t microSeconds);
 
-//        void setSequenceKey();          // i    - key computed from seq.
         void setIDKey(size_t id);       // i    - set d_id and key
         void setSrcKey();               // i    - from src
 
     private:
         void setEndTime(Record const *record);  // also updates d_lastUsed
+        std::ostream &insertInto(std::ostream &out) const;
 
         static char *ntoa(uint32_t ipAddr);
-
-//        static size_t ports2key(size_t lowPort, size_t highPort);
-
 };
 
 inline uint64_t Record::key() const
@@ -327,11 +323,6 @@ inline void Record::setViaPort(size_t  viaPort)
     d_viaPort = viaPort;
 }
 
-//inline bool operator!=(Record const *lhs, Record const *rhs)
-//{
-//    return not (*lhs == *rhs);
-//}
-
 inline time_t Record::lastUsed() const
 {
     return d_lastUsed;
@@ -377,5 +368,11 @@ inline void Record::setSrcKey()
 {
     d_key = Key{ { d_sourceIP, d_sourcePort } };
 }
+
+inline std::ostream &operator<<(std::ostream &out, Record const &record)
+{
+    return record.insertInto(out);
+}
+
 
 #endif

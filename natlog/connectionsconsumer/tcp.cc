@@ -1,7 +1,15 @@
 #include "connectionsconsumer.ih"
 
+//static size_t count = 0;
+
 void ConnectionsConsumer::tcp(Record *record)
 {
+//cerr << "\n"
+//        "---------------\n\n" <<
+//        ++count << " #: " << d_tcp.size() << ": ";
+//
+//CERR << *record << '\n';
+
     lock_guard<mutex> lg(d_tcpMutex);
 
      switch (record->type())

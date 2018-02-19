@@ -2,10 +2,10 @@
 
 void ConnectionsConsumer::sentRecord(Record *record)
 {
-    auto iter = d_tcp.find(record->key());
+    auto iter = d_tcp.find(record->srcKey());
 
-    if (iter != d_tcp.end())
-        iter->second->addSentBytes(record);
+    iter->second->addSentBytes(record);
+//CERR << "SENT: " << *iter->second << '\n';
 
     delete record;
 }

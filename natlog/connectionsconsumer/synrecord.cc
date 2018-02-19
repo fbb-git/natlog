@@ -2,6 +2,7 @@
 
 void ConnectionsConsumer::synRecord(Record *record)
 {
+//CERR << '\n';
     if (                                            // package not sent
         not g_nic.mask(Record::IN, record->sourceIP())
         ||
@@ -9,7 +10,11 @@ void ConnectionsConsumer::synRecord(Record *record)
     )
         delete record;                              // then ignore
     else                                            // else insert
+//{
         d_tcp.insert( value_type{ record->sequenceKey(), record } );
             // insertion also means: the record pointer is transferred
             // to the tcp-map.
+//CERR << "STORED: " << record->sequenceKey() << ": " << *record << '\n';
+//}
+
 }

@@ -2,10 +2,10 @@
 
 void ConnectionsConsumer::receivedRecord(Record *record)
 {
-    auto iter = d_tcp.find(record->key());
+    auto iter = d_tcp.find(record->dstKey());
 
-    if (iter != d_tcp.end())
-        iter->second->addReceivedBytes(record);
+    iter->second->addReceivedBytes(record);
+//CERR << "RECEIVED: " << *iter->second << '\n';
 
     delete record;
 }

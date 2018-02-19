@@ -21,7 +21,6 @@
 using namespace std;
 using namespace FBB;
 
-
 inline void ConnectionsConsumer::tcpIn(Record *record)
 {
     (this->*s_tcpIn[tcpInType(record)])(record);

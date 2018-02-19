@@ -11,17 +11,7 @@ void ConnectionsConsumer::udpOut(Record const *record)
     auto iter = d_udp.find(record->IDKey());   
 
     if (iter != d_udp.end())            // yes: set via-info
-    {
-                                        // 1st time out:
-                                        // NAT has changed the source address
-                                        // OK: so set the accumulated data's
-                                        // 'via' address.
-        iter->second->setViaIP(record->sourceIP());
-        iter->second->setViaPort(record->sourcePort());
-
-        d_udp.insert( value_type{ iter->second->srcKey(), iter->second } );
-        d_udp.erase(iter);
-    }
+        newKey(d_udp, iter, record);    // and use sport srcIP as key
 
     delete record;
 }
