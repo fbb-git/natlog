@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::synRecord(Record *record)
+void ConnectionsConsumer::tcpSyn(Record *record)
 {
 //CERR << '\n';
     if (                                            // package not sent

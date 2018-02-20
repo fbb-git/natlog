@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::icmpOut(Record const *record)
+void ConnectionsConsumer::icmpOutDev(Record const *record)
 {
 //CERR << '\n';
 

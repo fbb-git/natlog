@@ -73,27 +73,27 @@ class ConnectionsConsumer: public FBB::SignalHandler
                                             // and consume the produced data
     private:
         void icmp(Record *record);          // Producers must make sure that
-        void icmpIn(Record *record);        // only defined protocols are
-        void icmpOutbound(Record *next);    // returned
-        void icmpInbound(Record *next);      
-        void icmpOut(Record const *record);
+        void icmpInDev(Record *record);     // only defined protocols are
+        void icmpSent(Record *next);        // returned
+        void icmpReceived(Record *next);      
+        void icmpOutDev(Record const *record);
 
         void udp(Record *record);
-        void udpIn(Record *record);
-        void udpOutbound(Record *next);
-        void udpInbound(Record *next);      
-        void udpOut(Record const *record);
+        void udpInDev(Record *record);
+        void udpSent(Record *next);
+        void udpReceived(Record *next);      
+        void udpOutDev(Record const *record);
 
         TCP_type tcpInType(Record const *record);
 
         void tcp(Record *record);           
-        void tcpIn(Record *record);
-        void finRecord(Record *next);
-        void ignoreRecord(Record *next);
-        void receivedRecord(Record *next);
-        void sentRecord(Record *next);
-        void synRecord(Record *next);
-        void tcpOut(Record const *record);
+        void tcpInDev(Record *record);
+        void tcpFin(Record *next);
+        void tcpIgnore(Record *next);
+        void tcpReceived(Record *next);
+        void tcpSent(Record *next);
+        void tcpSyn(Record *next);
+        void tcpOutDev(Record const *record);
 
         void icmpDestroy(Record *record);   // used for conntrack connections
         void tcp_udpDestroy(RecordMap &map, Record const *record, 

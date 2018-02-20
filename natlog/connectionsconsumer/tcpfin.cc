@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::finRecord(Record *record)
+void ConnectionsConsumer::tcpFin(Record *record)
 {
 //CERR << '\n';
     auto iter = d_tcp.find(record->srcKey());

@@ -99,10 +99,17 @@ main
             |        +- logTCP_UDP
             |           |
             |           +-logTCP_UDPdata
-            |
             +---+
             |   |
             |   +- icmp
+            |   |  |
+            |   |  +- icmpInDev
+            |   |  |  |
+            |   |  |  +- icmpSent 
+            |   |  |  |
+            |   |  |  +- icmpReceived
+            |   |  |
+            |   |  +- icmpOutDev
             |   |  |
             |   |  +- icmpDestroy
             |   |     |
@@ -112,9 +119,15 @@ main
             |   |
             |   +- udp
             |   |  |
-            |   |  +- udpIn
+            |   |  +- udpInDev
+            |   |  |  |
+            |   |  |  +- udpSent 
+            |   |  |  |
+            |   |  |  +- udpReceived
             |   |  |
-            |   |  +- udpOut
+            |   |  +- udpOutDev
+            |   |  |  |
+            |   |  |  +- newKey
             |   |  |
             |   |  +- tcp_udpDestroy
             |   |     |
@@ -124,13 +137,31 @@ main
             |   |
             |   +- tcp
             |      |
-            |      +- tcpIn
+            |      +- tcpInDev
+            |      |  |
+            |      |  +- tcpInType
+            |      |  |
+            |      |  +- tcpSyn
+            |      |  |
+            |      |  +- tcpSent
+            |      |  |
+            |      |  +- tcpReceived
+            |      |  |
+            |      |  +- tcpFin
+            |      |  |  |
+            |      |  |  +- logTCP_UDP
+            |      |  |     |
+            |      |  |     logTCP_UDPdata
+            |      |  |
+            |      |  +- ignoreRecord
             |      |  |
             |      |  +- logTCP_UDP
             |      |     |
             |      |     logTCP_UDPdata
             |      |
-            |      +- tcpOut
+            |      +- tcpOutDev
+            |      |  |
+            |      |  +- newKey
             |      |
             |      +- tcp_udpDestroy
             |         |

@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::ignoreRecord(Record *next)
+void ConnectionsConsumer::tcpIgnore(Record *next)
 {
 //CERR << '\n';
     delete next;

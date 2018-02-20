@@ -15,11 +15,11 @@ void ConnectionsConsumer::tcp(Record *record)
      switch (record->type())
      {
         case Record::IN:
-            tcpIn(record);
+            tcpInDev(record);
         break;
 
         case Record::OUT:
-            tcpOut(record);
+            tcpOutDev(record);
         return;
 
         case Record::NEW:

@@ -1,12 +1,12 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::udpIn(Record *record)
+void ConnectionsConsumer::udpInDev(Record *record)
 {
     if (g_nic.mask(Record::IN, record->sourceIP()))     // package is sent
-        udpOutbound(record);
+        udpSent(record);
 
     else if (g_nic.mask(Record::IN, record->destIP()))  // package is received
-        udpInbound(record);
+        udpReceived(record);
 }
 
 

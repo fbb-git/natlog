@@ -5,7 +5,7 @@
     // and the entry can be removed from d_sequence, as no information
     // about this connection on the OUT device is used anymore.
 
-void ConnectionsConsumer::tcpOut(Record const *record)
+void ConnectionsConsumer::tcpOutDev(Record const *record)
 try
 {
 //CERR << '\n';

@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::sentRecord(Record *record)
+void ConnectionsConsumer::tcpSent(Record *record)
 {
     auto iter = d_tcp.find(record->srcKey());
 

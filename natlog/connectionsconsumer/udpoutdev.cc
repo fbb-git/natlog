@@ -5,7 +5,7 @@
     // and the entry can be removed from d_id, as no information
     // about this connection on the OUT device is used anymore.
 
-void ConnectionsConsumer::udpOut(Record const *record)
+void ConnectionsConsumer::udpOutDev(Record const *record)
 {
                                         // previously seen ID?
     auto iter = d_udp.find(record->IDKey());   
