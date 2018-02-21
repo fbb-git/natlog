@@ -1,3 +1,13 @@
+natlog (2.01.00)
+
+  * Simplified ConnectionsConsumer, added classes IPbase, TCP, UDP, and ICMP.
+
+  * Redefined the RecordMap key handling, now using 64-bit keys. This should
+    solve the incorrect handling of TCP connections observed with version
+    2.00.00.
+
+
+
 natlog (2.00.00)
 
   * Added mode tcpdump processing captured tcpdump files

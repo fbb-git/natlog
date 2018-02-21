@@ -1,7 +1,7 @@
 #include "connectionsconsumer.ih"
 
 // static
-void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *const consumer)
+void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *consumer)
 {
     // if lastUsed + ttl < now then log and remove the record
     // so: if lastUsed < now - ttl log and remove the record
@@ -12,10 +12,9 @@ void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *const consumer)
 
         consumer->cleanupICMP_UDP(time(0) - consumer->d_ttl);
 
-            // tcp connections passive for more than 1 hour are removed.
-        consumer->cleanup(time(0) - Options::instance().ttlTCP(), 
-                          consumer->d_tcpMutex, consumer->d_tcp, 
-                          &ConnectionsConsumer::logTCP_UDP, "tcp");
+        IPbase::setLogType(IPbase::INCOMPLETE);
+        consumer->d_tcp.cleanup(time(0) - Options::instance().ttlTCP());
+        IPbase::setLogType(IPbase::COMPLETE);
     }
     
     consumer->d_stdMsg << "cleanupWrap thread ends" << endl;

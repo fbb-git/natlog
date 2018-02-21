@@ -1,0 +1,10 @@
+#include "icmp.h"
+
+#include <iostream>
+#define CERR std::cerr << __FILE__": "
+
+#include "../showseconds/showseconds.h"
+#include "../nic/nic.h"
+
+using namespace std;
+

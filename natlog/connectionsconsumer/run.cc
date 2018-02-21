@@ -1,5 +1,7 @@
 #include "connectionsconsumer.ih"
 
+//size_t count = 0;
+
 void ConnectionsConsumer::run()
 {
     thread cleanupThread;
@@ -22,22 +24,22 @@ void ConnectionsConsumer::run()
                                             // there's no need to copy the
                                             // record at this point
         d_storage.produceNotify();
+
+//if (count++ % 10 == 0)
+//CERR << '\n';
                                             // process the incoming protocol
                                             // data, calls tcp, udp or icmp
-        (this->*s_handler[record->protocol()])(record);  
+        d_handler[record->protocol()]->process(record);  
     }
 
     if (d_options.realTime())
         cleanupThread.join();
         
-    d_logType = EOP;
-
     time_t eop = time(0) + 1;
 
     cleanupICMP_UDP(eop);                   // what's still in the maps is
                                             // there at EOP
-
-    cleanup(eop, d_tcpMutex, d_tcp, &ConnectionsConsumer::logTCP_UDP, "tcp");
+    d_tcp.cleanup(eop);
 }
 
 
