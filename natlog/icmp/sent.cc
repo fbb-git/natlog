@@ -1,17 +1,18 @@
-#include "ipbase.ih"
+#include "icmp.ih"
 
-void IPbase::sent(Record *next)
+    // sent: dst may not be in the local net
+
+void ICMP::sent(Record *next)
 {
-                                        // when connecting the local net
-                                        // ignore the record
+                                        // dest may not be in the local net
     if (not g_nic.mask(Record::IN, next->destIP()))
     {
                                         // existing record: add sent bytes
-        if (auto iter = d_map.find(next->IDKey()); iter != d_map.end())
+        if (auto iter = find(next->key()); iter != end())
             iter->second->addSentBytes(next);
         else                            
         {                               // or store a new connection
-            insert( next->IDKey(), next );
+            insert(next);
             next->addSentBytes(next);
             return;
         }

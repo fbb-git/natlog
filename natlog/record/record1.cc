@@ -29,7 +29,8 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
     switch (protocol())
     {
         case ICMP:
-            setIDKey(ntohs(get<ICMP_Header>(packet).ident));
+            setIDKey(ntohs(get<ICMP_Header>(packet).ident),
+                     ntohs(get<ICMP_Header>(packet).seqnum));
             d_payload = ipLength - headerLength;
         break;
 
@@ -39,8 +40,7 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
                 ntohs(get<UDP_Header>(packet).sourcePort),
                 ntohs(get<UDP_Header>(packet).destPort)
             );
-            d_id = ntohs(get<IP_Header>(packet).identification);
-
+            d_key.key = ntohs(get<IP_Header>(packet).identification);
             d_payload = ntohs(get<UDP_Header>(packet).length) 
                                                     - sizeof(UDP_Header);
         }
@@ -51,7 +51,7 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
                 ntohs(get<UDP_Header>(packet).sourcePort),
                 ntohs(get<UDP_Header>(packet).destPort)
             );
-            d_id = get<TCP_Header>(packet).sequenceNr;
+            d_key.key = get<TCP_Header>(packet).sequenceNr;
             d_flags = get<TCP_Header>(packet).flags;
 
             d_payload = ipLength - headerLength - dataOffset;

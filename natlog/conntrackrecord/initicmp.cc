@@ -7,7 +7,7 @@ void ConntrackRecord::initICMP(Pattern const &pattern)
     setViaIP(    aton(pat(CTicmp::NATSRC)) );
 
     setProtocol(ICMP);
-    setIDKey( stoul(pat(CTicmp::ID)) );
+    setIDKey( stoul(pat(CTicmp::ID)), 0 );  // no sequence nr available
 
     if (type() == DESTROY)
     {

@@ -44,7 +44,7 @@ struct IPbase
         IPbase(std::ostream &stdMsg, std::ostream &logDataStream);
 
         size_t size() const;
-        void insert(uint64_t key, Record *next);
+        void insert(Record *next);
 
         RecordMap::iterator find(uint64_t key);
         RecordMap::iterator end();
@@ -56,24 +56,21 @@ struct IPbase
 
         std::ostream &stdMsg() const;
 
-                                                // also sets via-info        
-        void newKey(RecordMap::iterator const &iter, Record const *next);
+        void viaAndSrcKey(RecordMap::iterator const &iter, Record const *next);
 
         void log(Record const *record) const;   
        
     private:
-                                        // default: logs TCP and UDP records
+            // default: TCP and UDP records
         virtual void logConnection(Record const *record) const;
 
-                                                        // UDP/TCP
-        virtual void destroy(Record const *record);  
+        virtual void inDev(Record *next);           // TCP overrides
 
-        virtual void inDev(Record *next);
-        virtual void sent(Record *next);
-        virtual void received(Record *next);
-
+        virtual void sent(Record *next) = 0;
+        virtual void received(Record *next) = 0;
         virtual void outDev(Record const *next) = 0;
 
+        void destroy(Record const *record);  
         void logData(Record const *record) const;
         void noDataLog(Record const *record) const;
 
@@ -89,9 +86,9 @@ inline void IPbase::log(Record const *record) const
     logConnection(record);
 }
 
-inline void IPbase::insert(uint64_t key, Record *next)
+inline void IPbase::insert(Record *next)
 {
-    d_map.insert( value_type{ key, next } );
+    d_map.insert( value_type{ next->key(), next } );
 }
 
 inline IPbase::RecordMap::iterator IPbase::end()

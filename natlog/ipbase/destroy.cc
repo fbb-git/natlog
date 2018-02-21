@@ -1,22 +1,24 @@
 #include "ipbase.ih"
 
-    // used for TCP/UDP
 void IPbase::destroy(Record const *record)
-{
-                                        // find this record's accumulated data
-    auto iter = d_map.find(record->srcKey());
+try
+{                                       // find this record's accumulated data
+    auto iter = find(record->key());
 
-    if (iter == d_map.end())            // unknown record: no existing
-        return;                         // connection
+    if (iter == end())                  // unknown record: no existing
+        throw false;                    // connection
 
     auto *accu = iter->second;
 
     accu->addSentBytes(record);
     accu->addReceivedBytes(record);
+    log(accu);
 
-    log(iter->second);
-
-    delete record;
     erase(iter); 
+    throw;
+}
+catch (...)
+{
+    delete record;
 }
 

@@ -7,15 +7,14 @@
 
 void UDP::outDev(Record const *next)
 {
-                                        // previously seen ID?
-    auto iter = find(next->IDKey());   
+    auto iter = find(next->key());   
 
     if (
         iter != end()                   // key found and the NAT-host's 
         and                             // address is the source address
         g_nic.address(Record::OUT) == next->sourceIP()
     )
-        newKey(iter, next);           // and use sport srcIP as key
+        viaAndSrcKey(iter, next);       // use sport srcIP as key
 
     delete next;
 }

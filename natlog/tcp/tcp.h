@@ -20,17 +20,22 @@ class TCP: public IPbase
         TCP(std::ostream &stdMsg, std::ostream &logDataStream);
 
     private:
-        void inDev(Record *next)        override;
+        void inDev(Record *next)    override;
+
+        void sent(Record *next);                    // called from inDev,
+                                                    // override not needed
+
+        void received(Record *next) override;       // but not called via
+                                                    // IPbase, as inDev is
+                                                    // overridden
         void outDev(Record const *next) override;
 
-        TCP_type inType(Record *record);
+        TCP_type inType(Record const *record);
 
         void fin(Record *next);
         void ignore(Record *next);
-        void received(Record *next);
-        void sent(Record *next);
         void syn(Record *next);
-
 };
         
 #endif
+

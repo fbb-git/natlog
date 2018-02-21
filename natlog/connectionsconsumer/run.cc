@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-//size_t count = 0;
+//static size_t count = 0;
 
 void ConnectionsConsumer::run()
 {
@@ -26,7 +26,7 @@ void ConnectionsConsumer::run()
         d_storage.produceNotify();
 
 //if (count++ % 10 == 0)
-//CERR << '\n';
+//CERR << count << '\n';
                                             // process the incoming protocol
                                             // data, calls tcp, udp or icmp
         d_handler[record->protocol()]->process(record);  

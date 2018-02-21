@@ -2,8 +2,7 @@
 
 void TCP::fin(Record *record)
 {
-//CERR << "begin\n";
-    auto iter = find(record->srcKey());
+    auto iter = find(record->key());
 
     if (iter == end())                    // the local host doesn't FIN
         iter = find(record->dstKey());    // maybe it's the remote host
@@ -15,5 +14,4 @@ void TCP::fin(Record *record)
     }
 
     delete record;
-//CERR << "end\n";
 }

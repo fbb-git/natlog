@@ -2,7 +2,7 @@
 
 void ICMP::outDev(Record const *next)
 {
-    auto iter = find(next->IDKey());
+    auto iter = find(next->key());
 
     if (
         iter != end()                   // key found and the NAT-host's 
@@ -11,9 +11,5 @@ void ICMP::outDev(Record const *next)
     )
         iter->second->setViaIP(next->sourceIP()); // then set the via-addr.
 
-                                        // 1st time out: 
-                                        // NAT has changed the source address
-                                        // OK: so set the accumulated data's
-                                        // 'via' address.
     delete next;
 }

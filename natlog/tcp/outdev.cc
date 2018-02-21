@@ -14,9 +14,8 @@ try
     if (next->flags() != Record::SYN) // ignore unless a mere SYN record
         throw false;                    
 
-// CERR << *next << '\n';
                                         // find the matching record
-    auto iter = find( next->sequence() );
+    auto iter = find( next->key() );
 
     if 
     (
@@ -24,9 +23,7 @@ try
         and                             // src is the out-device
         g_nic.address(Record::OUT) == next->sourceIP()
     )
-        newKey(iter, next);                 // use sport srcIP as key
-
-// CERR << "end\n";
+        viaAndSrcKey(iter, next);       // use sport srcIP as key
 
     throw false;
 }
@@ -34,6 +31,8 @@ catch (...)
 {
     delete next;
 }
+
+
 
 
 
