@@ -14,18 +14,17 @@ try
     if (next->flags() != Record::SYN) // ignore unless a mere SYN record
         throw false;                    
 
-                                        // find the matching record
-    auto iter = find( next->key() );
+    auto idIter = d_keyMap.find(next->id());    // look for the ID
+    if (idIter == d_keyMap.end())               // no such ID
+        throw false;
 
-    if 
-    (
-        iter != end()                   // known record and
-        and                             // src is the out-device
-        g_nic.address(Record::OUT) == next->sourceIP()
-    )
-        viaAndSrcKey(iter, next);       // use sport srcIP as key
+    auto iter = find(idIter->second);   // find the matching record
+    if (iter == end())                  // somehow not available
+        throw false;
 
-    throw false;
+    d_keyMap.erase(idIter);             // key no longer required
+    setVia(iter, next);                 // set nat:nport as via
+    throw true;
 }
 catch (...)
 {

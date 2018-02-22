@@ -38,23 +38,37 @@ Client (1.2) to destination (2.51):
 
 15:43:54.437608 IP (tos 0x0, ttl 64, id 36222, offset 0, flags [DF], proto UDP (17), length 34)
     192.168.1.2.51757 > 129.125.2.51.12345: UDP, length 6
+    src:sport   -> dst:dport,   id = a
+
 15:44:13.541867 IP (tos 0x0, ttl 52, id 18749, offset 0, flags [DF], proto UDP (17), length 38)
     129.125.2.51.12345 > 192.168.1.2.51757: UDP, length 10
+    dst:dport   -> src:sport,   id = b
+
 15:45:49.393355 IP (tos 0x0, ttl 64, id 63059, offset 0, flags [DF], proto UDP (17), length 37)
     192.168.1.2.51757 > 129.125.2.51.12345: UDP, length 9
+    src:sport   -> dst:dport,   id = c
+
 15:46:17.583739 IP (tos 0x0, ttl 52, id 24262, offset 0, flags [DF], proto UDP (17), length 40)
     129.125.2.51.12345 > 192.168.1.2.51757: UDP, length 12
+    dst:dport   -> src:sport    id = d
 
 Nathost (17.6) to destination (2.51):
 
 15:43:54.437689 IP (tos 0x0, ttl 63, id 36222, offset 0, flags [DF], proto UDP (17), length 34)
     192.168.17.6.51757 > 129.125.2.51.12345: UDP, length 6
+    nat:nport   ->  dst:dport,  id = a
+
 15:44:13.541818 IP (tos 0x0, ttl 53, id 18749, offset 0, flags [DF], proto UDP (17), length 38)
     129.125.2.51.12345 > 192.168.17.6.51757: UDP, length 10
+    dst:dport   -> nat:nport,   id = b
+
 15:45:49.393444 IP (tos 0x0, ttl 63, id 63059, offset 0, flags [DF], proto UDP (17), length 37)
     192.168.17.6.51757 > 129.125.2.51.12345: UDP, length 9
+    nat:nport   -> dst:dport,   id = c
+
 15:46:17.583695 IP (tos 0x0, ttl 53, id 24262, offset 0, flags [DF], proto UDP (17), length 40)
     129.125.2.51.12345 > 192.168.17.6.51757: UDP, length 12
+    dst:dport   -> nat:nport    id = d
 
 
 Multiple udp packets may be sent by identical processes, in which case the

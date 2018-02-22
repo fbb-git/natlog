@@ -1,7 +1,8 @@
 #include "udp.h"
 
-//#include <iostream>
-//#define CERR std::cerr << __FILE__": "
+//TMP
+#include <iostream>
+#define CERR std::cerr << __FILE__": "
 
 #include "../nic/nic.h"
 

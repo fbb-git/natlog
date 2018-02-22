@@ -45,7 +45,8 @@ struct Record: public IP_Types
         Protocol d_protocol;
         Type d_type;
 
-        Key d_key;
+        Key d_key = {0};
+        size_t d_id = 0;            // ID with UDP, sequence with TCP
     
         size_t d_seconds = 0;
         size_t d_microSeconds = 0;
@@ -107,7 +108,7 @@ struct Record: public IP_Types
         size_t  receivedBytes() const;      // i
         size_t  sentBytes() const;          // i
         size_t  payload() const;            // i
-
+        size_t  id() const;                 // i    used by UDP/TCP
         size_t  flags() const;              // i    - only with TCP
 
         std::string showFlags() const;
@@ -254,7 +255,12 @@ inline size_t Record::payload() const
     return d_payload;
 }
 
-inline size_t Record::flags() const       // only with TCP
+inline size_t Record::id() const        // TCP / UDP
+{
+    return d_id;
+}
+
+inline size_t Record::flags() const     // only with TCP
 {
     return d_flags;
 }

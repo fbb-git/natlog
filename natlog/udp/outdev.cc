@@ -1,21 +1,30 @@
 #include "udp.ih"
 
     // The OUT interface is used to NAT source addresses to the nathost's
-    // address. When receiving a known ID packet the via-data can be set
-    // and the entry can be removed from d_id, as no information
-    // about this connection on the OUT device is used anymore.
+    // address. 
 
+    //  nat:nport -> dst:dport,  ID in d_keyMap
+    // or
+    //  dst:dport -> nat:nport                      (ignored)
+
+    
 void UDP::outDev(Record const *next)
+try
 {
-    auto iter = find(next->key());   
+    auto idIter = d_keyMap.find(next->id());    // look for the ID
+    if (idIter == d_keyMap.end())               // no such ID
+        throw false;
 
-    if (
-        iter != end()                   // key found and the NAT-host's 
-        and                             // address is the source address
-        g_nic.address(Record::OUT) == next->sourceIP()
-    )
-        viaAndSrcKey(iter, next);       // use sport srcIP as key
+    auto iter = find(idIter->second);           // get the matching record
+    if (iter == end())                          // somehow not available
+        throw false;
 
+    d_keyMap.erase(idIter);                     // ID no longer needed
+    setVia(iter, next);                         // set nat:nport as via
+    throw true;
+}
+catch (...)
+{
     delete next;
 }
 

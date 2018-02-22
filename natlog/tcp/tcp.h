@@ -14,6 +14,8 @@ class TCP: public IPbase
         TCP_IGNORE
     };
 
+    KeyMap d_keyMap;
+
     static void (TCP::*s_tcpIn[]) (Record *);
 
     public:

@@ -2,7 +2,6 @@
 
 void TCP::syn(Record *next)
 {
-CERR << "begin  SYN\n";
     if (                                            // package not sent
         not g_nic.mask(Record::IN, next->sourceIP())
         ||
@@ -10,5 +9,10 @@ CERR << "begin  SYN\n";
     )
         delete next;                                // then ignore
     else                                            // else insert
+    {
+        next->setSrcKey();                  // store the outDev key
+        d_keyMap[next->id()] = next->key();
+        
         insert(next);
+    }
 }

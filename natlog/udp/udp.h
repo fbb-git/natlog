@@ -5,6 +5,8 @@
 
 class UDP: public IPbase
 {
+    KeyMap d_keyMap;
+
     public:
         UDP(std::ostream &stdMsg, std::ostream &logDataStream);
 

@@ -22,7 +22,7 @@ struct IPbase
     
         typedef std::unordered_map<uint64_t, Record *> RecordMap;
         typedef RecordMap::value_type value_type;
-    
+
         std::mutex d_mutex;
         RecordMap d_map;
     
@@ -41,6 +41,10 @@ struct IPbase
         static std::pair<char const *, char const *> const &logType();
 
     protected:
+                    // KeyMap is used to associate the OUT dev. packets
+                    // with available IN dev packets in UDP/TCP connections
+        typedef std::unordered_map<size_t, uint64_t> KeyMap;
+    
         IPbase(std::ostream &stdMsg, std::ostream &logDataStream);
 
         size_t size() const;
@@ -56,7 +60,7 @@ struct IPbase
 
         std::ostream &stdMsg() const;
 
-        void viaAndSrcKey(RecordMap::iterator const &iter, Record const *next);
+        void setVia(RecordMap::iterator const &iter, Record const *next);
 
         void log(Record const *record) const;   
        

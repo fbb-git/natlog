@@ -40,7 +40,8 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
                 ntohs(get<UDP_Header>(packet).sourcePort),
                 ntohs(get<UDP_Header>(packet).destPort)
             );
-            d_key.key = ntohs(get<IP_Header>(packet).identification);
+            d_id = ntohs(get<IP_Header>(packet).identification);
+
             d_payload = ntohs(get<UDP_Header>(packet).length) 
                                                     - sizeof(UDP_Header);
         }
@@ -51,7 +52,7 @@ Record::Record(Type type, size_t seconds, size_t muSeconds,
                 ntohs(get<UDP_Header>(packet).sourcePort),
                 ntohs(get<UDP_Header>(packet).destPort)
             );
-            d_key.key = get<TCP_Header>(packet).sequenceNr;
+            d_id = get<TCP_Header>(packet).sequenceNr;
             d_flags = get<TCP_Header>(packet).flags;
 
             d_payload = ipLength - headerLength - dataOffset;
