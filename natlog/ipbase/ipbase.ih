@@ -2,7 +2,6 @@
 
 #include <ostream>
 #include <iomanip>
-#include <vector>
 
 #include <iostream>
 #define CERR std::cerr << __FILE__": "

@@ -2,7 +2,8 @@
 
 void TCP::sent(Record *next)
 {
-    find(next->key())->second->addSentBytes(next);
+//CERR << "key = " << next->srcKey() << '\n';
+    find(next->srcKey())->second->addSentBytes(next);
 
     delete next;
 }

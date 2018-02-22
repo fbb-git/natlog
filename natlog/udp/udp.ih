@@ -4,6 +4,8 @@
 #include <iostream>
 #define CERR std::cerr << __FILE__": "
 
+#include <vector>
+
 #include "../nic/nic.h"
 
 using namespace std;

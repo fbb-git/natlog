@@ -11,9 +11,10 @@ class UDP: public IPbase
         UDP(std::ostream &stdMsg, std::ostream &logDataStream);
 
     private:
-        void sent(Record *next) override;
-        void received(Record *next) override;
-        void outDev(Record const *next) override;
+        void sent(Record *next)                             override;
+        void received(Record *next)                         override;
+        void outDev(Record const *next)                     override;
+        void cleanupHook()                  override;
 
 };
         

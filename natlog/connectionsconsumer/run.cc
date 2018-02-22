@@ -26,7 +26,7 @@ void ConnectionsConsumer::run()
         d_storage.produceNotify();
 
 //if (count++ % 10 == 0)
-//CERR << ++count << '\n';
+//CERR << ++count << ": " << record->protocolStr() << '\n';
                                             // process the incoming protocol
                                             // data, calls tcp, udp or icmp
         d_handler[record->protocol()]->process(record);  

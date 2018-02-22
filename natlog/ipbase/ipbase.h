@@ -63,8 +63,10 @@ struct IPbase
         void setVia(RecordMap::iterator const &iter, Record const *next);
 
         void log(Record const *record) const;   
-       
+
     private:
+        virtual void cleanupHook();        
+
             // default: TCP and UDP records
         virtual void logConnection(Record const *record) const;
 
@@ -74,10 +76,10 @@ struct IPbase
         virtual void received(Record *next) = 0;
         virtual void outDev(Record const *next) = 0;
 
+
         void destroy(Record const *record);  
         void logData(Record const *record) const;
         void noDataLog(Record const *record) const;
-
 };
 
 inline size_t IPbase::size() const

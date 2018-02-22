@@ -24,6 +24,9 @@ try
 
     d_keyMap.erase(idIter);             // key no longer required
     setVia(iter, next);                 // set nat:nport as via
+
+//CERR << *iter->second << '\n';
+
     throw true;
 }
 catch (...)
