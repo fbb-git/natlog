@@ -8,7 +8,7 @@ void TcpdumpProducer::run()
     d_in.stream.ignore(24);            // skip the global header, see
     d_out.stream.ignore(24);            // pcapfile.txt
 
-    d_stdMsg << "starting: reading packets from " << d_inName << 
+    d_stdMsg << "starting reading packets from " << d_inName << 
                               " and " << d_outName << endl;
     
     get(d_in);                         // fetch the first packets from

@@ -10,18 +10,12 @@ void DevicesProducer::run()
 
     d_stdMsg << "starting capturing " << d_inName << " and " << d_outName <<
                                                                         endl; 
-
     d_signaled.wait();
-
-    d_stdMsg << "DevicesProducer signaled" << endl;
 
     d_endSignal = true;
 
     in.stop();
     out.stop();
-
-    d_stdMsg << "monitoring " << d_inName << " and " << d_outName << 
-                                                            " ends" << endl;
 }
 
 

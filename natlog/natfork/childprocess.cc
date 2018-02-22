@@ -16,6 +16,8 @@ void NatFork::childProcess()
                          };
     ConnectionsConsumer connections{ d_stdMsg, storage };
 
+    d_stdMsg << "processing: " << d_options.protocolNames() << '\n';
+
     if (d_options.daemon())
         prepareDaemon();
 

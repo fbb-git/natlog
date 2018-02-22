@@ -64,10 +64,8 @@ struct Record: public IP_Types
         size_t  d_receivedBytes = 0;
         size_t  d_sentBytes = 0;
         size_t  d_payload = 0;
-    
         size_t  d_flags = 0;
-//        size_t  d_id = 0;           // sequence nr for TCP, identification for
-                                    // UDP
+
         time_t  d_lastUsed;
 
         static size_t s_count;
@@ -83,15 +81,9 @@ struct Record: public IP_Types
         Type type() const;          // i
 
         uint64_t key() const;               // i    - actual key
-//        uint64_t sequenceKey() const;       // i    - key computed from seq.
-////        uint64_t IDKey() const;             // i    - from ID
-
         uint64_t srcKey() const;            // i    - from src
         uint64_t dstKey() const;            // i    - from dst
     
-//        size_t id() const;          // i    - with ICMP
-//        size_t sequence() const;    // i    - with TCP (stored in d_id)
-
         size_t inSeconds() const;   // i
         size_t seconds() const;     // i
         size_t muSeconds() const;   // i
@@ -167,16 +159,6 @@ inline uint64_t Record::key() const
     return d_key.key;
 }
 
-//inline uint64_t Record::sequenceKey() const
-//{
-//    return d_id;
-//}
-
-//inline uint64_t Record::IDKey() const
-//{
-//    return d_id;
-//}
-
 inline uint64_t Record::srcKey() const
 {
     return Key{ { d_sourceIP, d_sourcePort } }.key;
@@ -186,16 +168,6 @@ inline uint64_t Record::dstKey() const
 {
     return Key{ { d_destIP, d_destPort } }.key;
 }
-
-//inline size_t Record::id() const
-//{
-//    return d_id;
-//}
-//
-//inline size_t Record::sequence() const
-//{
-//    return d_id;
-//}
 
 inline Record::Protocol Record::protocol() const
 {
@@ -361,7 +333,6 @@ inline void Record::setReceivedBytes(size_t size)
 inline void Record::setIDKey(uint32_t id, uint16_t seq)
 {
     d_key = Key{id, seq};
-//    d_id = id;
 }
 
 inline void Record::setSrcKey()
@@ -373,6 +344,5 @@ inline std::ostream &operator<<(std::ostream &out, Record const &record)
 {
     return record.insertInto(out);
 }
-
 
 #endif

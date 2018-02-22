@@ -11,7 +11,7 @@
 #include "../nic/nic.h"
 
 //TMP
-//#define CERR std::cerr << __FILE__": "
+#define CERR std::cerr << __FILE__": "
 
 using namespace std;
 using namespace FBB;
