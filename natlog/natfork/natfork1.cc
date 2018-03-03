@@ -8,6 +8,9 @@ NatFork::NatFork()
 {
     setupStdMsg();
 
+    if (d_options.debug())
+        g_debug.rdbuf(d_stdMsg.rdbuf());
+
     if (not d_options.daemon())
         setupNonDaemonMsg();
 
@@ -24,4 +27,9 @@ NatFork::NatFork()
     }
 
     specifications();
+
 }
+
+
+
+

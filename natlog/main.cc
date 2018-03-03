@@ -10,6 +10,7 @@ namespace   // the anonymous namespace can be used here
         Arg::LongOption("conntrack-command", Arg::Required),
         Arg::LongOption("conntrack-device", Arg::Required),
         Arg::LongOption("conntrack-restart", Arg::Required),
+        Arg::LongOption("debug", Arg::None),
         Arg::LongOption("help", 'h'),
         Arg::LongOption("log", Arg::Required),
         Arg::LongOption("log-data", Arg::Required),

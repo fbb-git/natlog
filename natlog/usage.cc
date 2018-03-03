@@ -26,6 +26,7 @@ progname << " V" << Icmbuild::version << " " << Icmbuild::years << "\n"
 "      --conntrack-restart max - max number of times `conntrack' is\n"
 "                           restarted if prematurely ended\n"
 "                           (default 10 restarts)\n"
+"      --debug            - log debug messages (unless --log off)\n"
 "      --help (-h)        - provide this help\n"
 "      --log type         - log information abount connections.\n"
 "                           Specify `type' as:\n"
@@ -100,5 +101,4 @@ progname << " V" << Icmbuild::version << " " << Icmbuild::years << "\n"
                                                             "in-device\n"
 "                   `outAddr outMask': address and netmask of the "
                                                             "out-device\n";
-
 }

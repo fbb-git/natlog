@@ -61,3 +61,5 @@ unordered_map<IP_Types::Protocol, string> const Options::s_protocol2name =
     };
 
 Options *Options::s_options = 0;
+
+ostream g_debug(0);

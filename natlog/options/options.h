@@ -1,6 +1,7 @@
 #ifndef INCLUDED_OPTIONS_
 #define INCLUDED_OPTIONS_
 
+#include <iosfwd>
 #include <ctime>
 #include <string>
 #include <unordered_set>
@@ -9,6 +10,8 @@
 #include <bobcat/syslogstream>      // for the enums
 
 #include "../iptypes/iptypes.h"
+
+extern std::ostream g_debug;
 
 struct Options: public IP_Types
 {
@@ -45,6 +48,7 @@ struct Options: public IP_Types
         bool d_daemon;
         bool d_stdout;
         bool d_terminate;
+        bool d_debug;
 
         Mode d_mode;
 
@@ -115,6 +119,7 @@ struct Options: public IP_Types
                                         // real-time; when recorded: false.
         bool stdout() const;
         bool kill() const;
+        bool debug() const;
 
         size_t IPheaderSize() const;
         size_t verbose() const;
@@ -198,6 +203,11 @@ inline bool Options::realTime() const
 inline bool Options::stdout() const
 {   
     return d_stdout;
+}
+
+inline bool Options::debug() const
+{   
+    return d_debug;
 }
 
 inline size_t Options::verbose() const
