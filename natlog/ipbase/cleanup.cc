@@ -14,7 +14,7 @@ void IPbase::cleanup(time_t now_ttl)
         }
     }
 
-    for (size_t key: remove)
+    for (uint64_t key: remove)
         erase(find(key));
 
     cleanupHook();
