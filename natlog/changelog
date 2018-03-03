@@ -6,7 +6,18 @@ natlog (2.01.00)
     solve the incorrect handling of TCP connections observed with version
     2.00.00.
 
+  * Using commas instead of colons as IP-address - port separators with TCP
+    and UDP connections.
 
+  * Using detached Pcap threads, to avoid long waiting times caused by
+    pcap_loop's waiting for one additional packet after calling
+    pcap_breakloop.
+
+  * Repaired flaws in the byte-counting procedures
+
+  * Received packets are now processed using pointers to Record objects.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 03 Mar 2018 13:17:04 +0100
 
 natlog (2.00.00)
 
