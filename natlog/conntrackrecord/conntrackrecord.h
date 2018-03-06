@@ -18,6 +18,7 @@ class ConntrackRecord: public Record
             
     public:
         ConntrackRecord(Protocol protocol, FBB::Pattern const &pattern);
+        // ~ConntrackRecord() override;
 
     private:
         void initTCP_UDP(FBB::Pattern const &pattern);

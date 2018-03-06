@@ -34,12 +34,13 @@ class ConnectionsConsumer: public FBB::SignalHandler
 
     public:
         ConnectionsConsumer(std::ostream &stdMsg, Storage &storage);
+        ~ConnectionsConsumer() override;
 
         void run();                         // process all connections:
                                             // start the producer thread
                                             // and consume the produced data
     private:
-        void signalHandler(size_t signum) override;             // i
+        void signalHandler(size_t signum) override;
 
         static void cleanupWrap(ConnectionsConsumer *consumer);
 

@@ -1,5 +1,9 @@
 #include "natfork.ih"
 
+//f: NatFork::run()
+    //c: NatFork::childProcess()
+    //c: NatFork::parentProcess()
+
 void NatFork::run()
 {
     switch (d_mode)

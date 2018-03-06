@@ -1,5 +1,10 @@
 #include "natfork.ih"
 
+//f: NatFork::childProcess()
+    //c: DevicesProducer::DevicesProducer(std::ostream&, Storage&)
+    //c: TcpdumpProducer::TcpdumpProducer(std::ostream&, Storage&)
+    //c: ConntrackProducer::ConntrackProducer(std::ostream&, Storage&)
+
 void NatFork::childProcess()
 {
     ShowSeconds::setFormat();

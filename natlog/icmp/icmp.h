@@ -7,6 +7,7 @@ class ICMP: public IPbase
 {
     public:
         ICMP(std::ostream &stdMsg, std::ostream &logDataStream);
+        ~ICMP() override;
 
     private:
         void logConnection(Record const *record) const  override;

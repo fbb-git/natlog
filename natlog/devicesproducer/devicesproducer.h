@@ -24,10 +24,16 @@ class DevicesProducer: public Producer, public FBB::SignalHandler
         ~DevicesProducer() override;
 
     private:
-        void run() override;
-        void signalHandler(size_t signum) override;
-
         void handleSignals();
+
+        void run()                          override;
+        void signalHandler(size_t signum)   override;
 };
         
 #endif
+
+
+
+
+
+

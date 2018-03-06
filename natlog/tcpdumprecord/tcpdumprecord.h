@@ -17,6 +17,7 @@ class TcpdumpRecord: public Record
         };
 
         TcpdumpRecord(Type inOut, PktHdr const &hdr, u_char const *packet);
+        // ~TcpdumpRecord() override;
 };
         
 #endif

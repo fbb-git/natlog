@@ -87,11 +87,6 @@ inline size_t IPbase::size() const
     return d_map.size();
 }
 
-inline void IPbase::log(Record const *record) const
-{
-    logConnection(record);
-}
-
 inline void IPbase::insert(Record *next)
 {
     d_map.insert( value_type{ next->key(), next } );

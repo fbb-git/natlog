@@ -9,6 +9,7 @@ class UDP: public IPbase
 
     public:
         UDP(std::ostream &stdMsg, std::ostream &logDataStream);
+        ~UDP() override;
 
     private:
         void sent(Record *next)                             override;

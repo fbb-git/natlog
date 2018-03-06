@@ -20,6 +20,7 @@ class TCP: public IPbase
 
     public:
         TCP(std::ostream &stdMsg, std::ostream &logDataStream);
+        ~TCP() override;
 
     private:
         void inDev(Record *next)                            override;

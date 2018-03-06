@@ -36,16 +36,14 @@ class ConntrackProducer: public Producer, public FBB::Fork,
         ~ConntrackProducer();
 
     private:
-        void run() override;
-
         void process(std::string const &line);
 
-        void signalHandler(size_t signum) override;
-
-        void parentProcess() override;
-        void childProcess() override;
-        void childRedirections() override;
-        void parentRedirections() override;
+        void run()                          override;
+        void signalHandler(size_t signum)   override;
+        void parentProcess()                override;
+        void childProcess()                 override;
+        void childRedirections()            override;
+        void parentRedirections()           override;
 };
         
 #endif

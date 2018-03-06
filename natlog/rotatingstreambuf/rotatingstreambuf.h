@@ -26,20 +26,22 @@ class RotatingStreambuf: public std::streambuf
   
     public:
         RotatingStreambuf(void (*header)(std::ostream &) = 0);
+        ~RotatingStreambuf() override;
+
         void open(std::string const &name);
         static void notify();
 
         static void startThread();
 
     private:
-        int overflow(int ch) override;
-        int sync() override;
-
         int unlockedOverflow(int ch);
         int lockedOverflow(int ch);
 
         static void rotateThread();
         void rotate(size_t nFiles);
+
+        int overflow(int ch)    override;
+        int sync()              override;
 };
 
 inline RotatingStreambuf::RotatingStreambuf(void (*header)(std::ostream &))

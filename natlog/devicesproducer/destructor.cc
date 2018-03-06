@@ -1,5 +1,7 @@
 #include "devicesproducer.ih"
 
+//f: DevicesProducer::~DevicesProducer()
+    //c: DevicesProducer::signalHandler(unsigned long)
 DevicesProducer::~DevicesProducer()
 {
     if (not d_endSignal)

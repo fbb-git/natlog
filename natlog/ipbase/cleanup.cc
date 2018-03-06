@@ -1,5 +1,10 @@
 #include "ipbase.ih"
 
+//f: IPbase::cleanup(long)
+    //c: IPbase::cleanupHook()
+    //c: TCP::cleanupHook()
+    //c: UDP::cleanupHook()
+
 void IPbase::cleanup(time_t now_ttl)
 {
     vector<uint64_t> remove;

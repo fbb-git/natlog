@@ -12,6 +12,7 @@ class PcapRecord: public Record
     public:
         PcapRecord(Type inOut, struct pcap_pkthdr const &hdr, 
                    u_char const *packet);
+        // ~PcapRecord() override;
 };
 
 #endif

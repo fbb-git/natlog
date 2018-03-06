@@ -1,5 +1,11 @@
 #include "conntrackproducer.ih"
 
+//f: ConntrackProducer::run()
+    //c: ConntrackProducer::childProcess()
+    //c: ConntrackProducer::parentProcess()
+    //c: ConntrackProducer::childRedirections()
+    //c: ConntrackProducer::parentRedirections()
+
 void ConntrackProducer::run()
 {
     size_t max = d_options.conntrackRestart();
