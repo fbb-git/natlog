@@ -123,6 +123,8 @@ struct Record: public IP_Types
         void setViaPort(size_t  viaPort);
         void setSrcKey();                       // i    - from src
 
+        static size_t count();
+
     protected:
                                     // used for pcap and tcpdump records
         Record(Type type, size_t seconds, size_t muSeconds,
@@ -154,6 +156,12 @@ struct Record: public IP_Types
 
         static char *ntoa(uint32_t ipAddr);
 };
+
+// static
+inline size_t Record::count()
+{
+    return s_count;
+}
 
 inline uint64_t Record::key() const
 {

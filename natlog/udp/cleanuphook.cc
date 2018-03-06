@@ -12,4 +12,9 @@ void UDP::cleanupHook()
 
     for (size_t key: remove)
         d_keyMap.erase(d_keyMap.find(key));
+
+    if (g_debug.good() and size() % 100 == 0)
+        g_debug << "UDP size: " << size() << 
+                    ", keyMap size: " << d_keyMap.size() <<
+                    ", #records: " << Record::count() << '\n';
 }
