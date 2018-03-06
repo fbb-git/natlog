@@ -5,6 +5,7 @@
     //c: ConntrackProducer::run()
     //c: TcpdumpProducer::run()
 
+// static
 void Producer::process(Producer *producer, Storage &storage)
 {
     producer->run();
