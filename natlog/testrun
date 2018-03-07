@@ -8,4 +8,4 @@ fi
 
 rm -f /tmp/natlog
 
-tmp/bin/binary -t utc --no-daemon -s --log /tmp/natlog --protocol $*
+tmp/bin/binary -t utc --debug --no-daemon -s --log /tmp/natlog --protocol $*
