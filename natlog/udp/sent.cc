@@ -5,8 +5,6 @@
     //
     // sent: dst may not be in the local net
 
-static size_t count =0;
-
 void UDP::sent(Record *next)
 {
                                         // dest may not be in the local net
@@ -22,12 +20,7 @@ void UDP::sent(Record *next)
 
             insert(next);                       // store the record
 
-if (count++ % 32 == 0)
-CERR << "keymap size: " << d_keyMap.size() << ", map size: " << size() <<
-'\n';
-
             next->addSentBytes(next);
-//CERR << "insert: " << *next << '\n';
             return;
         }
     }                                   

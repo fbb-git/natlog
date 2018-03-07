@@ -1,7 +1,5 @@
 #include "connectionsconsumer.ih"
 
-//static size_t count = 0;
-
 void ConnectionsConsumer::run()
 {
     thread cleanupThread;
@@ -25,11 +23,6 @@ void ConnectionsConsumer::run()
                                             // record at this point
         d_storage.produceNotify();
 
-//        if (d_options.debug())
-//        {
-//            if (count++ % 100 == 0)
-//                g_debug << count << ": " << *record << endl;
-//        }
                                             // process the incoming protocol
                                             // data, calls tcp, udp or icmp
         d_handler[record->protocol()]->process(record);  

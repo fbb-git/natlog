@@ -18,5 +18,8 @@ void IPbase::inDev(Record *next)
                                                     // package is received
     else if (g_nic.mask(Record::IN, next->destIP())) 
         received(next);
+
+    else                                            // neither...
+        delete next;
 }
 

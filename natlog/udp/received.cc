@@ -12,10 +12,7 @@ void UDP::received(Record *next)
                                         // existing connection: 
                                         // add received bytes
         if (auto iter = find(next->dstKey()); iter != end())
-//{
             iter->second->addReceivedBytes(next);
-//CERR << "add received: " << *next << '\n';
-//}
     }
 
     delete next;
