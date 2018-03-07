@@ -16,24 +16,25 @@ class TCP: public IPbase
 
     KeyMap d_keyMap;
 
-    static void (TCP::*s_tcpIn[]) (Record *);
+    static void (TCP::*s_tcpIn[]) (RecordPtr &);
 
     public:
         TCP(std::ostream &stdMsg, std::ostream &logDataStream);
         ~TCP() override;
 
     private:
-        void inDev(Record *next)            override;
-        void sent(Record *next)             override;
-        void received(Record *next)         override;
-        void outDev(Record const *next)     override;
+        void inDev(RecordPtr &next)             override;
+        void sent(RecordPtr &next)              override;
+        void received(RecordPtr &next)    override;
+
+        void outDev(Record const &next)     override;
         void cleanupHook()                  override;
 
-        TCP_type inType(Record const *record);
+        TCP_type inType(Record const &record);
 
-        void fin(Record *next);
-        void ignore(Record *next);
-        void syn(Record *next);
+        void fin(RecordPtr &next);
+        void ignore(RecordPtr &next);
+        void syn(RecordPtr &next);
 };
         
 #endif

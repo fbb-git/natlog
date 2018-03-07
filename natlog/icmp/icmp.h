@@ -10,11 +10,11 @@ class ICMP: public IPbase
         ~ICMP() override;
 
     private:
-        void logConnection(Record const *record) const  override;
+        void logConnection(Record const &record) const  override;
 
-        void sent(Record *next)                             override;
-        void received(Record *next)                         override;
-        void outDev(Record const *next)                     override;
+        void sent(RecordPtr &next)              override;
+        void received(RecordPtr &next)          override;
+        void outDev(Record const &next)         override;
 };
         
 #endif

@@ -7,7 +7,7 @@
     //c: TCP::outDev(Record*)
     //c: UDP::outDev(Record*)
 
-void IPbase::process(Record *next)
+void IPbase::process(RecordPtr next)
 {
     lock_guard<mutex> lg(d_mutex);
 
@@ -18,7 +18,7 @@ void IPbase::process(Record *next)
         break;
 
         case Record::OUT:
-            outDev(next);
+            outDev(*next);
         break;
 
         case Record::NEW:
@@ -26,7 +26,7 @@ void IPbase::process(Record *next)
         break;
 
         case Record::DESTROY:
-            destroy(next);
+            destroy(*next);
         break;
     }
 }

@@ -1,6 +1,6 @@
 #include "icmp.ih"
 
-void ICMP::received(Record *next)
+void ICMP::received(RecordPtr &next)
 {
                                         // src may not be local
     if (not g_nic.mask(Record::IN, next->sourceIP()))
@@ -8,8 +8,6 @@ void ICMP::received(Record *next)
                                         // existing connection: 
                                         // add received bytes
         if (auto iter = find(next->key()); iter != end())
-            iter->second->addReceivedBytes(next);
+            iter->second->addReceivedBytes(*next);
     }
-
-    delete next;
 }

@@ -25,7 +25,7 @@ void ConnectionsConsumer::run()
 
                                             // process the incoming protocol
                                             // data, calls tcp, udp or icmp
-        d_handler[record->protocol()]->process(record);  
+        d_handler[record->protocol()]->process( RecordPtr{ record } );  
     }
 
     if (d_options.realTime())

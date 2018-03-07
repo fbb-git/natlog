@@ -19,16 +19,3 @@
 
 using namespace std;
 using namespace FBB;
-
-//inline void ConnectionsConsumer::tcpInDev(Record *record)
-//{
-//    (this->*s_tcpIn[tcpInType(record)])(record);
-//
-//        // synRecord;        // TCP_SYN
-//        // finRecord;        // TCP_FIN
-//        // sentRecord;       // TCP_SENT
-//        // receivedRecord;   // TCP_RECVD
-//        // ignoreRecord;     // TCP_IGNORE
-//}
-//
-

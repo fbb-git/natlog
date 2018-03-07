@@ -1,6 +1,6 @@
 #include "tcp.ih"
 
-void (TCP::*TCP::s_tcpIn[]) (Record *) =
+void (TCP::*TCP::s_tcpIn[]) (RecordPtr &) =
 {
     &TCP::syn,           // TCP_SYN
     &TCP::fin,           // TCP_FIN

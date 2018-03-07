@@ -1,7 +1,6 @@
 #include "tcp.ih"
 
-void TCP::received(Record *next)
+void TCP::received(RecordPtr &next)
 {
-    find(next->dstKey())->second->addReceivedBytes(next);
-    delete next;
+    find(next->dstKey())->second->addReceivedBytes(*next);
 }

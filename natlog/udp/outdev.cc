@@ -8,23 +8,17 @@
     //  dst:dport -> nat:nport                      (ignored)
 
     
-void UDP::outDev(Record const *next)
-try
+void UDP::outDev(Record const &next)
 {
-    auto idIter = d_keyMap.find(next->id());    // look for the ID
+    auto idIter = d_keyMap.find(next.id());    // look for the ID
     if (idIter == d_keyMap.end())               // no such ID
-        throw false;
+        return;
 
     auto iter = find(idIter->second);           // get the matching record
     if (iter == end())                          // somehow not available
-        throw false;
+        return;
 
     d_keyMap.erase(idIter);                     // ID no longer needed
     setVia(iter, next);                         // set nat:nport as via
-    throw true;
-}
-catch (...)
-{
-    delete next;
 }
 

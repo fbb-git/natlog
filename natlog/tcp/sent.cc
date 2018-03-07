@@ -1,8 +1,6 @@
 #include "tcp.ih"
 
-void TCP::sent(Record *next)
+void TCP::sent(RecordPtr &next)
 {
-    find(next->srcKey())->second->addSentBytes(next);
-
-    delete next;
+    find(next->srcKey())->second->addSentBytes(*next);
 }

@@ -1,17 +1,17 @@
 #include "tcp.ih"
 
-TCP::TCP_type TCP::inType(Record const *next)
+TCP::TCP_type TCP::inType(Record const &next)
 {
-    if (next->flags() == Record::SYN)     // SYN (only) record
+    if (next.flags() == Record::SYN)     // SYN (only) record
         return TCP_SYN;
 
-    if (next->flags() & Record::FIN)       // FIN-flag set
+    if (next.flags() & Record::FIN)       // FIN-flag set
         return TCP_FIN;
 
-    if (find(next->srcKey()) != end())
+    if (find(next.srcKey()) != end())
         return TCP_SENT;
 
-    if (find(next->dstKey()) != end())
+    if (find(next.dstKey()) != end())
         return TCP_RECVD;
 
     return TCP_IGNORE;

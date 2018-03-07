@@ -1,8 +1,8 @@
 #include "record.ih"
 
-void Record::addSentBytes(Record const *next)
+void Record::addSentBytes(Record const &next)
 {
-    d_sentBytes += next->payload();
+    d_sentBytes += next.payload();
 
     setEndTime(next);
 }

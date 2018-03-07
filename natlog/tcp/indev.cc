@@ -1,8 +1,8 @@
 #include "tcp.ih"
 
-void TCP::inDev(Record *record)
+void TCP::inDev(RecordPtr &record)
 {
-    (this->*s_tcpIn[inType(record)])(record);
+    (this->*s_tcpIn[inType(*record)])(record);
 
         // syn;        // TCP_SYN
         // fin;        // TCP_FIN

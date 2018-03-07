@@ -7,6 +7,11 @@
 
 #include "../record/record.h"
 
+    // received RecordPtr objects are passed on to function that may grab
+    // their contents. Otherwise, the Record as const & is passed to the
+    // called function: destruction is then handled by the unique_ptr's
+    // destruction 
+
 struct IPbase
 {
     enum LogType
@@ -20,13 +25,13 @@ struct IPbase
         std::ostream &d_stdMsg;
         std::ostream &d_logDataStream;
     
-        typedef std::unordered_map<uint64_t, Record *> RecordMap;
-        typedef RecordMap::value_type value_type;
+        typedef std::unordered_map<uint64_t, RecordPtr> RecordMap;
+//FBB        typedef RecordMap::value_type value_type;
 
         std::mutex d_mutex;
         RecordMap d_map;
     
-        void (IPbase::*d_logData)(Record const *) const;
+        void (IPbase::*d_logData)(Record const &) const;
     
         static LogType  s_logType;
         static std::pair<char const *, char const *> s_logTypeText[];
@@ -34,7 +39,8 @@ struct IPbase
     public:
         virtual ~IPbase();
 
-        void process(Record *next);
+        void process(RecordPtr next);       // starting point: received from 
+                                            // ConnectionsConsumer::run
         void cleanup(time_t now_ttl);
 
         static void setLogType(LogType logType);
@@ -48,38 +54,39 @@ struct IPbase
         IPbase(std::ostream &stdMsg, std::ostream &logDataStream);
 
         size_t size() const;
-        void insert(Record *next);
+        void insert(RecordPtr &next);
 
         RecordMap::iterator find(uint64_t key);
         RecordMap::iterator end();
 
-        void logCSV(Record const *record) const;
+        void logCSV(Record const &record) const;
 
                                                 // also deletes the Record
         void erase(RecordMap::iterator const &iter);
 
         std::ostream &stdMsg() const;
 
-        void setVia(RecordMap::iterator const &iter, Record const *next);
+        void setVia(RecordMap::iterator const &iter, Record const &next);
 
-        void log(Record const *record) const;   
+        void log(Record const &record) const;   
 
     private:
         virtual void cleanupHook();        
 
             // default: TCP and UDP records
-        virtual void logConnection(Record const *record) const;
+        virtual void logConnection(Record const &record) const;
 
-        virtual void inDev(Record *next);           // TCP overrides
+        virtual void inDev(RecordPtr &next);            // TCP overrides
 
-        virtual void sent(Record *next) = 0;
-        virtual void received(Record *next) = 0;
-        virtual void outDev(Record const *next) = 0;
+        virtual void sent(RecordPtr &next) = 0;
+        virtual void received(RecordPtr &next) = 0;
+
+        virtual void outDev(Record const &next) = 0;
 
 
-        void destroy(Record const *record);  
-        void logData(Record const *record) const;
-        void noDataLog(Record const *record) const;
+        void destroy(Record const &record);  
+        void logData(Record const &record) const;
+        void noDataLog(Record const &record) const;
 };
 
 inline size_t IPbase::size() const
@@ -87,9 +94,9 @@ inline size_t IPbase::size() const
     return d_map.size();
 }
 
-inline void IPbase::insert(Record *next)
+inline void IPbase::insert(RecordPtr &next)
 {
-    d_map.insert( value_type{ next->key(), next } );
+    d_map.insert( { next->key(), std::move(next) } );
 }
 
 inline IPbase::RecordMap::iterator IPbase::end()
@@ -102,7 +109,7 @@ inline IPbase::RecordMap::iterator IPbase::find(uint64_t key)
     return d_map.find(key);
 }
 
-inline void IPbase::logCSV(Record const *record) const
+inline void IPbase::logCSV(Record const &record) const
 {
     (this->*d_logData) (record);
 }

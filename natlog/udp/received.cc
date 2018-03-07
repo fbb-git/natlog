@@ -4,7 +4,7 @@
     // dst:dport -> src::sport
 
     // source may not be local
-void UDP::received(Record *next)
+void UDP::received(RecordPtr &next)
 {
                                         // source may not be local
     if (not g_nic.mask(Record::IN, next->sourceIP()))
@@ -12,8 +12,6 @@ void UDP::received(Record *next)
                                         // existing connection: 
                                         // add received bytes
         if (auto iter = find(next->dstKey()); iter != end())
-            iter->second->addReceivedBytes(next);
+            iter->second->addReceivedBytes(*next);
     }
-
-    delete next;
 }

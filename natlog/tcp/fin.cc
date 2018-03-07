@@ -1,6 +1,6 @@
 #include "tcp.ih"
 
-void TCP::fin(Record *record)
+void TCP::fin(RecordPtr &record)
 {
     auto iter = find(record->key());
 
@@ -9,9 +9,7 @@ void TCP::fin(Record *record)
 
     if (iter != end())
     {
-        log(iter->second);    
+        log(*iter->second);    
         erase(iter);                        // remove the entry
     }
-
-    delete record;
 }

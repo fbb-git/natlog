@@ -4,6 +4,7 @@
 #include <iosfwd>
 #include <string>
 #include <ctime>
+#include <memory>
 
 #include "../iptypes/iptypes.h"
 
@@ -116,8 +117,8 @@ struct Record: public IP_Types
         time_t lastUsed() const;
 
     // public modifiers:
-        void addReceivedBytes(Record const *next);
-        void addSentBytes(Record const *next);
+        void addReceivedBytes(Record const &next);
+        void addSentBytes(Record const &next);
 
         void setViaIP(size_t viaIP);        // used in connections/udp.cc
         void setViaPort(size_t  viaPort);
@@ -151,11 +152,13 @@ struct Record: public IP_Types
         void setIDKey(uint32_t id, uint16_t seq);   // i    - set d_id and key
 
     private:
-        void setEndTime(Record const *record);  // also updates d_lastUsed
+        void setEndTime(Record const &record);  // also updates d_lastUsed
         std::ostream &insertInto(std::ostream &out) const;
 
         static char *ntoa(uint32_t ipAddr);
 };
+
+typedef std::unique_ptr<Record> RecordPtr;
 
 // static
 inline size_t Record::count()
