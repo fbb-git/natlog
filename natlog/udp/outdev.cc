@@ -15,7 +15,11 @@ void UDP::outDev(Record const &next)
         return;
 
     auto iter = find(idIter->second);           // get the matching record
-    if (iter == end())                          // somehow not available
+    if (
+        iter == end()                           // somehow not available
+        ||                                      // or src != OUT device
+        g_nic.address(Record::OUT) != next.sourceIP()
+    )
         return;
 
     d_keyMap.erase(idIter);                     // ID no longer needed

@@ -2,7 +2,6 @@
 #define INCLUDED_NATFORK_
 
 #include <fstream>
-#include <memory>
 
 #include <bobcat/fork>
 #include <bobcat/multistreambuf>

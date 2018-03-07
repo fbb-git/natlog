@@ -1,11 +1,11 @@
 #include "ipbase.ih"
 
-//f: IPbase::process(Record*)
-    //c: IPbase::inDev(Record*)
-    //c: TCP::inDev(Record*)
-    //c: IPbase::outDev(Record*)
-    //c: TCP::outDev(Record*)
-    //c: UDP::outDev(Record*)
+//f: IPbase::process(RecordPtr)
+    //c: IPbase::inDev(RecordPtr&)
+    //c: TCP::inDev(RecordPtr&)
+    //c: IPbase::outDev(Record const&)
+    //c: TCP::outDev(Record const&)
+    //c: UDP::outDev(Record const&)
 
 void IPbase::process(RecordPtr next)
 {

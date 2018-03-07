@@ -5,11 +5,11 @@
 
 //f: IPbase::inDev(RecordPtr&)
     //c: ICMP::sent(RecordPtr&)
-    //c: ICMP:;received(RecordPtr&)
+    //c: ICMP::received(RecordPtr&)
     //c: TCP::sent(RecordPtr&)
-    //c: TCP:;received(RecordPtr&)
+    //c: TCP::received(RecordPtr&)
     //c: UDP::sent(RecordPtr&)
-    //c: UDP:;received(RecordPtr&)
+    //c: UDP::received(RecordPtr&)
 
 void IPbase::inDev(RecordPtr &next)
 {
