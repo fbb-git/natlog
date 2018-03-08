@@ -10,7 +10,8 @@
 #define CXX                 "g++"
 
     // the compiler options to use.
-#define CXXFLAGS  "--std=c++17 -Wall -O2 -pthread -fdiagnostics-color=never"
+#define CXXFLAGS  "--std=c++17 -Wall -O2 -pthread -fdiagnostics-color=never "
+    //  "-Werror -Wunused-parameter"
 
     // flags passed to the linker
 #define LDFLAGS             ""

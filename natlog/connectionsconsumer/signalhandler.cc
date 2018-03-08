@@ -1,6 +1,6 @@
 #include "connectionsconsumer.ih"
 
-void ConnectionsConsumer::signalHandler(size_t signum)
+void ConnectionsConsumer::signalHandler([[maybe_unused]] size_t signum)
 {
     IPbase::setLogType(IPbase::EOP);
 }

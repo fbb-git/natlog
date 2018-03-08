@@ -1,4 +1,4 @@
 #include "tcp.ih"
 
-void TCP::ignore(RecordPtr &next)
+void TCP::ignore([[maybe_unused]] RecordPtr &next)
 {}
