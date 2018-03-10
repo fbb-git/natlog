@@ -1,11 +1,10 @@
 #include <iostream>
-#include <unordered_map>
+// #include <unordered_map>
 #include <string>
+#include <vector>
 
 #include <bobcat/argconfig>
-
-//TMP
-#include <bobcat/mstream>
+#include <bobcat/string>
 
 #include "natfork/natfork.h"
 #include "options/options.h"
@@ -18,6 +17,7 @@ namespace Icmbuild
 };
 
 void usage(std::string const &progname);
+std::vector<std::string> systemdFuckUp(int argc, char **argv);
 
 using namespace std;
 using namespace FBB;

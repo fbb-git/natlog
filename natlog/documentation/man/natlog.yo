@@ -234,6 +234,8 @@ also be specified as /16, while 255.255.255.0 can be specified like /24.
 
 manpagesection(OPTIONS)
 
+    See also section tt(SYSTEMD).
+
     itemization(
     it() lsaoption(config)(c)(config-path)nl()
        The argument tt(config-path) defines the path to tt(natlog's)
@@ -363,6 +365,12 @@ manpagesection(OPTIONS)
         conntrack-mode, only a single protocol (including tt(all)) can be
         specified.
 
+
+    it() soption(S)nl()
+       Use this option as first option, immediately following the program
+        name, when starting tt(natlog) from a bf(systemd)(1)
+        tt(natlog.service) file. See also section bf(SYSTEMD) below.
+
     it() loption(stdout) (soption(s))nl() 
        Syslog-equivalent messages are sent to the standard output.
         This option is implied by tt(--verbose), but is suppressed once
@@ -451,6 +459,36 @@ COMMENT(
 END)
     )
                     
+manpagesection(SYSTEMD)
+
+    An annoying characteristic of bf(systemd)(1) is that environment variables
+containing blanks are passed as single arguments to the program being called
+by their tt(.service) files. As a consequence, it is very hard to provide an
+environment variable in, e.g., tt(/etc/default/natlog) specifying tt(natlog's)
+arguments: in practice the number of arguments varies, and so even 
+constructions like tt(ARG1=value1, ARG2=value2), etc. are awkward at best.
+
+    As a stopgap for this unwelcome characteristic of tt(systemd) the option
+tt(-S) is provided. When used it em(must) be specified as tt(natlog's) first
+argument. tt(Natlog) will then inspect all remaining arguments, splitting
+arguments containing blanks into separate arguments, which are then processed
+by tt(natlog) as intended. Be aware that, to limit the complexity of the
+splitting-procedure, it is not full-proof: double- or single-quote delimited 
+string-arguments will also be split into separate arguments. Unless filenames
+themselves containing blanks are passed as arguments to tt(natlog) this
+limitation is probably not very serious. 
+
+As an example, here is an example of tt(systemd's) tt(ExecStart)
+specification:
+        verb(
+    ExecStart=/usr/bin/natlog -S -p ${PIDFILE} ${DAEMON_ARGS}
+        )
+    where tt(DAEMON_ARGS) might have been specified in tt(/etc/default/natlog)
+as
+        verb(
+    DAEMON_ARGS=--log /tmp/natlog.log --log-data /dev/null conntrack
+        )
+
 manpagesection(RSYSLOG FILTERING)
 
     When using bf(rsyslogd)(1) property based filters may be used to filter
@@ -511,7 +549,8 @@ manpagesection(FILES)
 manpagesection(SEE ALSO)
 
     bf(conntrack)(1), bf(ifconfig)(1), bf(iptables)(1), bf(pcap-filter)(7), 
-    bf(ping)(1), bf(R)(1), bf(rsyslogd)(1), bf(syslog)(3), bf(tcpdump)(1)
+    bf(ping)(1), bf(R)(1), bf(rsyslogd)(1), bf(syslog)(3), bf(systemd)(1),
+    bf(tcpdump)(1)
 
 manpagesection(BUGS)
 

@@ -30,6 +30,9 @@ natlog (2.01.00)
     be used by other programs, like oxref(1) to improve the readability of
     their output.
 
+  * Added option -S to be used as natlog's first argument in systemd's
+    natlog.service file ExecStart= specifications.
+
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 09 Mar 2018 09:52:12 +0100
 
 natlog (2.00.00)
