@@ -139,7 +139,8 @@ struct Record: public IP_Types
         void setType(Type type);                // i
         void setLastUsed(time_t time);
 
-        void setTime(size_t seconds, size_t microSeconds);      // i
+        void setTime(size_t seconds, size_t microSeconds);
+        void setAllTimes(size_t seconds, size_t microSeconds);
 
         void setSourceIP(size_t sourceIP);      // i
         void setDestIP(size_t destIP);          // i
@@ -284,12 +285,6 @@ inline void Record::setProtocol(Protocol protocol)
 inline void Record::setType(Type type) 
 {
     d_type = type;
-}
-
-inline void Record::setTime(size_t seconds, size_t microSeconds)
-{
-    d_inSeconds = seconds;
-    d_inMicroSeconds = microSeconds;
 }
 
 inline void Record::setSourceIP(size_t sourceIP)

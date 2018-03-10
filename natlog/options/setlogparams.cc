@@ -17,10 +17,6 @@ void Options::setLogParams()
         d_log.clear();
 
     d_arg.option(&d_logData, "log-data");
-//    {
-//        if (d_arg.option(&value, "log-data-flush"))
-//            d_logDataFlush = max(1LU, stoul(value));
-//    }
 
     if (d_arg.option(&value, "log-rotate"))     // log file rotation in days
     {

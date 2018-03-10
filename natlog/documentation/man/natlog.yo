@@ -47,14 +47,16 @@ behind the firewall to the address of the host connected to the outer
 world. With tt(snat) the following combinations of IP addresses and port
 numbers are encountered:
     itemization(
-    it() the IP address and port number used by the host behind the firewall
-initiating a connection to the outer world (the source host, in this manual
-page referred to as tt(IPsrc, sport));
-    it() the IP address and port number of the host that tt(IPsrc) connects to
-(the destination host, in this manual page referred to as tt(IPdst, dport));
-    it() the IP address and port number used by the firewalling host when
-source natting tt(IPsrc) and tt(sport) (the firewall host, in this manual page
-referred to as tt(IPfw, fwport)).
+    it() the IP address and port number used by the host protected by (i.e.,
+behind) the firewall initiates a connection to the outer world (the source
+host, in this manual page referred to as tt(IPsrc, sport));
+    it() the IP address and port number of the host outside (i.e., before) the
+firewall that tt(IPsrc) connects to (the destination host, in this manual page
+referred to as tt(IPdst, dport));
+    it() the IP address and port number of the host where the firewall has
+been installed. This host performs the source natting, and its IP-address and
+the port it uses when forwarding tt(IPsrc, sport)'s requests to tt(IPdst,
+dport) are in this manual page referred to as tt(IPfw, fwport)).
     )
 
     Source natting usually uses tt(sport) for tt(fwport), but tt(fwport) may
@@ -74,8 +76,9 @@ reports) sent by the systems administrator maintaining tt(IPdst) to tt(IPfw)'s
 systems administrator will refer to tt(IPfw:fwport), rather than to
 tt(IPsrc::sport).
 
-    The standard log facilities provided by tt(iptables) do not easily allow
-relating tt(IPfw:fwport) to tt(IPsrc:sport), and tt(natlog) was developed
+    
+Relating tt(IPfw:fwport) to tt(IPsrc:sport) is difficult when merely using the
+standard log facilities provided by tt(iptables) and tt(natlog) was developed
 to fill in that particular niche.
 
     tt(Natlog) provides data about source natting in various forms. The
@@ -292,6 +295,11 @@ manpagesection(OPTIONS)
         startup is not counted for this option). By default 10 restarts are
         allowed.
 
+    it() loption(debug)nl()
+       Write additional info to the log file. Suppressed when tt(--log off)
+        has been specified. Currently, tt(--debug) writes information about
+        memory consumption to the log file.
+
     it() loption(help) (soption(h))nl()
        Write basic usage information to the standard output stream and
         terminate.
@@ -493,7 +501,11 @@ option names:
         
 manpagesection(FILES)
     itemization(
-    it() tt(/etc/natlog.conf): default configuration file location.
+    it() tt(/etc/natlog.conf): default configuration file location;
+    it() tt(/etc/default/natlog): arguments for startup scripts;
+    it() tt(/etc/init.d/natlog): SysV startup script;
+    it() tt(/etc/systemd/system/natlog.service): systemd startup script
+        (calling tt(/etc/init.d/natlog)).
     )
 
 manpagesection(SEE ALSO)
@@ -503,8 +515,7 @@ manpagesection(SEE ALSO)
 
 manpagesection(BUGS)
 
-    tt(Natlog) currently only processes tcp, udp and icmp layer four
-protocols.
+    tt(Natlog) currently may process tcp, udp and icmp layer four protocols.
 
 manpageauthor()
 

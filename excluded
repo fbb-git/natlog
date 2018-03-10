@@ -4,6 +4,9 @@ documentation/pcap*
 tcpdumpproducer/tcpdump.nat
 tcpdumpproducer/br0.hex
 testtcpdump
+finetune.txt
+oxtest
+testeth0dump
 
 
 

@@ -6,8 +6,8 @@ natlog (2.01.00)
     solve the incorrect handling of TCP connections observed with version
     2.00.00.
 
-  * Using commas instead of colons as IP-address - port separators with TCP
-    and UDP connections.
+  * Commas instead of colons are used to separate IP-addresses from port
+    numbers with TCP and UDP connections.
 
   * Using detached Pcap threads, to avoid long waiting times caused by
     pcap_loop's waiting for one additional packet after calling
@@ -15,9 +15,22 @@ natlog (2.01.00)
 
   * Repaired flaws in the byte-counting procedures
 
-  * Received packets are now processed using pointers to Record objects.
+  * The Storage now contains pointers to Records. Once retrieved they are 
+    handled by unique_ptrs, guaranteeing their eventual destructions.
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Sat, 03 Mar 2018 13:17:04 +0100
+  * Added option --debug writing information about memory consumption to the
+    log file
+
+  * Using C++-17 attributes ([[maybe_unused]]) where applicable.
+
+  * The file documentation/simplified.def relates types used by objdump(1) to
+    types used in natlog's source files. E.g., objdump reports 
+    std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >
+    while std::string is used in natlog's source files. This information can
+    be used by other programs, like oxref(1) to improve the readability of
+    their output.
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 09 Mar 2018 09:52:12 +0100
 
 natlog (2.00.00)
 
