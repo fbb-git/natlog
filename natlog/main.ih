@@ -16,7 +16,7 @@ namespace Icmbuild
 };
 
 void usage(std::string const &progname);
-std::vector<std::string> systemdFuckUp(int argc, char **argv);
+std::vector<std::string> systemdFix(int argc, char **argv);
 
 using namespace std;
 using namespace FBB;

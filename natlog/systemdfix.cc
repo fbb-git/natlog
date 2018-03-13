@@ -1,6 +1,6 @@
 #include "main.ih"
 
-vector<string> systemdFuckUp(int argc, char **argv)
+vector<string> systemdFix(int argc, char **argv)
 {
     vector<string> vs;
 

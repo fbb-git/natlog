@@ -31,7 +31,7 @@ natlog (2.01.00)
     their output.
 
   * Added option -S to be used as natlog's first argument in systemd's
-    natlog.service file ExecStart= specifications.
+    natlog.service file's ExecStart= specifications.
 
  -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 09 Mar 2018 09:52:12 +0100
 

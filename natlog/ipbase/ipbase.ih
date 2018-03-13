@@ -11,5 +11,7 @@
 #include "../showseconds/showseconds.h"
 #include "../nic/nic.h"
 
+extern std::ostream g_debug;
+
 using namespace std;
 using namespace FBB;

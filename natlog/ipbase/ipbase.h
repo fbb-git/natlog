@@ -26,7 +26,6 @@ struct IPbase
         std::ostream &d_logDataStream;
     
         typedef std::unordered_map<uint64_t, RecordPtr> RecordMap;
-//FBB        typedef RecordMap::value_type value_type;
 
         std::mutex d_mutex;
         RecordMap d_map;
@@ -69,6 +68,9 @@ struct IPbase
         void setVia(RecordMap::iterator const &iter, Record const &next);
 
         void log(Record const &record) const;   
+
+        void maybeSizeLog(size_t *lastSize, size_t keyMapSize, 
+                          char const *label);
 
     private:
         virtual void cleanupHook();        

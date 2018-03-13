@@ -36,7 +36,7 @@ namespace   // the anonymous namespace can be used here
 int main(int argc, char **argv)
 try
 {
-    auto argVector = systemdFuckUp(argc, argv);
+    auto argVector = systemdFix(argc, argv);
     if (argVector.size())
     {
         argc = argVector.size();
