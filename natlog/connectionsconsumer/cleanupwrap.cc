@@ -12,7 +12,7 @@ void ConnectionsConsumer::cleanupWrap(ConnectionsConsumer *consumer)
 
         consumer->cleanupICMP_UDP(time(0) - consumer->d_ttl);
 
-        IPbase::setLogType(IPbase::INCOMPLETE);
+        IPbase::setLogType(IPbase::EXPIRED);
         consumer->d_tcp.cleanup(time(0) - Options::instance().ttlTCP());
         IPbase::setLogType(IPbase::COMPLETE);
     }

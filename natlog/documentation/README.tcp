@@ -30,7 +30,7 @@ nathost and nport values.
 
 Thereafter, the key is computed from the IN packets: 
     SYN: then a new connections -> key from src and sport
-         if existing: old connection is ended (logged as incomplete)
+         if existing: old connection is ended (logged as expired)
 
     FIN: existing: connections ends and is logged
          otherwise: ignore

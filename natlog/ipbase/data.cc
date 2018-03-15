@@ -3,7 +3,7 @@
 pair<char const *, char const *> IPbase::s_logTypeText[]
 {
     { "",               "ok"         },
-    { " (INCOMPLETE)",  "incomplete" },
+    { " (EXPIRED)",  "expired" },
     { " (EOP)",         "eop"        }
 };
 

@@ -117,7 +117,7 @@ still open. If tt(natlog) was terminated (by a tt(SIGINT) or tt(SIGTERM)
 signal), then it logs a `terminating' line, followed by an overview of all
 (potentially) still open connections. Those connections are flagged with a
 trailing '(EOP)' (end of program) log-element, and their end-times show
-tt(natlog's) termination time. Incomplete connections show tt((INCOMPLETE)).
+tt(natlog's) termination time. Incomplete connections show tt((EXPIRED)).
 
     In addition to the standard logs the option tt(--log-data) is
 available. This option requires the path to a file where information is logged
@@ -138,9 +138,9 @@ tt(end) are the times in seconds since the beginning of the epoch,
 corresponding to the times displayed at, respectively, tt(beginTime) and
 tt(endTime); tt(status) indicates the status of the logged connection
 information: tt(ok) indicates a connection that was normally completed;
-tt(incomplete) indicates that the connection was recognized, but was not
+tt(expired) indicates that the connection was recognized, but was not
 normally completed; tt(eop) is used for connections that were still active by
-the time tt(natlog) terminates. When the status equals tt(incomplete), the
+the time tt(natlog) terminates. When the status equals tt(expired), the
 time entries show the times of receiving the first and last packets of that
 connection; when tt(eop), then the tt(end) and tt(endTime) entries show
 tt(natlog's) termination time.

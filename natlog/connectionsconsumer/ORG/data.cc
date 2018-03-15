@@ -11,7 +11,7 @@
 //pair<char const *, char const *> ConnectionsConsumer::s_logType[]
 //{
 //    { "",               "ok"         },
-//    { " (INCOMPLETE)",  "incomplete" },
+//    { " (EXPIRED)",  "expired" },
 //    { " (EOP)",         "eop"        }
 //};
 

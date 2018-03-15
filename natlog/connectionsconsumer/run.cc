@@ -24,7 +24,10 @@ void ConnectionsConsumer::run()
         d_storage.produceNotify();
 
                                             // process the incoming protocol
-                                            // data, calls tcp, udp or icmp
+                                            // data, calls overridden
+                                            // tcp.process(), udp.process() or
+                                            // icmp.process() through
+                                            // ipbase.process()
         d_handler[record->protocol()]->process( RecordPtr{ record } );  
     }
 

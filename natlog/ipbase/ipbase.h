@@ -17,7 +17,7 @@ struct IPbase
     enum LogType
     {
         COMPLETE,
-        INCOMPLETE,
+        EXPIRED,
         EOP
     };
 
