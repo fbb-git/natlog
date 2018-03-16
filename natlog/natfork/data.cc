@@ -1,9 +1,17 @@
 #include "natfork.ih"
 
-Producer *(*NatFork::s_producer[]) (ostream &stdMsg, Storage &storage) = 
+//Producer *(*NatFork::s_producer[]) (ostream &stdMsg, Storage &storage) = 
+//{
+//    Producer::alloc<ConntrackProducer>,     // must match the Options::Mode
+//    Producer::alloc<DevicesProducer>,       //  enum entries
+//    Producer::alloc<TcpdumpProducer>
+//};
+
+char const *NatFork::s_producerAlloc[] = 
 {
-    Producer::alloc<ConntrackProducer>,     // must match the Options::Mode
-    Producer::alloc<DevicesProducer>,       //  enum entries
-    Producer::alloc<TcpdumpProducer>
+    "allocConntrackProducer",
+    "allocDevicesProducer",
+    "allocTcpdumpProducer",
 };
+
 

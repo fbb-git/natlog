@@ -16,9 +16,9 @@ void NatFork::childProcess()
     // Once the producers have been constructed, messages to cout are
     // suppressed by prepareDaemon below
 
-    unique_ptr<Producer> producer { 
-                            (*s_producer[d_mode]) (d_stdMsg, storage) 
-                         };
+    unique_ptr<Producer> producer{ allocProducer(d_mode, d_stdMsg, storage) };
+//                            (*s_producer[d_mode]) (d_stdMsg, storage) 
+//                         };
     ConnectionsConsumer connections{ d_stdMsg, storage };
 
     d_stdMsg << "processing: " << d_options.protocolNames() << endl;

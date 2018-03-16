@@ -12,18 +12,18 @@ class Producer
 
         static void process(Producer *producer, Storage &storage);
 
-        template <typename Derived, typename ...Params>
-        static Producer *alloc(Params &&...params);         
+//        template <typename Derived, typename ...Params>
+//        static Producer *alloc(Params &&...params);         
 
     private:
         virtual void run() = 0;
 };
         
-// static
-template <typename Derived, typename ...Params>
-inline Producer *Producer::alloc(Params &&...params)
-{
-    return new Derived{ std::forward<Params>(params)... };
-}
+//// static
+//template <typename Derived, typename ...Params>
+//inline Producer *Producer::alloc(Params &&...params)
+//{
+//    return new Derived{ std::forward<Params>(params)... };
+//}
 
 #endif

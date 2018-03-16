@@ -29,7 +29,8 @@ class NatFork: public FBB::Fork
 
     Options::Mode d_mode;
 
-    static Producer *(*s_producer[]) (std::ostream &stdMsg, Storage &storage);
+//    static Producer *(*s_producer[]) (std::ostream &stdMsg, Storage &storage);
+    static char const *s_producerAlloc[];
 
     public:
         NatFork();                  // configure and initialize data
@@ -55,6 +56,8 @@ class NatFork: public FBB::Fork
 
         void cleanupPidFile() const;
 
+        static Producer *allocProducer(Options::Mode, std::ostream &stdMsg, 
+                                       Storage &storage);
 };
         
 #endif

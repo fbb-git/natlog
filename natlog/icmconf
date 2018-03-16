@@ -4,10 +4,11 @@
 
 #define MAIN                "main.cc"
 #define REFRESH
-#define LIBRARY             "modules"
-#define SHAREDREQ           ""
+#define LIBRARY             "natlog"
+#define SHARED
+#define SHAREDREQ           "-lbobcat -lpcap -ldl"
 #define SOURCES             "*.cc"
-#define ADD_LIBRARIES       "bobcat pcap"
+#define ADD_LIBRARIES       "bobcat pcap dl"
 #define ADD_LIBRARY_PATHS   ""
 #define USE_ECHO            ON
 #define TMP_DIR             "tmp"
@@ -17,3 +18,4 @@
 #define IH                  ".ih"
 #define PRECOMP             "-x c++-header"
 #define DEFCOM              "program"
+//#define DEFCOM              "library"
