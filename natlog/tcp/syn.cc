@@ -14,10 +14,10 @@ void TCP::syn(RecordPtr &next)
             next->setSrcKey();                  // store the key for outDev
             d_keyMap[next->id()] = { true, next->key() };
         }
-        else
+        else                                    // ID already set by outDev
         {
             next->setVia(idIter->second.key);
-            idIter->second.expired = true;
+            d_keyMap.erase(idIter);             // so not needed anymore
         }
 
         insert(next);
