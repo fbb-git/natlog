@@ -18,7 +18,7 @@ void IPbase::process(RecordPtr next)
         break;
 
         case Record::OUT:
-            outDev(*next);
+            outDev(next);
         break;
 
         case Record::NEW:
