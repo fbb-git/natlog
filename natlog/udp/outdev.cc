@@ -8,21 +8,26 @@
     //  dst:dport -> nat:nport                      (ignored)
 
     
-void UDP::outDev(Record const &next)
+void UDP::outDev(RecordPtr &next)
 {
-    auto idIter = d_keyMap.find(next.id());    // look for the ID
-    if (idIter == d_keyMap.end())               // no such ID
-        return;
+    auto idIter = d_keyMap.find(next->id());    // look for the ID
 
-    auto iter = find(idIter->second);           // get the matching record
+    if (idIter == d_keyMap.end())               // no such ID (yet)
+    {
+        next->setSrcKey();
+        d_keyMap[next->id()] = { false, next->key() };
+        return;
+    }
+
+    auto iter = find(idIter->second.key);       // get the matching record
     if (
         iter == end()                           // somehow not available
         ||                                      // or src != OUT device
-        g_nic.address(Record::OUT) != next.sourceIP()
+        g_nic.address(Record::OUT) != next->sourceIP()
     )
         return;
 
     d_keyMap.erase(idIter);                     // ID no longer needed
-    setVia(iter, next);                         // set nat:nport as via
+    setVia(iter, *next);                        // set nat:nport as via
 }
 

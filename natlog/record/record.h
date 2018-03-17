@@ -42,7 +42,7 @@ struct Record: public IP_Types
             };
             uint64_t key;
         };
-
+    
         Protocol d_protocol;
         Type d_type;
 
@@ -120,6 +120,7 @@ struct Record: public IP_Types
         void addReceivedBytes(Record const &next);
         void addSentBytes(Record const &next);
 
+        void setVia(uint64_t key);
         void setViaIP(size_t viaIP);        // used in connections/udp.cc
         void setViaPort(size_t  viaPort);
         void setSrcKey();                       // i    - from src

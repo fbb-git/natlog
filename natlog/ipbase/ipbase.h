@@ -48,8 +48,17 @@ struct IPbase
     protected:
                     // KeyMap is used to associate the OUT dev. packets
                     // with available IN dev packets in UDP/TCP connections
-        typedef std::unordered_map<size_t, uint64_t> KeyMap;
-    
+                    // at a syn-packet 'expired' is set true: cleanupHook 
+                    // may remove the keyMap value at cleanup time.
+                    // At an outDev packet, if the ID is new, 'expired' is set
+                    // false: maybe the next SYN packet immediately follows.
+        struct KeyMapStruct
+        {
+            bool        expired;
+            uint64_t    key;
+        };
+        typedef std::unordered_map<size_t, KeyMapStruct> KeyMap;
+
         IPbase(std::ostream &stdMsg, std::ostream &logDataStream);
 
         size_t size() const;
@@ -69,6 +78,8 @@ struct IPbase
 
         void log(Record const &record) const;   
 
+        void keyMapCleanup(KeyMap &keyMap);
+
         void maybeSizeLog(size_t *lastSize, size_t keyMapSize, 
                           char const *label);
 
@@ -78,13 +89,12 @@ struct IPbase
             // default: TCP and UDP records
         virtual void logConnection(Record const &record) const;
 
-        virtual void inDev(RecordPtr &next);            // TCP overrides
+        virtual void inDev(RecordPtr &next);        // TCP overrides
 
         virtual void sent(RecordPtr &next) = 0;
         virtual void received(RecordPtr &next) = 0;
 
-        virtual void outDev(Record const &next) = 0;
-
+        virtual void outDev(RecordPtr &next) = 0; 
 
         void destroy(Record const &record);  
         void logData(Record const &record) const;

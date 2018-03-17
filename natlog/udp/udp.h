@@ -14,7 +14,7 @@ class UDP: public IPbase
     private:
         void sent(RecordPtr &next)          override;
         void received(RecordPtr &next)      override;
-        void outDev(Record const &next)     override;
+        void outDev(RecordPtr &next)        override;
         void cleanupHook()                  override;
 
 };

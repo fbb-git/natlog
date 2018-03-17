@@ -23,11 +23,11 @@ class TCP: public IPbase
         ~TCP() override;
 
     private:
-        void inDev(RecordPtr &next)             override;
-        void sent(RecordPtr &next)              override;
-        void received(RecordPtr &next)    override;
+        void inDev(RecordPtr &next)         override;
+        void sent(RecordPtr &next)          override;
+        void received(RecordPtr &next)      override;
 
-        void outDev(Record const &next)     override;
+        void outDev(RecordPtr &next)        override;
         void cleanupHook()                  override;
 
         TCP_type inType(Record const &record);

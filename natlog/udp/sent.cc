@@ -15,8 +15,18 @@ void UDP::sent(RecordPtr &next)
             iter->second->addSentBytes(*next);
         else                            
         {                               // or store a new connection
-            next->setSrcKey();                  // store the outDev key
-            d_keyMap[next->id()] = next->key();
+
+            auto idIter = d_keyMap.find(next->id());    // look for the ID
+            if (idIter == d_keyMap.end())               // ID not yet seen
+            {
+                next->setSrcKey();                  // store the key for outDev
+                d_keyMap[next->id()] = { true, next->key() };
+            }
+            else
+            {
+                next->setVia(idIter->second.key);
+                idIter->second.expired = true;
+            }
 
             next->addSentBytes(*next);
             insert(next);                       // store the record
