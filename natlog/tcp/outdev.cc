@@ -31,8 +31,3 @@ void TCP::outDev(RecordPtr &next)
     d_keyMap.erase(idIter);             // keyMap entry no longer required
     setVia(iter, *next);                // set nat:nport as via
 }
-
-
-
-
-

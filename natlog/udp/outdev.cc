@@ -10,6 +10,9 @@
     
 void UDP::outDev(RecordPtr &next)
 {
+    if (next->id() == 0)                        // ID 0 is not used
+        return;
+
     auto idIter = d_keyMap.find(next->id());    // look for the ID
 
     if (idIter == d_keyMap.end())               // no such ID (yet)
