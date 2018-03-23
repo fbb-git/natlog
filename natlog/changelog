@@ -18,22 +18,22 @@ natlog (2.01.00)
   * The Storage now contains pointers to Records. Once retrieved they are 
     handled by unique_ptrs, guaranteeing their eventual destructions.
 
-  * Added option --debug writing information about memory consumption to the
-    log file
-
   * Using C++-17 attributes ([[maybe_unused]]) where applicable.
 
   * The file documentation/simplified.def relates types used by objdump(1) to
-    types used in natlog's source files. E.g., objdump reports 
-    std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >
-    while std::string is used in natlog's source files. This information can
-    be used by other programs, like oxref(1) to improve the readability of
-    their output.
+    types used in natlog's source files. E.g., objdump reports
+    std::__cxx11::basic_string<char, std::char_traits<char>,
+    std::allocator<char> > while std::string is used in natlog's source
+    files. This information can be used by other programs, like oxref(1) to
+    improve the readability of their output.
 
   * Added option -S to be used as natlog's first argument in systemd's
     natlog.service file's ExecStart= specifications.
 
- -- Frank B. Brokken <f.b.brokken@rug.nl>  Fri, 09 Mar 2018 09:52:12 +0100
+  * Added option --debug writing information about memory consumption to the
+    log file
+
+ -- Frank B. Brokken <f.b.brokken@rug.nl>  Thu, 22 Mar 2018 16:38:24 +0100
 
 natlog (2.00.00)
 
