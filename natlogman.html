@@ -16,7 +16,7 @@
 <body text="#27408B" bgcolor="#FFFAF0">
 <hr/>
 <h1 id="title">natlog(1)</h1>
-<h2 id="author">natlog<br/>(natlog.2.00.00.tar.gz)</h2>
+<h2 id="author">natlog<br/>(natlog.2.01.00.tar.gz)</h2>
 <h2 id="date">2012-2018</h2>
 
 
@@ -36,15 +36,17 @@ behind the firewall to the address of the host connected to the outer
 world. With <em >snat</em> the following combinations of IP addresses and port
 numbers are encountered:
     <ul>
-    <li> the IP address and port number used by the host behind the firewall
-initiating a connection to the outer world (the source host, in this manual
-page referred to as <em >IPsrc, sport</em>);
-    <li> the IP address and port number of the host that <em >IPsrc</em> connects to
-(the destination host, in this manual page referred to as <em >IPdst, dport</em>);
-    <li> the IP address and port number used by the firewalling host when
-source natting <em >IPsrc</em> and <em >sport</em> (the firewall host, in this manual page
-referred to as <em >IPfw, fwport</em>).
-    </ul>
+    <li> the IP address and port number used by the host protected by (i.e.,
+behind) the firewall initiates a connection to the outer world (the source
+host, in this manual page referred to as <em >IPsrc, sport</em>);
+    <li> the IP address and port number of the host outside (i.e., before) the
+firewall that <em >IPsrc</em> connects to (the destination host, in this manual page
+referred to as <em >IPdst, dport</em>);
+    <li> the IP address and port number of the host where the firewall has
+been installed. This host performs the source natting, and its IP-address and
+the port it uses when forwarding <em >IPsrc, sport</em>'s requests to <em >IPdst,
+dport</em> are in this manual page referred to as <em >IPfw, fwport</em></ul>.
+    )
 <p>
 Source natting usually uses <em >sport</em> for <em >fwport</em>, but <em >fwport</em> may
 already be in use, in which case the firewalling host must use another,
@@ -66,8 +68,8 @@ reports) sent by the systems administrator maintaining <em >IPdst</em> to <em >I
 systems administrator will refer to <em >IPfw:fwport</em>, rather than to
 <em >IPsrc::sport</em>.
 <p>
-The standard log facilities provided by <em >iptables</em> do not easily allow
-relating <em >IPfw:fwport</em> to <em >IPsrc:sport</em>, and <em >natlog</em> was developed
+Relating <em >IPfw:fwport</em> to <em >IPsrc:sport</em> is difficult when merely using the
+standard log facilities provided by <em >iptables</em> and <em >natlog</em> was developed
 to fill in that particular niche.
 <p>
 <em >Natlog</em> provides data about source natting in various forms. The
@@ -109,7 +111,7 @@ still open. If <em >natlog</em> was terminated (by a <em >SIGINT</em> or <em >SI
 signal), then it logs a `terminating' line, followed by an overview of all
 (potentially) still open connections. Those connections are flagged with a
 trailing '(EOP)' (end of program) log-element, and their end-times show
-<em >natlog's</em> termination time. Incomplete connections show <em >(INCOMPLETE)</em>.
+<em >natlog's</em> termination time. Incomplete connections show <em >(EXPIRED)</em>.
 <p>
 In addition to the standard logs the option <em >--log-data</em> is
 available. This option requires the path to a file where information is logged
@@ -133,9 +135,9 @@ and the destination host's IP address (decimal representations); <em >begin</em>
 corresponding to the times displayed at, respectively, <em >beginTime</em> and
 <em >endTime</em>; <em >status</em> indicates the status of the logged connection
 information: <em >ok</em> indicates a connection that was normally completed;
-<em >incomplete</em> indicates that the connection was recognized, but was not
+<em >expired</em> indicates that the connection was recognized, but was not
 normally completed; <em >eop</em> is used for connections that were still active by
-the time <em >natlog</em> terminates. When the status equals <em >incomplete</em>, the
+the time <em >natlog</em> terminates. When the status equals <em >expired</em>, the
 time entries show the times of receiving the first and last packets of that
 connection; when <em >eop</em>, then the <em >end</em> and <em >endTime</em> entries show
 <em >natlog's</em> termination time.
@@ -244,6 +246,8 @@ also be specified as /16, while 255.255.255.0 can be specified like /24.
 <p>
 <h2 >OPTIONS</h2>
 <p>
+See also section <em >SYSTEMD</em>.
+<p>
 <ul>
     <li> <strong >--config</strong>=<em >config-path</em> (<strong >-c</strong>)<br/>
        The argument <em >config-path</em> defines the path to <em >natlog's</em>
@@ -311,6 +315,11 @@ The <em >conntrack</em> program must be available when requesting
         startup is not counted for this option). By default 10 restarts are
         allowed.
 <p>
+<li> <strong >--debug</strong><br/>
+       Write additional info to the log file. Suppressed when <em >--log off</em>
+        has been specified. Currently, <em >--debug</em> writes information about
+        memory consumption to the log file.
+<p>
 <li> <strong >--help</strong> (<strong >-h</strong>)<br/>
        Write basic usage information to the standard output stream and
         terminate.
@@ -373,6 +382,11 @@ The <em >conntrack</em> program must be available when requesting
         to monitor all three protocols (tcp, udp, and icmp). When using the
         conntrack-mode, only a single protocol (including <em >all</em>) can be
         specified.
+<p>
+<li> <strong >-S</strong><br/>
+       Use this option as first option, immediately following the program
+        name, when starting <em >natlog</em> from a <strong >systemd</strong>(1)
+        <em >natlog.service</em> file. See also section <strong >SYSTEMD</strong> below.
 <p>
 <li> <strong >--stdout</strong> (<strong >-s</strong>)<br/> 
        Syslog-equivalent messages are sent to the standard output.
@@ -458,6 +472,42 @@ When <em >--verbose</em> is specified more often then <em >natlog</em> ends afte
 <p>
 
     </ul>
+<p>
+<h2 >SYSTEMD</h2>
+<p>
+An annoying characteristic of <strong >systemd</strong>(1) is that environment variables
+containing blanks are passed as single arguments to the program being called
+by their <em >.service</em> files. As a consequence, it is very hard to provide an
+environment variable in, e.g., <em >/etc/default/natlog</em> specifying <em >natlog's</em>
+arguments: in practice the number of arguments varies, and so even 
+constructions like <em >ARG1=value1, ARG2=value2</em>, etc. are awkward at best.
+<p>
+As a stopgap for this unwelcome characteristic of <em >systemd</em> the option
+<em >-S</em> is provided. When used it <em >must</em> be specified as <em >natlog's</em> first
+argument. <em >Natlog</em> will then inspect all remaining arguments, splitting
+arguments containing blanks into separate arguments, which are then processed
+by <em >natlog</em> as intended. Be aware that, to limit the complexity of the
+splitting-procedure, it is not full-proof: double- or single-quote delimited 
+string-arguments will also be split into separate arguments. Unless filenames
+themselves containing blanks are passed as arguments to <em >natlog</em> this
+limitation is probably not very serious. 
+<p>
+As an example, here is an example of <em >systemd's</em> <em >ExecStart</em>
+specification:
+        <pre>
+
+    ExecStart=/usr/bin/natlog -S -p ${PIDFILE} ${DAEMON_ARGS}
+        
+</pre>
+
+    where <em >DAEMON_ARGS</em> might have been specified in <em >/etc/default/natlog</em>
+as
+        <pre>
+
+    DAEMON_ARGS=--log /tmp/natlog.log --log-data /dev/null conntrack
+        
+</pre>
+
 <p>
 <h2 >RSYSLOG FILTERING</h2>
 <p>
@@ -584,18 +634,22 @@ option names:
 <p>
 <h2 >FILES</h2>
     <ul>
-    <li> <em >/etc/natlog.conf</em>: default configuration file location.
+    <li> <em >/etc/natlog.conf</em>: default configuration file location;
+    <li> <em >/etc/default/natlog</em>: arguments for startup scripts;
+    <li> <em >/etc/init.d/natlog</em>: SysV startup script;
+    <li> <em >/etc/systemd/system/natlog.service</em>: systemd startup script
+        (calling <em >/etc/init.d/natlog</em>).
     </ul>
 <p>
 <h2 >SEE ALSO</h2>
 <p>
 <strong >conntrack</strong>(1), <strong >ifconfig</strong>(1), <strong >iptables</strong>(1), <strong >pcap-filter</strong>(7), 
-    <strong >ping</strong>(1), <strong >R</strong>(1), <strong >rsyslogd</strong>(1), <strong >syslog</strong>(3), <strong >tcpdump</strong>(1)
+    <strong >ping</strong>(1), <strong >R</strong>(1), <strong >rsyslogd</strong>(1), <strong >syslog</strong>(3), <strong >systemd</strong>(1),
+    <strong >tcpdump</strong>(1)
 <p>
 <h2 >BUGS</h2>
 <p>
-<em >Natlog</em> currently only processes tcp, udp and icmp layer four
-protocols.
+<em >Natlog</em> currently may process tcp, udp and icmp layer four protocols.
 <p>
 <h2 >AUTHOR</h2>
 <p>
