@@ -1,38 +1,7 @@
 Natlog is a utility logging traffic through a firewall that performs
 source-NATting (a.k.a. POSTROUTING). 
 
-Firewalls like iptables usually offer POSTROUTING source network address
-translation facilities changing the source address of a host behind the
-firewall to the address of the host before the firewall.
+Natlog's repository has moved to https://https://gitlab.com/fbb-git/natlog
+and is not maintained at this location anymore.
 
-The standard log facilities provided by iptables do not easily allow us to
-associate addresses behind the firewall to their source-natted equivalents
-before the firewall. Natlog was designed to fill in that particular niche.
-
-When running natlog, messages are sent to the syslog daemon and/or to the
-standard output stream showing the essential characteristics of the
-connection using source natting. Here is an example:
-
-from Fri 8 22:30:10:55588 until Fri 8 22:40:43:807100: 192.168.19.72:4467
-(via: 129.125.90.132:4467) to 200.49.219.180:443
-
-Logs like these allow system administrators to associate, e.g., a complaint
-arriving for the firewall's IP address (in the example: 129.125.90.132) with a
-computer behind the firewall (e.g., 192.168.19.72) that actually was
-responsible for the complaint.
-
-Natlog depends on facilities provided by iptables, but may also generate logs
-directly using facilities offered by the pcap library.
-
-
-To create the program from its sources, either descend into the natlog
-directory, or unpack a created archive, cd into its top-level directory 
-and follow the instructions provided in the INSTALL file found there.
-
-Alternatively, binary ready-to-install versions of natlog are available in
-verious Linux distributions, in particular Debian. See, e.g.,
-https://packages.debian.org/search?keywords=natlog&searchon=names&suite=all&section=all
-
-Github's web-pages for natlog are here:
-https://fbb-git.github.io/natlog/
-
+The project's web-page can be found at http://fbb-git.gitlab.io/natlog/
